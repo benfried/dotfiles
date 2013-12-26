@@ -1,0 +1,5 @@
+#!/bin/zsh
+port -q installed > Ports
+perl -pi -e 's/\(active\)//g' Ports
+perl -pi.bak -e 's/@[0-9._A-Za-z-]+//g' Ports
+perl -pi.bak -e 's/^/install /g' Ports

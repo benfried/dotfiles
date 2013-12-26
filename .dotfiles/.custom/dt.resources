@@ -1,0 +1,633 @@
+*biff.update:	10
+*biff.volume:	66
+Xpostit*Plaid*Background:	Yellow
+Xpostit*Plaid*Foreground:	Red
+Xpostit*Text*Background:	Yellow
+Xpostit*Text*Foreground:	Black
+Xpostit*Background:	#ffdab9
+Xpostit*Foreground:	NavyBlue
+Vuewwm*buttonBindings:	BenButtonBindings
+Vuewwm*keyBindings:	BenKeyBindings
+Emacs*XmText*FontList:	-adobe-new century schoolbook-bold-r-normal--12-*
+Emacs.modeline.attributeBackground:	firebrick
+Emacs.modeline.attributeFont:	*lucidatypewriter-bold-r-normal-sans-12-*
+Emacs.modeline.attributeForeground:	yellow
+Emacs*Menubar*Font:	-adobe-new century schoolbook-bold-r-normal--12-*
+Emacs*XmTextField*FontList:	-adobe-new century schoolbook-bold-r-normal--12-*
+Emacs*XmTextField.translations:	#override\n\
+	!<Key>osfBackSpace:	delete-previous-character()\n\
+	!<Key>osfDelete:	delete-previous-character()\n\
+	!Ctrl<Key>h: 		delete-previous-character()\n\
+	!Ctrl<Key>d: 		delete-next-character()\n\
+	!Meta<Key>osfDelete:	delete-previous-word()\n\
+	!Meta<Key>osfBackSpace:	delete-previous-word()\n\
+	!Meta<Key>d:		delete-next-word()\n\
+	!Ctrl<Key>k:		delete-to-end-of-line()\n\
+	!Ctrl<Key>g:		process-cancel()\n\
+	!Ctrl<Key>b:		backward-character()\n\
+	!<Key>osfLeft:		backward-character()\n\
+	!Ctrl<Key>f:		forward-character()\n\
+	!<Key>osfRight:		forward-character()\n\
+	!Meta<Key>b:		backward-word()\n\
+	!Meta<Key>osfLeft:	backward-word()\n\
+	!Meta<Key>f:		forward-word()\n\
+	!Meta<Key>osfRight:	forward-word()\n\
+	!Ctrl<Key>e:		end-of-line()\n\
+	!Ctrl<Key>a:		beginning-of-line()\n\
+	!Ctrl<Key>w:		cut-clipboard()\n\
+	!Meta<Key>w:		copy-clipboard()\n\
+	<Btn2Up>:		copy-primary()\n
+Emacs.font-lock-function-name-face.attributeForeground:	DodgerBlue
+Emacs*dialog*XmPushButton.translations:	#override\n\
+    <Btn1Down>:         Arm()\n\
+    <Btn1Down>,<Btn1Up>: Activate()			Disarm()\n\
+    <Btn1Down>(2+):     MultiArm()\n\
+    <Btn1Up>(2+):       MultiActivate()\n\
+    <Btn1Up>:           Activate()		        Disarm()\n\
+    <Key>osfSelect:  	ArmAndActivate()\n\
+    <Key>osfActivate:   ArmAndActivate()\n\
+    <Key>osfHelp:	Help()\n\
+    ~Shift ~Meta ~Alt <Key>Return:	ArmAndActivate()\n\
+    <EnterWindow>:      Enter()\n\
+    <LeaveWindow>:      Leave()\n
+Emacs*dialog*button1.accelerators:	#overrideEmacs*XmTextField.translations: #override\n\
+Emacs*dialog*XmPushButton.translations:#override\n\
+Emacs*cursorColor: yellow
+Emacs.font-lock-preprocessor-face.attributeForeground:	DodgerBlue
+Emacs*popup*Font:	-adobe-new century schoolbook-bold-r-normal--12-*
+Emacs*menubar*Font:	-adobe-new century schoolbook-bold-r-normal--12-*
+Emacs*menubar*fontList:	-adobe-new century schoolbook-bold-r-normal--12-*
+Emacs.font-lock-type-face.attributeForeground:	LightSkyBlue
+Emacs*XmMenuBar*Font:	-adobe-new century schoolbook-bold-r-normal--12-*
+Emacs.WID.default.attributeFont:	*lucidatypewriter-medium-r-normal-sans-12-*
+Emacs*WID*default.attributeFont:	*lucidatypewriter-medium-r-normal-sans-12-*
+Emacs*WID*modeline.attributeFont:	*helvetica-bold-o-normal*-14-*
+Emacs.WID.geometry:	80x35+0-0
+Emacs*WID*geometry:	80x35+0-0
+Emacs.font-lock-variable-name-face.attributeForeground:	SkyBlue
+Emacs.default.attributeBackground:	Black
+Emacs.default.attributeFont:	*lucidatypewriter-medium-r-normal-sans-12-*
+Emacs.default.attributeForeground:	White
+Emacs*XmDialogShell*FontList:	-adobe-new century schoolbook-bold-r-normal--20-*
+Emacs.modeline-mousable.attributeForeground:	orange
+Emacs*XmList*FontList:	-adobe-new century schoolbook-bold-r-normal--12-*
+Emacs.modeline-mousable:	orange
+Emacs.font-lock-type-face:	LightSkyBlue
+Emacs*cursorColor:	Yellow
+Emacs.font-lock-variable-name-face:	SkyBlue
+Emacs*interline:	0
+Dtwm*0*ws3*iconBoxGeometry:	1x7+1051+2
+Dtwm*0*ws3*title:	Si
+Dtwm*0*ws2*iconBoxGeometry:	1x4+1050+5
+Dtwm*0*ws2*title:	San
+Dtwm*0*FrontPanel*geometry:	+222+793
+Dtwm*0*ws4*iconBoxGeometry:	1x5+16+20
+Dtwm*0*ws4*title:	Wu
+Dtwm*0*ws1*iconBoxGeometry:	1x7+1047+4
+Dtwm*0*ws1*title:	Er
+Dtwm*0*ws0*iconBoxGeometry:	1x7+1051+1
+Dtwm*0*ws0*title:	Yi
+Dtwm*0*ws5*iconBoxGeometry:	1x4+16+20
+Dtwm*0*ws5*title:	New
+Dtwm*0*gwmWsNamesVerticalAlignment:	XmALIGNMENT_END
+Dtwm*0*initialWorkspace:	ws4
+Dtwm*0*workspaceCount:	6
+Dtwm*0*workspaceList:	"ws0" "ws1" "ws2" "ws3" "ws4" "ws5"
+Dtwm*0*gwmWsNamesHorizontalAlignment:	XmALIGNMENT_BEGINNING
+Dtwm*0*gwmVisible:	True
+Dtwm*0*gwmClientColorActive:	True
+Dtwm*0*gwmIconic:	False
+Dtwm*0*gwmUseBackdrops:	True
+Dtwm*0*gwmRows:	2
+Dtwm*0*gwmClientNamesSelectedFont:	0
+Dtwm*0*gwmWsNamesSelectedFont:	0
+Dtwm*0*gwmClientNamesVisible:	True
+Dtwm*0*gwmGeometry:	97x75+849+720
+Dtwm*0*gwmWsNamesVisible:	True
+Dtwm*0*helpResources:	\n\
+  
+Dtwm*1*ws3*iconBoxGeometry:	1x4+16+20
+Dtwm*1*ws2*iconBoxGeometry:	1x6+3+5
+Dtwm*1*FrontPanel*geometry:	+222+793
+Dtwm*1*ws1*iconBoxGeometry:	1x5+16+20
+Dtwm*1*ws0*iconBoxGeometry:	1x6+0+0
+Dtwm*1*gwmWsNamesVerticalAlignment:	XmALIGNMENT_END
+Dtwm*1*initialWorkspace:	ws0
+Dtwm*1*workspaceCount:	4
+Dtwm*1*gwmWsNamesHorizontalAlignment:	XmALIGNMENT_BEGINNING
+Dtwm*1*gwmVisible:	True
+Dtwm*1*gwmClientColorActive:	True
+Dtwm*1*gwmIconic:	False
+Dtwm*1*gwmUseBackdrops:	True
+Dtwm*1*gwmRows:	2
+Dtwm*1*gwmClientNamesSelectedFont:	0
+Dtwm*1*gwmWsNamesSelectedFont:	0
+Dtwm*1*gwmClientNamesVisible:	True
+Dtwm*1*gwmGeometry:	92x71+959+731
+Dtwm*1*gwmWsNamesVisible:	True
+Dtwm*1*helpResources:	\n\
+  
+Dtwm*resizeBorderWidth:	5
+Dtwm*moveOpaque:	True
+Dtwm*syncDesktopSwitch:	False
+Dtwm*multiFrontPanel:	True
+Dtwm*useIconBox:	True
+Dtwm*showWsButtons:	False
+Dtwm*fontList:	-adobe-new century schoolbook-bold-r-normal--12-*
+Dtwm*gwmResizeLayout:	False
+Dtwm*focusAutoRaise:	False
+Dtwm*gwmAllWorkspaces:	True
+Dtwm*gwmOpaqueMove:	True
+Dtwm.keyboardFocusPolicy:	pointer
+cucca*vt100*geometry:	80x48+80+80
+columbia*vt100*geometry:	80x48+70+70
+xclock*wm_option.title:	off
+*load*wm_option.title:	off
+*1*ColorPalette:	Default.dp
+*SimpleMenu*Sme.height:	16
+*SimpleMenu*menuLabel.font:	-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-*
+*SimpleMenu*menuLabel.vertSpace:	100
+*SimpleMenu*BackingStore:	NotUseful
+*SimpleMenu*Cursor:	left_ptr
+*SimpleMenu*HorizontalMargins:	16
+Dtfile*desktopIcon:	large
+Dtfile*dirHeight:	400
+Dtfile*dirWidth:	555
+Dtfile*view:	large_icon
+xgone.Font:	*-charter-medium-r-normal-*-240-*
+news*vt100*geometry:	80x48+90+145
+news*title:	Apakabar (News)
+news*foreground:	white
+news*background:	black
+news*IconPixmap:	news.xbm
+news*utmpInhibit:	true
+news*scrollBar:	on
+Dtsession*periodicSaveInterval:	15
+mm*vt100*geometry:	80x48-0+0
+mm*IconPixmap:	mailbox
+dtsession_res*files:	/usr/dt/config/C/sys.resources
+*fontMenu*font4*Label:	Medium
+*fontMenu*fontsel*Label:	Selection
+*fontMenu*font1*Label:	Unreadable
+*fontMenu*font2*Label:	Tiny
+*fontMenu*fontescape*Label:	Escape Sequence
+*fontMenu*font3*Label:	Small
+*fontMenu*font5*Label:	Large
+*fontMenu*fontdefault*Label:	Default
+*fontMenu*font6*Label:	Huge
+*fontMenu.Label:	VT Fonts
+daffy*font:	*courier-medium-r-normal-*-12-*
+daffy*geometry:	80x62
+Vuewm*Three*title:	San
+Vuewm*One*title:	Yi
+Vuewm*Five*title:	Wu
+Vuewm*Six*title:	Liu
+Vuewm*Four*title:	Si
+Vuewm*Two*title:	Er
+Vuewm*workspaceList:	Yi Er San Si Wu Liu
+OpenWindows.ScreenSaver.IdleTime:	10
+OpenWindows.ScreenSaver.OnOff:	off
+OpenWindows.DragRightDistance:	100
+OpenWindows.Beep:	always
+OpenWindows.PopupJumpCursor:	True
+OpenWindows.WorkspaceColor:	#2d5be5
+OpenWindows.NoDecor:	clock
+OpenWindows.MultiClickTimeout:	4
+OpenWindows.BeepDuration:	100
+OpenWindows.SelectDisplaysMenu:	False
+OpenWindows.WorkspaceBitmapFile:	gray
+OpenWindows.MouseAcceleration:	2
+OpenWindows.MenuAccelerators:	True
+OpenWindows.SetInput:	followmouse
+OpenWindows.WindowColor:	#d5b7e5
+OpenWindows.WorkspaceBitmapFg:	#000000
+OpenWindows.MouseThreshold:	15
+OpenWindows.ScrollbarPlacement:	right
+OpenWindows.WindowForeground:	#000000
+OpenWindows.WindowMenuAccelerators:	True
+OpenWindows.WorkspaceBitmapBg:	#ffffff
+OpenWindows.PointerMapping:	right
+OpenWindows.DataForeground:	#000000
+OpenWindows.IconLocation:	right-tb
+OpenWindows.Scale:	medium
+OpenWindows.DataBackground:	#ffffff
+OpenWindows.KeyboardCommands:	Basic
+OpenWindows.ScrollbarJumpCursor:	True
+OpenWindows.PaintWorkspace:	True
+OpenWindows.MinimalDecor:	clock calctool oclock xclock
+OpenWindows.KeyClick:	False
+OpenWindows.KeyRepeat:	True
+OpenWindows.WorkspaceStyle:	paintcolor
+*PostItNote*IconPixmap:	globe.xbm
+*DtTerm*shadowThickness:	1
+Gdlock.message.delay:	100000
+Gdlock.blank.delay:	5000000
+Gdlock.flame.delay:	100
+Gdlock.text.delay:	200
+Gdlock.qix.delay:	100
+Gdlock.pyro.delay:	100
+Gdlock.hop.delay:	0
+Gdlock.life.delay:	100
+Gdlock.worm.delay:	100
+Gdlock.rotor.delay:	100
+Gdlock.image.delay:	100
+Gdlock.spline.delay:	100
+Gdlock.swarm.delay:	100
+*0*ColorPalette:	SantaFe.dp
+*0*background:	#8353A5F3B600
+*0*foreground:	#FFFFFFFFFFFF
+xterm*VT100*Font:	*courier-medium-r-normal-*-12-*
+xterm*vt100*font:	*courier-medium-r-normal-*-12-*
+xterm*vt100*geometry:	80x48+70+60
+xterm*jumpScroll:	on
+xterm*scrollBar:	on
+xterm*utmpInhibit:	true
+XTerm*tek4014.Translations:	#override               @Num_Lock<Key>KP_0: string(0)\n\
+        @Num_Lock<Key>KP_1: string(1)\n\
+        @Num_Lock<Key>KP_2: string(2)\n\
+        @Num_Lock<Key>KP_3: string(3)\n\
+        @Num_Lock<Key>KP_4: string(4)\n\
+        @Num_Lock<Key>KP_5: string(5)\n\
+        @Num_Lock<Key>KP_6: string(6)\n\
+        @Num_Lock<Key>KP_7: string(7)\n\
+        @Num_Lock<Key>KP_8: string(8)\n\
+        @Num_Lock<Key>KP_9: string(9)\n\
+        @Num_Lock<Key>KP_Add: string(+)\n\
+        @Num_Lock<Key>KP_Decimal: string(.)\n\
+        @Num_Lock<Key>KP_Divide: string(/)\n\
+        @Num_Lock<Key>KP_Enter: string(\015)\n\
+        @Num_Lock<Key>KP_Equal: string(=)\n\
+        @Num_Lock<Key>KP_Multiply: string(*)\n\
+        @Num_Lock<Key>KP_Subtract: string(-)\n\
+	<Key>KP_Add: string(+)\n\
+        <Key>KP_Divide: string(/)\n\
+        <Key>KP_Enter: string(\015)\n\
+        <Key>KP_Equal: string(=)\n\
+        <Key>KP_Multiply: string(*)\n\
+        <Key>KP_Subtract: string(-)\n\
+*SaveLines: 2000
+XTerm.VT100.Translations:	#override         @Num_Lock<Key>KP_0: string(0)\n\
+        @Num_Lock<Key>KP_1: string(1)\n\
+        @Num_Lock<Key>KP_2: string(2)\n\
+        @Num_Lock<Key>KP_3: string(3)\n\
+        @Num_Lock<Key>KP_4: string(4)\n\
+        @Num_Lock<Key>KP_5: string(5)\n\
+        @Num_Lock<Key>KP_6: string(6)\n\
+        @Num_Lock<Key>KP_7: string(7)\n\
+        @Num_Lock<Key>KP_8: string(8)\n\
+        @Num_Lock<Key>KP_9: string(9)\n\
+        @Num_Lock<Key>KP_Add: string(+)\n\
+        @Num_Lock<Key>KP_Decimal: string(.)\n\
+        @Num_Lock<Key>KP_Divide: string(/)\n\
+        @Num_Lock<Key>KP_Enter: string(\015)\n\
+        @Num_Lock<Key>KP_Equal: string(=)\n\
+        @Num_Lock<Key>KP_Multiply: string(*)\n\
+        @Num_Lock<Key>KP_Subtract: string(-)\n\
+	<Key>KP_Add: string(+)\n\
+        <Key>KP_Divide: string(/)\n\
+        <Key>KP_Enter: string(\015)\n\
+        <Key>KP_Equal: string(=)\n\
+        <Key>KP_Multiply: string(*)\n\
+        <Key>KP_Subtract: string(-)\n\
+        <Key>Prior:scroll-back(1,page)\n\
+        <Key>Next:scroll-forw(1,page)\n\
+	<Key>F16: start-extend() select-end(PRIMARY, CUT_BUFFER0, CLIPBOARD) \n\
+	<Key>F18: insert-selection(PRIMARY, CLIPBOARD) \n\
+	<Key>F27: scroll-back(100,page) \n\
+	<Key>R13: scroll-forw(100,page) \n\
+	<Key>Home: scroll-back(100,page) \n\
+	<Key>End: scroll-forw(100,page) \n
+XTerm*IconPixmap:	xterm.bm
+XTerm.JoinSession:	False
+XLock.blank.batchcount:	1
+XLock.blank.delay:	5000000
+XLock.blank.saturation:	1
+XLock.flame.batchcount:	20
+XLock.flame.delay:	10000
+XLock.flame.saturation:	1
+XLock.qix.batchcount:	64
+XLock.qix.delay:	30000
+XLock.qix.saturation:	1
+XLock.pyro.batchcount:	40
+XLock.pyro.delay:	15000
+XLock.pyro.saturation:	1
+XLock.hop.batchcount:	1000
+XLock.hop.delay:	0
+XLock.hop.saturation:	1
+XLock.life.batchcount:	100
+XLock.life.delay:	1000000
+XLock.life.saturation:	1
+XLock.worm.batchcount:	20
+XLock.worm.delay:	10000
+XLock.worm.saturation:	1
+XLock.swarm.batchcount:	100
+XLock.swarm.delay:	10000
+XLock.swarm.saturation:	1
+XLock.rotor.batchcount:	4
+XLock.rotor.delay:	10000
+XLock.rotor.saturation:	0.4
+XLock.image.batchcount:	8
+XLock.image.delay:	2000000
+XLock.image.saturation:	0.3
+XLock.nice:	10
+XLock.mode:	life
+XLock.foreground:	Black
+XLock.usefirst:	off
+XLock.echokeys:	off
+XLock.allowroot:	off
+XLock.nolock:	off
+XLock.font:	-b&h-lucida-medium-r-normal-sans-24-*-*-*-*-*-iso8859-1
+XLock.verbose:	off
+XLock.remote:	off
+XLock.info:	Enter password to unlock; select icon to lock.
+XLock.password:	Password: 
+XLock.background:	White
+XLock.username:	Name: 
+XLock.timeout:	30
+XLock.allowaccess:	off
+XLock.enablesaver:	off
+XLock.validate:	Validating login...
+XLock.mono:	off
+XLock.invalid:	Invalid login.
+xbiff++*shapeWindow:	on
+xbiff++*emptyPixmapMask:	/buckaroo/ben/bitmaps/bartnoMask.xbm
+xbiff++*emptyPixmap:	/buckaroo/ben/bitmaps/bartno.xbm
+xbiff++*fullPixmapMask:	/buckaroo/ben/bitmaps/bartyesMask.xbm
+xbiff++*fullPixmap:	/buckaroo/ben/bitmaps/bartyes.xbm
+xbiff++*showTitle:	off
+xbiff++*sound:	/buckaroo/ben/sounds/wheee.au
+xprompt*font:	*new century schoolbook*-r-*--20*
+xprompt.replyLength:	20
+*mainMenu*redraw*Label:	Redraw Window
+*mainMenu*quit*Label:	Quit
+*mainMenu*suspend*Label:	Send STOP Signal
+*mainMenu*allowsends*Label:	Allow SendEvents
+*mainMenu*hangup*Label:	Send HUP Signal
+*mainMenu*kill*Label:	Send KILL Signal
+*mainMenu*logging*Label:	Log to File
+*mainMenu*interrupt*Label:	Send INT Signal
+*mainMenu*securekbd*Label:	Secure Keyboard
+*mainMenu*continue*Label:	Send CONT Signal
+*mainMenu*terminate*Label:	Send TERM Signal
+*mainMenu.Label:	Main Options
+*clock.foreground:	khaki
+*clock.background:	dark olive green
+*clock.analog:	true
+*clock.update:	1
+*clock.highlight:	red
+*clock.chime:	true
+olvwm.ShowResizeGeometry:	true
+olvwm.MinimalDecor:	clock calctool oclock xclock
+olvwm.Use3DResize:	true
+olvwm.ShowMoveGeometry:	true
+olvwm.SelectDisplaysMenu:	true
+olvwm.ResizeMoveGeometry:	center
+olvwm.VirtualGeometry:	-0+0
+Vuestyle*UserFont1:	-adobe-courier-medium-r-normal-*-11-*-*-*-*-*-*-*
+Vuestyle*UserFont5:	-adobe-courier-medium-r-normal-*-20-*-*-*-*-*-*-*
+Vuestyle*UserFont7:	-adobe-courier-medium-r-normal-*-12-*-*-*-*-*-*-*
+Vuestyle*SystemFont7:	-adobe-new century schoolbook-bold-r-normal--12-*
+Vuestyle*SystemFont6:	-bitstream-*-medium-r-normal-*-25-*-*-*-*-*-*-*
+Vuestyle*NumFonts:	7
+Vuestyle*SystemFont4:	-bitstream-*-medium-r-normal-*-15-*-*-*-*-*-*-*
+Vuestyle*SystemFont5:	-bitstream-*-medium-r-normal-*-19-*-*-*-*-*-*-*
+Vuestyle*SystemFont2:	-bitstream-*-medium-r-normal-*-10-*-*-*-*-*-*-*
+Vuestyle*SystemFont3:	-bitstream-*-medium-r-normal-*-12-*-*-*-*-*-*-*
+Vuestyle*UserFont4:	-adobe-courier-medium-r-normal-*-18-*-*-*-*-*-*-*
+Vuestyle*SystemFont1:	-bitstream-*-bold-r-normal-*-8-*-*-*-*-*-*-*
+Vuestyle*UserFont2:	-adobe-courier-medium-r-normal-*-12-*-*-*-*-*-*-*
+Vuestyle*UserFont3:	-adobe-courier-medium-r-normal-*-14-*-*-*-*-*-*-*
+Vuestyle*UserFont6:	-adobe-courier-medium-r-normal-*-24-*-*-*-*-*-*-*
+*XmText*FontList:	-dt-interface user-medium-r-normal-s*-*-*-*-*-*-*-*-*
+*XmText*Translations:	#override\n\
+        Ctrl<Key>u:delete-to-start-of-line()\n\
+        Ctrl<Key>k:delete-to-end-of-line()\n\
+        Ctrl<Key>a:beginning-of-line()\n\
+        Ctrl<Key>e:end-of-line()\n\
+        Ctrl<Key>p:process-up()\n\
+        Ctrl<Key>b:backward-character()\n\
+        Ctrl<Key>n:process-down()\n\
+        Ctrl<Key>f:forward-character()
+*XmText.translations:	#override\n\
+        Ctrl <Key>b:            backward-character()\n\
+        Alt <Key>b:             backward-word()\n\
+        Meta <Key>b:            backward-word()\n\
+        Shift Alt <Key>b:       backward-word(extend)\n\
+        Shift Meta <Key>b:      backward-word(extend)\n\
+        Alt <Key>[:             backward-paragraph()\n\
+        Meta <Key>[:            backward-paragraph()\n\
+        Shift Alt <Key>[:       backward-paragraph(extend)\n\
+        Shift Meta <Key>[:      backward-paragraph(extend)\n\
+        Alt <Key><:             beginning-of-file()\n\
+        Meta <Key><:            beginning-of-file()\n\
+        Ctrl <Key>a:            beginning-of-line()\n\
+        Shift Ctrl <Key>a:      beginning-of-line(extend)\n\
+        Ctrl <Key>osfInsert:    copy-clipboard()\n\
+        Shift <Key>osfDelete:   cut-clipboard()\n\
+        Shift <Key>osfInsert:   paste-clipboard()\n\
+        Alt <Key>>:             end-of-file()\n\
+        Meta <Key>>:            end-of-file()\n\
+        Ctrl <Key>e:            end-of-line()\n\
+        Shift Ctrl <Key>e:      end-of-line(extend)\n\
+        Ctrl <Key>f:            forward-character()\n\
+        Alt <Key>]:             forward-paragraph()\n\
+        Meta <Key>]:            forward-paragraph()\n\
+        Shift Alt <Key>]:       forward-paragraph(extend)\n\
+        Shift Meta <Key>]:      forward-paragraph(extend)\n\
+        Ctrl Alt <Key>f:        forward-word()\n\
+        Ctrl Meta <Key>f:       forward-word()\n\
+        Ctrl <Key>d:            kill-next-character()\n\
+        Alt <Key>BackSpace:     key-select() kill-selection()\n\
+        Meta <Key>BackSpace:    key-select() kill-selection()\n\
+        Ctrl <Key>w:            kill-previous-word()\n\
+        Ctrl <Key>y:            unkill()\n\
+        Ctrl <Key>k:            kill-to-end-of-line()\n\
+        Alt <Key>Delete:        kill-to-start-of-line()\n\
+        Meta <Key>Delete:       kill-to-start-of-line()\n\
+        Ctrl <Key>o:            newline-and-backup()\n\
+        Ctrl <Key>j:            newline-and-indent()\n\
+        Ctrl <Key>n:            next-line()\n\
+        Ctrl <Key>osfLeft:      page-left()\n\
+        Ctrl <Key>osfRight:     page-right()\n\
+        Ctrl <Key>p:            previous-line()\n\
+        Ctrl <Key>g:            process-cancel()\n\
+        Ctrl <Key>l:            redraw-display()\n\
+        Ctrl <Key>osfDown:      next-page()\n\
+        Ctrl <Key>osfUp:        previous-page()\n\
+        Ctrl <Key>space:        set-anchor()\n
+*XmTextField*FontList:	-dt-interface user-medium-r-normal-s*-*-*-*-*-*-*-*-*
+*XmTextField*Translations:	#override\n\
+        Ctrl<Key>u:delete-to-start-of-line()\n\
+        Ctrl<Key>k:delete-to-end-of-line()\n\
+        Ctrl<Key>a:beginning-of-line()\n\
+        Ctrl<Key>e:end-of-line()\n\
+        Ctrl<Key>b:backward-character()\n\
+        Ctrl<Key>f:forward-character()
+swm*oclock*decoration:	shaped
+swm*panel.shaped*shape:	True
+swm*panel.shaped:	panel client +0+0
+swm*configuration:	mwm+
+xinfo.info*nodeText.autoFill:	True
+xinfo.info*nodeText.scrollVertical:	WhenNeeded
+xinfo.info*nodeText.wrap:	Word
+xinfo.info*font:	7x13
+xinfo.info*iconPixmap:	xinfo.bm
+*vtMenu*scrollttyoutput*Label:	Scroll to Bottom on Tty Output
+*vtMenu*scrollkey*Label:	Scroll to Bottom on Key Press
+*vtMenu*visualbell*Label:	Enable Visual Bell
+*vtMenu*reversevideo*Label:	Enable Reverse Video
+*vtMenu*jumpscroll*Label:	Enable Jump Scroll
+*vtMenu*autowrap*Label:	Enable Auto Wraparound
+*vtMenu*cursesemul*Label:	Enable Curses Emulation
+*vtMenu*reversewrap*Label:	Enable Reverse Wraparound
+*vtMenu*autolinefeed*Label:	Enable Auto Linefeed
+*vtMenu*scrollbar*Label:	Enable Scrollbar
+*vtMenu*marginbell*Label:	Enable Margin Bell
+*vtMenu*altscreen*Label:	Show Alternate Screen
+*vtMenu*appcursor*Label:	Enable Application Cursor Keys
+*vtMenu*tekmode*Label:	Switch to Tek Mode
+*vtMenu*tekshow*Label:	Show Tek Window
+*vtMenu*softreset*Label:	Do Soft Reset
+*vtMenu*appkeypad*Label:	Enable Application Keypad
+*vtMenu*clearsavedlines*Label:	Reset and Clear Saved Lines
+*vtMenu*allow132*Label:	Allow 80/132 Column Switching
+*vtMenu*hardreset*Label:	Do Full Reset
+*vtMenu*vthide*Label:	Hide VT Window
+*vtMenu.Label:	VT Options
+cs*vt100*geometry:	80x48+70+60
+cs*scrollBar:	on
+cs*utmpInhibit:	true
+*DtEditor*textFontList:	-dt-interface user-medium-r-normal-s*-*-*-*-*-*-*-*-*
+banzai*vt100*geometry:	80x48+135+100
+banzai*iconPixmap:	small-banzai.xbm
+banzai*scrollBar:	on
+banzai*utmpInhibit:	true
+Pteammain*WM_COMMAND_STRING:	iku /ms/dist/3rd/scopus/bin/pteam
+*tekMenu*tektext3*Label:	#3 Size Characters
+*tekMenu*tekcopy*Label:	COPY
+*tekMenu*tektext2*Label:	#2 Size Characters
+*tekMenu*tektextsmall*Label:	Small Characters
+*tekMenu*tekhide*Label:	Hide Tek Window
+*tekMenu*tekreset*Label:	RESET
+*tekMenu*vtmode*Label:	Switch to VT Mode
+*tekMenu*tektextlarge*Label:	Large Characters
+*tekMenu*tekpage*Label:	PAGE
+*tekMenu*vtshow*Label:	Show VT Window
+*tekMenu.Label:	Tek Options
+*promptDialog.bboard.frame.form.text.columns:	45
+*tek4014*font2:	8x13
+*tek4014*font3:	6x13
+*tek4014*fontLarge:	9x15
+*tek4014*fontSmall:	6x10
+Fig.change.form.apply.background:	yellow
+Fig.change.form.cancel.background:	red
+Fig.change.form.done.background:	green
+Fig.change.form.image.background:	blue
+Fig.change.form.image.foreground:	yellow
+Fig.form.font_menu.menu.pane.background:	white
+Fig.form.font_menu.menu.pane.foreground:	slate blue
+Fig.form.message.background:	pink
+Fig.form.side_panel.button.background:	orchid
+Fig.form.side_panel.button.foreground:	black
+Fig.form.side_panel.background:	red
+Fig.form.popup_menu.menu.pane.background:	orange
+Fig.form.popup_menu.menu.pane.foreground:	black
+Fig.form.truler.background:	green
+Fig.form.sruler.background:	yellow
+Fig.form.bottom_panel.button.background:	sea green
+Fig.form.bottom_panel.button.foreground:	black
+Fig.form.bottom_panel.background:	yellow
+Fig.form.font_indicator.foreground:	slate blue
+watsun*vt100*geometry:	80x48+50+50
+watsun*IconPixmap:	fkermit.xbm
+watsun*scrollBar:	on
+watsun*utmpInhibit:	true
+lemacs*dialog*font:	-adobe-new century schoolbook-bold-r-normal--20-*
+lemacs*menubar*font:	-adobe-new century schoolbook-bold-r-normal--12-*
+jolt*vt100*geometry:	80x48+90+90
+*VT100*font5:	9x15
+*VT100*font4:	*courier-medium-r-normal-*-18-*
+*VT100*font3:	6x10
+*VT100*font2:	5x7
+*VT100*font1:	nil2
+*VT100*font6:	10x20
+olwm.Use3DResize:	true
+olwm.ShowResizeGeometry:	true
+olwm.MinimalDecor:	clock calctool oclock xclock
+olwm.ShowMoveGeometry:	true
+olwm.SelectDisplaysMenu:	true
+dtsession*periodicSaves:	False
+dtsession*lockTimeout:	30
+dtsession*saverList:	StartDtscreenBlank
+dtsession*sessionLanguage:	C
+dtsession*periodicSaveInterval:	15
+dtsession*displayResolution:	3543
+dtsession*cycleTimeout:	3 
+dtsession*saverTimeout:	10
+Scrollbar.JumpCursor:	True
+*XlwMenu*background:	Wheat
+*XlwMenu*font:	-adobe-new century schoolbook-bold-r-normal--12-*
+*XlwMenu*foreground:	NavyBlue
+1Emacs.message-headers.attributeForeground:	yellow
+Mwm*xrn*MatteWidth:	0
+Mwm*xclock*Background:	Brown4
+Mwm*xclock*MatteWidth:	0
+Mwm*xload*MatteWidth:	0
+Mwm*xneko*MatteWidth:	0
+Mwm*emacs*iconImageBackground:	RoyalBlue
+Mwm*menu*Background:	Wheat
+Mwm*menu*Foreground:	NavyBlue
+Mwm*xbiff*MatteWidth:	0
+Mwm*iconbox*Background:	Brown4
+Mwm*iconbox*MatteWidth:	0
+Mwm*oclock*MatteWidth:	0
+Mwm*xterm*MatteWidth:	0
+Mwm*xterm*iconImageBackground:	DarkOliveGreen
+Mwm*resizeBorderWidth:	5
+Mwm*iconImageMaxium:	32x32
+Mwm*MatteBackground:	Lavender
+Mwm*iconBoxGeometry:	3x1-0-0
+Mwm*Background:	FireBrick
+Mwm*activeForeground:	NavyBlue
+Mwm*frameBorderWidth:	3
+Mwm*useIconBox:	true
+Mwm*activeBackground:	Wheat
+Mwm*keyboardFocusPolicy:	pointer
+Mwm*showFeedback:	all
+*saveLines:	2000
+*enableEtchedInMenu:	True
+*selectionTimeout:	2000000
+*Font:	-adobe-courier-medium-r-normal-*-14-*-*-*-*-*-*-*
+*enableMenuInCascade:	True
+*systemFont:	-dt-interface system-medium-r-normal-s*-*-*-*-*-*-*-*-*
+*FontSet:	-dt-interface user-medium-r-normal-s*-*-*-*-*-*-*-*-*
+*basicLocale:	C
+*enableMultiKeyBindings:	True
+*userFont:	-dt-interface user-medium-r-normal-s*-*-*-*-*-*-*-*-*
+*enableToggleColor:	True
+*enableToggleVisual:	True
+*sessionVersion:	3.0
+*enableDragIcon:	True
+*multiClickTime:	500
+*enableCDEColorFactors:	True
+*ttyModes:	erase ^H intr ^C kill ^U start ^Q stop ^S swtch ^@ susp ^Z
+*dtEnvMapForRemote:	DTAPPSEARCHPATH:DTHELPSEARCHPATH:DTDATABASESEARCHPATH:XMICONSEARCHPATH:XMICONBMSEARCHPATH
+*timeFormat:	C
+*transientDecoration:	none
+*scrollBar:	on
+*displayLang:	C
+*FontList:	-adobe-courier-medium-r-normal-*-14-*-*-*-*-*-*-*
+*enableThinThickness:	True
+*utmpInhibit:	true
+*enableBtn1Transfer:	button2_transfer
+*buttonFontList:	-dt-interface system-medium-r-normal-s*-*-*-*-*-*-*-*-*:
+*bitmapFilePath:	/w/sy/ben/lib/bitmaps/xbm:/w/sy/ben/lib/bitmaps/icon:/w/sy/ben/lib/bitmaps/bm:/usr/local/X11/include/bitmaps:/usr/openwin/include/X11/bitmaps:/usr/include/X11/bitmaps
+*numeric:	C
+*labelFontList:	-dt-interface system-medium-r-normal-s*-*-*-*-*-*-*-*-*:
+*enableButtonTab:	True
+*textFontList:	-dt-interface user-medium-r-normal-s*-*-*-*-*-*-*-*-*:
+*inputLang:	C
+*enableDefaultButton:	True
+Dtwm*gwmAllWorkspaces:  True
+pteammain*WM_COMMAND_STR: scopus
+Navigator*WM_COMMAND_STR: netscape

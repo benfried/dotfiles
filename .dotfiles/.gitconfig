@@ -1,0 +1,19 @@
+[color]
+	ui = auto
+	status = auto
+	branch = auto
+	interactive = auto
+	diff = auto
+[user]
+	name = Ben Fried
+	email = ben.fried@gmail.com
+[core]
+	editor = /Users/bf/bin/emacsclient
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+	type = cat-file -t
+	dump = cat-file -p

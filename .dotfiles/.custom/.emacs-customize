@@ -1,0 +1,5 @@
+(custom-set-variables
+ '(user-mail-address "ben@ms.com" t)
+ '(query-user-mail-address nil))
+(custom-set-faces
+ '(font-lock-keyword-face ((((class color) (background dark)) (:foreground "green" :bold t)))))

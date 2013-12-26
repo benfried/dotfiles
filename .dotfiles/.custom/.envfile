@@ -1,0 +1,200 @@
+if [ "${-%%i*}" = "${-}" ]; then
+    return 
+fi
+test "$TERM" = xterm && trap 'eval $(resize -u)' WINCH
+test -z "${KRBTKFILE:-}" && unset KRBTKFILE
+
+set +o ignoreeof -h -a 
+auto_resume=1
+hostname_completion_file=/etc/hosts
+
+alias ccmebi='ccm start -d /ms/dev/ebi/ccmny/ebi_ny -m -q'
+alias suu="/ms/dist/ctweb/clem/sbin/clem_se /ms/dist/ctweb/sbin/chrootu  root / /bin/ksh -i -c 'exec /ms/dist/fsf/bin/zsh -l'"
+
+alias pine="/ms/dist/aurora/PROJ/pine/4.30.0/bin/pine"
+alias noidle="while true; do echo -n 'what is the matrix? '; sleep 30; done"
+alias da='date "+%a, %h %d, 19%y %r"'
+alias quote=/ms/dist/fidmktdata/PROJ/tick/3.0/bin/quote
+# alias r="fc -s"
+alias redo="r" "source="." "h="history"
+alias blank="print -n \"`clear`\""
+alias b="print -n \"`clear`\""
+alias j="jobs -l"
+alias z="kill -STOP $$"
+alias cls=b
+alias ls="ls -FG"
+alias h='fc -l'
+alias yell=yellow
+alias md=mkdir rd=rmdir
+alias prot="chmod go-rwx"
+alias im=ifmail
+alias imr="im | egrep -v 'owner|rdist|web|www|notifyd'"
+alias pd=pushd
+alias root=su
+alias n=note
+sun && alias u=users
+umask 22
+su()
+{
+	if [ "$#" = 0 ]; then
+		PS1='${HOST%%.*};\W# ' /bin/su
+	else
+		PS1='${HOST%%.*};\u$ ' /bin/su $*
+	fi
+}
+
+term()
+{
+	if (test "$#" = 0 ); then
+		echo $TERM
+	else
+		TERM=$1
+		set -o noglob
+		eval `tset -sQ $TERM`
+		set +o noglob
+		alias blank="print -n \"`clear`\""
+		alias b="print -n \"`clear`\""
+
+	fi
+}
+
+cln()
+{
+	if (test $# -eq 0); then
+		rm -f *~* .*~* \#* >/dev/null
+	else
+		rm -f $1/*~* $1/.*~* $1/\#* >/dev/null
+	fi
+}
+
+trsh()
+{
+	if (test $# -eq 0); then
+		print *~* .*~* \#*
+	else
+		print $1/*~* $1/.*~* $1/\#*
+	fi
+}
+
+# once from howie, now mostly mine.
+ifmail()
+{
+	typeset i
+
+	if [ "$#" -gt 1 ];
+	then 
+	   for i in $* 
+	   do
+		if test -s /usr/spool/mail/$i
+		  then echo "$i: "; from $i
+		  else echo "No new mail for $i."
+		fi
+	   done
+	else 
+	   if test -f /usr/spool/mail/$USER
+#	     then mw -f
+	     then from
+	     else echo No New Mail.
+  	   fi
+	fi
+}
+
+c()
+{
+	fg %${1:-+}
+}
+
+setenv()
+{
+	eval "$1=\"$2\""; export $1
+}
+
+# quote the ksh builtins to defeat aliasing
+
+whatis()
+{
+	'typeset' i_ foo_	# local variables
+	'typeset' -i var
+	for i_ in $*
+	do
+		var=0
+		if 'set' | grep "^${i_}=" > /dev/null
+		then
+			'set' | grep "^${i_}="
+			var=1
+		fi
+		foo_="`'whence' -v ${i_}`"
+
+		case "$foo_" in
+		*built-in*)	'print' - builtin ${i_}
+				;;
+		*function*)	'typeset' -f ${i_}
+				;;
+		*exported*)	'print' - "alias -x '${i_}=${foo_##*alias for }"
+				;;
+		*tracked*)	'print' - "alias -t '${i_}=${foo_##*alias for }'"
+				;;
+		*alias*)	'print' - "alias '${i_}=${foo_##*alias for }'"
+				;;
+		*not\ found)	if ((! var))
+				then
+					'print' - "$foo_"
+				fi
+				;;
+		*)		'print' - "${foo_##*is }"
+				;;
+		esac
+	done
+	return 0
+}
+
+addplan()
+{
+	typeset i					# local vars
+	typeset sep='--------'
+
+	if let $#==0; then
+		echo "$sep `da`" >> ~/.old-plans
+		cat .plan >> ~/.old-plans
+	else
+		for i in $*
+		do
+			echo "$sep $i, `da`:" >> ~/.old-plans
+			cat $i >> ~/.old-plans	# gross, I know
+		done
+	fi
+}
+
+idid()
+{
+	test ! -f ~/admin/.what-i-did && return;
+	echo $WHO "-> `da`" >> ~/admin/.what-i-did
+	echo "Type in what you did this session"
+	cat >> ~/admin/.what-i-did
+}
+
+function status
+ {
+   status=$?
+   if [ $status -gt 128 -a $status -lt 160 ]; then
+     echo "[Signal `expr $status - 128`]"
+   else
+     echo "[Status $status]"
+   fi
+   unset status
+ }
+
+note()
+{
+	typeset nf=${NOTEFILE:-$HOME/etc/notes.txt}
+	echo >> $nf
+	da >>  $nf
+	if let $#==0 ; then
+		cat >> $nf
+	else
+		echo $@ >> $nf
+	fi
+}
+
+test -z "${-%%*i*}" && trap 'status 1>&2' ERR
+

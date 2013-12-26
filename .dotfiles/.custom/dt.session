@@ -1,0 +1,63 @@
+dtsmcmd -hints "-geometry 1x1+0+0 -state NormalState -cmd \"/usr/dt/bin/dtterm -session dta000D4 -C -iconic -ls -name Console \"" -screen 0 -cmd "/usr/dt/bin/dtterm -session dta000D4 -C -iconic -ls -name Console"
+
+
+
+
+dtsmcmd -hints "-geometry 80x48+161+97 -state IconicState -workspaces \"ws3 \" -cmd \"xterm \"" -screen 0 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 107x48+114+76 -state NormalState -workspaces \"ws3 \" -cmd \"xterm \"" -screen 0 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 80x48+392+88 -state NormalState -workspaces \"ws1 \" -cmd \"xterm \"" -screen 0 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 80x48+211+89 -state NormalState -workspaces \"ws2 \" -cmd \"xterm \"" -screen 0 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 80x48+75+83 -state NormalState -workspaces \"ws0 \" -cmd \"xterm \"" -screen 0 -cmd "xterm"
+
+
+
+
+dtsmcmd -hints "-geometry 722x857+210+38 -state NormalState -workspaces \"ws1 \" -cmd \"/ms/dev/ctweb/communicator/4.0b6/install/common/bin/netscape -install \"" -screen 0 -cmd "/ms/dev/ctweb/communicator/4.0b6/install/common/bin/netscape -install"
+
+
+dtsmcmd -hints "-geometry 115x48+132+44 -state NormalState -workspaces \"ws4 \" -cmd \"xterm \"" -screen 0 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 80x48+414+126 -state IconicState -workspaces \"ws0 \" -cmd \"xterm \"" -screen 1 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 80x48+203+263 -state IconicState -workspaces \"ws0 \" -cmd \"xterm \"" -screen 1 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 132x51+97+129 -state NormalState -workspaces \"ws2 \" -cmd \"xterm \"" -screen 1 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 80x48+213+59 -state NormalState -workspaces \"ws2 \" -cmd \"xterm \"" -screen 1 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 80x48+375+88 -state NormalState -workspaces \"ws0 \" -cmd \"xterm \"" -screen 1 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 80x48+121+78 -state NormalState -workspaces \"ws1 \" -cmd \"xterm \"" -screen 1 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 402x280+93+33 -state NormalState -workspaces \"ws2 \" -cmd \"dtcm -session dta000H_ \"" -screen 1 -cmd "dtcm -session dta000H_"
+
+
+dtsmcmd -hints "-geometry 80x48+343+66 -state NormalState -workspaces \"ws1 \" -cmd \"xterm \"" -screen 1 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 80x48+393+44 -state NormalState -workspaces \"ws2 \" -cmd \"xterm \"" -screen 1 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 125x48+67+39 -state NormalState -workspaces \"ws0 \" -cmd \"xterm \"" -screen 1 -cmd "xterm"
+
+
+dtsmcmd -hints "-geometry 651x297+230+161 -state NormalState -workspaces \"ws3 \" -cmd \"/ms/dist/aurora/bin/n -motif \"" -screen 1 -cmd "/ms/dist/aurora/bin/n -motif"
+
+dtsmcmd -hints "-geometry 125x60+38+23 -state NormalState -workspaces \"ws0 \" -cmd \"xemacs \"" -screen 1 -cmd "xemacs"
+
+

@@ -1,0 +1,382 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Wed Dec 18 20:30:44 2013
+;; Desktop file format version 206
+;; Emacs version 24.3.50.1
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (21170 19524 592764 0) (desktop . "206") "bf@eyeball.local" nil nil ((((font-backend ns) (fontsize . 0) (font . "-apple-Inconsolata-medium-normal-normal-*-18-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 9) (right-fringe . 9) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen . fullboth) (horizontal-scroll-bars . t) (display-type . color) (background-mode . dark) (cursor-color . "yellow") (environment) (frameset--id . "9FA7-7179-5F35-ECAC") (frameset--mini t . t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (display . "eyeball.local") (explicit-name) (tool-bar-position . top) (mouse-color . "#839496") (right-divider-width . 0) (bottom-divider-width . 0) (visibility . t) (height . 84) (width . 280) (left . 0) (top . 0)) ((min-height . 4) (min-width . 6) (min-height-ignore . 4) (min-width-ignore . 6) (min-height-safe . 2) (min-width-safe . 2) (min-pixel-height . 76) (min-pixel-width . 51) (min-pixel-height-ignore . 76) (min-pixel-width-ignore . 51) (min-pixel-height-safe . 38) (min-pixel-width-safe . 18)) vc (pixel-width . 2556) (pixel-height . 1577) (total-width . 284) (total-height . 83) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 2556) (pixel-height . 779) (total-width . 284) (total-height . 41) (normal-height . 0.5) (normal-width . 1.0) (buffer "growl" (selected . t) (hscroll . 0) (fringes 9 9 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 222) (start . 1))) (leaf (last . t) (pixel-width . 2556) (pixel-height . 798) (total-width . 284) (total-height . 42) (normal-height . 0.5) (normal-width . 1.0) (buffer "notes.org" (selected) (hscroll . 0) (fringes 9 9 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 4129) (start . 1)))))])
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("smartparens" "solarized-theme" "smartpar" "smart-paren" "paredit" "rainbow" "slime-" "failure" "resign" "$csi" "sign" "--sign" "sign" "valid" "failure" "sign"))
+(setq regexp-search-ring nil)
+(setq register-alist (list (list 82 "Unprintable entity" (let ((mk (make-marker))) (add-hook 'desktop-delay-hook `(lambda nil (set-marker ,mk ,nil (get-buffer ," *temp*")))) mk))))
+(setq file-name-history '("/Users/bf/.tmux.conf" "~/Google Drive/.emacs.macula" "~/.emacs" "~/src/growl/scripts/validate-code-signatures.rb" "~/src/growl/scripts/resign-binaries.rb" "/Users/bf/src/growl/Release/rakefile" "~/src/growl/Plugins/Actions/SoundAction/SoundAction.xcodeproj/project.pbxproj" "~/src/growl/Plugins/Actions/Prowl/Prowl.xcodeproj/project.pbxproj" "~/src/growl/Plugins/Actions/MailMe/MailMe.xcodeproj/project.pbxproj" "~/src/growl/Plugins/Actions/Boxcar/Boxcar.xcodeproj/project.pbxproj" "~/src/growl/Extras/GrowlTunes/GrowlTunes.xcodeproj/project.pbxproj" "~/src/growl" "~/src/growl/Growl.xcodeproj/" "/opt/local/etc/rsyncd.secrets" "/opt/local/etc/rsyncd.conf.example" "~/foo.url" "~/Google Drive/notes/notes.org" "/Users/bf/src/emacs/src/Makefile" "~/src/emacs/lisp/progmodes/python.el" "~/Downloads/bookmarks_11_20_12.html" "/etc/man.conf" "~/.emacs.d/joost-theme.el" "/var/folders/3x/t33r525j3dv6xlfqkx8h0qm00000gn/" "~/src/growl/Release/rakefile" "~/src/growl/Release/rakefile.bf" "~/Google Drive/dotfiles/.emacs" "/opt/local/var/macports/" "/opt/local/etc/macports/sources.conf" "/opt/local/var/macports/build/.turd_MacPorts" "/opt/local/etc/macports/macports.conf"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  nil
+  "growl"
+  'dired-mode
+  '(filladapt-mode)
+  222
+  '(nil nil)
+  t
+  '("/Users/bf/src/growl/")
+  nil)
+
+(desktop-create-buffer 206
+  "/Users/bf/Google Drive/notes/notes.org"
+  "notes.org"
+  'org-mode
+  '(auto-fill-mode filladapt-mode org-indent-mode)
+  4129
+  '(5160 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (fill-column . 72) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/Users/bf/gocode/src/github.com/banthar/Go-OpenGL/gl/gl.go"
+  "gl.go"
+  'fundamental-mode
+  '(filladapt-mode)
+  1
+  '(33799 nil)
+  nil
+  nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/gocode/src/github.com/banthar/Go-OpenGL/examples/draw.go"
+  "draw.go"
+  'go-mode
+  '(filladapt-mode auto-complete-mode)
+  666
+  '(550 nil)
+  nil
+  nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/.emacs"
+  ".emacs"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode rainbow-delimiters-mode)
+  26748
+  '(28387 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Google Drive/.emacs.macula"
+  ".emacs.macula"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode)
+  28411
+  '(28151 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/growl/Release/rakefile"
+  "rakefile"
+  'ruby-mode
+  '(filladapt-mode auto-complete-mode)
+  8450
+  '(7590 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/growl/scripts/validate-code-signatures.rb"
+  "validate-code-signatures.rb"
+  'ruby-mode
+  '(filladapt-mode auto-complete-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/growl/scripts/resign-binaries.rb"
+  "resign-binaries.rb"
+  'ruby-mode
+  '(filladapt-mode auto-complete-mode)
+  113
+  '(1 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/growl/Growl.xcodeproj/project.pbxproj"
+  "project.pbxproj"
+  'fundamental-mode
+  '(filladapt-mode)
+  464601
+  '(464638 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "Growl.xcodeproj"
+  'dired-mode
+  '(filladapt-mode)
+  239
+  '(nil nil)
+  t
+  '("/Users/bf/src/growl/Growl.xcodeproj/")
+  nil)
+
+(desktop-create-buffer 206
+  "/opt/local/etc/rsyncd.conf.example"
+  "rsyncd.conf.example"
+  'conf-unix-mode
+  '(filladapt-mode)
+  237
+  '(nil nil)
+  t
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/emacs/lisp/progmodes/python.el"
+  "python.el"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode)
+  25432
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  "/Users/bf/go/src/pkg/net/hosts.go"
+  "hosts.go"
+  'go-mode
+  '(filladapt-mode auto-complete-mode)
+  1233
+  '(1670 nil)
+  nil
+  nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Downloads/bookmarks_11_20_12.html"
+  "bookmarks_11_20_12.html"
+  'html-mode
+  '(auto-fill-mode filladapt-mode)
+  372151
+  '(587680 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-dos) (fill-column . 72)))
+
+(desktop-create-buffer 206
+  "/Users/bf/.emacs.d/joost-theme.el"
+  "joost-theme.el"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode)
+  408
+  '(87 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/.emacs.d/shrek.1-theme.el"
+  "shrek.1-theme.el"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/growl/Release/rakefile.bf"
+  "rakefile.bf"
+  'ruby-mode
+  '(filladapt-mode auto-complete-mode)
+  10839
+  '(520 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "tarballs"
+  'dired-mode
+  '(filladapt-mode)
+  608
+  '(nil nil)
+  t
+  '("/opt/local/var/macports/sources/rsync.macports.org/release/tarballs/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "release"
+  'dired-mode
+  '(filladapt-mode)
+  256
+  '(nil nil)
+  t
+  '("/opt/local/var/macports/sources/rsync.macports.org/release/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "rsync.macports.org"
+  'dired-mode
+  '(filladapt-mode)
+  245
+  '(nil nil)
+  t
+  '("/opt/local/var/macports/sources/rsync.macports.org/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "sources"
+  'dired-mode
+  '(filladapt-mode)
+  229
+  '(nil nil)
+  t
+  '("/opt/local/var/macports/sources/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "macports"
+  'dired-mode
+  '(filladapt-mode)
+  872
+  '(nil nil)
+  t
+  '("/opt/local/var/macports/")
+  nil)
+
+(desktop-create-buffer 206
+  "/opt/local/etc/macports/macports.conf"
+  "macports.conf"
+  'conf-space-mode
+  '(filladapt-mode)
+  2493
+  '(nil nil)
+  t
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/opt/local/etc/macports/sources.conf"
+  "sources.conf"
+  'conf-colon-mode
+  '(filladapt-mode)
+  1
+  '(nil nil)
+  t
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/zguide/examples/Python/hwserver.py"
+  "hwserver.py"
+  'python-mode
+  '(filladapt-mode auto-complete-mode)
+  483
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/go/src/pkg/net/dnsmsg.go"
+  "dnsmsg.go"
+  'fundamental-mode
+  '(filladapt-mode)
+  1
+  '(1508 nil)
+  nil
+  nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/zguide/examples/Python/hwclient.py"
+  "hwclient.py"
+  'python-mode
+  '(filladapt-mode auto-complete-mode)
+  245
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/zmq-test.py"
+  "zmq-test.py"
+  'python-mode
+  '(filladapt-mode auto-complete-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/.ssh/config"
+  "config"
+  'conf-space-mode
+  '(filladapt-mode)
+  219
+  '(195 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  ".emacs.d"
+  'dired-mode
+  '(filladapt-mode)
+  703
+  '(nil nil)
+  t
+  '("/Users/bf/.emacs.d/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "net"
+  'dired-mode
+  '(filladapt-mode)
+  885
+  '(nil nil)
+  t
+  '("/Users/bf/go/src/pkg/net/")
+  nil)
+
+(desktop-create-buffer 206
+  "/Users/bf/go/.hg/hgrc"
+  "hgrc"
+  'fundamental-mode
+  '(filladapt-mode)
+  124
+  '(50 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+

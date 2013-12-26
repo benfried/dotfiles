@@ -1,0 +1,105 @@
+#############################################################################
+###
+###   .vueprofile
+###
+###   user personal environment variables
+###
+###   Hewlett-Packard Visual User Environment, Version 3.0
+###
+###   Copyright (c) 1992 Hewlett-Packard Company
+###
+###   $Revision: 1.1 $
+###
+#############################################################################
+
+
+#############################################################################
+###
+###   VUE pre-sets the following environment variables for each user.
+###   
+###	DISPLAY	  set to the value of the first field in the Xservers file
+###	EDITOR	  set to the HP VUE default editor
+###     ENV	  set to "$HOME/.kshrc"
+###	HOME	  set to the user's home directory (from /etc/passwd)
+###	KBD_LANG  set to the value of $LANG for some languages (see Xsession)
+###	LANG	  set to the display's current NLS language (if any)
+###	LC_ALL, LC_MESSAGES
+###		  set to the value of $LANG
+###	LOGNAME	  set to the user name
+###	MAIL	  set to "/usr/mail/$USER"
+###	PATH	  set to the value of the Vuelogin "userPath" resource
+###	USER	  set to the user name
+###	SHELL	  set to the user's default shell (from /etc/passwd)
+###     TERM	  set to xterm
+###	TZ	  set to the value of the Vuelogin "timeZone" resource
+###
+###   Three methods are available to modify or add to this list depending 
+###   on the desired scope of the resulting environment variable. 
+###   
+###	1. X server and/or all users on a display	(Xconfig file)
+###	2. all users on a display			(Xsession file)
+###	3. individual users				(.vueprofile file)
+###	
+###   See VUE on-line help, the VUE Users Guide, or the Vuelogin(1X) man
+###   page for details on setting environment variables.
+###
+###
+###   Personal environment variables can be set in the script file
+###   "$HOME/.vueprofile".  The files /etc/profile and $HOME/.profile are
+###   not read by VUE as they may contain terminal I/O based commands
+###   inappropriate for a graphical interface.  Users should set up
+###   ".vueprofile" with personal environment variables for their VUE
+###   session.
+###
+###   VUE will accept either sh, ksh, or csh syntax for the commands in this
+###   file.  The commands should only be those that set environment
+###   variables, not any that perform terminal I/O, ex.  "tset" or "stty".
+###   If the first line of ".vueprofile" is #!/bin/sh, #!/bin/ksh, or
+###   #!/bin/csh, VUE will use the appropriate shell to parse the commands.
+###   Otherwise the user's default shell ($SHELL) will be used.
+###
+###
+###
+###   With minor editing, it is possible to adapt $HOME/.profile (.login)
+###   for use both with and without HP VUE.  Group the statements not
+###   allowed for VUE into one section and enclose them with an "if"
+###   statement that checks for the setting of the "VUE" environment
+###   variable.  Then set the "VUE" environment variable at the bottom of
+###   this script (.vueprofile) and log in again.  From then on changes
+###   need only be made to $HOME/.profile (.login).
+###   
+###   
+###   example for sh/ksh
+###   
+###     #
+###     #  commands and environment variables used when logging in without VUE
+###     #
+###     if [ ! "$VUE" ]; then
+###         stty ...
+###	    tset ...
+###	    DISPLAY=mydisplay:0
+###	    MAIL=/usr/mail/$USER
+###	    EDITOR=/bin/vi
+###	        ...
+###     fi	    
+###
+###     #
+###     # environment variables common to both VUE and non-VUE
+###     #
+###     PATH=$HOME/bin:$PATH
+###          ...
+###	  
+###   Errors in .vueprofile or .profile (.login) may prevent a successful
+###   login. If so, log in via the Fail-safe session and correct the error.
+###
+##############################################################################
+
+#
+#  if $HOME/.profile (.login) has been edited as described above, uncomment
+#  one of the two following lines, depending on your default shell.
+#
+# VUE=true; export VUE; . $HOME/.profile; unset VUE	# sh, ksh
+# setenv VUE true; source $HOME/.login	; unsetenv VUE	# csh
+# module load energize
+xrdb -merge $HOME/.custom/.Xdefaults
+# test -f $HOME/.xmodmaprc.$(hostname) && xmodmap $HOME/.xmodmaprc.$(hostname)

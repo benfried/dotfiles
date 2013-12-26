@@ -1,0 +1,161 @@
+#  Standard .functions file
+#
+#   Last edited by:  $Author: dpk $
+#               on:  $Date: 1994/08/26 23:05:15 $
+#         Filename:  $RCSfile: addpath,v $
+#         Revision:  $Revision: 1.2 $
+#
+#               ID:  $Id: addpath,v 1.2 1994/08/26 23:05:15 dpk Exp $
+#
+#  Functions for manipulating : seperated shell variables
+#
+#  -----
+
+#
+# Add in a generic path modifcation mechanism.  Using the functions
+# append and prepend, we can modify the path:
+#
+#   example% prepend PATH /usr/foo
+#
+# is the same as:
+#
+#   example% PATH=/usr/foo:$PATH
+#
+# except the prepend and append functions will not duplicate path
+# entries, so they can be executed over and over again without 
+# causing problems.
+#
+# It can be used for LD_LIBRARY_PATH, etc....
+#
+
+#
+# addpath [variable] [arglist] [function type]
+#	[variable] - a colon separated "path" type variable name
+#	[arglist] - a colon separated list of elements to add to the variable
+#	[function type] - prepend or append
+#
+# addpath performs the type of function on the current value of the specified
+# variable with the arguments passed.  addpath ensures that redundant 
+# components and malformed path lists are removed from any resulting value.
+#
+function addpath
+{
+  variable_name=$1
+  arglist=$2
+  functype=$3
+  eval typeset VALUE=\$$variable_name
+
+  # Strip leading, trailing, and redundant :'s from [arglist]
+  while [[ $arglist = @(:*|*:|*::*) ]]; do
+    case "$arglist" in
+      :*)	arglist=${arglist#:};;
+      *:)	arglist=${arglist%:};;
+      *::*)	arglist=${arglist%%::*}:${arglist#*::};;
+    esac
+  done
+
+  # Strip leading, trailing, and redundant :'s from the current value of
+  # [variable]
+  while [[ $VALUE = @(:*|*:|*::*) ]]; do
+    case "$VALUE" in
+      :*)	VALUE=${VALUE#:};;
+      *:)	VALUE=${VALUE%:};;
+      *::*)	VALUE=${VALUE%%::*}:${VALUE#*::};;
+    esac
+  done
+
+  # Remove redundant path components from [arglist].  This is a little messy as
+  # we need to do different things to [arglist] depending on where the
+  # redundant components reside.  The general logic is to check each component
+  # against the value of arglist.  If another component of the same name
+  # exists, it is removed (ie the first of each redundant component is
+  # retained, all others are removed).
+  OFS=$IFS
+  IFS=":"
+  set -- $arglist
+  IFS=$OFS
+  for c in $*; do
+    if [[ $arglist = @($c:$c:*|$c:*:$c:*|*:$c:$c:*|*:$c:*:$c:*|$c:$c|$c:*:$c|*:$c:$c|*:$c:*:$c) ]]; then
+      case "$arglist" in
+	$c:$c:*)	arglist=$c:${arglist#$c:$c:};;
+	$c:*:$c:*)	arglist=${arglist%:$c:*}:${arglist##$c:*:$c:};;
+	*:$c:$c:*)	arglist=${arglist%%:$c:$c:*}:$c:${arglist#*:$c:$c:};;
+	*:$c:*:$c:*)	arglist=${arglist%:$c:*}:${arglist##*:$c:*:$c:};;
+	$c:$c|$c:*:$c|*:$c:$c|*:$c:*:$c)
+			arglist=${arglist%:$c};;
+      esac
+    fi
+  done
+
+  # Strip each of the [arglist] components from the value of [variable]
+  OFS=$IFS
+  IFS=":"
+  set -- $arglist
+  IFS=$OFS
+  for c in $*; do
+    # This is a loop, in case the component we're removing from [variable]
+    # appears more than once. 
+    while [[ $VALUE = @(*:$c:*|$c:*|*:$c|$c) ]]; do
+      case "$VALUE" in
+        *:$c:*) VALUE=${VALUE%%:$c:*}:${VALUE#*:$c:} ;;
+  	  $c:*) VALUE=${VALUE##$c:} ;;
+	  *:$c) VALUE=${VALUE%%:$c} ;;
+	    $c) VALUE="" ;;
+      esac
+    done
+  done
+
+  # Add the new value, and blow away any lead/trailing :'s, in case the
+  # original VALUE was Null. 
+  if [[ $functype = prepend ]]; then
+    VALUE="$arglist:$VALUE"
+    VALUE=${VALUE%:}
+  elif [[ $functype = append ]]; then
+    VALUE="$VALUE:$arglist"
+    VALUE=${VALUE#:}
+  fi
+
+  # Finally, eval it and we're done.
+  eval $variable_name=$VALUE
+}
+
+
+function append
+{
+  if [[ $# != 2 ]]; then
+    print "Usage: $0 PATH /tmp/foo"
+    return 1
+  fi
+  addpath "$1" "$2" append
+}
+
+# Old FID function name
+function append_path
+{
+  append "$1" "$2"
+}
+
+
+function prepend
+{
+  if [[ $# != 2 ]]; then
+    print "Usage: $0 PATH /tmp/foo"
+    return 1
+  fi
+  addpath "$1" "$2" prepend
+}
+
+# Old FID function name
+function prepend_path
+{
+  prepend "$1" "$2"
+}
+
+function delpath
+{
+  if [[ $# != 2 ]]; then
+    print "Usage: $0 PATH /tmp/foo"
+    return 1
+  fi
+  addpath "$1" "$2" delpath
+}

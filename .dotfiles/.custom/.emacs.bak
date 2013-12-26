@@ -1,0 +1,1144 @@
+;;; Mode is -*-Emacs-Lisp-*-
+;;; This is my init for emacs.  I have some custom function definitions
+;;; and a LOT of key rebindings.  There's also a new modeline, a 
+;;; display-time-filter, an improved way of using rmail (return-to-rmail),
+;;; mode defaults for many different file extensions, and so on.
+
+;;;Edit History:
+;;;banzai:/w/sy/ben/.emacs,  6-Jun-1994 10:47:06 by ben
+;;;banzai:/buckaroo/ben/.emacs, 12-Jun-1991 17:27:09 by ben
+;;;  Added TCL mode (a few weeks ago, actually)
+;;;cunixc:/us/us/ben/.emacs,  5-May-1989 13:46:23 by ben
+;;;  Added find-file-not-found-hooks, to find .Z and ,v files automatically.
+;;;cunixc:/u1/ui/ben/.emacs, 26-May-1987 13:05:38 by ben
+;;;  modified insert-date to include day of the week, added some keypad stuff.
+;;;cunixc:/u1/ui/ben/.emacs, 22-Feb-1987 01:13:53 by ben
+;;;  added pascal mode with version 18.  Doesn't really work...
+
+;;; First, set variables
+
+
+
+;;; mode line - don't bother displaying time if we are on a terminal
+;;; running sysline.  Otherwise do indeed show it.
+(setq default-mode-line-format
+      (let ((temp (getenv "TERM")))
+	(cond ((equal temp "rvt102")
+	       '("%[b's EMACS (" mode-name minor-mode-alist
+				 (mode-line-process mode-line-process)
+				 "%n"
+				 ") %b %* %f %p%]")) ;have sysline, will travel
+	      (t
+	       '("%[b's EMACS (" 
+		 mode-name minor-mode-alist "%n"
+		 "; %M"
+		 (mode-line-process mode-line-process)
+		 ") %b: %* %f %p%]"))))) ; no sysline, add time
+
+(setq mode-line-format default-mode-line-format) 
+(setq homedir (getenv "HOME"))
+
+;(if (equal (substring (getenv "TERM") 0 4) "tvi9")
+;    (setq mode-line-inverse-video nil))
+
+;;; (insert "mode line...")
+
+
+;;; turn off novice stuff
+(put 'eval-expression 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+
+(fset 'yes-or-no-p (symbol-function 'y-or-n-p))
+(fset 'non-saved-text-mode (symbol-function 'text-mode))
+
+;;; (insert "novice...")
+;;; set lots of miscellaneous variables in as big a setq as we can.
+(setq version-control t			;file generations under unix - big win!
+      kept-new-versions 50		;I want lots of versions
+      kept-old-versions 20
+;     dired-kept-versions 2
+      comment-column 40
+      default-fill-column 72
+      rmail-dont-reply-to-names "mailer daemon\\|ben\\|ui.ben\\|benus"
+      rmail-file-name "~/mail/RMAIL"
+      rmail-delete-after-output t
+      rmail-last-rmail-file "~/mail/RMAIL"
+      require-final-newline t		;add newline when missing silently
+;      lpr-switches '("-h" "-Pslw")	;print on wln03 without header
+      ledit-go-to-lisp-string "%lisp"	;I don't use this any more
+      mail-archive-file-name "~/mail/outgoing.txt"
+      scribe-electric-quote t		;turn on quotes like `` and ''
+      c-indent-level 4			
+      c-continued-statement-offset 4
+      c-brace-offset -4			; -4
+      c-label-offset -4
+      c-argdecl-indent 4
+      c++-access-specifier-offset -4
+      c++-empty-arglist-indent 4
+      c++-friend-offset 0
+      inhibit-local-variables t		;disallow the trojan horse
+      window-min-height 2		;1-line windows
+      window-min-width 1		;1-column windows
+      *project* "UI Administration"	;what I do over the summer
+      auto-mode-alist (append '(("\\.txt$" . text-mode)	
+				("\\.txt~$" . text-mode)
+				("\\.c4$" . c-mode) ("\\.c4~$" . c-mode)
+				("\\.h4$" . c-mode) ("\\.h4~$" . c-mode)
+				("\\.H$" . c++-mode)
+				("\\.S$" . scheme-mode)
+				("\\.otl$" . outline-mode)
+				("\\.outline$" . outline-mode)
+				("\\.mss$" . scribe-mode)
+				("\\.C$" . c++-mode)
+				("\\.cc$" . c++-mode)
+				("\\.ps$" . postscript-mode)
+				("\\.idl" . idl-mode)
+				("\\.pl$" . perl-mode)
+				("\\.tcl$" . tcl-mode)
+				("\\.tar$" . tar-mode)
+				("\\.Z$" . uncompress-while-visiting)
+				("\\.gz$" . uncompress-while-visiting)
+				("\\.sh$" . ksh-mode)
+				("\\.ksh$" . ksh-mode)
+				("\\.html$" . html-mode)
+				("wid\\..*$" .wid-mode)
+				("\\.e$" . ce-mode))
+			      auto-mode-alist)
+      load-path (append (list (concat homedir "/lib/elisp")) load-path)
+      completion-ignored-extensions
+      (append completion-ignored-extensions '(".b" ".out" ".ln3" ".dvi")))
+
+(if (not (fboundp 'get-hostname)) 
+    (require 'cu-funcs))
+
+(cond
+ ((string-match "Lucid" emacs-version)
+  ;; should also set screen-title-format and screen-icon-title-format
+  ;; set up sounds
+  (setq screen-title-format (list "emacs@" (get-hostname) ":%b")
+	screen-icon-title-format (list "emacs@" (get-hostname)))
+  (make-variable-buffer-local 'screen-title-format)
+  (make-variable-buffer-local 'screen-icon-title-format)  
+  (load-default-sounds)
+;  (load-library "lhilit")
+;  (load-library "font-lock")
+  ;; define function keys
+  (load-library "sendmail")
+  (require 'xemacs-faces)
+  (defun mail-signature ())	;lusing package auto-signs my mail!
+  (define-key global-map '(control h) 'help-command)
+  (define-key global-map 'f20 'x-kill-primary-selection)   ; kp_cut
+  (define-key global-map 'f16 'x-copy-primary-selection)   ; kp_copy
+  (define-key global-map 'f18 'x-yank-clipboard-selection) ; kp_paste
+  (define-key global-map 'f29 'scroll-down) ;pgup
+  (define-key global-map 'f35 'scroll-up) ;pgdn
+  (define-key global-map 'f27 'beginning-of-buffer) ; kp_home
+  (font-lock-mode t)
+  ;; Below is now all done in my X resources.
+  ;; (set-face-foreground 'font-lock-comment-face "green")
+  ;; (set-face-foreground 'font-lock-string-face "blue")
+  ;; (set-face-background 'font-lock-string-face "white")
+  ;; (set-face-foreground 'font-lock-doc-string-face "firebrick")
+  ;; (set-face-foreground 'font-lock-function-name-face "gold")
+  ;; (set-face-foreground 'font-lock-keyword-face "magenta")
+  ;; (set-face-foreground 'modeline "yellow")
+  ;; (set-face-background 'modeline "firebrick")
+  ;; (set-face-background 'highlight "blue")
+  ;; (set-face-background 'italic "tomato")
+  ;; (set-face-background 'bold-italic "lightseagreen")
+  ;; (set-face-foreground 'bold-italic "white")
+  ;; (set-face-background 'isearch "magenta")
+  ;; (set-face-foreground 'font-lock-type-face "Coral1")
+  ;; (set-face-background 'left-margin "Plum1")
+  ;; (set-face-foreground 'left-margin "Black")
+  ;; (set-face-background 'right-margin "thistle1")
+  ;; (set-face-foreground 'right-margin "black")
+  ;; (set-face-foreground 'primary-selection "black")
+  ;; (set-face-foreground 'secondary-selection "black")
+  ;; (make-face-bold-italic 'modeline)  
+  (set-face-underline-p 'font-lock-string-face t)
+  (mapcar #'make-face-bold '(bold-italic font-lock-comment-face italic))
+  (define-key global-map 'r13 'end-of-buffer)
+  (global-set-key '(control shift button3) 'netscape-follow-url)
+  (defun netscape-follow-url (event)
+    "Make netscape look at the url at point"
+    (interactive "e")
+    (let ((*netscape-path* (concat "/u/eo/bin/" (getenv "ARCH") "/netscape"))
+	  (curwin (current-window-configuration)) url)
+      (save-excursion
+	(mouse-set-point event)
+	;; find url-at-point
+	(require 'url)                        ;from w3
+	(setq url (url-get-url-at-point)))
+      (set-window-configuration curwin)
+      (if url
+	  (progn
+	    (prin1 (concat "Open URL " url))
+	    (call-process *netscape-path* nil 0 nil "-remote"
+			  (concat "openURL(" url ")")))
+	(prin1 "No URL found at point")))))
+
+ ((equal (string-match "GNU Emacs 19.2" (emacs-version)) 0)
+  ;(load-library "font-lock")
+  (require 'cl)
+  (setq load-path 
+	(append (list (concat homedir "/lib/elisp/g19/vm")
+		      (concat homedir "/lib/elisp/g19/supercite")
+		      (concat homedir "/lib/elisp/g19/gnus")
+		      (concat homedir "/lib/elisp/g19/bbdb"))
+		load-path))
+  (transient-mark-mode t)
+  ;(font-lock-mode t)
+;  (set-face-foreground font-lock-comment-face "red")
+;  (set-face-foreground font-lock-string-face "purple")
+;  (set-face-foreground font-lock-doc-string-face "firebrick")
+;  (set-face-foreground font-lock-function-name-face "blue")
+;  (set-face-foreground font-lock-keyword-face "magenta")
+  (set-face-foreground 'modeline "yellow")
+  (set-face-background 'modeline "firebrick")
+  (set-face-foreground 'highlight "black")
+  (set-face-foreground 'secondary-selection "black"))
+
+ ((string-match "18\." emacs-version)
+  (require 'cl)
+  (setq load-path 
+	(append (list (concat homedir "/lib/elisp/vm")
+		      (concat homedir "/lib/elisp/supercite")
+		      (concat homedir "/lib/elisp/bbdb"))
+		load-path))))
+
+(setq-default comment-column 40)
+(setq ange-ftp-ftp-program-name "rftp")
+;(require 'ange-ftp)
+(require 'gnuserv)
+(require 'crypt++)
+(setq server-program "gnuserv")
+(autoload 'postscript-mode "postscript.el" "" t)
+(autoload 'perl-mode "perl-mode" "" t)
+(autoload 'webster "webster" "" t)
+(autoload 'vm "vm" "" t)
+(autoload 'sc-cite-original "supercite" t)
+(setq sc-load-hook '(lambda () (sc-setup-filladapt)
+		      (require 'sc-register)
+		      (setq sc-auto-fill-region-p nil
+			    sc-preferred-attribution-list
+			    (cons "registered"
+				  sc-preferred-attribution-list))))
+(setq sc-auto-fill-region-p nil)
+(setq sc-citation-leader "")
+(autoload 'tcl-mode "tcl" "" t)
+(autoload 'uncompress-while-visiting "uncompress" "" t)
+(autoload 'tar-mode "tar-mode" "" t)
+(autoload 'ksh-mode "ksh-mode" "" t)
+(autoload 'html-mode "html-mode" "HTML major mode." t)
+(fmakunbound 'c-mode)
+(makunbound 'c-mode-map)
+(fmakunbound 'c++-mode)
+(makunbound 'c++-mode-map)
+(autoload 'c++-mode "cc-mode" "C++ Editing Mode" t)
+(autoload 'c-mode   "cc-mode" "C Editing Mode" t)
+(autoload 'bbdb         "bbdb-com" "Insidious Big Brother Database" t)
+(autoload 'bbdb-name    "bbdb-com" "Insidious Big Brother Database" t)
+(autoload 'bbdb-company "bbdb-com" "Insidious Big Brother Database" t)
+(autoload 'bbdb-net     "bbdb-com" "Insidious Big Brother Database" t)
+(autoload 'bbdb-notes   "bbdb-com" "Insidious Big Brother Database" t)
+(autoload 'bbdb-insinuate-vm       "bbdb-vm"    "Hook BBDB into VM")
+(autoload 'bbdb-insinuate-rmail    "bbdb-rmail" "Hook BBDB into RMAIL")
+(autoload 'bbdb-insinuate-mh       "bbdb-mhe"   "Hook BBDB into MH-E")
+(autoload 'bbdb-insinuate-gnus     "bbdb-gnus"  "Hook BBDB into GNUS")
+(autoload 'bbdb-insinuate-sendmail "bbdb"       "Hook BBDB into sendmail")
+;(require 'bbdb-print)
+;(setq bbdb-print-elide (append '(creation-date timestamp) bbdb-print-elide))
+(setq bbdb-north-american-phone-numbers-p nil
+      bbdb-default-area-code 212
+      bbdb-user-mail-names "bf@.*\\\morgan\\.com"
+      bbdb-change-hook 'bbdb-timestamp-hook
+      bbdb-create-hook 'bbdb-creation-date-hook
+      bbdb/mail-auto-create-p 'bbdb-ignore-some-messages-hook
+      bbdb-ignore-some-messages-alist '(("From" . "daemon")
+					("From" . "root")
+					("From" . "EMCNODE")
+					("From" . "RMT[0-9]+")
+					("To" . "^[^b][^f]")
+					("CC" . "^[^b][^f]")))
+
+;(autoload 'mime-mode "mime" "Minor mode for editing MIME message." t)
+
+;;; Use these if cc-mode loses.
+;(cond ((and (fboundp 'c++-mode) (not (boundp 'c++-version)))
+;       (fmakunbound 'c++-mode)
+;       (autoload 'c++-mode
+;		 (if (string-match "^18.55" emacs-version)
+;		     "c++-18.55"
+;		     "c++-mode")
+;		 t)))
+(require 'par-align "par-align")
+(require 'filladapt)
+(require 'fa-extras)
+(require 'hsuperman "hsuperman")
+;(load-file "~/lib/elisp/c++-mode.el")
+;;;(insert "before require mime-rt")
+;(require 'mime-rt "mime-rt")
+;;;(insert "after require mime-rt")
+
+(setq mime-deemphasize-color "skyblue"
+      mime-emphasize-color "khaki")
+
+;;; (insert "massive setq...")
+
+
+;;; prefix characters -- you just can't get too many, can you?
+
+(defvar control-meta-map (make-keymap)
+  "Variable that holds the key bindings for control-meta functions")
+(fset 'control-meta-prefix control-meta-map)		;link these two
+(define-key global-map "\^c" 'control-meta-prefix)	;define it
+
+(defvar backquote-map (make-keymap)
+  "Variable to hold backquote-prefix key mappings")
+(fset 'backquote-prefix backquote-map)
+(define-key global-map "\`" 'backquote-prefix)
+
+
+;;;(insert "new prefixes...")
+
+;;; Define a complete C-M prefix command set.
+;;; Note C-M is bound to C-C.
+
+(define-key control-meta-map "\^b" 'deselect-other-window)
+(define-key control-meta-map "\^k" 'kill-rectangle)
+(define-key control-meta-map "\^y" 'yank-rectangle)
+(define-key control-meta-map "\^z" 'exit-recursive-edit)
+(define-key control-meta-map "\" 'self-insert-command)
+(define-key control-meta-map "\^c" 'delete-other-windows)
+(define-key control-meta-map "\=" 'compare-windows)
+(define-key control-meta-map "[" 'eval-expression)
+(define-key control-meta-map "," 'find-tag)
+(define-key control-meta-map "." 'insert-date-and-time)
+(define-key control-meta-map "?" 'kill-region)
+(define-key control-meta-map "!" 'shell)
+(define-key control-meta-map "a" 'beginning-of-defun)
+(define-key control-meta-map "b" 'backward-sexp)
+(define-key control-meta-map "c" 'exit-recursive-edit)
+(define-key control-meta-map "d" 'down-list)
+(define-key control-meta-map "e" 'end-of-defun)
+(define-key control-meta-map "f" 'forward-sexp)
+(define-key control-meta-map "h" 'mark-defun)
+(define-key control-meta-map "j" 'indent-new-comment-line)
+(define-key control-meta-map "k" 'kill-sexp)
+(define-key control-meta-map "n" 'forward-list)
+(define-key control-meta-map "o" 'split-line)
+(define-key control-meta-map "p" 'backward-list)
+(define-key control-meta-map "q" 'indent-sexp)
+(define-key control-meta-map "r" 'return-to-rmail)
+(define-key control-meta-map "s" 'isearch-forward-regexp)
+(define-key control-meta-map "t" 'transpose-sexps)
+(define-key control-meta-map "u" 'backward-up-list)
+(define-key control-meta-map "v" 'my-scroll-other-window)
+(define-key control-meta-map "\^v" 'my-scroll-other-window)
+(define-key control-meta-map "w" 'what-line)
+(define-key control-meta-map "x" 'eval-defun)
+(define-key control-meta-map "z" 'suspend-emacs)
+(define-key control-meta-map "\;" 'kill-comment)
+(define-key control-meta-map "\^d" 'insert-date)
+
+;;;(insert "c-m bindings...")
+
+
+;;; backquote-key mappings
+
+(define-key backquote-map "\`" 'self-insert-command)
+(define-key backquote-map "\^h" 'date-edit)
+(define-key backquote-map "u" 'upcase-word)
+(define-key backquote-map "\^b" 'electric-command-history)
+(define-key backquote-map "b" 'bbook)
+(define-key backquote-map "c" 'capitalize-word)
+(define-key backquote-map "p" 'lpr-buffer)
+(define-key backquote-map "l" 'downcase-word)
+(define-key backquote-map "e" 'enscript-buffer)
+(define-key backquote-map "g" 'line-goto)
+(define-key backquote-map "r" 'revert-buffer)
+(define-key backquote-map "v" 'view-buffer)
+(define-key backquote-map "w" 'count-words)
+(define-key backquote-map "f" 'finger)
+(define-key backquote-map "h" 'manual-entry)
+(define-key backquote-map "x" 'eval-region)
+(define-key backquote-map "\;" 'comment-out-lines)
+(define-key backquote-map "'" 'uncomment-out-lines)
+
+;;; (insert "backquote bindings...")
+
+
+;;; some other (re) mappings
+
+(define-key global-map "\^h" 'backward-delete-char-untabify)
+(define-key global-map "\^_" 'help-command) ;the REAL help character
+(define-key global-map "\^w" 'backward-kill-word) ;like in the shell
+
+(define-key esc-map "\" 'kill-region)
+(define-key esc-map "n" 'down-comment-lines)
+(define-key esc-map "p" 'up-comment-lines)
+;(define-key esc-map "q" 'fill-paragraph-and-align)
+(define-key esc-map "u" 'backward-uppercase-word)
+(define-key esc-map "l" 'backward-lowercase-word)
+(define-key esc-map "c" 'backward-capitalize-word)
+(define-key esc-map "m" 'mycompile)
+(define-key esc-map "\?" 'describe-key)	;fine, eh, hoser?
+(define-key esc-map "`" 'date-edit)
+(define-key esc-map "\," 'move-to-window-top)
+(define-key esc-map "\." 'move-to-window-bottom)
+(define-key esc-map "]" 'forward-para)
+(define-key esc-map "[" 'backward-para)
+
+(define-key ctl-x-map "\^b" 'electric-buffer-list) ;very fine, like in Daffy
+(define-key ctl-x-map "\^k" 'kill-some-buffers)	;from cck
+
+;;; (insert "other bindings...")
+
+
+;;; fkey mappings for my z29.
+;;;(require 'keypad)
+
+;;; f1      f2      f3      f4      f5      f6      f7      f8      f9
+;;; ebuff   rmail   reply  
+;(define-key function-keymap "\^@" 'electric-buffer-list) 
+;(define-key function-keymap "\^a" 'return-to-rmail)
+;(define-key function-keymap "\^b" 'reply)
+
+;;;(insert "keypad setup...")
+
+;;; Function definitions
+
+(defun cadr (x) (car (cdr x)))
+
+(setq month-vals
+     '(("Jan" 1) ("Feb" 2) ("Mar" 3) ("Apr" 4) ("May" 5) ("Jun" 6)
+       ("Jul" 7) ("Aug" 8) ("Sep" 9) ("Oct" 10) ("Nov" 11) ("Dec" 12)))
+
+(defun insert-date (arg)
+  "Insert current date in abbreviated format."
+  (interactive "*p")
+  (let* ((now (current-time-string))	;With ugly-printed timestamp
+	 (firstchar (string-to-char (substring now 8 9)))
+	 (month (substring now 4 7)))
+    (cond ((equal arg 1)
+	   (insert (substring now 0 3) " ")
+	   (if (/= firstchar 32) (insert-char firstchar 1))
+	   (insert (substring now 9 10) " "	  ;Insert day of month
+		   (substring now 4 7) " "	  ;Abbreviated name of month
+		   (substring now 20 24)))
+	  (t
+	   (insert (int-to-string (cadr (assoc month month-vals))) "/")
+	   (if (/= firstchar 32) (insert-char firstchar 1))
+	   (insert (substring now 9 10) "/"
+		   (substring now 22 24))))))	  ;Full year number
+	    
+
+
+;;; (insert "insert-date...")
+
+(defun date-edit (arg)
+  "Insert new line in edit history.
+If there is a line in the file with the text 'Edit history\:' within it,
+we insert our comment on a new line after the first such line, using
+the text before and after 'Edit history\:' as the text before and after
+our inserted comment line.  Otherwise we add a line to the start of the
+file, using the comment start and end strings for the file's mode.
+
+The format for the comment line is:
+    start system-name ':' file-name ', ' date ' by ' user-name end
+where start and end are the comment start and end strings as above.
+Then another line is added with just the start and end strings, and
+point is left between them, for human generated comments."
+
+  (interactive "*P")			;This can be used from m-X or a key
+  (if (not buffer-file-name)		;Make sure we know our file name
+      (error "no buffer-file-name in effect"))
+  (set-mark (point))			;c-x c-x should take us back to 
+  (let ((start comment-start)
+	(end comment-end))		;Default to usual comment delims
+    (goto-char (point-min))		;Starting at the buffer start
+    (if (search-forward "Edit history:" ;Look for edit history beginning
+			(point-max) t)	;Through whole buffer, say if fail
+	(let ((here (point)))		;If found, save where it ends
+	  (beginning-of-line)		;Find start of line it's on
+	  (setq start (buffer-substring (point) (- here 13))) ;Pick up string
+	  (end-of-line)			;Go to end of the line
+	  (setq end (buffer-substring here (point))) ;Pick up there too
+	  (if (= (point) (point-max))	;If no more in the buffer
+	      (insert ?\n)		;Add char to start new line
+	    (forward-char))))		;Else just move to next line start
+    (if (not (and start end))		;If we don't have start or end strs
+	(error "comment-start and comment-end are not defined")) ;Complain
+    (let* ((now (current-time-string))	;Pick up ugly-printed date and time
+	   (long-sys-name (system-name));Long system name with dots
+	   (dot-pos (string-match "\\." long-sys-name))
+	   (sys-name (if dot-pos	;Find first dot, get first field
+			 (substring long-sys-name 0 dot-pos)
+		       long-sys-name)))	;Or whole thing if not dotted
+      (insert start			;Add line start
+	      sys-name ?:		;Name of computer
+	      buffer-file-name ", "	;Name of file on computer
+	      (substring now 8 10) ?-	;Day of month
+	      (substring now 4 7) ?-	;Abbreviated name of month
+	      (substring now 20 24) ? ; ;Full number for year, space
+	      (substring now 11 19)	;Time of day, hh:mm:ss
+	      " by " (user-login-name)	;Who did it
+	      end ?\n)			;Line end string, and new line
+      (cond (arg (insert start "  ")	;Start of human comment line
+		  (save-excursion	;Stay here after following insertion
+		    (insert end ?\n)))	;Finish human comment line
+	    (t (exchange-point-and-mark)))))) ;otherwise return to prev. pos.
+
+;;; (insert "date-edit...")
+
+
+(defun my-scroll-other-window (n)
+  "Scroll Other Window fixed by ben"
+  (interactive "p")
+  (let ((tem n))
+    (if (equal n 0) (setq tem 1))
+    (setq tem (* tem (- (check-size-other-window 1) 1)))
+    (scroll-other-window tem)))
+
+;;; (insert "my-scroll-other-window...")
+
+(defun check-size-other-window (n)
+  "check the size of the next window, improved by ben" 
+  (other-window n)
+  (let ((tem (- (window-height) 1)))
+       (other-window (- 0 n))
+       tem))
+
+;;; (insert "check-size-other-window...")
+
+(defun exchange-dot-and-mark () (exchange-point-and-mark))
+
+(defun enscript-buffer ()
+  "Print this buffer nicely on the laserwriter."
+  (interactive)
+  (save-excursion
+    (message "Spooling to the LaserWriter.  Hold your horses...")
+    (if (/= tab-width 8)
+	(let ((oldbuf (current-buffer)))
+	  (set-buffer (get-buffer-create " *spool PStemp*"))
+	  (widen) (erase-buffer)
+	  (insert-buffer-substring oldbuf)
+	  (call-process-region (dot-min) (dot-max) "/usr/ucb/expand"
+			       t t nil
+			       (format1 "-%d" tab-width))))
+    (apply 'call-process-region
+	   (nconc (list (dot-min) (dot-max) "/usr/local/bin/enscript"
+			nil nil nil
+			"-J" (concat "b's Emacs " (buffer-name))
+			"-b" (concat "b's Emacs " (buffer-name)))))
+    (message "Finished")))
+
+;;; (insert "enscript-buffer...")
+
+(defun finger () "run finger in another window"
+  (interactive)
+  (pop-to-buffer "*finger*")
+  (erase-buffer)
+  (shell-command '"finger" t)
+  (other-window -1))
+
+(defun line-goto (arg) "goto a given line"
+  (interactive "P")
+  (goto-line arg))
+
+(defun my-compile ()
+  (interactive)
+  (save-some-buffers t)			; save & don't ask.  won't save "*"'s.
+  (compile "make -k"))			; compile explicitly.  don't ask.
+
+(defun set-compile-command () ""
+  (interactive)
+  (cond ((eq compile-command nil)
+	 (setq compile-command
+	       (concat "make -k -f " default-directory "Makefile ")))
+	(t compile-command)))
+
+(defun mycompile (command)		;point to my compile1!!!
+  "Compile the program including the current buffer.  Default: run make.
+Runs COMMAND, a shell command, in a separate process asynchronously
+with output going to the buffer *compilation*.
+You can then use the command  next-error  to find the next error message
+and move to the source code that caused it."
+  (interactive (list (read-input "Compile command: " (set-compile-command))))
+  (setq compile-command command)
+  (compile compile-command))
+
+;;; (insert "mycompile...")
+
+(defun set-comment-column (col) "set the comment column.
+Set to arg.  If no arg, set to current column."
+  (interactive "P")
+  (cond ((eq col nil) (setq comment-column (current-column)))
+	(t (setq comment-column col)))
+  (indent-for-comment)
+  (princ "Comment Column is ")
+  (princ comment-column))
+
+;;; (insert "set-comment-column...")
+
+;;;Set up a LaTeX begin/end pair
+(defun latex-setup-begin-end (env)
+  "Set up a begin/end pair for a LaTeX command.  You give it the name of the
+Environment"
+  (interactive "sEnvironment Name: ")
+  (insert-string "\n\\begin{")
+  (insert-string env)
+  (insert-string "}\n\n\\end{") (insert-string env) (insert-string "}\n")
+  (previous-line 2))
+
+;;; My own c-comment-indent -- if we're at beginning of line, then don't 
+;;; do anything.
+(defun c-comment-indent ()
+  (cond ((bolp) 0)
+	((looking-at "^/\\*") 0)	;Existing comment at bol stays there.
+	(t 
+	 (save-excursion
+	   (skip-chars-backward " \t")
+	   (max (1+ (current-column))	;Else indent at comment column
+		comment-column)))))	; except leave at least one space.
+
+;;; (insert "c-comment-indent...")
+
+(defun return-to-rmail ()
+  "Calls rmail if there is no current rmail visiting rmail-file-name.
+If this file is being visited already then switch to it and notice
+if any new mail may have arrived."
+  (interactive)
+  (let ((active-rmail (get-file-buffer (expand-file-name rmail-file-name))))
+    (if active-rmail
+	(progn
+	  (switch-to-buffer active-rmail)
+	  (rmail-get-new-mail))
+      (rmail))))
+
+(defun add-reply-to (addr)
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (re-search-forward mail-header-separator)
+    (beginning-of-line)
+    (insert "Reply-To: " addr "\n")))
+
+;;; (insert "return-to-rmail...")
+
+(defun my-display-time-filter (proc string)
+  (let (idx
+	(strlen (length string)))
+    (if (> strlen 35)					; prob too long
+	(setq string (substring string (- strlen 35))))	; so cut it down
+    (while (setq idx (string-match "]." string))
+      (setq string (substring string (1+ idx)))))
+  (setq global-mode-string string)
+  (save-excursion (set-buffer (other-buffer)))
+  (set-buffer-modified-p (buffer-modified-p))
+  (sit-for 0))
+
+;;; (insert "display-time-filter...")
+
+
+
+(defun sort-phone-book () 
+  "sort paragraphs, by last word on first line"
+  (interactive)
+  (save-excursion
+    (sort-pages nil
+		(point-min)
+		(point-max))))
+
+(defvar bbook-default-name "")
+(defun bbook (name) "look up a bbook entry"
+  (interactive
+   (list 
+    (read-string 
+     (concat "name: " (if (not (string= bbook-default-name ""))
+			  (concat "(default " bbook-default-name ") "))))))
+  (if (string= name "") 
+      (setq name bbook-default-name)
+    (setq bbook-default-name name));
+  (pop-to-buffer "*BBOOK*")
+  (if (zerop (buffer-size))
+      (progn
+	(insert-file "~/.bbook")
+	(not-modified)
+        (toggle-read-only)))
+  (widen)
+  (goto-char (point-min))
+  (if (null (search-forward name (point-max) 'move))
+      (progn
+	(delete-window)
+	(message "Not found"))
+    (progn
+      (re-search-forward "\^j\^l\^j" (point-max) 'move)
+      (skip-chars-backward "\^j\^l\^j" (point-min))
+      (setq eobb (point))
+      (re-search-backward "\^j\^l\^j" (point-min) 'move)
+      (skip-chars-forward "\^j\^l\^j" (point-max))
+      (narrow-to-region (point) eobb)
+      (if (< 3 (count-lines (point-min) (point-max)))
+	  (window-to-size))
+      (other-window -1))))
+
+;;; (insert "bbook stuff...")
+
+(defun bm (command)
+  "Run bm, with user-specified args, and collect output in a buffer.
+While bm runs asynchronously, you can use the \\[next-error] command
+to find the text that grep hits refer to."
+  (interactive "sRun bm (with args): ")
+  (compile1 (concat "bm -n " command " /dev/null")
+	    "No more bm hits" "bm"))
+
+
+(defun egrep (command)
+  "Run egrep, with user-specified args, and collect output in a buffer.
+While egrep runs asynchronously, you can use the \\[next-error] command
+to find the text that egrep hits refer to."
+  (interactive "sRun egrep (with args): ")
+  (compile1 (concat "egrep -n " command " /dev/null")
+	    "No more bm hits" "egrep"))
+;;; (insert "bm and egrep...")
+
+
+;;; Programming language stuff.
+
+(defun run-lisp ()
+  "Run an inferior Lisp process, input and output via buffer *lisp*."
+  (interactive)
+  (switch-to-buffer (make-shell "lisp" "cl"))
+  (inferior-lisp-mode))
+
+(defun idl-mode ()
+"Cuspy mode for writing Idl specs"
+  (interactive)
+  (text-mode)
+  (setq comment-start "-- "
+	comment-start-skip "--[.	]*"
+	comment-end ""
+	major-mode "idl-mode"
+	tab-stop-list 	'(4 9 14 19 24 29 34 39 44 49 54 59 64 69 74 79)
+	mode-name "Idl"))
+
+;(defun tcl-mode ()
+;"Hacky mode for writing tcl progs"
+;  (interactive)
+;  (text-mode)
+;  (setq comment-start "# "
+;	comment-start-skip "#[.	]*"
+;	comment-end ""
+;	major-mode "tcl-mode"
+;	tab-stop-list 	'(4 9 14 19 24 29 34 39 44 49 54 59 64 69 74 79)
+;	indent-line-function 'tab-to-tab-stop
+;	mode-name "TCL"))
+
+(defun pascal-mode ()
+"Cuspy mode for writing Pascal programs.  Provided to us through the grace
+of modula-2 mode"
+  (interactive)
+  (modula-2-mode)
+  (setq comment-start "{ ")
+  (setq comment-start-skip "{[.	]*")
+  (setq comment-end " }")
+  (setq major-mode "Pascal-mode")
+  (setq mode-name "Pascal"))
+
+(defun ce-mode () "Editing mode for Concurrent Euclid---not trivial"
+  (interactive)
+  (fundamental-mode)
+  (make-local-variable 'indent-line-function)
+  (setq indent-line-function 'indent-relative)
+  (setq comment-start "{ ")
+  (setq comment-start-skip "{ *")
+  (setq comment-end " }")
+  (setq comment-column 40)
+  (setq major-mode "concurrent-euclid-mode")
+  (setq mode-name "CE")
+  (message "Concurrent Euclid not trivial"))
+
+;;; (insert "language stuff...")
+
+;;; Mode hooks
+(setq find-file-not-found-hooks
+      (append
+       (list
+	'(lambda nil
+	   (if (not (file-readable-p (format "%s.Z" filename)))
+	       nil
+	     (message "Uncompressing %s" filename)
+	     (save-excursion 
+	       (call-process "zcat"	;run zcat
+			     nil	;no input
+			     t		;output to current buffer
+			     nil	;don't update display
+			     filename)	;uncompress this file
+	       (set-buffer-modified-p nil)
+	       (set-buffer-auto-saved))
+	     t))
+	'(lambda nil
+	   (if (or (file-readable-p (format "%s,v" filename))
+		   (file-readable-p
+		    (format "%sRCS/%s,v"
+			    (or (file-name-directory filename) "")
+			    (file-name-nondirectory filename))))
+	       (save-excursion
+		 (message "Checking out %s" filename)
+		 (call-process "sh"	;run the shell
+			       nil	;no input
+			       t	;output to current buffer
+			       nil	;don't update display
+			       "-c"	;shell command
+			       (format "co -p %s 2>/dev/null" filename))
+		 (set-buffer-modified-p nil)
+		 (set-buffer-auto-saved)
+		 (setq buffer-read-only t))
+	     t)))
+       find-file-not-found-hooks))
+
+(defun shell-mode-hook-code ()
+  (setq mode-line-format default-mode-line-format))
+
+(defun rmail-mode-hook-code ()		;fix up modeline
+  (setq mode-line-format default-mode-line-format)
+  (define-key mail-mode-map "\C-ca" 'my-get-rmail-alias)
+  (define-key rmail-mode-map "\C-cl" 'rmail-summary-by-labels)
+  (define-key rmail-mode-map "\C-cp" 'rmail-previous-labeled-message)
+  (define-key rmail-mode-map "\C-cn" 'rmail-next-labeled-message)
+  (define-key rmail-mode-map "\C-cy" 'my-mail-yank-original))
+
+
+(defun electric-buffer-menu-mode-hook-code () ;spiffy up the modeline
+  (setq mode-line-format '("Electric Buffer Menu  %[%M%] %3p")))
+
+(defun outline-mode-hook-code ()
+  "Fix up things in outline mode"
+  (setq outline-regexp "[ \t]*[*]+"
+;;;	tab-stop-list 	'(4 9 14 19 24 29 34 39 44 49 54 59 64 69 74 79)
+	tab-stop-list 	'(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72
+			    76)
+	comment-start	"# "
+	comment-start-skip	"#[ 	]*"
+	comment-end		""))
+
+(defun lisp-mode-hook-code ()
+;  (ledit-from-lisp-mode)		; default mode hook
+  (setq comment-column 40)		; normal comment column
+  (setq comment-start "\;"))		; and a real comment character
+
+(defun fundamental-mode-hook-code ()	;just so i'll have a comment char.
+  (setq comment-column 40
+	comment-start "\;")
+  (make-local-variable 'indent-line-function)
+  (setq indent-line-function 'indent-relative)) 
+  
+(defun mail-mode-hook-code ()
+  (auto-save-mode nil)			; but i don't like to save copies
+  (auto-fill-mode 1)			; i like to auto fill my mail
+  (setq fill-column 72))
+
+(defun mail-setup-hook-code ()
+  (mail-mode-hook-code)
+  (bbdb-insinuate-sendmail)
+  (cond ((equal (get-hostname) "banzai")
+	 (add-reply-to "Ben@Columbia.EDU"))))
+
+(defun text-mode-hook-code ()
+  (auto-fill-mode 1)
+  (setq fill-column 72))		; i like to auto fill my text
+
+(defun tex-mode-hook-code ()
+  (auto-fill-mode 1)
+  (setq comment-column 55))	;tex comments all the way to the right.
+
+(defun c++-mode-hook-code ()
+  (cond ((string-match "Lucid" emacs-version)
+	 (font-lock-mode)))
+  (setq comment-column 40 fill-column 79)) ; nothing fancy
+
+(defun c-mode-hook-code ()		; mode hook just sets local var
+  (cond ((string-match "Lucid" emacs-version)
+	 (font-lock-mode)))
+  (setq comment-column 40		;  which is comment-column
+	fill-column 79)			;  and the fill-column.  I hate having
+  (modify-syntax-entry ?\_ "w")		; underscore is a word constituent!
+  (c-set-offset 'block-open 0)
+  (setq comment-start-skip "/\\* *")
+  (define-key c-mode-map "\e\C-h" 'mark-c-function)
+  (define-key c-mode-map "\C-c\C-h" 'mark-c-function))
+
+(defun my-build-mail-aliases ()
+  (interactive)				; so we can bind it to a key &
+  (build-mail-aliases))			;  meta-x it as well.
+
+(defun my-get-rmail-alias (alias)
+  "Asks for an alias, and looks up its value in the alias assoc list."
+  (interactive "salias: ")
+  (cond ((setq alias (assoc alias mail-aliases))
+	 (message (concat (car alias) " --> " (cdr alias))))
+	(t (message "no alias"))))
+
+(defun mh-quit ()
+  "Quit out of mh-e."
+  (interactive)
+  (mh-execute-commands)
+  ;; Don't switch to the inbox buffer even if it was recently visible.
+  (let ((ibuf (get-buffer "+inbox")) (sbuf (get-buffer "show-+inbox")))
+    (if ibuf
+	(bury-buffer ibuf))
+    (if sbuf (bury-buffer sbuf))
+    (let ((obuf (current-buffer)))
+      (switch-to-buffer (other-buffer))
+      (bury-buffer obuf))))
+
+(defun mh-folder-mode-hook-code nil
+  (define-key mh-folder-mode-map "q" 'mh-quit))
+(setq mh-fcc-folder "+outgoing"
+      mh-ins-buf-prefix "    "
+      mh-progs "/usr/local/mh/bin"
+      mh-summary-height 20
+      mh-lib "/usr/local/mh/lib")
+
+;  to always set that stupid variable.
+
+;; set mode hooks
+
+(setq mail-setup-hook  'mail-setup-hook-code)
+(setq mail-mode-hook '(mail-mode-hook-code))
+(setq fundamental-mode-hook 'fundamental-mode-hook-code)
+(setq c-mode-hook  'c-mode-hook-code)
+(setq c++-mode-hook 'c++-mode-hook-code)
+(setq shell-mode-hook 'shell-mode-hook-code)
+(setq lisp-mode-hook   'lisp-mode-hook-code)
+(setq outline-mode-hook 'outline-mode-hook-code)
+(setq text-mode-hook   'text-mode-hook-code)
+(setq tex-mode-hook    'tex-mode-hook-code)
+(setq rmail-mode-hook 'rmail-mode-hook-code)
+(setq mh-folder-mode-hook 'mh-folder-mode-hook-code)
+(setq electric-buffer-menu-mode-hook 'electric-buffer-menu-mode-hook-code)
+(setq compile-command nil)
+
+;;; (insert "mode hooks...")
+
+;;; display time now
+
+(let ((temp (getenv "TERM")))
+  (cond ((not (equal temp "rvt102"))
+	 (display-time))
+	(t t)))
+
+;;; (insert "time display...")
+
+
+
+(defun yow-to (who) ""
+  (interactive "suser:")
+  (let ((str (yow nil nil)))
+    (princ str)
+    (start-process-no-pty "to" nil "/usr/local/send" who str)))
+
+(defun indent-with (start end with)
+  "Prefix all lines starting in the region with the string WITH.
+Called from a program, takes three arguments, START, END, and WITH."
+  (interactive "r\nsString to prevfix with:
+")
+  (save-excursion
+    (goto-char end)
+    (setq end (point-marker))
+    (goto-char start)
+    (or (bolp) (forward-line 1))
+    (while (< (point) end)
+      (let ((indent (current-indentation)))
+	(delete-region (point) (progn (skip-chars-forward " \t") (point)))
+	(or (eolp)
+	    (insert with)))
+      (forward-line 1))
+    (move-marker end nil)))
+
+
+(defvar reply-leader-string ">"
+  "string leading each line for my-mail-yank-original")
+
+(defun my-mail-yank-original ()
+  "Insert the message being replied to, if any (in rmail).
+Puts point before the text and mark after.
+Indents each nonblank line ARG spaces (default 3).
+Just \\[universal-argument] as argument means don't indent
+and don't delete any header fields."
+  (interactive)
+  (if mail-reply-buffer
+      (let ((start (point)))	
+	(delete-windows-on mail-reply-buffer)
+	(insert-buffer mail-reply-buffer)
+	(mail-yank-clear-headers start (mark))
+	(indent-with start (mark)
+		      reply-leader-string)  
+	(exchange-point-and-mark)
+	(if (not (eolp)) (insert ?\n)))))
+
+;;; (insert "rmail functions...")
+
+
+(defun next-card ()
+  "take us to the next index card"
+  (interactive)
+  (widen)
+  (if (not (search-forward "\^l" (point-max) t))
+      (progn
+	(goto-char (point-max))
+	(next-line 2)
+	(beginning-of-line)
+	(insert "\^j\^l\^j\^j\^l")
+	(forward-char -2)
+	(narrow-to-page))
+    ; else
+    (narrow-to-page 2)))
+  
+(defun previous-card ()
+  "go back a card"
+  (interactive)
+  (widen)
+  (if (search-backward "\^l" (point-min) t 2)
+      (progn
+	(forward-char 1)
+	(narrow-to-page))
+    ; else
+    (narrow-to-page)))
+
+(defun wid-mode ()
+  "Mode for my wid-lists"
+  (interactive)
+  (text-mode)
+  (setq major-mode 'wid-mode
+	mode-name "What I Did")
+  (put major-mode 'screen-name 'WID))
+
+(defun card-mode ()
+  "mode for editing electronic index cards (very primitive)"
+  (interactive)
+  (text-mode)
+  (local-set-key "\t" 'indent-relative)	;what the hell
+;  (local-set-key "\C-c\C-n" 'next-card)	;take us forward
+;  (local-set-key "\C-c\C-p" 'previous-card) ;take us back
+  (setq comment-start "# "
+	comment-start-skip "# *"
+	comment-begin "#"
+	comment-end ""
+	comment-column 56
+	mode-name "Index Card"
+	major-mode "Card"))
+					;  (narrow-to-page))
+
+
+;;; fix xterms - they often have ` and esc swapped, and <- is ususally ^h
+;(if (equal (getenv "TERM") "xterm")
+;    (if (load "x-mouse" t t)
+;	(progn
+;	  (define-key mouse-map x-button-left 'x-mouse-set-mark)
+;	  (define-key mouse-map x-button-middle 'x-mouse-set-point)
+;	  (define-key mouse-map x-button-right 'x-mouse-select)
+;	  (define-key mouse-map x-button-s-left 'x-cut-and-wipe-text)
+;	  (define-key mouse-map x-button-s-middle 'x-cut-text)
+;         (define-key mouse-map x-button-s-right 'x-paste-text)
+;	  (define-key mouse-map x-button-m-left 'x-mouse-select-and-split)
+;	  (define-key mouse-map x-button-m-middle 'x-help)
+;	  (define-key mouse-map x-button-m-right 'x-buffer-menu)
+;	  (let ((the-table (make-string 128 0)))
+;	    (let ((i 0))
+;	      (while (< i 128)
+;		(aset the-table i i)
+;		(setq i (1+ i))))
+;	    ;; Swap ^H and DEL
+;	    ;; comment this out because our .xkeymap takes care of it...
+;	    (aset the-table ?\177 ?\^h)
+;	    (aset the-table ?\^h ?\177)
+;	    (aset the-table ?\` ?\033)
+;	    (aset the-table ?\033 ?\`)
+;	    (setq keyboard-translate-table the-table)))))
+
+;;; (insert "xterm stuff...")
+;;; (insert "\n")
+;;; A funky message for startup.
+;;; just testing
+
+(message
+"			I still say it's Rabbit Season!")
+
+(setq gnus-nntp-service 119
+      gnus-nntp-server "sanews1"
+      gnus-local-domain "morgan.com"
+      gnus-local-organization "Morgan Stanley & Co., New York"
+      gnus-use-followup-to t
+      gnus-use-full-window nil
+      gnus-show-threads t
+      gnus-thread-hide-subject t
+      gnus-thread-hide-killed t
+      gnus-subscribe-newsgroup-method 'gnus-subscribe-hierarchically)
+
+(setq gnus-Startup-hook
+      '(lambda ()
+	 (setq gnus-your-organization
+	       "Morgan Stanley & Co, New York"
+	       gnus-interactive-post t
+	       gnus-novice-user nil
+	       gnus-signature-file nil
+	       gnus-save-all-headers t
+	       gnus-default-article-saver 'gnus-Subject-save-in-file
+	       gnus-use-cross-reference t
+	       gnus-large-newsgroup 150
+	       gnus-file-save-name 'gnus-Subject-save-name
+	       gnus-window-configuration
+	       '((SelectNewsgroup (0 1 0))
+		 (ExitNewsgroup (1 0 0))
+		 (SelectArticle (0 5 10))
+		 (ExpandSubject (0 1 0)))
+	       gnus-use-long-file-name t)))
+      
+(defun my-gnus ()
+  "Load nnspool first, then run gnus"
+  (interactive)
+  (load-library "nnspool")
+  (gnus))
+
+(defun unboldface-buffer ()
+  "Remove all boldfacing (overstruck characters) in the region.
+Called from program, takes two arguments START and END
+which specify the range to operate on."
+  (interactive)
+  (save-excursion
+    (replace-regexp "\\(.\\)\\1\\1" "\\1")))
+
+(autoload 'gnus "gnus" "Read network news." t)
+(autoload 'gnus-post-news "gnuspost" "Post a news article." t)
+ 
+(defun spaces-to-hyphens (subject)
+  "Convert all spaces in a subject to hyphens"
+  (let ((subject (substring subject 0)) ;Copy string.
+	(len (length subject))
+	(idx 0))
+    ;; Replace all occurence of ` ' with `-'.
+    (while (< idx len)
+      (if (= (aref subject idx) ?  )
+	  (aset subject idx ?-))
+      (setq idx (1+ idx)))
+    subject))
+
+
+(defun gnus-Subject-save-name (newsgroup headers &optional last-save)
+  "Generate an article name that (a) fully expands directory path of 
+the article and (b) generates a prospective article name based on the subject"
+  (concat "~/News/"
+	  (gnus-newsgroup-directory-form newsgroup)
+	  "/"
+	  (spaces-to-hyphens (gnus-simplify-subject
+			      (gnus-header-subject headers)))))
+
+(setq url-proxy-services
+      '(("http" . "http://sas2:80/")
+	("ftp" .  "http://sas2:80/")
+	("gopher" .  "http://sas2:80/")
+	("wais" .  "http://sas2:80/")))

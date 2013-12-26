@@ -1,0 +1,9 @@
+# The following lines were added by compinstall
+
+zstyle ':completion:*' max-errors 3 not-numeric
+zstyle ':completion:*' prompt 'autocorrect'
+zstyle :compinstall filename '/home/ben/.zshnew'
+
+autoload -U compinit
+compinit
+# End of lines added by compinstall

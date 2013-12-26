@@ -1,0 +1,31 @@
+backward-upcase-word() {
+	x=${NUMERIC:-1}
+	zle set-mark-command
+	zle backward-word
+	zle up-case-word -n $x
+	zle exchange-point-and-mark
+}
+
+backward-downcase-word() {
+	x=${NUMERIC:-1}
+	zle set-mark-command
+	zle backward-word
+	zle down-case-word -n $x
+	zle exchange-point-and-mark
+}
+
+backward-capitalize-word() {
+	x=${NUMERIC:-1}
+	zle set-mark-command
+	zle backward-word
+	zle capitalize-word -n $x
+	zle exchange-point-and-mark
+}
+
+zle -N backward-upcase-word 
+zle -N backward-downcase-word 
+zle -N backward-capitalize-word
+
+bindkey '^[u' backward-upcase-word
+bindkey '^[l' backward-downcase-word
+bindkey '^[c' backward-capitalize-word

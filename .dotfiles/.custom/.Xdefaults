@@ -1,0 +1,572 @@
+! $XConsortium: XTerm.ad,v 1.32 94/02/09 18:19:21 converse Exp $
+XTerm.JoinSession:False
+*SimpleMenu*BackingStore: NotUseful
+*SimpleMenu*menuLabel.font: -adobe-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-*
+*SimpleMenu*menuLabel.vertSpace: 	100
+*SimpleMenu*HorizontalMargins: 16
+*SimpleMenu*Sme.height:	16
+
+*SimpleMenu*Cursor: left_ptr
+*mainMenu.Label:  Main Options
+*mainMenu*securekbd*Label:  Secure Keyboard
+*mainMenu*allowsends*Label:  Allow SendEvents
+*mainMenu*logging*Label:  Log to File
+*mainMenu*redraw*Label:  Redraw Window
+*mainMenu*suspend*Label:  Send STOP Signal
+*mainMenu*continue*Label:  Send CONT Signal
+*mainMenu*interrupt*Label:  Send INT Signal
+*mainMenu*hangup*Label:  Send HUP Signal
+*mainMenu*terminate*Label:  Send TERM Signal
+*mainMenu*kill*Label:  Send KILL Signal
+*mainMenu*quit*Label:  Quit
+
+*vtMenu.Label:  VT Options
+*vtMenu*scrollbar*Label:  Enable Scrollbar
+*vtMenu*jumpscroll*Label:  Enable Jump Scroll
+*vtMenu*reversevideo*Label:  Enable Reverse Video
+*vtMenu*autowrap*Label:  Enable Auto Wraparound
+*vtMenu*reversewrap*Label:  Enable Reverse Wraparound
+*vtMenu*autolinefeed*Label:  Enable Auto Linefeed
+*vtMenu*appcursor*Label:  Enable Application Cursor Keys
+*vtMenu*appkeypad*Label:  Enable Application Keypad
+*vtMenu*scrollkey*Label:  Scroll to Bottom on Key Press
+*vtMenu*scrollttyoutput*Label:  Scroll to Bottom on Tty Output
+*vtMenu*allow132*Label: Allow 80/132 Column Switching
+*vtMenu*cursesemul*Label:  Enable Curses Emulation
+*vtMenu*visualbell*Label:  Enable Visual Bell
+*vtMenu*marginbell*Label:  Enable Margin Bell
+*vtMenu*altscreen*Label:  Show Alternate Screen
+*vtMenu*softreset*Label:  Do Soft Reset
+*vtMenu*hardreset*Label:  Do Full Reset
+*vtMenu*clearsavedlines*Label:  Reset and Clear Saved Lines
+*vtMenu*tekshow*Label:  Show Tek Window
+*vtMenu*tekmode*Label:  Switch to Tek Mode
+*vtMenu*vthide*Label:  Hide VT Window
+
+*fontMenu.Label:  VT Fonts
+*fontMenu*fontdefault*Label:	Default
+*fontMenu*font1*Label:	Unreadable
+*VT100*font1:		nil2
+*fontMenu*font2*Label:	Tiny
+*VT100*font2:		5x7
+*fontMenu*font3*Label:	Small
+*VT100*font3:		6x10
+*fontMenu*font4*Label:	Medium
+*VT100*font4:		7x13
+*fontMenu*font5*Label:	Large
+*VT100*font5:		9x15
+*fontMenu*font6*Label:	Huge
+*VT100*font6:		10x20
+*fontMenu*fontescape*Label:	Escape Sequence
+*fontMenu*fontsel*Label:		Selection
+!fontescape and fontsel overridden by application
+
+*tekMenu.Label:  Tek Options
+*tekMenu*tektextlarge*Label:  Large Characters
+*tekMenu*tektext2*Label:  #2 Size Characters
+*tekMenu*tektext3*Label:  #3 Size Characters
+*tekMenu*tektextsmall*Label:  Small Characters
+*tekMenu*tekpage*Label:  PAGE
+*tekMenu*tekreset*Label:  RESET
+*tekMenu*tekcopy*Label:  COPY
+*tekMenu*vtshow*Label:  Show VT Window
+*tekMenu*vtmode*Label:  Switch to VT Mode
+*tekMenu*tekhide*Label:  Hide Tek Window
+
+*tek4014*fontLarge: 9x15
+*tek4014*font2: 8x13
+*tek4014*font3: 6x13
+*tek4014*fontSmall: 6x10
+
+XTerm.VT100.Translations:	#override \
+        @Num_Lock<Key>KP_0: string(0)\n\
+        @Num_Lock<Key>KP_1: string(1)\n\
+        @Num_Lock<Key>KP_2: string(2)\n\
+        @Num_Lock<Key>KP_3: string(3)\n\
+        @Num_Lock<Key>KP_4: string(4)\n\
+        @Num_Lock<Key>KP_5: string(5)\n\
+        @Num_Lock<Key>KP_6: string(6)\n\
+        @Num_Lock<Key>KP_7: string(7)\n\
+        @Num_Lock<Key>KP_8: string(8)\n\
+        @Num_Lock<Key>KP_9: string(9)\n\
+        @Num_Lock<Key>KP_Add: string(+)\n\
+        @Num_Lock<Key>KP_Decimal: string(.)\n\
+        @Num_Lock<Key>KP_Divide: string(/)\n\
+        @Num_Lock<Key>KP_Enter: string(\015)\n\
+        @Num_Lock<Key>KP_Equal: string(=)\n\
+        @Num_Lock<Key>KP_Multiply: string(*)\n\
+        @Num_Lock<Key>KP_Subtract: string(-)\n\
+	<Key>KP_Add: string(+)\n\
+        <Key>KP_Divide: string(/)\n\
+        <Key>KP_Enter: string(\015)\n\
+        <Key>KP_Equal: string(=)\n\
+        <Key>KP_Multiply: string(*)\n\
+        <Key>KP_Subtract: string(-)\n\
+        <Key>Prior:scroll-back(1,page)\n\
+        <Key>Next:scroll-forw(1,page)\n\
+	<Key>F16: start-extend() select-end(PRIMARY, CUT_BUFFER0, CLIPBOARD) \n\
+	<Key>F18: insert-selection(PRIMARY, CLIPBOARD) \n\
+	<Key>F27: scroll-back(100,page) \n\
+	<Key>R13: scroll-forw(100,page) \n\
+	<Key>Home: scroll-back(100,page) \n\
+	<Key>End: scroll-forw(100,page) \n
+XTerm*tek4014.Translations:     #override       \
+        @Num_Lock<Key>KP_0: string(0)\n\
+        @Num_Lock<Key>KP_1: string(1)\n\
+        @Num_Lock<Key>KP_2: string(2)\n\
+        @Num_Lock<Key>KP_3: string(3)\n\
+        @Num_Lock<Key>KP_4: string(4)\n\
+        @Num_Lock<Key>KP_5: string(5)\n\
+        @Num_Lock<Key>KP_6: string(6)\n\
+        @Num_Lock<Key>KP_7: string(7)\n\
+        @Num_Lock<Key>KP_8: string(8)\n\
+        @Num_Lock<Key>KP_9: string(9)\n\
+        @Num_Lock<Key>KP_Add: string(+)\n\
+        @Num_Lock<Key>KP_Decimal: string(.)\n\
+        @Num_Lock<Key>KP_Divide: string(/)\n\
+        @Num_Lock<Key>KP_Enter: string(\015)\n\
+        @Num_Lock<Key>KP_Equal: string(=)\n\
+        @Num_Lock<Key>KP_Multiply: string(*)\n\
+        @Num_Lock<Key>KP_Subtract: string(-)\n\
+	<Key>KP_Add: string(+)\n\
+        <Key>KP_Divide: string(/)\n\
+        <Key>KP_Enter: string(\015)\n\
+        <Key>KP_Equal: string(=)\n\
+        <Key>KP_Multiply: string(*)\n\
+        <Key>KP_Subtract: string(-)\n\
+*SaveLines: 2000
+*saveLines: 2000
+cs*vt100*geometry:	80x48+70+60
+cs*scrollBar:	on
+cs*utmpInhibit:	true
+Scrollbar.JumpCursor:	True
+daffy*font:	*courier-medium-r-normal-*-12-*
+daffy*geometry:	80x62
+watsun*vt100*geometry:	80x48+50+50
+watsun*IconPixmap:	fkermit.xbm
+watsun*scrollBar:	on
+watsun*utmpInhibit:	true
+OpenWindows.WindowColor:	#d5b7e5
+OpenWindows.IconLocation:	right-tb
+OpenWindows.MultiClickTimeout:	4
+OpenWindows.ScrollbarPlacement:	right
+OpenWindows.NoDecor:	clock
+OpenWindows.WorkspaceColor:	#2d5be5
+OpenWindows.DragRightDistance:	100
+OpenWindows.SetInput:	followmouse
+OpenWindows.PopupJumpCursor:	True
+OpenWindows.MinimalDecor:	clock calctool oclock xclock
+OpenWindows.Beep:	always
+OpenWindows.SelectDisplaysMenu:	False
+news*vt100*geometry:	80x48+90+145
+news*foreground:	white
+news*scrollBar:	on
+news*background:	black
+news*utmpInhibit:	true
+news*title:	Apakabar (News)
+news*IconPixmap:	news.xbm
+*PostItNote*IconPixmap:	globe.xbm
+cucca*vt100*geometry:	80x48+80+80
+XLock.hop.batchcount:	1000
+XLock.hop.delay:	0
+XLock.hop.saturation:	1
+XLock.rotor.batchcount:	4
+XLock.rotor.delay:	10000
+XLock.rotor.saturation:	0.4
+XLock.flame.batchcount:	20
+XLock.flame.delay:	10000
+XLock.flame.saturation:	1
+XLock.life.batchcount:	100
+XLock.life.delay:	1000000
+XLock.life.saturation:	1
+XLock.pyro.batchcount:	40
+XLock.pyro.delay:	15000
+XLock.pyro.saturation:	1
+XLock.worm.batchcount:	20
+XLock.worm.delay:	10000
+XLock.worm.saturation:	1
+XLock.qix.batchcount:	64
+XLock.qix.delay:	30000
+XLock.qix.saturation:	1
+XLock.swarm.batchcount:	100
+XLock.swarm.delay:	10000
+XLock.swarm.saturation:	1
+XLock.image.batchcount:	8
+XLock.image.delay:	2000000
+XLock.image.saturation:	0.3
+XLock.blank.batchcount:	1
+XLock.blank.delay:	5000000
+XLock.blank.saturation:	1
+XLock.nolock:	off
+XLock.background:	White
+XLock.verbose:	off
+XLock.enablesaver:	off
+XLock.mode:	life
+XLock.remote:	off
+XLock.allowaccess:	off
+XLock.info:	Enter password to unlock; select icon to lock.
+XLock.username:	Name: 
+XLock.mono:	off
+XLock.password:	Password: 
+XLock.timeout:	30
+XLock.allowroot:	off
+XLock.nice:	10
+XLock.validate:	Validating login...
+XLock.font:	-b&h-lucida-medium-r-normal-sans-24-*-*-*-*-*-iso8859-1
+XLock.echokeys:	off
+XLock.foreground:	Black
+XLock.usefirst:	off
+XLock.invalid:	Invalid login.
+columbia*vt100*geometry:	80x48+70+70
+! Emacs.message-header-contents.attributeBackground: white
+! Emacs.message-headers.attributeBackground: DodgerBlue
+! Emacs.message-highlighted-header-contents.attributeBackground: tomato
+!Emacs*default.attributeFont: *courier-medium-r-normal-*-14-*
+!Emacs*geometry: 80x55
+!Emacs.geometry:80x55
+!Emacs*cursorColor: ForestGreen
+Emacs*cursorColor: Yellow
+Emacs*interline: 0
+Emacs.WID.default.attributeFont: *lucidatypewriter-medium-r-normal-sans-12-*
+Emacs.WID.geometry: 80x35+0-0
+Emacs.WID.modeline.attributeFont: *helvetica-bold-o-normal*-14-*
+Emacs.bold-italic.attributeBackground: lightseagreen
+Emacs.bold-italic.attributeForeground: white
+Emacs.default.attributeBackground: Black
+Emacs.default.attributeFont: *lucidatypewriter-medium-r-normal-sans-12-*
+Emacs.default.attributeForeground: White
+Emacs.font-lock-comment-face.attributeForeground: green
+Emacs.font-lock-doc-string-face.attributeBackground: gray
+Emacs.font-lock-doc-string-face.attributeForeground: firebrick
+Emacs.font-lock-function-name-face.attributeForeground: gold
+Emacs.font-lock-keyword-face.attributeForeground: magenta
+Emacs.font-lock-string-face.attributeBackground: white
+Emacs.font-lock-string-face.attributeForeground: blue
+Emacs.font-lock-string-face.attributeUnderline: true
+Emacs.font-lock-type-face.attributeForeground: Coral1
+Emacs.font-lock-variable-name-face.attributeForeground: skyblue
+Emacs.font-lock-variable-name-face.attributeBackground: black
+Emacs.highlight.attributeBackground: blue
+Emacs.highlight.attributeForeground: yellow
+Emacs.hyperlink.attributeBackground: gray
+Emacs.isearch.attributeBackground: magenta
+Emacs.italic.attributeBackground: tomato
+Emacs.left-margin.attributeBackground: Plum1
+Emacs.left-margin.attributeForeground: Black
+Emacs.message-cited-text.attributeForeground: magenta
+Emacs.message-cited-text.attributeBackground: black
+Emacs.message-header-contents.attributeForeground: skyblue
+Emacs.message-header-contents.attributeBackground: black
+Emacs.message-headers.attributeForeground: yellow
+Emacs.message-headers.attributeBackground: black
+Emacs.message-highlighted-header-contents.attributeForeground: green
+Emacs.message-highlighted-header-contents.attributeBackground: black
+Emacs.modeline.attributeFont: *lucidatypewriter-bold-r-normal-sans-12-*
+Emacs.modeline.attributeBackground: firebrick
+Emacs.modeline.attributeForeground: yellow
+Emacs.modeline-buffer-id.attributeForeground: blue
+Emacs.modeline-mousable-minor-mode.attributeForeground: blue
+Emacs.primary-selection.attributeBackground: white
+Emacs.primary-selection.attributeForeground: black
+Emacs.right-margin.attributeBackground: thistle1
+Emacs.right-margin.attributeForeground: black
+Emacs.secondary-selection.attributeBackground: firebrick
+Emacs.secondary-selection.attributeForeground: black
+emacs*font:	*courier-medium-r-normal-*-12-*
+
+!Emacs*modeline.attributeFont: *helvetica-bold-r-normal*-12-*
+!Emacs*EmacsScreen.geometry:80x64-0+0
+olvwm.ResizeMoveGeometry:	center
+olvwm.ShowMoveGeometry:	true
+olvwm.ShowResizeGeometry:	true
+olvwm.MinimalDecor:	clock calctool oclock xclock
+olvwm.VirtualGeometry:	-0+0
+olvwm.SelectDisplaysMenu:	true
+olvwm.Use3DResize:	true
+xprompt.replyLength:	20
+xprompt*font:	*new century schoolbook*-r-*--20*
+*biff.update:	10
+*biff.volume:	66
+jolt*vt100*geometry:	80x48+90+90
+!xterm*vt100*font: 	*courier-medium-r-normal-*-12-*
+!xterm*VT100*Font:	*courier-medium-r-normal-*-12-*
+xterm*vt100*font:	-b&h-lucidatypewriter-medium-r-normal-sans-12-120-75-75-m-70-iso8859-1
+xterm*VT100*Font:	-b&h-lucidatypewriter-medium-r-normal-sans-12-120-75-75-m-70-iso8859-1
+xterm*vt100*background:	black
+xterm*vt100*foreground: green
+mm*vt100*geometry:	80x48-0+0
+mm*IconPixmap:	mailbox
+xclock*wm_option.title:	off
+rn*vt100*font:	*-courier-medium-r-normal--18*
+rn*vt100*geometry:	80x48-0+0
+rn*IconPixmap:	calvin.xbm
+Xpostit*Plaid*Foreground:	Red
+Xpostit*Plaid*Background:	Yellow
+Xpostit*Text*Foreground:	Black
+Xpostit*Text*Background:	Yellow
+Xpostit*Foreground:	NavyBlue
+Xpostit*Background:	#ffdab9
+Fig.change.form.image.background:	blue
+Fig.change.form.image.foreground:	yellow
+Fig.change.form.apply.background:	yellow
+Fig.change.form.cancel.background:	red
+Fig.change.form.done.background:	green
+Fig.form.truler.background:	green
+Fig.form.font_menu.menu.pane.background:	white
+Fig.form.font_menu.menu.pane.foreground:	slate blue
+Fig.form.sruler.background:	yellow
+Fig.form.side_panel.button.background:	orchid
+Fig.form.side_panel.button.foreground:	black
+Fig.form.side_panel.background:	red
+Fig.form.popup_menu.menu.pane.background:	orange
+Fig.form.popup_menu.menu.pane.foreground:	black
+Fig.form.font_indicator.foreground:	slate blue
+Fig.form.bottom_panel.button.background:	sea green
+Fig.form.bottom_panel.button.foreground:	black
+Fig.form.bottom_panel.background:	yellow
+Fig.form.message.background:	pink
+*load*wm_option.title:	off
+xgone.Font:	*-charter-medium-r-normal-*-240-*
+olwm.ShowMoveGeometry:	true
+olwm.SelectDisplaysMenu:	true
+olwm.ShowResizeGeometry:	true
+olwm.Use3DResize:	true
+olwm.MinimalDecor:	clock calctool oclock xclock
+xterm*vt100*geometry:	80x48+70+60
+xterm*jumpScroll:	on
+xterm*scrollBar:	on
+xterm*utmpInhibit:	true
+*VT100*font4:	*courier-medium-r-normal-*-18-*
+banzai*vt100*geometry:	80x48+135+100
+banzai*iconPixmap:	small-banzai.xbm
+banzai*scrollBar:	on
+banzai*utmpInhibit:	true
+XTerm*IconPixmap:	xterm.bm
+xbiff++*sound:	/buckaroo/ben/sounds/wheee.au
+xbiff++*fullPixmap:	/buckaroo/ben/bitmaps/bartyes.xbm
+xbiff++*shapeWindow:	on
+xbiff++*fullPixmapMask:	/buckaroo/ben/bitmaps/bartyesMask.xbm
+xbiff++*showTitle:	off
+xbiff++*emptyPixmap:	/buckaroo/ben/bitmaps/bartno.xbm
+xbiff++*emptyPixmapMask:	/buckaroo/ben/bitmaps/bartnoMask.xbm
+xinfo.info*nodeText.autoFill:	True
+xinfo.info*nodeText.scrollVertical:	WhenNeeded
+xinfo.info*nodeText.wrap:	Word
+xinfo.info*iconPixmap:	xinfo.bm
+xinfo.info*font:	7x13
+*clock.background:	dark olive green
+*clock.foreground:	khaki
+*clock.update:	1
+*clock.highlight:	red
+*clock.chime:	true
+*clock.analog:	true
+*inputLang:	C
+*numeric:	C
+*timeFormat:	C
+*scrollBar:	on
+*bitmapFilePath:	/w/sy/ben/lib/bitmaps/xbm:/w/sy/ben/lib/bitmaps/icon:/w/sy/ben/lib/bitmaps/bm:/usr/local/X11/include/bitmaps:/usr/openwin/include/X11/bitmaps:/usr/include/X11/bitmaps
+*basicLocale:	C
+*utmpInhibit:	true
+*displayLang:	C
+*XlwMenu*font: -adobe-new century schoolbook-bold-r-normal--12-*
+*XlwMenu*foreground: NavyBlue
+*XlwMenu*background: Wheat
+Emacs*XmMenuBar*Font:  -adobe-new century schoolbook-bold-r-normal--12-*
+lemacs*menubar*font:   -adobe-new century schoolbook-bold-r-normal--12-*
+lemacs*dialog*font:    -adobe-new century schoolbook-bold-r-normal--20-*
+Emacs*XmDialogShell*FontList: -adobe-new century schoolbook-bold-r-normal--20-*
+Emacs*XmTextField*FontList:  -adobe-new century schoolbook-bold-r-normal--12-*
+Emacs*XmText*FontList:   -adobe-new century schoolbook-bold-r-normal--12-*
+Emacs*XmList*FontList:   -adobe-new century schoolbook-bold-r-normal--12-*
+Emacs*menubar*Font:    -adobe-new century schoolbook-bold-r-normal--12-*
+Emacs*popup*Font:    -adobe-new century schoolbook-bold-r-normal--12-*
+Emacs*dialog*button1.accelerators:#override\
+<KeyPress>Return: ArmAndActivate()\n\
+<KeyPress>KP_Enter: ArmAndActivate()\n\
+Ctrl<KeyPress>m: ArmAndActivate()\n
+Emacs*XmTextField.translations: #override\n\
+	!<Key>osfBackSpace:	delete-previous-character()\n\
+	!<Key>osfDelete:	delete-previous-character()\n\
+	!Ctrl<Key>h: 		delete-previous-character()\n\
+	!Ctrl<Key>d: 		delete-next-character()\n\
+	!Meta<Key>osfDelete:	delete-previous-word()\n\
+	!Meta<Key>osfBackSpace:	delete-previous-word()\n\
+	!Meta<Key>d:		delete-next-word()\n\
+	!Ctrl<Key>k:		delete-to-end-of-line()\n\
+	!Ctrl<Key>g:		process-cancel()\n\
+	!Ctrl<Key>b:		backward-character()\n\
+	!<Key>osfLeft:		backward-character()\n\
+	!Ctrl<Key>f:		forward-character()\n\
+	!<Key>osfRight:		forward-character()\n\
+	!Meta<Key>b:		backward-word()\n\
+	!Meta<Key>osfLeft:	backward-word()\n\
+	!Meta<Key>f:		forward-word()\n\
+	!Meta<Key>osfRight:	forward-word()\n\
+	!Ctrl<Key>e:		end-of-line()\n\
+	!Ctrl<Key>a:		beginning-of-line()\n\
+	!Ctrl<Key>w:		cut-clipboard()\n\
+	!Meta<Key>w:		copy-clipboard()\n\
+	<Btn2Up>:		copy-primary()\n
+
+Emacs*dialog*XmPushButton.translations:#override\n\
+    <Btn1Down>:         Arm()\n\
+    <Btn1Down>,<Btn1Up>: Activate()\
+			Disarm()\n\
+    <Btn1Down>(2+):     MultiArm()\n\
+    <Btn1Up>(2+):       MultiActivate()\n\
+    <Btn1Up>:           Activate()\
+		        Disarm()\n\
+    <Key>osfSelect:  	ArmAndActivate()\n\
+    <Key>osfActivate:   ArmAndActivate()\n\
+    <Key>osfHelp:	Help()\n\
+    ~Shift ~Meta ~Alt <Key>Return:	ArmAndActivate()\n\
+    <EnterWindow>:      Enter()\n\
+    <LeaveWindow>:      Leave()\n
+
+Mwm*keyboardFocusPolicy:	pointer
+Mwm*fontList:		-adobe-new century schoolbook-bold-r-normal--12-*
+!#b2b2b2
+Mwm*Background:			FireBrick
+Mwm*activeForeground:		NavyBlue
+Mwm*activeBackground:		Wheat
+Mwm*menu*Background:		Wheat
+Mwm*menu*Foreground:		NavyBlue
+Mwm*MatteBackground:		Lavender
+Mwm*useIconBox:			true
+Mwm*iconBoxGeometry:		3x1-0-0
+Mwm*iconbox*MatteWidth:		0
+!Mwm*iconbox*clientDecoration:	none
+Mwm*resizeBorderWidth:		5
+Mwm*frameBorderWidth:		3
+Mwm*iconbox*Background:		Brown4
+Mwm*xclock*Background:		Brown4
+Mwm*xterm*iconImageBackground:	DarkOliveGreen
+Mwm*emacs*iconImageBackground:  RoyalBlue
+
+Mwm*xclock*MatteWidth:		0
+Mwm*oclock*MatteWidth:		0
+Mwm*xneko*MatteWidth:		0
+Mwm*xload*MatteWidth:		0
+Mwm*xterm*MatteWidth:		0
+Mwm*xbiff*MatteWidth:		0
+Mwm*xrn*MatteWidth:		0
+swm*configuration:		mwm+
+swm*oclock*decoration: shaped
+swm*panel.shaped: panel client +0+0
+swm*panel.shaped*shape: True
+Mwm*showFeedback:		all
+Mwm*iconImageMaxium:		32x32
+*XmText.translations: #override\n\
+        Ctrl <Key>b:            backward-character()\n\
+        Alt <Key>b:             backward-word()\n\
+        Meta <Key>b:            backward-word()\n\
+        Shift Alt <Key>b:       backward-word(extend)\n\
+        Shift Meta <Key>b:      backward-word(extend)\n\
+        Alt <Key>[:             backward-paragraph()\n\
+        Meta <Key>[:            backward-paragraph()\n\
+        Shift Alt <Key>[:       backward-paragraph(extend)\n\
+        Shift Meta <Key>[:      backward-paragraph(extend)\n\
+        Alt <Key><:             beginning-of-file()\n\
+        Meta <Key><:            beginning-of-file()\n\
+        Ctrl <Key>a:            beginning-of-line()\n\
+        Shift Ctrl <Key>a:      beginning-of-line(extend)\n\
+        Ctrl <Key>osfInsert:    copy-clipboard()\n\
+        Shift <Key>osfDelete:   cut-clipboard()\n\
+        Shift <Key>osfInsert:   paste-clipboard()\n\
+        Alt <Key>>:             end-of-file()\n\
+        Meta <Key>>:            end-of-file()\n\
+        Ctrl <Key>e:            end-of-line()\n\
+        Shift Ctrl <Key>e:      end-of-line(extend)\n\
+        Ctrl <Key>f:            forward-character()\n\
+        Alt <Key>]:             forward-paragraph()\n\
+        Meta <Key>]:            forward-paragraph()\n\
+        Shift Alt <Key>]:       forward-paragraph(extend)\n\
+        Shift Meta <Key>]:      forward-paragraph(extend)\n\
+        Ctrl Alt <Key>f:        forward-word()\n\
+        Ctrl Meta <Key>f:       forward-word()\n\
+        Ctrl <Key>d:            kill-next-character()\n\
+        Alt <Key>BackSpace:     key-select() kill-selection()\n\
+        Meta <Key>BackSpace:    key-select() kill-selection()\n\
+        Ctrl <Key>w:            kill-previous-word()\n\
+        Ctrl <Key>y:            unkill()\n\
+        Ctrl <Key>k:            kill-to-end-of-line()\n\
+        Alt <Key>Delete:        kill-to-start-of-line()\n\
+        Meta <Key>Delete:       kill-to-start-of-line()\n\
+        Ctrl <Key>o:            newline-and-backup()\n\
+        Ctrl <Key>j:            newline-and-indent()\n\
+        Ctrl <Key>n:            next-line()\n\
+        Ctrl <Key>osfLeft:      page-left()\n\
+        Ctrl <Key>osfRight:     page-right()\n\
+        Ctrl <Key>p:            previous-line()\n\
+        Ctrl <Key>g:            process-cancel()\n\
+        Ctrl <Key>l:            redraw-display()\n\
+        Ctrl <Key>osfDown:      next-page()\n\
+        Ctrl <Key>osfUp:        previous-page()\n\
+        Ctrl <Key>space:        set-anchor()\n
+
+#ifndef COLOR
+Emacs*cursorColor: black
+*clock.background: white
+*clock.foreground: black
+*XlwMenu*foreground: black
+*XlwMenu*background: white
+Mwm*Background: black
+Mwm*Foreground: white
+Mwm*activeForeground:		black
+Mwm*activeBackground:		white
+Mwm*menu*Background:		black
+Mwm*menu*Foreground:		white
+Mwm*MatteBackground:		black
+Mwm*xclock*Background:		white
+Mwm*iconbox*background: black
+Mwm*iconbox*foreground: white
+Mwm**iconImageBackground: black
+Mwm**iconImageForeground: white
+Mwm*fontList:		-adobe-new century schoolbook-bold-r-normal--12-*
+*vt100*font: *lucidatypewriter-medium-r-normal-sans-10-*
+*VT100*Font: *lucidatypewriter-medium-r-normal-sans-10-*
+daffy*font:	*lucidatypewriter-medium-r-normal-sans-10-*
+daffy*geometry:			80x69+0+0
+#endif /* COLOR */
+
+Gdlock.hop.delay: 0
+Gdlock.qix.delay: 100
+Gdlock.image.delay: 100
+Gdlock.life.delay: 100
+Gdlock.swarm.delay: 100
+Gdlock.rotor.delay: 100
+Gdlock.pyro.delay: 100
+Gdlock.flame.delay: 100
+Gdlock.worm.delay: 100
+Gdlock.text.delay: 200
+Gdlock.blank.delay: 5000000
+Gdlock.spline.delay: 100
+Gdlock.message.delay: 100000
+
+Vuewwm*keyBindings:	BenKeyBindings
+Vuewwm*buttonBindings:	BenButtonBindings
+Vuewm*workspaceList:				Yi Er San Si Wu Liu
+Vuewm*One*title:				Yi
+Vuewm*Two*title:				Er
+Vuewm*Three*title:				San
+Vuewm*Four*title:				Si
+Vuewm*Five*title:				Wu
+Vuewm*Six*title:				Liu
+
+Vuestyle*NumFonts: 7
+
+Vuestyle*SystemFont1: -bitstream-*-bold-r-normal-*-8-*-*-*-*-*-*-*
+Vuestyle*SystemFont2: -bitstream-*-medium-r-normal-*-10-*-*-*-*-*-*-*
+Vuestyle*SystemFont3: -bitstream-*-medium-r-normal-*-12-*-*-*-*-*-*-*
+Vuestyle*SystemFont4: -bitstream-*-medium-r-normal-*-15-*-*-*-*-*-*-*
+Vuestyle*SystemFont5: -bitstream-*-medium-r-normal-*-19-*-*-*-*-*-*-*
+Vuestyle*SystemFont6: -bitstream-*-medium-r-normal-*-25-*-*-*-*-*-*-*
+Vuestyle*SystemFont7: -adobe-new century schoolbook-bold-r-normal--12-*
+
+Vuestyle*UserFont1: -adobe-courier-medium-r-normal-*-11-*-*-*-*-*-*-*
+Vuestyle*UserFont2: -adobe-courier-medium-r-normal-*-12-*-*-*-*-*-*-*
+Vuestyle*UserFont3: -adobe-courier-medium-r-normal-*-14-*-*-*-*-*-*-*
+Vuestyle*UserFont4: -adobe-courier-medium-r-normal-*-18-*-*-*-*-*-*-*
+Vuestyle*UserFont5: -adobe-courier-medium-r-normal-*-20-*-*-*-*-*-*-*
+Vuestyle*UserFont6: -adobe-courier-medium-r-normal-*-24-*-*-*-*-*-*-*
+Vuestyle*UserFont7: -adobe-courier-medium-r-normal-*-12-*-*-*-*-*-*-*
