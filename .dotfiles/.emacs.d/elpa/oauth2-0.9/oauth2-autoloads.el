@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "oauth2" "oauth2.el" (21091 16005 0 0))
+;;;### (autoloads nil "oauth2" "oauth2.el" (21085 57232 0 0))
 ;;; Generated autoloads from oauth2.el
 
 (autoload 'oauth2-refresh-access "oauth2" "\

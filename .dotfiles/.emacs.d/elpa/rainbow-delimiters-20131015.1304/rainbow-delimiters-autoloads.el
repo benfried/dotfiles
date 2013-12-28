@@ -4,7 +4,7 @@
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
 ;;;### (autoloads nil "rainbow-delimiters" "rainbow-delimiters.el"
-;;;;;;  (21106 63490 0 0))
+;;;;;;  (21111 2826 0 0))
 ;;; Generated autoloads from rainbow-delimiters.el
 
 (autoload 'rainbow-delimiters-mode "rainbow-delimiters" "\
@@ -42,11 +42,6 @@ Rainbow-Delimiters mode is enabled in all buffers where
 See `rainbow-delimiters-mode' for more information on Rainbow-Delimiters mode.
 
 \(fn &optional ARG)" t nil)
-
-;;;***
-
-;;;### (autoloads nil nil ("rainbow-delimiters-pkg.el") (21106 63490
-;;;;;;  119553 0))
 
 ;;;***
 

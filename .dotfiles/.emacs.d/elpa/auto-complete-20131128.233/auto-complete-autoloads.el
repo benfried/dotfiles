@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "auto-complete" "auto-complete.el" (21156 53772
+;;;### (autoloads nil "auto-complete" "auto-complete.el" (21182 13138
 ;;;;;;  0 0))
 ;;; Generated autoloads from auto-complete.el
 
@@ -15,7 +15,7 @@ Start auto-completion at current point.
 ;;;***
 
 ;;;### (autoloads nil nil ("auto-complete-config.el" "auto-complete-pkg.el")
-;;;;;;  (21156 53772 247298 0))
+;;;;;;  (21182 13138 125384 0))
 
 ;;;***
 
