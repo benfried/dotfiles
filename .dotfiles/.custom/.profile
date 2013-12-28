@@ -9,15 +9,18 @@ prepend PATH ~/bin:/sbin:/usr/sbin:/usr/X11R6/bin
 append PATH ~/android-sdk_38172_mac-x86/tools
 export GOROOT=~/go
 append PATH $GOROOT/bin
-export GOPATH=~/gocode/
+eval $(go env)
+append PATH $GOPATH/bin
 # module load dev
 set -a
-HISTSIZE=1000 HISTFILE=/tmp/.histfile.ben.${HOST}.$$
+HISTSIZE=1000 
+#HISTFILE=/tmp/.histfile.ben.${HOST}.$$
+HISTFILE=/tmp/.histfile.ben.${HOST}
 FCEDIT='/usr/ucb/vi'
 EXINIT='set aw ic sm sw=4'
 #LESS='-Mir'
-LESS='-Mir'
-MORE='-Mir'
+LESS='-MiR'
+MORE='-MiR'
 MAILPATH='/var/mail/bf?[You Have Mail]'
 MAILCHECK=60
 WHO=`who am i`
