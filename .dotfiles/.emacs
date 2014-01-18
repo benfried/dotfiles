@@ -731,6 +731,8 @@ which specify the range to operate on."
       org-archive-location "~/Google Drive/notes/notes-archive.org::"
       org-export-headline-levels 0	; no headlines, just export as lists
       org-export-with-toc nil		; no table of contents please.
+      org-export-with-section-numbers nil
+      org-ascii-headline-spacing nil
       org-default-notes-file (concat org-directory "notes.org"))
 (define-key global-map "\C-c\C-\\" 'org-remember)
 
