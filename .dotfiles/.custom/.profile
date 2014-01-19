@@ -9,11 +9,11 @@ prepend PATH ~/bin:/sbin:/usr/sbin:/usr/X11R6/bin
 append PATH ~/android-sdk_38172_mac-x86/tools
 export GOROOT=~/go
 append PATH $GOROOT/bin
-eval $(go env)
+eval $(go env | grep -v TERM)
 append PATH $GOPATH/bin
 # module load dev
 set -a
-HISTSIZE=1000 
+HISTSIZE=1000
 #HISTFILE=/tmp/.histfile.ben.${HOST}.$$
 HISTFILE=/tmp/.histfile.ben.${HOST}
 FCEDIT='/usr/ucb/vi'
