@@ -2,72 +2,138 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Wed Dec 18 20:30:44 2013
+;; Created Mon Jan 27 13:12:08 2014
 ;; Desktop file format version 206
 ;; Emacs version 24.3.50.1
 
 ;; Global section:
-(setq desktop-saved-frameset [frameset 1 (21170 19524 592764 0) (desktop . "206") "bf@eyeball.local" nil nil ((((font-backend ns) (fontsize . 0) (font . "-apple-Inconsolata-medium-normal-normal-*-18-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 9) (right-fringe . 9) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen . fullboth) (horizontal-scroll-bars . t) (display-type . color) (background-mode . dark) (cursor-color . "yellow") (environment) (frameset--id . "9FA7-7179-5F35-ECAC") (frameset--mini t . t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (display . "eyeball.local") (explicit-name) (tool-bar-position . top) (mouse-color . "#839496") (right-divider-width . 0) (bottom-divider-width . 0) (visibility . t) (height . 84) (width . 280) (left . 0) (top . 0)) ((min-height . 4) (min-width . 6) (min-height-ignore . 4) (min-width-ignore . 6) (min-height-safe . 2) (min-width-safe . 2) (min-pixel-height . 76) (min-pixel-width . 51) (min-pixel-height-ignore . 76) (min-pixel-width-ignore . 51) (min-pixel-height-safe . 38) (min-pixel-width-safe . 18)) vc (pixel-width . 2556) (pixel-height . 1577) (total-width . 284) (total-height . 83) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 2556) (pixel-height . 779) (total-width . 284) (total-height . 41) (normal-height . 0.5) (normal-width . 1.0) (buffer "growl" (selected . t) (hscroll . 0) (fringes 9 9 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 222) (start . 1))) (leaf (last . t) (pixel-width . 2556) (pixel-height . 798) (total-width . 284) (total-height . 42) (normal-height . 0.5) (normal-width . 1.0) (buffer "notes.org" (selected) (hscroll . 0) (fringes 9 9 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 4129) (start . 1)))))])
+(setq desktop-saved-frameset [frameset 1 (21222 41336 931662 0) (desktop . "206") "bf@macula.roam.corp.google.com" nil nil ((((font-backend mac-ct ns) (fontsize . 0) (font . "-*-Inconsolata-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen . fullboth) (display . "macula.roam.corp.google.com") (display-type . color) (background-mode . dark) (cursor-color . "yellow") (mouse-color . "#839496") (visibility . t) (frameset--id . "5CE5-EBBE-B549-F4D9") (frameset--mini t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (right-divider-width . 0) (bottom-divider-width . 0) (maximized . maximized) (height . 70) (width . 235) (left . 0) (top . 0)) ((min-height . 2) (min-width . 6) (min-height-ignore . 2) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 36) (min-pixel-width . 47) (min-pixel-height-ignore . 36) (min-pixel-width-ignore . 47) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 1911) (pixel-height . 1173) (total-width . 238) (total-height . 69) (normal-height . 1.0) (normal-width . 1.0) (buffer "notes.org" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 48989) (start . 1))) (((font-backend ns) (fontsize . 16) (font . "-apple-Inconsolata-medium-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen) (display . "macula.roam.corp.google.com") (display-type . color) (background-mode . dark) (cursor-color . "yellow") (mouse-color . "#839496") (visibility . t) (frameset--id . "FA3B-FA21-BF8C-1196") (frameset--mini t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (user-size . t) (right-divider-width . 0) (bottom-divider-width . 0) (height . 61) (width . 170) (left . 428) (top . 22)) ((min-height . 2) (min-width . 6) (min-height-ignore . 2) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 34) (min-pixel-width . 47) (min-pixel-height-ignore . 34) (min-pixel-width-ignore . 47) (min-pixel-height-safe . 16) (min-pixel-width-safe . 16)) leaf (pixel-width . 1391) (pixel-height . 960) (total-width . 174) (total-height . 60) (normal-height . 1.0) (normal-width . 1.0) (buffer "sql.go" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 17873) (start . 17427))) (((font-backend ns) (fontsize . 0) (font . "-apple-Inconsolata-medium-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen) (horizontal-scroll-bars . t) (display-type . color) (background-mode . dark) (cursor-color . "yellow") (environment) (mouse-color . "#839496") (display . "macula.roam.corp.google.com") (frameset--id . "E376-6CFE-8E1D-6DE6") (frameset--mini t . t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (visibility . t) (right-divider-width . 0) (bottom-divider-width . 0) (height . 64) (width . 126) (left . 0) (top . 22)) ((min-height . 2) (min-width . 6) (min-height-ignore . 2) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 34) (min-pixel-width . 47) (min-pixel-height-ignore . 34) (min-pixel-width-ignore . 47) (min-pixel-height-safe . 16) (min-pixel-width-safe . 16)) leaf (pixel-width . 1039) (pixel-height . 1008) (total-width . 129) (total-height . 63) (normal-height . 1.0) (normal-width . 1.0) (buffer "nextstep" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 221) (start . 1))))])
 (setq desktop-missing-file-warning nil)
 (setq tags-file-name nil)
 (setq tags-table-list nil)
-(setq search-ring '("smartparens" "solarized-theme" "smartpar" "smart-paren" "paredit" "rainbow" "slime-" "failure" "resign" "$csi" "sign" "--sign" "sign" "valid" "failure" "sign"))
+(setq search-ring '("pa" "paren" "matching" "paren" "-xlink" "-xlinker" "lin" "-xl" "electric-pair" "-Xlinker" "-Rq" "goroot" "magit" "gara" "edit-server" "smart"))
 (setq regexp-search-ring nil)
-(setq register-alist (list (list 82 "Unprintable entity" (let ((mk (make-marker))) (add-hook 'desktop-delay-hook `(lambda nil (set-marker ,mk ,nil (get-buffer ," *temp*")))) mk))))
-(setq file-name-history '("/Users/bf/.tmux.conf" "~/Google Drive/.emacs.macula" "~/.emacs" "~/src/growl/scripts/validate-code-signatures.rb" "~/src/growl/scripts/resign-binaries.rb" "/Users/bf/src/growl/Release/rakefile" "~/src/growl/Plugins/Actions/SoundAction/SoundAction.xcodeproj/project.pbxproj" "~/src/growl/Plugins/Actions/Prowl/Prowl.xcodeproj/project.pbxproj" "~/src/growl/Plugins/Actions/MailMe/MailMe.xcodeproj/project.pbxproj" "~/src/growl/Plugins/Actions/Boxcar/Boxcar.xcodeproj/project.pbxproj" "~/src/growl/Extras/GrowlTunes/GrowlTunes.xcodeproj/project.pbxproj" "~/src/growl" "~/src/growl/Growl.xcodeproj/" "/opt/local/etc/rsyncd.secrets" "/opt/local/etc/rsyncd.conf.example" "~/foo.url" "~/Google Drive/notes/notes.org" "/Users/bf/src/emacs/src/Makefile" "~/src/emacs/lisp/progmodes/python.el" "~/Downloads/bookmarks_11_20_12.html" "/etc/man.conf" "~/.emacs.d/joost-theme.el" "/var/folders/3x/t33r525j3dv6xlfqkx8h0qm00000gn/" "~/src/growl/Release/rakefile" "~/src/growl/Release/rakefile.bf" "~/Google Drive/dotfiles/.emacs" "/opt/local/var/macports/" "/opt/local/etc/macports/sources.conf" "/opt/local/var/macports/build/.turd_MacPorts" "/opt/local/etc/macports/macports.conf"))
+(setq register-alist (list (list 82 "Unprintable entity" (let ((mk (make-marker))) (add-hook 'desktop-delay-hook `(lambda nil (set-marker ,mk ,1 (get-buffer ,"notes.org")))) mk))))
+(setq file-name-history '("~/go/src/pkg/database/sql/sql.go" "~/.emacs.d/elpa/smartparens-20131227.423/smartparens-config.el" "~/go/misc/emacs/go-mode.el" "~/.custom/.profile" "/Users/bf/src/emacs/src/Makefile" "~/Google Drive/notes/notes.org" "/Users/bf/src/emacs/src/Makefile" "~/src/dotfiles/.dotfiles/.custom/.profile" "~/.custom/.profile" "/Users/bf/src/dotfiles/.git/MERGE_MSG" "/Users/bf/.profile" "~/src/emacs/etc/NEWS" "/Users/bf/src/dotfiles/.git/COMMIT_EDITMSG" "/tmp/elpa.2" "/tmp/elpa.1" "/Users/bf/src/dotfiles/.dotfiles/.emacs" "/Users/bf/.emacs" "/Users/bf/src/dotfiles/.dotfiles/.emacs" "~/src/emacs/lisp/emacs-lisp/package.el" "~/Google Drive/.emacs.macula" "~/t.html" "/tmp/" "~/.custom/.profile" "~/src/gocode/src/github.com/nsf/gocode/" "~/go/doc/progs/json5.go" "~/src/gocode/src/gols/gols.go" "~/foo.go" "~/foo.c" "~/.emacs" "~/src/gocode/src/gols/gols.go"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
-(desktop-create-buffer 206
-  nil
-  "growl"
-  'dired-mode
-  '(filladapt-mode)
-  222
-  '(nil nil)
-  t
-  '("/Users/bf/src/growl/")
-  nil)
-
 (desktop-create-buffer 206
   "/Users/bf/Google Drive/notes/notes.org"
   "notes.org"
   'org-mode
-  '(auto-fill-mode filladapt-mode org-indent-mode)
-  4129
-  '(5160 nil)
+  '(auto-fill-mode filladapt-mode smartparens-mode org-indent-mode)
+  48989
+  '(48074 nil)
   nil
   nil
-  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (fill-column . 72) (truncate-lines . t)))
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-emacs-unix) (fill-column . 72) (truncate-lines . t)))
 
 (desktop-create-buffer 206
-  "/Users/bf/gocode/src/github.com/banthar/Go-OpenGL/gl/gl.go"
-  "gl.go"
-  'fundamental-mode
-  '(filladapt-mode)
-  1
-  '(33799 nil)
-  nil
-  nil
-  '((indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/gocode/src/github.com/banthar/Go-OpenGL/examples/draw.go"
-  "draw.go"
+  "/Users/bf/go/src/pkg/database/sql/sql.go"
+  "sql.go"
   'go-mode
-  '(filladapt-mode auto-complete-mode)
-  666
-  '(550 nil)
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  17873
+  '(nil nil)
   nil
   nil
   '((indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/go/misc/emacs/go-mode.el"
+  "go-mode.el"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode rainbow-delimiters-mode smartparens-mode)
+  21726
+  '(1962 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "*info*"
+  'Info-mode
+  '(filladapt-mode)
+  3419
+  '(1 nil)
+  t
+  '("dir" "Top" ((history ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 1876) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 153315) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO basics" 154092) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 143380) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 1037) ("dir" "Top" 813) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 4975) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Display" 2460983) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Faces" 2539103) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Face Attributes" 2545644) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Faces" 2537725) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Backslash" 2224374) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Index" 8849) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Backslash" 76245) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Char Classes" 68491) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax of Regexps" 57265) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regular Expressions" 54923) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 4778) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117686) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Descriptors" 122155) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Class Table" 123397) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Backslash" 76093) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Char Classes" 69302) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Special" 67491) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax of Regexps" 57540) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regular Expressions" 54923) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 4778) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 118222) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Categories" 158172) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 118222) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Parsing Expressions" 141517) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117967) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Motion and Syntax" 139923) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117892) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Properties" 137067) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117823) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Table Functions" 135143) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117744) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 4778) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117686) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Descriptors" 120193) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Basics" 118378) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117149) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 4776) ("dir" "Top" 2863) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Top" 3205) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Matrix Functions" 56605) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing and Mapping" 105709) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing" 116759) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing and Mapping" 105709) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Generalized Products" 123266) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing and Mapping" 105751) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Mapping" 115290) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing and Mapping" 105697) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Specifying Operators" 111030) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing and Mapping" 105670) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Matrix Functions" 56603) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Font Lock Basics" 81064) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Imenu" 74463) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Example Major Modes" 31906) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Derived Modes" 13685) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Basic Completion" 277992) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Around-Advice" 107074) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Dynamic Binding Tips" 160797) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Defining Hash" 32329) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Text Comparison" 218987) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 1213) ("dir" "Top" 1112) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 3879) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Modes" 275363) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Font Lock Mode" 79488) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Other Font Lock Variables" 96655) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Customizing Keywords" 95396) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Font Lock Mode" 79417) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 34386) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Searching and Matching" 46678) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Match Data" 94616) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Replacing Match" 95239) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Search" 90262) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regular Expressions" 55847) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Functions" 83388) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Example" 80655) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax of Regexps" 57680) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Backslash" 73576) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Char Classes" 69031) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax of Regexps" 57609) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Special" 61903) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax of Regexps" 56011) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regular Expressions" 54923) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 3466) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Text" 80645) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Text Properties" 185218) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Property Search" 197069) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Special Properties" 201675) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Property Search" 195227) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Changing Properties" 189909) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Examining Properties" 186137) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Text Properties" 185077) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Property Search" 197070) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 1213) ("dir" "Top" 1043) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2644) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 141522) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO extensions" 145493) ("/Applications/Emacs.app/Contents/Resources/info/org" "Faces for TODO keywords" 153451) ("/Applications/Emacs.app/Contents/Resources/info/org" "Per-file keywords" 151863) ("/Applications/Emacs.app/Contents/Resources/info/org" "Fast access to TODO states" 150709) ("/Applications/Emacs.app/Contents/Resources/info/org" "Multiple sets in one file" 148837) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO types" 147146) ("/Applications/Emacs.app/Contents/Resources/info/org" "Workflow states" 145718) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO extensions" 144685) ("/Applications/Emacs.app/Contents/Resources/info/org" "Progress logging" 156645) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO extensions" 144685) ("/Applications/Emacs.app/Contents/Resources/info/org" "Workflow states" 145718) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO types" 147146) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO extensions" 145218) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 141522) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tags" 175249) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 140836) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2646) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tags" 175249) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2715) ("/Applications/Emacs.app/Contents/Resources/info/org" "Capture - Refile - Archive" 254892) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 278823) ("/Applications/Emacs.app/Contents/Resources/info/org" "Moving subtrees" 278963) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274009) ("/Applications/Emacs.app/Contents/Resources/info/org" "Moving subtrees" 274719) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274009) ("/Applications/Emacs.app/Contents/Resources/info/org" "Capture - Refile - Archive" 250553) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274484) ("/Applications/Emacs.app/Contents/Resources/info/org" "Moving subtrees" 274719) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274482) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 1327) ("dir" "Top" 902) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Top" 3180) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Concept Index" 172849) ("/Applications/Emacs.app/Contents/Resources/info/org" "Moving subtrees" 274704) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274469) ("/Applications/Emacs.app/Contents/Resources/info/org" "Internal archiving" 278923) ("/Applications/Emacs.app/Contents/Resources/info/org" "Moving subtrees" 275777) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274467) ("/Applications/Emacs.app/Contents/Resources/info/org" "Capture - Refile - Archive" 250547) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2915) ("/Applications/Emacs.app/Contents/Resources/info/org" "Agenda Views" 279485) ("/Applications/Emacs.app/Contents/Resources/info/org" "Capture - Refile - Archive" 249735) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2941) ("dir" "Top" 991) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Top" 4868) ("dir" "Top" 3131) ("/Applications/Emacs.app/Contents/Resources/info/ede" "Top" 2358) ("/Applications/Emacs.app/Contents/Resources/info/ede" "EDE Project Concepts" 2923) ("/Applications/Emacs.app/Contents/Resources/info/ede" "Top" 1095) ("dir" "Top" 3131) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 3104) ("/Applications/Emacs.app/Contents/Resources/info/org" "Exporting" 87293) ("/Applications/Emacs.app/Contents/Resources/info/org" "ASCII/Latin-1/UTF-8 export" 95075) ("/Applications/Emacs.app/Contents/Resources/info/org" "Exporting" 69994) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2527) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tables" 65777) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 5884) ("/Applications/Emacs.app/Contents/Resources/info/org" "Introduction" 21208) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 5459) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tables" 66113) ("/Applications/Emacs.app/Contents/Resources/info/org" "The spreadsheet" 81272) ("/Applications/Emacs.app/Contents/Resources/info/org" "Formula syntax for Calc" 90842) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 5459) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 133107) ("/Applications/Emacs.app/Contents/Resources/info/org" "Breaking down tasks" 159507) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 133167) ("/Applications/Emacs.app/Contents/Resources/info/org" "Progress logging" 148521) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 133029) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tags" 166395) ("/Applications/Emacs.app/Contents/Resources/info/org" "Properties and Columns" 176572) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tags" 166395) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 132906) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO basics" 135396) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 132904) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2698) ("dir" "Top" 3060) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 3375) ("/Applications/Emacs.app/Contents/Resources/info/org" "Miscellaneous" 184638) ("/Applications/Emacs.app/Contents/Resources/info/org" "Speed keys" 187118) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 14457) ("dir" "Top" 2036) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Top" 5696) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Maintaining" 36245) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Version Control" 37996) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Remote Repositories" 94691))))
+  '((tab-width . 8) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t)))
+
+(desktop-create-buffer 206
+  "/Applications/Emacs.app/Contents/Resources/etc/NEWS"
+  "NEWS"
+  'outline-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode view-mode)
+  936
+  '(nil nil)
+  t
+  nil
+  '((buffer-file-coding-system . undecided-unix) (fill-column . 72)))
 
 (desktop-create-buffer 206
   "/Users/bf/.emacs"
   ".emacs"
   'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode rainbow-delimiters-mode)
-  26748
-  '(28387 nil)
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  28967
+  '(28967 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "nextstep"
+  'dired-mode
+  '(filladapt-mode)
+  221
+  '(nil nil)
+  t
+  '("/Users/bf/src/emacs/nextstep/")
+  '((tab-width . 8) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/emacs/etc/NEWS"
+  "NEWS"
+  'outline-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode)
+  16431
+  '(30608 nil)
+  nil
+  nil
+  '((tab-width . 8) (buffer-file-coding-system . utf-8-unix) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  nil
+  "tmp"
+  'dired-mode
+  '(filladapt-mode)
+  1503
+  '(nil nil)
+  t
+  '("/tmp/")
+  nil)
+
+(desktop-create-buffer 206
+  "/Users/bf/src/emacs/lisp/emacs-lisp/package.el"
+  "package.el"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  33854
+  '(9455 nil)
+  nil
+  nil
+  '((tab-width . 8) (buffer-file-coding-system . prefer-utf-8-unix) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  "/Applications/Emacs.app/Contents/Resources/lisp/emacs-lisp/package.el.gz"
+  "package.el.gz"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  33791
+  '(33721 nil)
   nil
   nil
   '((buffer-file-coding-system . undecided-unix)))
@@ -76,273 +142,526 @@
   "/Users/bf/Google Drive/.emacs.macula"
   ".emacs.macula"
   'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode)
-  28411
-  '(28151 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/src/growl/Release/rakefile"
-  "rakefile"
-  'ruby-mode
-  '(filladapt-mode auto-complete-mode)
-  8450
-  '(7590 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/src/growl/scripts/validate-code-signatures.rb"
-  "validate-code-signatures.rb"
-  'ruby-mode
-  '(filladapt-mode auto-complete-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/src/growl/scripts/resign-binaries.rb"
-  "resign-binaries.rb"
-  'ruby-mode
-  '(filladapt-mode auto-complete-mode)
-  113
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  29020
   '(1 nil)
   nil
   nil
-  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/src/growl/Growl.xcodeproj/project.pbxproj"
-  "project.pbxproj"
-  'fundamental-mode
-  '(filladapt-mode)
-  464601
-  '(464638 nil)
-  nil
-  nil
   '((buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
-  nil
-  "Growl.xcodeproj"
-  'dired-mode
-  '(filladapt-mode)
-  239
-  '(nil nil)
-  t
-  '("/Users/bf/src/growl/Growl.xcodeproj/")
-  nil)
-
-(desktop-create-buffer 206
-  "/opt/local/etc/rsyncd.conf.example"
-  "rsyncd.conf.example"
-  'conf-unix-mode
-  '(filladapt-mode)
-  237
-  '(nil nil)
-  t
-  nil
-  '((buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/src/emacs/lisp/progmodes/python.el"
-  "python.el"
-  'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode)
-  25432
-  '(1 nil)
-  nil
-  nil
-  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 70)))
-
-(desktop-create-buffer 206
-  "/Users/bf/go/src/pkg/net/hosts.go"
-  "hosts.go"
+  "/Users/bf/src/gocode/src/gols/gols.go"
+  "gols.go"
   'go-mode
-  '(filladapt-mode auto-complete-mode)
-  1233
-  '(1670 nil)
-  nil
-  nil
-  '((indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/Downloads/bookmarks_11_20_12.html"
-  "bookmarks_11_20_12.html"
-  'html-mode
-  '(auto-fill-mode filladapt-mode)
-  372151
-  '(587680 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . utf-8-dos) (fill-column . 72)))
-
-(desktop-create-buffer 206
-  "/Users/bf/.emacs.d/joost-theme.el"
-  "joost-theme.el"
-  'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode)
-  408
-  '(87 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/.emacs.d/shrek.1-theme.el"
-  "shrek.1-theme.el"
-  'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/src/growl/Release/rakefile.bf"
-  "rakefile.bf"
-  'ruby-mode
-  '(filladapt-mode auto-complete-mode)
-  10839
-  '(520 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  nil
-  "tarballs"
-  'dired-mode
-  '(filladapt-mode)
-  608
-  '(nil nil)
-  t
-  '("/opt/local/var/macports/sources/rsync.macports.org/release/tarballs/")
-  nil)
-
-(desktop-create-buffer 206
-  nil
-  "release"
-  'dired-mode
-  '(filladapt-mode)
-  256
-  '(nil nil)
-  t
-  '("/opt/local/var/macports/sources/rsync.macports.org/release/")
-  nil)
-
-(desktop-create-buffer 206
-  nil
-  "rsync.macports.org"
-  'dired-mode
-  '(filladapt-mode)
-  245
-  '(nil nil)
-  t
-  '("/opt/local/var/macports/sources/rsync.macports.org/")
-  nil)
-
-(desktop-create-buffer 206
-  nil
-  "sources"
-  'dired-mode
-  '(filladapt-mode)
-  229
-  '(nil nil)
-  t
-  '("/opt/local/var/macports/sources/")
-  nil)
-
-(desktop-create-buffer 206
-  nil
-  "macports"
-  'dired-mode
-  '(filladapt-mode)
-  872
-  '(nil nil)
-  t
-  '("/opt/local/var/macports/")
-  nil)
-
-(desktop-create-buffer 206
-  "/opt/local/etc/macports/macports.conf"
-  "macports.conf"
-  'conf-space-mode
-  '(filladapt-mode)
-  2493
-  '(nil nil)
-  t
-  nil
-  '((buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/opt/local/etc/macports/sources.conf"
-  "sources.conf"
-  'conf-colon-mode
-  '(filladapt-mode)
-  1
-  '(nil nil)
-  t
-  nil
-  '((buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/src/zguide/examples/Python/hwserver.py"
-  "hwserver.py"
-  'python-mode
-  '(filladapt-mode auto-complete-mode)
-  483
-  '(nil nil)
-  nil
-  nil
-  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/Users/bf/go/src/pkg/net/dnsmsg.go"
-  "dnsmsg.go"
-  'fundamental-mode
-  '(filladapt-mode)
-  1
-  '(1508 nil)
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  473
+  '(432 nil)
   nil
   nil
   '((indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
 
 (desktop-create-buffer 206
-  "/Users/bf/src/zguide/examples/Python/hwclient.py"
-  "hwclient.py"
-  'python-mode
-  '(filladapt-mode auto-complete-mode)
-  245
-  '(nil nil)
+  "/Users/bf/src/gocode/src/github.com/nsf/gocode/README.md"
+  "README.md"
+  'fundamental-mode
+  '(filladapt-mode smartparens-mode)
+  2894
+  '(2894 nil)
   nil
   nil
-  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+  '((buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
-  "/Users/bf/src/zmq-test.py"
-  "zmq-test.py"
-  'python-mode
-  '(filladapt-mode auto-complete-mode)
+  nil
+  "gocode"
+  'dired-mode
+  '(filladapt-mode)
+  405
+  '(nil nil)
+  t
+  '("/Users/bf/src/gocode/src/github.com/nsf/gocode/")
+  nil)
+
+(desktop-create-buffer 206
+  "/Users/bf/go/doc/progs/json5.go"
+  "json5.go"
+  'go-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
   1
   '(nil nil)
   nil
   nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Downloads/gradspeechfinal (1).org"
+  "gradspeechfinal (1).org"
+  'org-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode org-indent-mode)
+  7318
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (fill-column . 72) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Google Drive/bf-stuy.2.org"
+  "bf-stuy.2.org"
+  'org-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode org-indent-mode)
+  9091
+  '(8141 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Google Drive/bf-stuy.org"
+  "bf-stuy.org"
+  'org-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode org-indent-mode)
+  8669
+  '(7140 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Downloads/gradspeechfinal.org"
+  "gradspeechfinal.org"
+  'org-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode org-indent-mode)
+  2867
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (fill-column . 72) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/emacs/config.status"
+  "config.status"
+  'sh-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  41463
+  '(26792 nil)
+  nil
+  nil
+  '((tab-width . 8) (buffer-file-coding-system . undecided-unix) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  nil
+  "Extensions"
+  'dired-mode
+  '(filladapt-mode)
+  5122
+  '(222 nil)
+  t
+  '("/Users/bf/Library/Application Support/Google/Chrome Canary/Default/Extensions/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "Default"
+  'dired-mode
+  '(filladapt-mode)
+  1288
+  '(nil nil)
+  t
+  '("/Users/bf/Library/Application Support/Google/Chrome Canary/Default/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "Chrome Canary"
+  'dired-mode
+  '(filladapt-mode)
+  460
+  '(nil nil)
+  t
+  '("/Users/bf/Library/Application Support/Google/Chrome Canary/")
+  nil)
+
+(desktop-create-buffer 206
+  "/Users/bf/Google Drive/ft-api.py"
+  "ft-api.py"
+  'python-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  1652
+  '(1 nil)
+  nil
+  nil
   '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
-  "/Users/bf/.ssh/config"
-  "config"
-  'conf-space-mode
+  "/Users/bf/src/workspace/m.go"
+  "m.go"
+  'go-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  14
+  '(1 nil)
+  nil
+  nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "org-mode"
+  'dired-mode
   '(filladapt-mode)
-  219
-  '(195 nil)
+  984
+  '(nil nil)
+  t
+  '("/Users/bf/src/org-mode/")
+  '((tab-width . 8) (indent-tabs-mode . t) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  nil
+  "doc<2>"
+  'dired-mode
+  '(filladapt-mode)
+  227
+  '(nil nil)
+  t
+  '("/Users/bf/src/org-mode/doc/")
+  '((tab-width . 8) (indent-tabs-mode . t) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  nil
+  "lisp<2>"
+  'dired-mode
+  '(filladapt-mode)
+  1
+  '(11478 nil)
+  t
+  '("/Users/bf/src/org-mode/lisp/")
+  '((tab-width . 8) (indent-tabs-mode . t) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/org-mode/local.mk"
+  "local.mk"
+  'makefile-bsdmake-mode
+  '(filladapt-mode smartparens-mode)
+  1215
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Google Drive/notes/idse.org"
+  "idse.org"
+  'org-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode org-indent-mode)
+  427
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/yasnippet/README.mdown"
+  "README.mdown"
+  'fundamental-mode
+  '(filladapt-mode smartparens-mode)
+  3680
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/yasnippet/Rakefile"
+  "Rakefile"
+  'ruby-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  37
+  '(205 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/yasnippet/doc/manual.org"
+  "manual.org"
+  'org-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode org-indent-mode)
+  3280
+  '(6140 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 80) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  nil
+  "doc"
+  'dired-mode
+  '(filladapt-mode)
+  272
+  '(nil nil)
+  t
+  '("/Users/bf/src/yasnippet/doc/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "yasnippet"
+  'dired-mode
+  '(filladapt-mode)
+  566
+  '(nil nil)
+  t
+  '("/Users/bf/src/yasnippet/")
+  nil)
+
+(desktop-create-buffer 206
+  "/Users/bf/src/emacs/lisp/emacs-lisp/byte-run.el"
+  "byte-run.el"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  3356
+  '(5787 nil)
+  nil
+  nil
+  '((tab-width . 8) (buffer-file-coding-system . undecided-unix) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Downloads/go-mode.el"
+  "go-mode.el<2>"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  31723
+  '(18795 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/go/misc/emacs/go-mode.el.orig"
+  "go-mode.el.orig"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  20533
+  '(18134 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/emacs/bootstrap.log"
+  "bootstrap.log"
+  'fundamental-mode
+  '(filladapt-mode smartparens-mode)
+  96055
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 8) (buffer-file-coding-system . utf-8-unix) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/emacs/Makefile"
+  "Makefile"
+  'makefile-bsdmake-mode
+  '(filladapt-mode smartparens-mode)
+  36178
+  '(13504 nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  "/Applications/Emacs.app/Contents/Resources/lisp/vc/diff-mode.el.gz"
+  "diff-mode.el.gz"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  72775
+  '(72002 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/src/workspace/t.go"
+  "t.go"
+  'go-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  316
+  '(425 nil)
+  nil
+  nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/go/doc/docs.html"
+  "docs.html"
+  'html-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix) (fill-column . 72)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Google Drive/public_html/index.html"
+  "index.html"
+  'html-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode)
+  55
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix) (fill-column . 72)))
+
+(desktop-create-buffer 206
+  "/Users/bf/go/doc/contrib.html"
+  "contrib.html"
+  'html-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix) (fill-column . 72)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Google Drive/nycmap.html"
+  "nycmap.html"
+  'html-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix) (fill-column . 72)))
+
+(desktop-create-buffer 206
+  nil
+  "Google Drive"
+  'dired-mode
+  '(filladapt-mode)
+  9523
+  '(10209 nil)
+  t
+  '("/Users/bf/Google Drive/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "emacs"
+  'dired-mode
+  '(filladapt-mode)
+  1263
+  '(nil nil)
+  t
+  '("/Users/bf/src/emacs/")
+  '((tab-width . 8) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  nil
+  "src"
+  'dired-mode
+  '(filladapt-mode)
+  182
+  '(8410 nil)
+  t
+  '("/Users/bf/src/emacs/src/")
+  '((tab-width . 8) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  nil
+  "lisp"
+  'dired-mode
+  '(filladapt-mode)
+  1399
+  '(nil nil)
+  t
+  '("/Users/bf/src/emacs/lisp/")
+  '((tab-width . 8) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Google Drive/notes/ppichette-staff.org"
+  "ppichette-staff.org"
+  'org-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode org-indent-mode)
+  2219
+  '(2445 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/Users/bf/Google Drive/notes/thinkweek.org"
+  "thinkweek.org"
+  'org-mode
+  '(auto-fill-mode filladapt-mode smartparens-mode org-indent-mode)
+  3011
+  '(2083 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/Users/bf/.zprofile"
+  ".zprofile"
+  'sh-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  393
+  '(1 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "user"
+  'dired-mode
+  '(filladapt-mode)
+  173
+  '(nil nil)
+  t
+  '("/Users/bf/go/src/pkg/os/user/")
+  nil)
+
+(desktop-create-buffer 206
+  "/Users/bf/.zshfuncs"
+  ".zshfuncs"
+  'fundamental-mode
+  '(filladapt-mode smartparens-mode)
+  521
+  '(521 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/.zshrc"
+  ".zshrc"
+  'sh-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  5135
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/.zshnew"
+  ".zshnew"
+  'fundamental-mode
+  '(filladapt-mode smartparens-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/Users/bf/.emacs.d/shrek.1-theme.el"
+  "shrek.1-theme.el"
+  'emacs-lisp-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  1
+  '(nil nil)
   nil
   nil
   '((buffer-file-coding-system . undecided-unix)))
@@ -359,6 +678,17 @@
   nil)
 
 (desktop-create-buffer 206
+  "/Users/bf/go/src/pkg/net/dnsmsg.go"
+  "dnsmsg.go"
+  'go-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  8105
+  '(8132 nil)
+  nil
+  nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
   nil
   "net"
   'dired-mode
@@ -370,13 +700,79 @@
   nil)
 
 (desktop-create-buffer 206
-  "/Users/bf/go/.hg/hgrc"
-  "hgrc"
-  'fundamental-mode
-  '(filladapt-mode)
-  124
-  '(50 nil)
+  "/Users/bf/go/src/pkg/net/hosts.go"
+  "hosts.go"
+  'go-mode
+  '(filladapt-mode auto-complete-mode smartparens-mode)
+  1515
+  '(1670 nil)
   nil
+  nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "workspace"
+  'dired-mode
+  '(filladapt-mode)
+  212
+  '(nil nil)
+  t
+  '("/Users/bf/src/workspace/")
+  nil)
+
+(desktop-create-buffer 206
+  "/Applications/Emacs.app/Contents/Resources/etc/COPYING"
+  "COPYING"
+  'fundamental-mode
+  '(filladapt-mode smartparens-mode view-mode goto-address-mode)
+  1
+  '(nil nil)
+  t
   nil
   '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  ".metadata"
+  'dired-mode
+  '(filladapt-mode)
+  229
+  '(nil nil)
+  t
+  '("/Users/bf/src/workspace/.metadata/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "progmodes"
+  'dired-mode
+  '(filladapt-mode)
+  5269
+  '(nil nil)
+  t
+  '("/Users/bf/src/emacs/lisp/progmodes/")
+  '((tab-width . 8) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  nil
+  "textmodes"
+  'dired-mode
+  '(filladapt-mode)
+  2835
+  '(nil nil)
+  t
+  '("/Users/bf/src/emacs/lisp/textmodes/")
+  '((tab-width . 8) (fill-column . 70)))
+
+(desktop-create-buffer 206
+  nil
+  "deps"
+  'dired-mode
+  '(filladapt-mode)
+  228
+  '(nil nil)
+  t
+  '("/Users/bf/src/emacs/src/deps/")
+  '((tab-width . 8) (fill-column . 70)))
 
