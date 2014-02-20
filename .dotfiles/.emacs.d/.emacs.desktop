@@ -2,28 +2,39 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Mon Jan 27 13:12:08 2014
+;; Created Wed Feb 19 20:18:11 2014
 ;; Desktop file format version 206
-;; Emacs version 24.3.50.1
+;; Emacs version 24.3.50.2
 
 ;; Global section:
-(setq desktop-saved-frameset [frameset 1 (21222 41336 931662 0) (desktop . "206") "bf@macula.roam.corp.google.com" nil nil ((((font-backend mac-ct ns) (fontsize . 0) (font . "-*-Inconsolata-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen . fullboth) (display . "macula.roam.corp.google.com") (display-type . color) (background-mode . dark) (cursor-color . "yellow") (mouse-color . "#839496") (visibility . t) (frameset--id . "5CE5-EBBE-B549-F4D9") (frameset--mini t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (right-divider-width . 0) (bottom-divider-width . 0) (maximized . maximized) (height . 70) (width . 235) (left . 0) (top . 0)) ((min-height . 2) (min-width . 6) (min-height-ignore . 2) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 36) (min-pixel-width . 47) (min-pixel-height-ignore . 36) (min-pixel-width-ignore . 47) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 1911) (pixel-height . 1173) (total-width . 238) (total-height . 69) (normal-height . 1.0) (normal-width . 1.0) (buffer "notes.org" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 48989) (start . 1))) (((font-backend ns) (fontsize . 16) (font . "-apple-Inconsolata-medium-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen) (display . "macula.roam.corp.google.com") (display-type . color) (background-mode . dark) (cursor-color . "yellow") (mouse-color . "#839496") (visibility . t) (frameset--id . "FA3B-FA21-BF8C-1196") (frameset--mini t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (user-size . t) (right-divider-width . 0) (bottom-divider-width . 0) (height . 61) (width . 170) (left . 428) (top . 22)) ((min-height . 2) (min-width . 6) (min-height-ignore . 2) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 34) (min-pixel-width . 47) (min-pixel-height-ignore . 34) (min-pixel-width-ignore . 47) (min-pixel-height-safe . 16) (min-pixel-width-safe . 16)) leaf (pixel-width . 1391) (pixel-height . 960) (total-width . 174) (total-height . 60) (normal-height . 1.0) (normal-width . 1.0) (buffer "sql.go" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 17873) (start . 17427))) (((font-backend ns) (fontsize . 0) (font . "-apple-Inconsolata-medium-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen) (horizontal-scroll-bars . t) (display-type . color) (background-mode . dark) (cursor-color . "yellow") (environment) (mouse-color . "#839496") (display . "macula.roam.corp.google.com") (frameset--id . "E376-6CFE-8E1D-6DE6") (frameset--mini t . t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (visibility . t) (right-divider-width . 0) (bottom-divider-width . 0) (height . 64) (width . 126) (left . 0) (top . 22)) ((min-height . 2) (min-width . 6) (min-height-ignore . 2) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 34) (min-pixel-width . 47) (min-pixel-height-ignore . 34) (min-pixel-width-ignore . 47) (min-pixel-height-safe . 16) (min-pixel-width-safe . 16)) leaf (pixel-width . 1039) (pixel-height . 1008) (total-width . 129) (total-height . 63) (normal-height . 1.0) (normal-width . 1.0) (buffer "nextstep" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 221) (start . 1))))])
+(setq desktop-saved-frameset [frameset 1 (21253 22483 353129 0) (desktop . "206") "bf@macula.roam.corp.google.com" nil nil ((((font-backend mac-ct ns) (fontsize . 0) (font . "-*-Inconsolata-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen . fullboth) (display . "macula.roam.corp.google.com") (display-type . color) (background-mode . dark) (cursor-color . "yellow") (mouse-color . "#839496") (visibility . t) (frameset--id . "5CE5-EBBE-B549-F4D9") (frameset--mini t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (right-divider-width . 0) (bottom-divider-width . 0) (maximized . maximized) (height . 70) (width . 235) (left . 0) (top . 0)) ((min-height . 2) (min-width . 6) (min-height-ignore . 2) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 36) (min-pixel-width . 47) (min-pixel-height-ignore . 36) (min-pixel-width-ignore . 47) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 1916) (pixel-height . 1179) (total-width . 239) (total-height . 69) (normal-height . 1.0) (normal-width . 1.0) (buffer "notes.org" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 55461) (start . 1))) (((font-backend ns) (fontsize . 16) (font . "-apple-Inconsolata-medium-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen) (display . "macula.roam.corp.google.com") (display-type . color) (background-mode . dark) (cursor-color . "yellow") (mouse-color . "#839496") (visibility . t) (frameset--id . "FA3B-FA21-BF8C-1196") (frameset--mini t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (user-size . t) (right-divider-width . 0) (bottom-divider-width . 0) (height . 61) (width . 170) (left . 428) (top . 22)) ((min-height . 2) (min-width . 6) (min-height-ignore . 2) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 34) (min-pixel-width . 47) (min-pixel-height-ignore . 34) (min-pixel-width-ignore . 47) (min-pixel-height-safe . 16) (min-pixel-width-safe . 16)) leaf (pixel-width . 1391) (pixel-height . 960) (total-width . 173) (total-height . 60) (normal-height . 1.0) (normal-width . 1.0) (buffer "deps" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 129) (start . 1))) (((font-backend ns) (fontsize . 0) (font . "-apple-Inconsolata-medium-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen) (horizontal-scroll-bars . t) (display-type . color) (background-mode . dark) (cursor-color . "yellow") (environment) (mouse-color . "#839496") (display . "macula.roam.corp.google.com") (frameset--id . "E376-6CFE-8E1D-6DE6") (frameset--mini t . t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (visibility . t) (right-divider-width . 0) (bottom-divider-width . 0) (height . 64) (width . 126) (left . 0) (top . 22)) ((min-height . 2) (min-width . 6) (min-height-ignore . 2) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 34) (min-pixel-width . 47) (min-pixel-height-ignore . 34) (min-pixel-width-ignore . 47) (min-pixel-height-safe . 16) (min-pixel-width-safe . 16)) leaf (pixel-width . 1039) (pixel-height . 1008) (total-width . 129) (total-height . 63) (normal-height . 1.0) (normal-width . 1.0) (buffer "nextstep" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars 15 2 t nil) (vscroll . 0) (dedicated) (point . 221) (start . 1))))])
 (setq desktop-missing-file-warning nil)
 (setq tags-file-name nil)
 (setq tags-table-list nil)
 (setq search-ring '("pa" "paren" "matching" "paren" "-xlink" "-xlinker" "lin" "-xl" "electric-pair" "-Xlinker" "-Rq" "goroot" "magit" "gara" "edit-server" "smart"))
 (setq regexp-search-ring nil)
 (setq register-alist (list (list 82 "Unprintable entity" (let ((mk (make-marker))) (add-hook 'desktop-delay-hook `(lambda nil (set-marker ,mk ,1 (get-buffer ,"notes.org")))) mk))))
-(setq file-name-history '("~/go/src/pkg/database/sql/sql.go" "~/.emacs.d/elpa/smartparens-20131227.423/smartparens-config.el" "~/go/misc/emacs/go-mode.el" "~/.custom/.profile" "/Users/bf/src/emacs/src/Makefile" "~/Google Drive/notes/notes.org" "/Users/bf/src/emacs/src/Makefile" "~/src/dotfiles/.dotfiles/.custom/.profile" "~/.custom/.profile" "/Users/bf/src/dotfiles/.git/MERGE_MSG" "/Users/bf/.profile" "~/src/emacs/etc/NEWS" "/Users/bf/src/dotfiles/.git/COMMIT_EDITMSG" "/tmp/elpa.2" "/tmp/elpa.1" "/Users/bf/src/dotfiles/.dotfiles/.emacs" "/Users/bf/.emacs" "/Users/bf/src/dotfiles/.dotfiles/.emacs" "~/src/emacs/lisp/emacs-lisp/package.el" "~/Google Drive/.emacs.macula" "~/t.html" "/tmp/" "~/.custom/.profile" "~/src/gocode/src/github.com/nsf/gocode/" "~/go/doc/progs/json5.go" "~/src/gocode/src/gols/gols.go" "~/foo.go" "~/foo.c" "~/.emacs" "~/src/gocode/src/gols/gols.go"))
+(setq file-name-history '("/Users/bf/src/dotfiles/.git/MERGE_MSG" "~/go/src/pkg/database/sql/sql.go" "~/.emacs.d/elpa/smartparens-20131227.423/smartparens-config.el" "~/go/misc/emacs/go-mode.el" "~/.custom/.profile" "/Users/bf/src/emacs/src/Makefile" "~/Google Drive/notes/notes.org" "/Users/bf/src/emacs/src/Makefile" "~/src/dotfiles/.dotfiles/.custom/.profile" "~/.custom/.profile" "/Users/bf/src/dotfiles/.git/MERGE_MSG" "/Users/bf/.profile" "~/src/emacs/etc/NEWS" "/Users/bf/src/dotfiles/.git/COMMIT_EDITMSG" "/tmp/elpa.2" "/tmp/elpa.1" "/Users/bf/src/dotfiles/.dotfiles/.emacs" "/Users/bf/.emacs" "/Users/bf/src/dotfiles/.dotfiles/.emacs" "~/src/emacs/lisp/emacs-lisp/package.el" "~/Google Drive/.emacs.macula" "~/t.html" "/tmp/" "~/.custom/.profile" "~/src/gocode/src/github.com/nsf/gocode/" "~/go/doc/progs/json5.go" "~/src/gocode/src/gols/gols.go" "~/foo.go" "~/foo.c" "~/.emacs"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  nil
+  "deps"
+  'dired-mode
+  '(filladapt-mode)
+  129
+  '(nil nil)
+  t
+  '("/Users/bf/src/emacs/src/deps/")
+  '((tab-width . 8) (fill-column . 70)))
+
 (desktop-create-buffer 206
   "/Users/bf/Google Drive/notes/notes.org"
   "notes.org"
   'org-mode
-  '(auto-fill-mode filladapt-mode smartparens-mode org-indent-mode)
-  48989
-  '(48074 nil)
+  '(auto-fill-mode filladapt-mode org-indent-mode)
+  55461
+  '(54134 nil)
   nil
   nil
   '((indent-tabs-mode) (buffer-file-coding-system . utf-8-emacs-unix) (fill-column . 72) (truncate-lines . t)))
@@ -763,16 +774,5 @@
   '(nil nil)
   t
   '("/Users/bf/src/emacs/lisp/textmodes/")
-  '((tab-width . 8) (fill-column . 70)))
-
-(desktop-create-buffer 206
-  nil
-  "deps"
-  'dired-mode
-  '(filladapt-mode)
-  228
-  '(nil nil)
-  t
-  '("/Users/bf/src/emacs/src/deps/")
   '((tab-width . 8) (fill-column . 70)))
 
