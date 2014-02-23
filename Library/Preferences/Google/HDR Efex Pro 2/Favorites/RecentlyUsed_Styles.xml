@@ -1,0 +1,7 @@
+<configuration>
+	<group name="1">
+		<key name="name" type="string" value="02 - Balanced"/>
+		<key name="ui_name" type="string" value="02 - Balanced"/>
+	</group>
+</configuration>
+

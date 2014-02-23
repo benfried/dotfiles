@@ -1,0 +1,35 @@
+<configuration>
+	<group name="1">
+		<key name="name" type="string" value="006 High Structure (smooth)"/>
+		<key name="ui_name" type="string" value="006 High Structure (smooth)"/>
+	</group>
+	<group name="2">
+		<key name="name" type="string" value="020 Fine Art (high key, framed)"/>
+		<key name="ui_name" type="string" value="020 Fine Art (high key, framed)"/>
+	</group>
+	<group name="3">
+		<key name="name" type="string" value="005 High Structure (harsh)"/>
+		<key name="ui_name" type="string" value="005 High Structure (harsh)"/>
+	</group>
+	<group name="4">
+		<key name="name" type="string" value="031 Film Noir 2"/>
+		<key name="ui_name" type="string" value="031 Film Noir 2"/>
+	</group>
+	<group name="5">
+		<key name="name" type="string" value="024 Full Contrast and Structure"/>
+		<key name="ui_name" type="string" value="024 Full Contrast and Structure"/>
+	</group>
+	<group name="6">
+		<key name="name" type="string" value="022 Triste 2"/>
+		<key name="ui_name" type="string" value="022 Triste 2"/>
+	</group>
+	<group name="7">
+		<key name="name" type="string" value="023 Wet Rocks"/>
+		<key name="ui_name" type="string" value="023 Wet Rocks"/>
+	</group>
+	<group name="8">
+		<key name="name" type="string" value="015 Full Dynamic (harsh)"/>
+		<key name="ui_name" type="string" value="015 Full Dynamic (harsh)"/>
+	</group>
+</configuration>
+

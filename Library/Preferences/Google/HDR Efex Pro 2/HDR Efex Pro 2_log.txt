@@ -1,0 +1,922 @@
+DEBUG	  101	16:32:21.402626	:140 Setting '/Users/bf/Library/Preferences/Google/HDR Efex Pro 2/swap' as swap dir. 
+CRITICAL	  101	16:32:21.403093	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+DEBUG	  101	16:32:21.404988	:54 Searching for translation files in '/Applications/Nik Collection/HDR Efex Pro 2.app/Contents/Resources' for language 'en' 
+INFO	  101	16:32:21.414609	:102 DummyInteger IntInc 
+INFO	  101	16:32:21.414638	:174 Starting HDR Efex Pro 2 (Lightroom) Version 2.2.0.5 Revision 3010-70 (1.105), 64 bit mode, built on Oct 30 2013 
+INFO	  101	16:32:22.275095	:178 System info:
+
+OS
+Version: 10.9.1
+Language: English
+Country: English
+
+CPU
+DeviceId: Unknown
+Description: Intel Core i7
+Architecture: x86_64
+Cores: 4
+Speed per Core (MHz): 2300
+
+HDD
+
+Memory
+Physical Size (MB): 8192
+Available Virtual Memory (MB): 2048
+
+Display
+Primary Display: true
+Resolution Width: 2556
+Resolution Height: 1578
+Bitrate: 24
+
+Graphic card
+Description: Intel HD Graphics 4000
+Display Driver Version: 
+Video Memory (MB): 1024
+ 
+INFO	  101	16:32:22.275124	:102 DummyCount IntInc 
+INFO	  101	16:32:22.908671	:102 DummyCount IntInc 
+INFO	  101	16:32:22.910164	:107 GPU filtering switched on globally by user settings. 
+INFO	  101	16:32:22.910198	:236 Setting GPU preferred tile size to 512 
+INFO	  101	16:32:22.910600	:239 Setting CPU preferred tile size to 256 
+TRACE	  101	16:32:22.910635	:274 Initializing the memory settings. 
+INFO	  101	16:32:22.910648	:155 Set memory manager allocation strategy to memory mapped limited 
+INFO	  101	16:32:23.543589	:345 Setting physicalMemoryLimit to 6144 MB 
+DEBUG	  101	16:32:23.545118	:308 Memory manager physical limit set to: 6144 mb 
+INFO	  101	16:32:23.545139	:359 Setting tileCacheSize to 5632 MB 
+INFO	  101	16:32:23.545163	:369 Setting imageStorageLimitGpu to 960 MB 
+INFO	  101	16:32:23.545236	:378 Setting imageStorageLimitCpu to 6144 MB 
+TRACE	  101	16:32:23.545250	:277 Initializing the plugin factory. 
+TRACE	  101	16:32:23.545309	:280 Initializing the file io utilities. 
+TRACE	  101	16:32:23.545658	:283 Initializing the application controller. 
+CRITICAL	  101	16:32:23.547062	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+DEBUG	  101	16:32:23.837148	:299 Swap path set to /Users/bf/Library/Preferences/Google/HDR Efex Pro 2/swap 
+TRACE	  101	16:32:23.852395	:253 Entering 'RendererGL::RendererGL(GLContextType ctx)' 
+TRACE	  101	16:32:23.857260	:311 Initialized OpenGL-Renderer sucessfully: 
+INFO	  101	16:32:23.857282	:312 Vendor: NVIDIA Corporation 
+INFO	  101	16:32:23.857294	:313 Renderer: NVIDIA GeForce GT 650M OpenGL Engine 
+INFO	  101	16:32:23.857307	:314 Version: 2.1 NVIDIA-8.18.22 310.40.05f01 
+TRACE	  101	16:32:23.857333	:316 Extensions: GL_ARB_color_buffer_float GL_ARB_depth_buffer_float GL_ARB_depth_clamp GL_ARB_depth_texture GL_ARB_draw_buffers GL_ARB_draw_elements_base_vertex GL_ARB_draw_instanced GL_ARB_fragment_program GL_ARB_fragment_program_shadow GL_ARB_fragment_shader GL_ARB_framebuffer_object GL_ARB_framebuffer_sRGB GL_ARB_half_float_pixel GL_ARB_half_float_vertex GL_ARB_imaging GL_ARB_instanced_arrays GL_ARB_multisample GL_ARB_multitexture GL_ARB_occlusion_query GL_ARB_pixel_buffer_object GL_ARB_point_parameters GL_ARB_point_sprite GL_ARB_provoking_vertex GL_ARB_seamless_cube_map GL_ARB_shader_objects GL_ARB_shader_texture_lod GL_ARB_shading_language_100 GL_ARB_shadow GL_ARB_sync GL_ARB_texture_border_clamp GL_ARB_texture_compression GL_ARB_texture_compression_rgtc GL_ARB_texture_cube_map GL_ARB_texture_env_add GL_ARB_texture_env_combine GL_ARB_texture_env_crossbar GL_ARB_texture_env_dot3 GL_ARB_texture_float GL_ARB_texture_mirrored_repeat GL_ARB_texture_non_power_of_two GL_ARB_texture_rectangle GL_ARB_texture_rg GL_ARB_transpose_matrix GL_ARB_vertex_array_bgra GL_ARB_vertex_blend GL_ARB_vertex_buffer_object GL_ARB_vertex_program GL_ARB_vertex_shader GL_ARB_window_pos GL_EXT_abgr GL_EXT_bgra GL_EXT_bindable_uniform GL_EXT_blend_color GL_EXT_blend_equation_separate GL_EXT_blend_func_separate GL_EXT_blend_minmax GL_EXT_blend_subtract GL_EXT_clip_volume_hint GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_bounds_test GL_EXT_draw_buffers2 GL_EXT_draw_range_elements GL_EXT_fog_coord GL_EXT_framebuffer_blit GL_EXT_framebuffer_multisample GL_EXT_framebuffer_multisample_blit_scaled GL_EXT_framebuffer_object GL_EXT_framebuffer_sRGB GL_EXT_geometry_shader4 GL_EXT_gpu_program_parameters GL_EXT_gpu_shader4 GL_EXT_multi_draw_arrays GL_EXT_packed_depth_stencil GL_EXT_packed_float GL_EXT_provoking_vertex GL_EXT_rescale_normal GL_EXT_secondary_color GL_EXT_separate_specular_color GL_EXT_shadow_funcs GL_EXT_stencil_two_side GL_EXT_stencil_wrap GL_EXT_texture_array GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_s3tc GL_EXT_texture_env_add GL_EXT_texture_filter_anisotropic GL_EXT_texture_integer GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp GL_EXT_texture_rectangle GL_EXT_texture_shared_exponent GL_EXT_texture_sRGB GL_EXT_texture_sRGB_decode GL_EXT_timer_query GL_EXT_transform_feedback GL_EXT_vertex_array_bgra GL_APPLE_aux_depth_stencil GL_APPLE_client_storage GL_APPLE_element_array GL_APPLE_fence GL_APPLE_float_pixels GL_APPLE_flush_buffer_range GL_APPLE_flush_render GL_APPLE_object_purgeable GL_APPLE_packed_pixels GL_APPLE_pixel_buffer GL_APPLE_rgb_422 GL_APPLE_row_bytes GL_APPLE_specular_vector GL_APPLE_texture_range GL_APPLE_transform_hint GL_APPLE_vertex_array_object GL_APPLE_vertex_array_range GL_APPLE_vertex_point_size GL_APPLE_vertex_program_evaluators GL_APPLE_ycbcr_422 GL_ATI_separate_stencil GL_ATI_texture_env_combine3 GL_ATI_texture_float GL_ATI_texture_mirror_once GL_IBM_rasterpos_clip GL_NV_blend_square GL_NV_conditional_render GL_NV_depth_clamp GL_NV_fog_distance GL_NV_fragment_program_option GL_NV_fragment_program2 GL_NV_light_max_exponent GL_NV_multisample_filter_hint GL_NV_point_sprite GL_NV_texgen_reflection GL_NV_texture_barrier GL_NV_vertex_program2_option GL_NV_vertex_program3 GL_SGIS_generate_mipmap GL_SGIS_texture_edge_clamp GL_SGIS_texture_lod  
+INFO	  101	16:32:23.857365	:323 GL_MULTISAMPLE_ARB=1 GL_SAMPLE_BUFFERS_ARB=0 
+INFO	  101	16:32:23.857773	:326 GL_MULTISAMPLE_ARB=0 GL_SAMPLE_BUFFERS_ARB=0 
+DEBUG	  101	16:32:23.857819	:1045 Detected version major = 2 minor = 1 
+TRACE	  101	16:32:23.857846	:991 detected vendor identifier: 1 
+TRACE	  101	16:32:23.857858	:335 Calling 'checkExtensions' 
+DEBUG	  101	16:32:23.858006	:1022 GL_ARB_framebuffer_object = true 
+DEBUG	  101	16:32:23.858020	:1023 GL_ARB_debug_output = false 
+DEBUG	  101	16:32:23.858031	:1024 GL_ATI_meminfo = false 
+DEBUG	  101	16:32:23.858042	:1025 GL_NVX_gpu_memory_info = false 
+TRACE	  101	16:32:23.858063	:337 Calling 'checkTextureSize' 
+DEBUG	  101	16:32:23.858108	:540 Detected major version 10 minor version 9.1 OS 
+DEBUG	  101	16:32:23.858122	:599 FBOReadback = 0 
+TRACE	  101	16:32:23.858277	:345 Calling 'updateMemoryUsage' 
+TRACE	  101	16:32:23.858292	:734 Calling 'checkFBOFloatTextureTarget' 
+TRACE	  101	16:32:23.864035	:736 Calling 'checkFBOIntegerTextureTarget' 
+TRACE	  101	16:32:23.864305	:738 Calling 'checkFBORedTextureTarget' 
+TRACE	  101	16:32:23.864949	:351 Leaving 'RendererGL::RendererGL(GLContextType ctx)' 
+INFO	  101	16:32:23.864978	:146 ***** System information bits *** 
+INFO	  101	16:32:23.864992	:149 bit HwAccelerated is ON  
+INFO	  101	16:32:23.865004	:149 bit FrameBufferObjectBit is ON  
+INFO	  101	16:32:23.865015	:149 bit BlendFunctionSeparateBit is ON  
+INFO	  101	16:32:23.865027	:149 bit VertexShaderBit is ON  
+INFO	  101	16:32:23.865038	:149 bit FragmentShaderBit is ON  
+INFO	  101	16:32:23.865049	:149 bit BlendColorBit is ON  
+INFO	  101	16:32:23.865060	:149 bit TextureFloatFilteringBit is ON  
+INFO	  101	16:32:23.865072	:149 bit FBOReadback is OFF  
+INFO	  101	16:32:23.865083	:149 bit NonPowerOfTwoTextures is ON  
+INFO	  101	16:32:23.865094	:149 bit MultipleOpenGLWindowsDefect is ON  
+INFO	  101	16:32:23.865105	:149 bit OffscreenRenderSupport is ON  
+INFO	  101	16:32:23.865116	:149 bit ProxyTextureDefect is OFF  
+INFO	  101	16:32:23.865141	:149 bit FullscreenSecondaryWindowDefect is OFF  
+INFO	  101	16:32:23.865153	:149 bit HalfFloatPixelBit is ON  
+INFO	  101	16:32:23.865164	:149 bit NeedsInitialisedTextures is OFF  
+INFO	  101	16:32:23.865175	:149 bit TooAlignedMemoryDefect is OFF  
+INFO	  101	16:32:23.865186	:149 bit SlowGPUGenerateMipmaps is OFF  
+INFO	  101	16:32:23.865197	:149 bit NeedsDelayedContextDeletion is OFF  
+INFO	  101	16:32:23.865208	:149 bit NeedsInitialisedTexturesOnce is OFF  
+INFO	  101	16:32:23.865218	:149 bit ReadPixelsDefect is OFF  
+INFO	  101	16:32:23.865229	:149 bit UnpackSubImageBit is ON  
+INFO	  101	16:32:23.865240	:149 bit PackSubImageBit is ON  
+INFO	  101	16:32:23.865251	:152 ***** Texture capabilities *** 
+INFO	  101	16:32:23.865262	:155 bit TextureFloatFormat is ON  
+INFO	  101	16:32:23.865272	:155 bit TextureIntegerFormat is ON  
+INFO	  101	16:32:23.865283	:155 bit TextureRedFormat is ON  
+INFO	  101	16:32:23.865294	:155 bit RGBA16F_RenderTarget is ON  
+INFO	  101	16:32:23.865305	:155 bit RGBA32F_RenderTarget is ON  
+INFO	  101	16:32:23.865316	:155 bit RGB16F_RenderTarget is ON  
+INFO	  101	16:32:23.865327	:155 bit RGB32F_RenderTarget is ON  
+INFO	  101	16:32:23.865338	:155 bit RGBA16U_RenderTarget is ON  
+INFO	  101	16:32:23.865348	:155 bit RGB16U_RenderTarget is ON  
+INFO	  101	16:32:23.865359	:155 bit Red16F_RenderTarget is ON  
+INFO	  101	16:32:23.865370	:155 bit Red32F_RenderTargetRed8_RenderTarget is ON  
+INFO	  101	16:32:23.865381	:155 bit Red16_RenderTarget is ON  
+TRACE	  101	16:32:23.865392	:93 Calling 'nik::gpu::loadRenderer():registerTextureImageFormat' 
+DEBUG	  101	16:32:24.100669	:20 Entering 'ICCDeviceManager::ICCDeviceManager() ' 
+DEBUG	  101	16:32:24.100694	:63 Calling 'ColorProfile::create(standardCProfile)' with standardCProfile=0'. 
+DEBUG	  101	16:32:24.100717	:49 Getting ColorManager instance. 
+DEBUG	  101	16:32:24.100729	:53 Creating color profile '0'. 
+DEBUG	  101	16:32:24.186041	:65 Calling 'updateAllScreens' 
+DEBUG	  101	16:32:24.187614	:131 Color profile for screen: 0 is /Library/ColorSync/Profiles/Displays/HP LP3065-D3A6D993-29FA-7283-E484-802DE5F520F3.icc 
+DEBUG	  101	16:32:24.197486	:28 Leaving 'ICCDeviceManager::ICCDeviceManager() ' 
+TRACE	  101	16:32:24.220802	:521 Entering BaseApplication::onGuiInitialize. 
+INFO	  101	16:32:24.221313	:182 GPUAutoSwitchFilter decided that GPU filtering is available. 
+DEBUG	  101	16:32:24.221338	:22 Explicitly trying to compile the color management shader. 
+DEBUG	  101	16:32:24.243760	:115 setupWorkingColorSpace. WCS: Custom RGB (RGB32f). FilteroutCS: ProPhoto RGB. Out: NULL (0?) 
+TRACE	  101	16:32:24.243809	:850 Creating a new window. 
+DEBUG	  101	16:32:24.281651	:81 Loading XML style /Applications/Nik Collection/HDR Efex Pro 2.app/Contents/Resources/style.xml 
+DEBUG	  101	16:32:24.281705	:87 parsing file...  
+DEBUG	  101	16:32:24.583704	:89 parsing done. 
+TRACE	  101	16:32:24.615754	:861 Turning global color management off. 
+TRACE	  101	16:32:24.615787	:863 Getting current screen. 
+TRACE	  101	16:32:24.615843	:865 Getting color profile for current screen. 
+DEBUG	  101	16:32:24.616521	:296 Loading profile '/Library/ColorSync/Profiles/Displays/HP LP3065-D3A6D993-29FA-7283-E484-802DE5F520F3.icc' for displayID '1007264769'. 
+TRACE	  101	16:32:24.616542	:868 Setting color profile for visible image areas. 
+TRACE	  101	16:32:24.616589	:535 Initializing the DDEHandler. 
+TRACE	  101	16:32:24.619019	:552 Creating KeyboardInteractionLayer. 
+TRACE	  101	16:32:24.619068	:555 Creating BaseWindowLayout. 
+WARNING	  101	16:32:24.644022	:962 No Installed license version number found,fallback to compare version: 1 with accepted:  
+TRACE	  101	16:32:24.645493	:578 Calling 'show' on the window. 
+TRACE	  101	16:32:24.732329	:624 Going to load all sticky states. 
+DEBUG	  110	16:32:24.814318	:404 Begin image loading. 
+DEBUG	  115	16:32:24.814616	:321 Opening FileName: /var/folders/3x/t33r525j3dv6xlfqkx8h0qm00000gn/T/6216C419-4659-486E-A909-1F357346019B/788A4319.tif 
+TRACE	  115	16:32:24.814654	:202 loading file /var/folders/3x/t33r525j3dv6xlfqkx8h0qm00000gn/T/6216C419-4659-486E-A909-1F357346019B/788A4319.tif 
+TRACE	  115	16:32:24.817365	:483 Tiff with Photometric 2 , PlanarConfig 1, Compression 1, SamplesPerPixel 3, BitsPerSample 16  
+DEBUG	  115	16:32:24.822346	:200 Color profile description: ProPhoto RGB 
+CRITICAL	  114	16:32:24.833086	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+CRITICAL	  114	16:32:24.833298	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+CRITICAL	  114	16:32:24.833401	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+CRITICAL	  114	16:32:24.834205	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+TRACE	  115	16:32:25.048960	:330 converting colors 
+DEBUG	  115	16:32:25.048999	:141 Pixelformat is RGB16u 
+DEBUG	  115	16:32:25.066356	:165 Starting color conversion for exposure #/var/folders/3x/t33r525j3dv6xlfqkx8h0qm00000gn/T/6216C419-4659-486E-A909-1F357346019B/788A4319.tif from ProPhoto RGB to Custom RGB. 
+DEBUG	  115	16:32:25.254556	:174 Finished color conversion (/var/folders/3x/t33r525j3dv6xlfqkx8h0qm00000gn/T/6216C419-4659-486E-A909-1F357346019B/788A4319.tif). 
+TRACE	  115	16:32:25.254618	:334 converting colors done 
+DEBUG	  110	16:32:25.272856	:424 Image loading done. 
+TRACE	  101	16:32:25.274476	:1141 Preparing single shot mode... 
+TRACE	  101	16:32:25.274515	:1144 	Original colour profile: ProPhoto RGB 
+DEBUG	  101	16:32:25.274542	:894 Starting color conversion for middle exposure from Custom RGB to ProPhoto RGB. 
+DEBUG	  101	16:32:25.292305	:900 Color conversion for middle exposure done. 
+TRACE	  101	16:32:25.292339	:1149 	File name: /var/folders/3x/t33r525j3dv6xlfqkx8h0qm00000gn/T/6216C419-4659-486E-A909-1F357346019B/788A4319.tif 
+TRACE	  101	16:32:25.758643	:1155 Finished HDR image generation from single shot. 
+TRACE	  101	16:32:25.758690	:632 Leaving BaseApplication::onGuiInitialize. 
+DEBUG	  101	16:32:25.761314	:517 Will convert the output image into the color profile 'FirstInputImageColorProfile'. 
+DEBUG	  101	16:32:25.761370	:149 setupOutput. Out: ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:25.761533	:18 Primary screen has the working area size: (2556, 1578). 
+DEBUG	  101	16:32:25.761551	:20 Preferred size based on working area without top and bottom margin: (2321, 1433). 
+CRITICAL	  101	16:32:25.761564	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+DEBUG	  101	16:32:25.761649	:199 convertFromInputToWorkingColorSpace 
+TRACE	  101	16:32:25.761667	:490 Starting creation of scaled image pyramid. 
+TRACE	  112	16:32:25.945094	:273 scaleToPreferredSize got a original image of size: 4717 x 3145 
+TRACE	  112	16:32:25.945129	:275 scaleToPreferredSize got a preferredSize of: 2321 x 1433 
+TRACE	  112	16:32:25.945142	:299 scaleToPreferredSize decided to have a screen scaled image of: 2149 x 1433 
+TRACE	  101	16:32:26.358537	:506 Finished creation of scaled image pyramid. 
+TRACE	  101	16:32:26.358687	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:32:26.358714	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:32:26.358727	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+DEBUG	  101	16:32:26.358739	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:26.358756	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:26.375239	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:26.375260	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:26.391405	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:26.391425	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+TRACE	  101	16:32:26.407675	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:32:26.407693	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:32:26.407705	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+DEBUG	  101	16:32:26.407717	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:26.407731	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:26.423862	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:26.423882	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:26.440010	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:26.440030	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+TRACE	  110	16:32:26.456842	:564 Starting loadImagePostProcessingAsyncCalled 
+TRACE	  110	16:32:26.645852	:540 Computing HDR image statistics 
+TRACE	  110	16:32:26.646533	:90 Computing HDR image statistics... 
+TRACE	  110	16:32:26.825785	:476 HDRImageStats: Created histogram data image. height = 807, tileCount = 1 
+TRACE	  110	16:32:26.825958	:538 HDRImageStats: Created MII image 
+TRACE	  110	16:32:26.825998	:545 HDRImageStats: Finished computing HDR image statistics. 
+TRACE	  110	16:32:26.826023	:553 Finished computing HDR image statistics 
+TRACE	  110	16:32:26.826391	:190 Using scaling with scaling factors to (256, 171), x=0.0542718, y=0.0542718. 
+TRACE	  110	16:32:27.089565	:222 Using scaling with constant output image size (106, 71), x=0.0224719, y=0.0225755. 
+TRACE	  110	16:32:29.595745	:652 Finished loadImagePostProcessingAsyncCalled 
+TRACE	  101	16:32:29.597756	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:32:29.597780	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:32:29.597794	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+DEBUG	  101	16:32:29.597806	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.597823	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.614172	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.614193	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.630299	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.630319	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+TRACE	  101	16:32:29.649209	:45 Filter module ToneMappingFilter registered succesfully. 
+TRACE	  101	16:32:29.649244	:45 Filter module MiddleExposureFilter registered succesfully. 
+DEBUG	  101	16:32:29.673898	:222 Delete BaseImageHandler 
+TRACE	  101	16:32:29.724598	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:32:29.724634	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.724649	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.724675	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.724690	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.724703	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.724716	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.724730	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.724966	:235 Using scaling with prescribed size of destination (4717, 3145), x=44.5, y=44.2958. 
+TRACE	  101	16:32:29.725067	:235 Using scaling with prescribed size of destination (2359, 1573), x=22.2547, y=22.1549. 
+TRACE	  101	16:32:29.725136	:235 Using scaling with prescribed size of destination (1180, 787), x=11.1321, y=11.0845. 
+TRACE	  101	16:32:29.725172	:235 Using scaling with prescribed size of destination (590, 394), x=5.56604, y=5.5493. 
+TRACE	  101	16:32:29.725200	:235 Using scaling with prescribed size of destination (295, 197), x=2.78302, y=2.77465. 
+TRACE	  101	16:32:29.725231	:235 Using scaling with prescribed size of destination (148, 99), x=1.39623, y=1.39437. 
+TRACE	  101	16:32:29.725261	:235 Using scaling with prescribed size of destination (74, 50), x=0.698113, y=0.704225. 
+TRACE	  101	16:32:29.725290	:235 Using scaling with prescribed size of destination (37, 25), x=0.349057, y=0.352113. 
+TRACE	  101	16:32:29.725321	:235 Using scaling with prescribed size of destination (19, 13), x=0.179245, y=0.183099. 
+TRACE	  101	16:32:29.725347	:235 Using scaling with prescribed size of destination (10, 7), x=0.0943396, y=0.0985916. 
+TRACE	  101	16:32:29.725379	:235 Using scaling with prescribed size of destination (5, 4), x=0.0471698, y=0.056338. 
+TRACE	  101	16:32:29.725405	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.725436	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.725465	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.725516	:235 Using scaling with prescribed size of destination (4717, 3145), x=18.4258, y=18.3918. 
+TRACE	  101	16:32:29.725637	:235 Using scaling with prescribed size of destination (2359, 1573), x=9.21484, y=9.19883. 
+TRACE	  101	16:32:29.725687	:235 Using scaling with prescribed size of destination (1180, 787), x=4.60938, y=4.60234. 
+TRACE	  101	16:32:29.725725	:235 Using scaling with prescribed size of destination (590, 394), x=2.30469, y=2.30409. 
+TRACE	  101	16:32:29.725755	:235 Using scaling with prescribed size of destination (295, 197), x=1.15234, y=1.15205. 
+TRACE	  101	16:32:29.725784	:235 Using scaling with prescribed size of destination (148, 99), x=0.578125, y=0.578947. 
+TRACE	  101	16:32:29.725813	:235 Using scaling with prescribed size of destination (74, 50), x=0.289062, y=0.292398. 
+TRACE	  101	16:32:29.725842	:235 Using scaling with prescribed size of destination (37, 25), x=0.144531, y=0.146199. 
+TRACE	  101	16:32:29.725871	:235 Using scaling with prescribed size of destination (19, 13), x=0.0742188, y=0.0760234. 
+TRACE	  101	16:32:29.725903	:235 Using scaling with prescribed size of destination (10, 7), x=0.0390625, y=0.0409357. 
+TRACE	  101	16:32:29.725932	:235 Using scaling with prescribed size of destination (5, 4), x=0.0195312, y=0.0233918. 
+TRACE	  101	16:32:29.725961	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.725992	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.726018	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+TRACE	  101	16:32:29.729943	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:32:29.729985	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.730001	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.730016	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.730029	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.730043	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.730057	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.730070	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.730341	:235 Using scaling with prescribed size of destination (2149, 1433), x=20.2736, y=20.1831. 
+TRACE	  101	16:32:29.730394	:235 Using scaling with prescribed size of destination (1075, 717), x=10.1415, y=10.0986. 
+TRACE	  101	16:32:29.730445	:235 Using scaling with prescribed size of destination (538, 359), x=5.07547, y=5.05634. 
+TRACE	  101	16:32:29.730474	:235 Using scaling with prescribed size of destination (269, 180), x=2.53774, y=2.53521. 
+TRACE	  101	16:32:29.730504	:235 Using scaling with prescribed size of destination (135, 90), x=1.27358, y=1.26761. 
+TRACE	  101	16:32:29.730535	:235 Using scaling with prescribed size of destination (68, 45), x=0.641509, y=0.633803. 
+TRACE	  101	16:32:29.730567	:235 Using scaling with prescribed size of destination (34, 23), x=0.320755, y=0.323944. 
+TRACE	  101	16:32:29.730594	:235 Using scaling with prescribed size of destination (17, 12), x=0.160377, y=0.169014. 
+TRACE	  101	16:32:29.730625	:235 Using scaling with prescribed size of destination (9, 6), x=0.0849057, y=0.084507. 
+TRACE	  101	16:32:29.730655	:235 Using scaling with prescribed size of destination (5, 3), x=0.0471698, y=0.0422535. 
+TRACE	  101	16:32:29.730684	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.730716	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.730742	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.730798	:235 Using scaling with prescribed size of destination (2149, 1433), x=8.39453, y=8.38012. 
+TRACE	  101	16:32:29.730845	:235 Using scaling with prescribed size of destination (1075, 717), x=4.19922, y=4.19298. 
+TRACE	  101	16:32:29.730877	:235 Using scaling with prescribed size of destination (538, 359), x=2.10156, y=2.09942. 
+TRACE	  101	16:32:29.730908	:235 Using scaling with prescribed size of destination (269, 180), x=1.05078, y=1.05263. 
+TRACE	  101	16:32:29.730935	:235 Using scaling with prescribed size of destination (135, 90), x=0.527344, y=0.526316. 
+TRACE	  101	16:32:29.730966	:235 Using scaling with prescribed size of destination (68, 45), x=0.265625, y=0.263158. 
+TRACE	  101	16:32:29.730993	:235 Using scaling with prescribed size of destination (34, 23), x=0.132812, y=0.134503. 
+TRACE	  101	16:32:29.731060	:235 Using scaling with prescribed size of destination (17, 12), x=0.0664062, y=0.0701754. 
+TRACE	  101	16:32:29.731092	:235 Using scaling with prescribed size of destination (9, 6), x=0.0351562, y=0.0350877. 
+TRACE	  101	16:32:29.731121	:235 Using scaling with prescribed size of destination (5, 3), x=0.0195312, y=0.0175439. 
+TRACE	  101	16:32:29.731152	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.731181	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.731209	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+TRACE	  101	16:32:29.733899	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  101	16:32:29.733933	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.733948	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.733963	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.733976	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.733989	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.734002	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.734016	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.734236	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  101	16:32:29.734479	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  101	16:32:29.734520	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  101	16:32:29.734549	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  101	16:32:29.734577	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  101	16:32:29.734605	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  101	16:32:29.734636	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.734664	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.734691	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.734744	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  101	16:32:29.734777	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  101	16:32:29.734804	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  101	16:32:29.734832	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  101	16:32:29.734859	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  101	16:32:29.734886	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  101	16:32:29.734914	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.734941	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.734968	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  101	16:32:29.737221	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.737271	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.754575	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.754624	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.770806	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.770841	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  101	16:32:29.788419	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:32:29.788438	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:32:29.788451	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+DEBUG	  101	16:32:29.788463	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.788478	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.804477	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.804497	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.820420	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.820440	:40 Converting from color profile ProPhoto RGB (RGB32f) to ProPhoto RGB (RGB16u) 
+TRACE	  101	16:32:29.836682	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:32:29.836704	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.836719	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.836733	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.836746	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.836759	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.836791	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.836805	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.837005	:235 Using scaling with prescribed size of destination (4717, 3145), x=44.5, y=44.2958. 
+TRACE	  101	16:32:29.837086	:235 Using scaling with prescribed size of destination (2359, 1573), x=22.2547, y=22.1549. 
+TRACE	  101	16:32:29.837128	:235 Using scaling with prescribed size of destination (1180, 787), x=11.1321, y=11.0845. 
+TRACE	  101	16:32:29.837161	:235 Using scaling with prescribed size of destination (590, 394), x=5.56604, y=5.5493. 
+TRACE	  101	16:32:29.837189	:235 Using scaling with prescribed size of destination (295, 197), x=2.78302, y=2.77465. 
+TRACE	  101	16:32:29.837215	:235 Using scaling with prescribed size of destination (148, 99), x=1.39623, y=1.39437. 
+TRACE	  101	16:32:29.837241	:235 Using scaling with prescribed size of destination (74, 50), x=0.698113, y=0.704225. 
+TRACE	  101	16:32:29.837268	:235 Using scaling with prescribed size of destination (37, 25), x=0.349057, y=0.352113. 
+TRACE	  101	16:32:29.837294	:235 Using scaling with prescribed size of destination (19, 13), x=0.179245, y=0.183099. 
+TRACE	  101	16:32:29.837320	:235 Using scaling with prescribed size of destination (10, 7), x=0.0943396, y=0.0985916. 
+TRACE	  101	16:32:29.837346	:235 Using scaling with prescribed size of destination (5, 4), x=0.0471698, y=0.056338. 
+TRACE	  101	16:32:29.837376	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.837402	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.837431	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.837478	:235 Using scaling with prescribed size of destination (4717, 3145), x=18.4258, y=18.3918. 
+TRACE	  101	16:32:29.837556	:235 Using scaling with prescribed size of destination (2359, 1573), x=9.21484, y=9.19883. 
+TRACE	  101	16:32:29.837602	:235 Using scaling with prescribed size of destination (1180, 787), x=4.60938, y=4.60234. 
+TRACE	  101	16:32:29.837636	:235 Using scaling with prescribed size of destination (590, 394), x=2.30469, y=2.30409. 
+TRACE	  101	16:32:29.837666	:235 Using scaling with prescribed size of destination (295, 197), x=1.15234, y=1.15205. 
+TRACE	  101	16:32:29.837693	:235 Using scaling with prescribed size of destination (148, 99), x=0.578125, y=0.578947. 
+TRACE	  101	16:32:29.837719	:235 Using scaling with prescribed size of destination (74, 50), x=0.289062, y=0.292398. 
+TRACE	  101	16:32:29.837744	:235 Using scaling with prescribed size of destination (37, 25), x=0.144531, y=0.146199. 
+TRACE	  101	16:32:29.837770	:235 Using scaling with prescribed size of destination (19, 13), x=0.0742188, y=0.0760234. 
+TRACE	  101	16:32:29.837796	:235 Using scaling with prescribed size of destination (10, 7), x=0.0390625, y=0.0409357. 
+TRACE	  101	16:32:29.837822	:235 Using scaling with prescribed size of destination (5, 4), x=0.0195312, y=0.0233918. 
+TRACE	  101	16:32:29.837848	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.837873	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.837898	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+TRACE	  101	16:32:29.841343	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:32:29.841369	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.841383	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.841397	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.841419	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.841433	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.841446	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.841459	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.841699	:235 Using scaling with prescribed size of destination (2149, 1433), x=20.2736, y=20.1831. 
+TRACE	  101	16:32:29.841747	:235 Using scaling with prescribed size of destination (1075, 717), x=10.1415, y=10.0986. 
+TRACE	  101	16:32:29.841780	:235 Using scaling with prescribed size of destination (538, 359), x=5.07547, y=5.05634. 
+TRACE	  101	16:32:29.841810	:235 Using scaling with prescribed size of destination (269, 180), x=2.53774, y=2.53521. 
+TRACE	  101	16:32:29.841836	:235 Using scaling with prescribed size of destination (135, 90), x=1.27358, y=1.26761. 
+TRACE	  101	16:32:29.841865	:235 Using scaling with prescribed size of destination (68, 45), x=0.641509, y=0.633803. 
+TRACE	  101	16:32:29.841891	:235 Using scaling with prescribed size of destination (34, 23), x=0.320755, y=0.323944. 
+TRACE	  101	16:32:29.841919	:235 Using scaling with prescribed size of destination (17, 12), x=0.160377, y=0.169014. 
+TRACE	  101	16:32:29.841946	:235 Using scaling with prescribed size of destination (9, 6), x=0.0849057, y=0.084507. 
+TRACE	  101	16:32:29.841974	:235 Using scaling with prescribed size of destination (5, 3), x=0.0471698, y=0.0422535. 
+TRACE	  101	16:32:29.841999	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.842027	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.842055	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.842102	:235 Using scaling with prescribed size of destination (2149, 1433), x=8.39453, y=8.38012. 
+TRACE	  101	16:32:29.842145	:235 Using scaling with prescribed size of destination (1075, 717), x=4.19922, y=4.19298. 
+TRACE	  101	16:32:29.842173	:235 Using scaling with prescribed size of destination (538, 359), x=2.10156, y=2.09942. 
+TRACE	  101	16:32:29.842202	:235 Using scaling with prescribed size of destination (269, 180), x=1.05078, y=1.05263. 
+TRACE	  101	16:32:29.842230	:235 Using scaling with prescribed size of destination (135, 90), x=0.527344, y=0.526316. 
+TRACE	  101	16:32:29.842255	:235 Using scaling with prescribed size of destination (68, 45), x=0.265625, y=0.263158. 
+TRACE	  101	16:32:29.842284	:235 Using scaling with prescribed size of destination (34, 23), x=0.132812, y=0.134503. 
+TRACE	  101	16:32:29.842310	:235 Using scaling with prescribed size of destination (17, 12), x=0.0664062, y=0.0701754. 
+TRACE	  101	16:32:29.842340	:235 Using scaling with prescribed size of destination (9, 6), x=0.0351562, y=0.0350877. 
+TRACE	  101	16:32:29.842366	:235 Using scaling with prescribed size of destination (5, 3), x=0.0195312, y=0.0175439. 
+TRACE	  101	16:32:29.842396	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.842424	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.842452	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+TRACE	  101	16:32:29.844774	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  101	16:32:29.844794	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.844808	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.844821	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.844834	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.844855	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.844868	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.844881	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.845067	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  101	16:32:29.845096	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  101	16:32:29.845125	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  101	16:32:29.845151	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  101	16:32:29.845179	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  101	16:32:29.845205	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  101	16:32:29.845234	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.845259	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.845287	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.845332	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  101	16:32:29.845361	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  101	16:32:29.845389	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  101	16:32:29.845414	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  101	16:32:29.845442	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  101	16:32:29.845468	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  101	16:32:29.845495	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.845523	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.845552	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  101	16:32:29.847147	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.847170	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.863493	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.863520	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.880071	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.880106	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  101	16:32:29.909946	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:32:29.909979	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.909994	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.910008	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.910021	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.910034	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.910046	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.910060	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.910249	:235 Using scaling with prescribed size of destination (4717, 3145), x=44.5, y=44.2958. 
+TRACE	  101	16:32:29.910345	:235 Using scaling with prescribed size of destination (2359, 1573), x=22.2547, y=22.1549. 
+TRACE	  101	16:32:29.910388	:235 Using scaling with prescribed size of destination (1180, 787), x=11.1321, y=11.0845. 
+TRACE	  101	16:32:29.910420	:235 Using scaling with prescribed size of destination (590, 394), x=5.56604, y=5.5493. 
+TRACE	  101	16:32:29.910447	:235 Using scaling with prescribed size of destination (295, 197), x=2.78302, y=2.77465. 
+TRACE	  101	16:32:29.910473	:235 Using scaling with prescribed size of destination (148, 99), x=1.39623, y=1.39437. 
+TRACE	  101	16:32:29.910499	:235 Using scaling with prescribed size of destination (74, 50), x=0.698113, y=0.704225. 
+TRACE	  101	16:32:29.910535	:235 Using scaling with prescribed size of destination (37, 25), x=0.349057, y=0.352113. 
+TRACE	  101	16:32:29.910563	:235 Using scaling with prescribed size of destination (19, 13), x=0.179245, y=0.183099. 
+TRACE	  101	16:32:29.910590	:235 Using scaling with prescribed size of destination (10, 7), x=0.0943396, y=0.0985916. 
+TRACE	  101	16:32:29.910616	:235 Using scaling with prescribed size of destination (5, 4), x=0.0471698, y=0.056338. 
+TRACE	  101	16:32:29.910643	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.910670	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.910696	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.910743	:235 Using scaling with prescribed size of destination (4717, 3145), x=18.4258, y=18.3918. 
+TRACE	  101	16:32:29.910831	:235 Using scaling with prescribed size of destination (2359, 1573), x=9.21484, y=9.19883. 
+TRACE	  101	16:32:29.910874	:235 Using scaling with prescribed size of destination (1180, 787), x=4.60938, y=4.60234. 
+TRACE	  101	16:32:29.910904	:235 Using scaling with prescribed size of destination (590, 394), x=2.30469, y=2.30409. 
+TRACE	  101	16:32:29.910931	:235 Using scaling with prescribed size of destination (295, 197), x=1.15234, y=1.15205. 
+TRACE	  101	16:32:29.910957	:235 Using scaling with prescribed size of destination (148, 99), x=0.578125, y=0.578947. 
+TRACE	  101	16:32:29.910989	:235 Using scaling with prescribed size of destination (74, 50), x=0.289062, y=0.292398. 
+TRACE	  101	16:32:29.911019	:235 Using scaling with prescribed size of destination (37, 25), x=0.144531, y=0.146199. 
+TRACE	  101	16:32:29.911046	:235 Using scaling with prescribed size of destination (19, 13), x=0.0742188, y=0.0760234. 
+TRACE	  101	16:32:29.911072	:235 Using scaling with prescribed size of destination (10, 7), x=0.0390625, y=0.0409357. 
+TRACE	  101	16:32:29.911098	:235 Using scaling with prescribed size of destination (5, 4), x=0.0195312, y=0.0233918. 
+TRACE	  101	16:32:29.911124	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.911150	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.911176	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+TRACE	  101	16:32:29.914375	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:32:29.914397	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.914412	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.914425	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.914438	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.914451	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.914464	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.914478	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.914662	:235 Using scaling with prescribed size of destination (2149, 1433), x=20.2736, y=20.1831. 
+TRACE	  101	16:32:29.914707	:235 Using scaling with prescribed size of destination (1075, 717), x=10.1415, y=10.0986. 
+TRACE	  101	16:32:29.914738	:235 Using scaling with prescribed size of destination (538, 359), x=5.07547, y=5.05634. 
+TRACE	  101	16:32:29.914769	:235 Using scaling with prescribed size of destination (269, 180), x=2.53774, y=2.53521. 
+TRACE	  101	16:32:29.914798	:235 Using scaling with prescribed size of destination (135, 90), x=1.27358, y=1.26761. 
+TRACE	  101	16:32:29.914825	:235 Using scaling with prescribed size of destination (68, 45), x=0.641509, y=0.633803. 
+TRACE	  101	16:32:29.914851	:235 Using scaling with prescribed size of destination (34, 23), x=0.320755, y=0.323944. 
+TRACE	  101	16:32:29.914877	:235 Using scaling with prescribed size of destination (17, 12), x=0.160377, y=0.169014. 
+TRACE	  101	16:32:29.914904	:235 Using scaling with prescribed size of destination (9, 6), x=0.0849057, y=0.084507. 
+TRACE	  101	16:32:29.914930	:235 Using scaling with prescribed size of destination (5, 3), x=0.0471698, y=0.0422535. 
+TRACE	  101	16:32:29.914957	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.914983	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.915009	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.915053	:235 Using scaling with prescribed size of destination (2149, 1433), x=8.39453, y=8.38012. 
+TRACE	  101	16:32:29.915091	:235 Using scaling with prescribed size of destination (1075, 717), x=4.19922, y=4.19298. 
+TRACE	  101	16:32:29.915121	:235 Using scaling with prescribed size of destination (538, 359), x=2.10156, y=2.09942. 
+TRACE	  101	16:32:29.915147	:235 Using scaling with prescribed size of destination (269, 180), x=1.05078, y=1.05263. 
+TRACE	  101	16:32:29.915173	:235 Using scaling with prescribed size of destination (135, 90), x=0.527344, y=0.526316. 
+TRACE	  101	16:32:29.915198	:235 Using scaling with prescribed size of destination (68, 45), x=0.265625, y=0.263158. 
+TRACE	  101	16:32:29.915225	:235 Using scaling with prescribed size of destination (34, 23), x=0.132812, y=0.134503. 
+TRACE	  101	16:32:29.915250	:235 Using scaling with prescribed size of destination (17, 12), x=0.0664062, y=0.0701754. 
+TRACE	  101	16:32:29.915276	:235 Using scaling with prescribed size of destination (9, 6), x=0.0351562, y=0.0350877. 
+TRACE	  101	16:32:29.915301	:235 Using scaling with prescribed size of destination (5, 3), x=0.0195312, y=0.0175439. 
+TRACE	  101	16:32:29.915327	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.915353	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.915377	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+TRACE	  101	16:32:29.917529	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  101	16:32:29.917550	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.917564	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.917578	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.917591	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.917604	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.917617	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.917630	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.917815	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  101	16:32:29.917855	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  101	16:32:29.917882	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  101	16:32:29.917909	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  101	16:32:29.917935	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  101	16:32:29.917962	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  101	16:32:29.917988	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.918014	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.918040	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.918083	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  101	16:32:29.918110	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  101	16:32:29.918136	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  101	16:32:29.918161	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  101	16:32:29.918187	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  101	16:32:29.918212	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  101	16:32:29.918237	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.918263	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.918288	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  101	16:32:29.920023	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.920044	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.936203	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.936223	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.952979	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.953013	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  101	16:32:29.969491	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:32:29.969514	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.969529	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.969543	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.969556	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.969569	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.969582	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.969595	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.969802	:235 Using scaling with prescribed size of destination (4717, 3145), x=44.5, y=44.2958. 
+TRACE	  101	16:32:29.969878	:235 Using scaling with prescribed size of destination (2359, 1573), x=22.2547, y=22.1549. 
+TRACE	  101	16:32:29.969919	:235 Using scaling with prescribed size of destination (1180, 787), x=11.1321, y=11.0845. 
+TRACE	  101	16:32:29.969949	:235 Using scaling with prescribed size of destination (590, 394), x=5.56604, y=5.5493. 
+TRACE	  101	16:32:29.969977	:235 Using scaling with prescribed size of destination (295, 197), x=2.78302, y=2.77465. 
+TRACE	  101	16:32:29.970018	:235 Using scaling with prescribed size of destination (148, 99), x=1.39623, y=1.39437. 
+TRACE	  101	16:32:29.970046	:235 Using scaling with prescribed size of destination (74, 50), x=0.698113, y=0.704225. 
+TRACE	  101	16:32:29.970072	:235 Using scaling with prescribed size of destination (37, 25), x=0.349057, y=0.352113. 
+TRACE	  101	16:32:29.970098	:235 Using scaling with prescribed size of destination (19, 13), x=0.179245, y=0.183099. 
+TRACE	  101	16:32:29.970124	:235 Using scaling with prescribed size of destination (10, 7), x=0.0943396, y=0.0985916. 
+TRACE	  101	16:32:29.970150	:235 Using scaling with prescribed size of destination (5, 4), x=0.0471698, y=0.056338. 
+TRACE	  101	16:32:29.970175	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.970201	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.970226	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.970275	:235 Using scaling with prescribed size of destination (4717, 3145), x=18.4258, y=18.3918. 
+TRACE	  101	16:32:29.970349	:235 Using scaling with prescribed size of destination (2359, 1573), x=9.21484, y=9.19883. 
+TRACE	  101	16:32:29.970390	:235 Using scaling with prescribed size of destination (1180, 787), x=4.60938, y=4.60234. 
+TRACE	  101	16:32:29.970420	:235 Using scaling with prescribed size of destination (590, 394), x=2.30469, y=2.30409. 
+TRACE	  101	16:32:29.970451	:235 Using scaling with prescribed size of destination (295, 197), x=1.15234, y=1.15205. 
+TRACE	  101	16:32:29.970479	:235 Using scaling with prescribed size of destination (148, 99), x=0.578125, y=0.578947. 
+TRACE	  101	16:32:29.970505	:235 Using scaling with prescribed size of destination (74, 50), x=0.289062, y=0.292398. 
+TRACE	  101	16:32:29.970532	:235 Using scaling with prescribed size of destination (37, 25), x=0.144531, y=0.146199. 
+TRACE	  101	16:32:29.970558	:235 Using scaling with prescribed size of destination (19, 13), x=0.0742188, y=0.0760234. 
+TRACE	  101	16:32:29.970585	:235 Using scaling with prescribed size of destination (10, 7), x=0.0390625, y=0.0409357. 
+TRACE	  101	16:32:29.970611	:235 Using scaling with prescribed size of destination (5, 4), x=0.0195312, y=0.0233918. 
+TRACE	  101	16:32:29.970639	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.970667	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.970694	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+TRACE	  101	16:32:29.974502	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:32:29.974526	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.974540	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.974554	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.974567	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.974580	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.974594	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.974607	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.974809	:235 Using scaling with prescribed size of destination (2149, 1433), x=20.2736, y=20.1831. 
+TRACE	  101	16:32:29.974858	:235 Using scaling with prescribed size of destination (1075, 717), x=10.1415, y=10.0986. 
+TRACE	  101	16:32:29.974893	:235 Using scaling with prescribed size of destination (538, 359), x=5.07547, y=5.05634. 
+TRACE	  101	16:32:29.974920	:235 Using scaling with prescribed size of destination (269, 180), x=2.53774, y=2.53521. 
+TRACE	  101	16:32:29.974960	:235 Using scaling with prescribed size of destination (135, 90), x=1.27358, y=1.26761. 
+TRACE	  101	16:32:29.974990	:235 Using scaling with prescribed size of destination (68, 45), x=0.641509, y=0.633803. 
+TRACE	  101	16:32:29.975020	:235 Using scaling with prescribed size of destination (34, 23), x=0.320755, y=0.323944. 
+TRACE	  101	16:32:29.975046	:235 Using scaling with prescribed size of destination (17, 12), x=0.160377, y=0.169014. 
+TRACE	  101	16:32:29.975076	:235 Using scaling with prescribed size of destination (9, 6), x=0.0849057, y=0.084507. 
+TRACE	  101	16:32:29.975102	:235 Using scaling with prescribed size of destination (5, 3), x=0.0471698, y=0.0422535. 
+TRACE	  101	16:32:29.975131	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.975161	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.975187	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.975238	:235 Using scaling with prescribed size of destination (2149, 1433), x=8.39453, y=8.38012. 
+TRACE	  101	16:32:29.975290	:235 Using scaling with prescribed size of destination (1075, 717), x=4.19922, y=4.19298. 
+TRACE	  101	16:32:29.975324	:235 Using scaling with prescribed size of destination (538, 359), x=2.10156, y=2.09942. 
+TRACE	  101	16:32:29.975355	:235 Using scaling with prescribed size of destination (269, 180), x=1.05078, y=1.05263. 
+TRACE	  101	16:32:29.975382	:235 Using scaling with prescribed size of destination (135, 90), x=0.527344, y=0.526316. 
+TRACE	  101	16:32:29.975412	:235 Using scaling with prescribed size of destination (68, 45), x=0.265625, y=0.263158. 
+TRACE	  101	16:32:29.975438	:235 Using scaling with prescribed size of destination (34, 23), x=0.132812, y=0.134503. 
+TRACE	  101	16:32:29.975469	:235 Using scaling with prescribed size of destination (17, 12), x=0.0664062, y=0.0701754. 
+TRACE	  101	16:32:29.975498	:235 Using scaling with prescribed size of destination (9, 6), x=0.0351562, y=0.0350877. 
+TRACE	  101	16:32:29.975527	:235 Using scaling with prescribed size of destination (5, 3), x=0.0195312, y=0.0175439. 
+TRACE	  101	16:32:29.975559	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.975607	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.975658	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+TRACE	  101	16:32:29.978458	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  101	16:32:29.978488	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  101	16:32:29.978504	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.978519	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.978533	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  101	16:32:29.978547	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.978560	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  101	16:32:29.978574	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  101	16:32:29.978808	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  101	16:32:29.978843	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  101	16:32:29.978874	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  101	16:32:29.978905	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  101	16:32:29.978932	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  101	16:32:29.978980	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  101	16:32:29.979008	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:29.979039	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:29.979070	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:29.979120	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  101	16:32:29.979155	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  101	16:32:29.979184	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  101	16:32:29.979213	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  101	16:32:29.979242	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  101	16:32:29.979270	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  101	16:32:29.979299	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:29.979330	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:29.979356	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  101	16:32:29.981236	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.981262	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:29.997610	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:29.997632	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+DEBUG	  101	16:32:30.014401	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:32:30.014433	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  112	16:32:30.158858	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	16:32:30.158913	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  112	16:32:30.158937	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  112	16:32:30.158954	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:30.158969	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:30.158987	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  112	16:32:30.159002	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  112	16:32:30.159016	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  112	16:32:30.159245	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  112	16:32:30.159281	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  112	16:32:30.159310	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  112	16:32:30.159340	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  112	16:32:30.159369	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  112	16:32:30.159397	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  112	16:32:30.159425	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  112	16:32:30.159454	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  112	16:32:30.159482	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  112	16:32:30.159822	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  112	16:32:30.159878	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  112	16:32:30.159916	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  112	16:32:30.159951	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  112	16:32:30.159984	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  112	16:32:30.160012	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  112	16:32:30.160040	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  112	16:32:30.160067	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  112	16:32:30.160094	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  112	16:32:30.162048	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	16:32:30.162097	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  101	16:32:32.448954	:374 Displayed Image update finished 
+TRACE	  112	16:32:32.482482	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	16:32:32.482519	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  112	16:32:32.482534	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.482548	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:32.482561	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:32.482575	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.482589	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.482602	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  112	16:32:32.482829	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  112	16:32:32.482861	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  112	16:32:32.482892	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  112	16:32:32.482919	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  112	16:32:32.482955	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  112	16:32:32.482983	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  112	16:32:32.483013	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  112	16:32:32.483042	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  112	16:32:32.483069	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  112	16:32:32.483117	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  112	16:32:32.483150	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  112	16:32:32.483179	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  112	16:32:32.483205	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  112	16:32:32.483234	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  112	16:32:32.483259	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  112	16:32:32.483288	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  112	16:32:32.483335	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  112	16:32:32.483365	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  112	16:32:32.485014	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	16:32:32.485040	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  112	16:32:32.601334	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	16:32:32.601367	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  112	16:32:32.601383	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.601397	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:32.601411	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:32.601424	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.601437	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.601450	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  112	16:32:32.601638	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  112	16:32:32.601670	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  112	16:32:32.601698	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  112	16:32:32.601725	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  112	16:32:32.601752	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  112	16:32:32.601780	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  112	16:32:32.601806	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  112	16:32:32.601832	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  112	16:32:32.601858	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  112	16:32:32.601903	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  112	16:32:32.601931	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  112	16:32:32.601958	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  112	16:32:32.601984	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  112	16:32:32.602010	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  112	16:32:32.602035	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  112	16:32:32.602061	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  112	16:32:32.602087	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  112	16:32:32.602113	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  112	16:32:32.603498	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	16:32:32.603521	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  112	16:32:32.725151	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	16:32:32.725187	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  112	16:32:32.725203	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.725217	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:32.725250	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:32.725264	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.725277	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.725291	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  112	16:32:32.725483	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  112	16:32:32.725515	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  112	16:32:32.725543	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  112	16:32:32.725569	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  112	16:32:32.725596	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  112	16:32:32.725623	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  112	16:32:32.725650	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  112	16:32:32.725676	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  112	16:32:32.725702	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  112	16:32:32.725747	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  112	16:32:32.725776	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  112	16:32:32.725803	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  112	16:32:32.725830	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  112	16:32:32.725856	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  112	16:32:32.725883	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  112	16:32:32.725909	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  112	16:32:32.725936	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  112	16:32:32.725962	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  112	16:32:32.727400	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	16:32:32.727424	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  112	16:32:32.839148	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	16:32:32.839185	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  112	16:32:32.839200	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.839215	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:32.839228	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:32.839241	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.839254	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  112	16:32:32.839268	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  112	16:32:32.839465	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  112	16:32:32.839495	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  112	16:32:32.839525	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  112	16:32:32.839571	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  112	16:32:32.839602	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  112	16:32:32.839629	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  112	16:32:32.839658	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  112	16:32:32.839684	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  112	16:32:32.839712	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  112	16:32:32.839760	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  112	16:32:32.839791	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  112	16:32:32.839817	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  112	16:32:32.839846	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  112	16:32:32.839871	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  112	16:32:32.839899	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  112	16:32:32.839925	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  112	16:32:32.839953	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  112	16:32:32.839979	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  112	16:32:32.841732	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	16:32:32.841754	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  112	16:32:33.019600	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	16:32:33.019635	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  112	16:32:33.019650	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  112	16:32:33.019665	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:33.019679	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:33.019693	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  112	16:32:33.019706	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  112	16:32:33.019720	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  112	16:32:33.019911	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  112	16:32:33.019942	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  112	16:32:33.019970	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  112	16:32:33.019997	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  112	16:32:33.020024	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  112	16:32:33.020051	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  112	16:32:33.020077	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  112	16:32:33.020104	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  112	16:32:33.020130	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  112	16:32:33.020175	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  112	16:32:33.020225	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  112	16:32:33.020252	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  112	16:32:33.020278	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  112	16:32:33.020304	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  112	16:32:33.020330	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  112	16:32:33.020356	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  112	16:32:33.020381	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  112	16:32:33.020407	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  112	16:32:33.021803	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	16:32:33.021831	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  112	16:32:33.194808	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	16:32:33.194844	:103 Begin resolving module graph with root filter ToneMappingFilter 
+TRACE	  112	16:32:33.194859	:118  - Adding 'inputImage' for source inputImage in filter ToneMappingFilter 
+TRACE	  112	16:32:33.194874	:139  - Using imageDataMap to resolve source histdataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:33.194887	:139  - Using imageDataMap to resolve source miidataimg in filter ToneMappingFilter 
+TRACE	  112	16:32:33.194901	:139  - Using imageDataMap to resolve source downscaledlumimage in filter ToneMappingFilter 
+TRACE	  112	16:32:33.194914	:139  - Using imageDataMap to resolve source luminanceImage in filter ToneMappingFilter 
+TRACE	  112	16:32:33.194927	:139  - Using imageDataMap to resolve source downscaledlumimageforulf in filter ToneMappingFilter 
+TRACE	  112	16:32:33.195139	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  112	16:32:33.195175	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  112	16:32:33.195203	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  112	16:32:33.195230	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  112	16:32:33.195256	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  112	16:32:33.195283	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  112	16:32:33.195310	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  112	16:32:33.195338	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  112	16:32:33.195365	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  112	16:32:33.195414	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  112	16:32:33.195443	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  112	16:32:33.195469	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  112	16:32:33.195496	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  112	16:32:33.195522	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  112	16:32:33.195549	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  112	16:32:33.195575	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  112	16:32:33.195601	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  112	16:32:33.195627	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  112	16:32:33.197275	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	16:32:33.197302	:40 Converting from color profile ProPhoto RGB (RGB16u) to ProPhoto RGB (RGB16u) 
+TRACE	  101	16:32:33.838265	:374 Displayed Image update finished 
+TRACE	  101	16:32:44.226748	:374 Displayed Image update finished 
+TRACE	  101	16:32:45.308907	:374 Displayed Image update finished 
+TRACE	  101	16:32:46.395963	:374 Displayed Image update finished 
+DEBUG	  101	16:32:47.742463	:62 No control points added to the filter ToneMappingFilter. 
+TRACE	  101	16:32:47.777429	:235 Using scaling with prescribed size of destination (4717, 3145), x=44.5, y=44.2958. 
+TRACE	  101	16:32:47.777532	:235 Using scaling with prescribed size of destination (2359, 1573), x=22.2547, y=22.1549. 
+TRACE	  101	16:32:47.777577	:235 Using scaling with prescribed size of destination (1180, 787), x=11.1321, y=11.0845. 
+TRACE	  101	16:32:47.777609	:235 Using scaling with prescribed size of destination (590, 394), x=5.56604, y=5.5493. 
+TRACE	  101	16:32:47.777637	:235 Using scaling with prescribed size of destination (295, 197), x=2.78302, y=2.77465. 
+TRACE	  101	16:32:47.777665	:235 Using scaling with prescribed size of destination (148, 99), x=1.39623, y=1.39437. 
+TRACE	  101	16:32:47.777692	:235 Using scaling with prescribed size of destination (74, 50), x=0.698113, y=0.704225. 
+TRACE	  101	16:32:47.777719	:235 Using scaling with prescribed size of destination (37, 25), x=0.349057, y=0.352113. 
+TRACE	  101	16:32:47.777745	:235 Using scaling with prescribed size of destination (19, 13), x=0.179245, y=0.183099. 
+TRACE	  101	16:32:47.777772	:235 Using scaling with prescribed size of destination (10, 7), x=0.0943396, y=0.0985916. 
+TRACE	  101	16:32:47.777799	:235 Using scaling with prescribed size of destination (5, 4), x=0.0471698, y=0.056338. 
+TRACE	  101	16:32:47.777825	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:47.777852	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:47.777878	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:47.777926	:235 Using scaling with prescribed size of destination (4717, 3145), x=18.4258, y=18.3918. 
+TRACE	  101	16:32:47.778008	:235 Using scaling with prescribed size of destination (2359, 1573), x=9.21484, y=9.19883. 
+TRACE	  101	16:32:47.778053	:235 Using scaling with prescribed size of destination (1180, 787), x=4.60938, y=4.60234. 
+TRACE	  101	16:32:47.778085	:235 Using scaling with prescribed size of destination (590, 394), x=2.30469, y=2.30409. 
+TRACE	  101	16:32:47.778113	:235 Using scaling with prescribed size of destination (295, 197), x=1.15234, y=1.15205. 
+TRACE	  101	16:32:47.778140	:235 Using scaling with prescribed size of destination (148, 99), x=0.578125, y=0.578947. 
+TRACE	  101	16:32:47.778168	:235 Using scaling with prescribed size of destination (74, 50), x=0.289062, y=0.292398. 
+TRACE	  101	16:32:47.778194	:235 Using scaling with prescribed size of destination (37, 25), x=0.144531, y=0.146199. 
+TRACE	  101	16:32:47.778221	:235 Using scaling with prescribed size of destination (19, 13), x=0.0742188, y=0.0760234. 
+TRACE	  101	16:32:47.778248	:235 Using scaling with prescribed size of destination (10, 7), x=0.0390625, y=0.0409357. 
+TRACE	  101	16:32:47.778274	:235 Using scaling with prescribed size of destination (5, 4), x=0.0195312, y=0.0233918. 
+TRACE	  101	16:32:47.778301	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:47.778328	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:47.778354	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+TRACE	  101	16:32:47.798610	:235 Using scaling with prescribed size of destination (2149, 1433), x=20.2736, y=20.1831. 
+TRACE	  101	16:32:47.798670	:235 Using scaling with prescribed size of destination (1075, 717), x=10.1415, y=10.0986. 
+TRACE	  101	16:32:47.798721	:235 Using scaling with prescribed size of destination (538, 359), x=5.07547, y=5.05634. 
+TRACE	  101	16:32:47.798750	:235 Using scaling with prescribed size of destination (269, 180), x=2.53774, y=2.53521. 
+TRACE	  101	16:32:47.798776	:235 Using scaling with prescribed size of destination (135, 90), x=1.27358, y=1.26761. 
+TRACE	  101	16:32:47.798803	:235 Using scaling with prescribed size of destination (68, 45), x=0.641509, y=0.633803. 
+TRACE	  101	16:32:47.798829	:235 Using scaling with prescribed size of destination (34, 23), x=0.320755, y=0.323944. 
+TRACE	  101	16:32:47.798854	:235 Using scaling with prescribed size of destination (17, 12), x=0.160377, y=0.169014. 
+TRACE	  101	16:32:47.798881	:235 Using scaling with prescribed size of destination (9, 6), x=0.0849057, y=0.084507. 
+TRACE	  101	16:32:47.798907	:235 Using scaling with prescribed size of destination (5, 3), x=0.0471698, y=0.0422535. 
+TRACE	  101	16:32:47.798933	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:47.798958	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:47.798984	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:47.799030	:235 Using scaling with prescribed size of destination (2149, 1433), x=8.39453, y=8.38012. 
+TRACE	  101	16:32:47.799068	:235 Using scaling with prescribed size of destination (1075, 717), x=4.19922, y=4.19298. 
+TRACE	  101	16:32:47.799097	:235 Using scaling with prescribed size of destination (538, 359), x=2.10156, y=2.09942. 
+TRACE	  101	16:32:47.799125	:235 Using scaling with prescribed size of destination (269, 180), x=1.05078, y=1.05263. 
+TRACE	  101	16:32:47.799151	:235 Using scaling with prescribed size of destination (135, 90), x=0.527344, y=0.526316. 
+TRACE	  101	16:32:47.799176	:235 Using scaling with prescribed size of destination (68, 45), x=0.265625, y=0.263158. 
+TRACE	  101	16:32:47.799202	:235 Using scaling with prescribed size of destination (34, 23), x=0.132812, y=0.134503. 
+TRACE	  101	16:32:47.799228	:235 Using scaling with prescribed size of destination (17, 12), x=0.0664062, y=0.0701754. 
+TRACE	  101	16:32:47.799254	:235 Using scaling with prescribed size of destination (9, 6), x=0.0351562, y=0.0350877. 
+TRACE	  101	16:32:47.799280	:235 Using scaling with prescribed size of destination (5, 3), x=0.0195312, y=0.0175439. 
+TRACE	  101	16:32:47.799306	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:47.799331	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:47.799356	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+TRACE	  101	16:32:47.810845	:235 Using scaling with prescribed size of destination (188, 126), x=1.77358, y=1.77465. 
+TRACE	  101	16:32:47.810894	:235 Using scaling with prescribed size of destination (94, 63), x=0.886792, y=0.887324. 
+TRACE	  101	16:32:47.810923	:235 Using scaling with prescribed size of destination (47, 32), x=0.443396, y=0.450704. 
+TRACE	  101	16:32:47.810959	:235 Using scaling with prescribed size of destination (24, 16), x=0.226415, y=0.225352. 
+TRACE	  101	16:32:47.810986	:235 Using scaling with prescribed size of destination (12, 8), x=0.113208, y=0.112676. 
+TRACE	  101	16:32:47.811012	:235 Using scaling with prescribed size of destination (6, 4), x=0.0566038, y=0.056338. 
+TRACE	  101	16:32:47.811038	:235 Using scaling with prescribed size of destination (3, 2), x=0.0283019, y=0.028169. 
+TRACE	  101	16:32:47.811064	:235 Using scaling with prescribed size of destination (2, 1), x=0.0188679, y=0.0140845. 
+TRACE	  101	16:32:47.811090	:235 Using scaling with prescribed size of destination (1, 1), x=0.00943396, y=0.0140845. 
+TRACE	  101	16:32:47.811137	:235 Using scaling with prescribed size of destination (188, 126), x=0.734375, y=0.736842. 
+TRACE	  101	16:32:47.811207	:235 Using scaling with prescribed size of destination (94, 63), x=0.367188, y=0.368421. 
+TRACE	  101	16:32:47.811236	:235 Using scaling with prescribed size of destination (47, 32), x=0.183594, y=0.187135. 
+TRACE	  101	16:32:47.811263	:235 Using scaling with prescribed size of destination (24, 16), x=0.09375, y=0.0935673. 
+TRACE	  101	16:32:47.811290	:235 Using scaling with prescribed size of destination (12, 8), x=0.046875, y=0.0467836. 
+TRACE	  101	16:32:47.811326	:235 Using scaling with prescribed size of destination (6, 4), x=0.0234375, y=0.0233918. 
+TRACE	  101	16:32:47.811352	:235 Using scaling with prescribed size of destination (3, 2), x=0.0117188, y=0.0116959. 
+TRACE	  101	16:32:47.811378	:235 Using scaling with prescribed size of destination (2, 1), x=0.0078125, y=0.00584795. 
+TRACE	  101	16:32:47.811404	:235 Using scaling with prescribed size of destination (1, 1), x=0.00390625, y=0.00584795. 
+DEBUG	  101	16:32:47.821389	:62 No control points added to the filter ToneMappingFilter. 
+TRACE	  101	16:32:48.838923	:374 Displayed Image update finished 
+CRITICAL	  101	16:32:52.106830	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+CRITICAL	  101	16:32:52.107456	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+DEBUG	  101	16:32:52.112572	:222 Delete BaseImageHandler 
+DEBUG	  101	16:32:52.269924	:362 FontManager released 
+DEBUG	  101	16:32:52.269955	:365 TileCache released 
+DEBUG	  101	16:32:52.270442	:368 ICCDeviceManager released 
+DEBUG	  101	16:32:52.270507	:371 ColorManager released 
+DEBUG	  101	16:32:52.270520	:374 Unused storage freed 
+DEBUG	  101	16:32:52.270621	:379 ImageStorageManager released 
+DEBUG	  101	16:32:52.271269	:1114 GL texture cache: free 266, used 1 
+DEBUG	  101	16:32:52.328755	:388 Renderer released 
+DEBUG	  101	16:32:52.328808	:391 DefaultJobDispatcher released 
+DEBUG	  101	16:32:52.328893	:215 Releasing ImageMemoryManager ressources 
+TRACE	  101	16:32:52.328911	:373 Deleting all pools. 
+DEBUG	  101	16:32:52.931992	:423 Application Shutdown finished 
+CRITICAL	  101	16:32:52.932024	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+INFO	  101	16:32:52.932082	:125 Metrics aggregation returned: failed 

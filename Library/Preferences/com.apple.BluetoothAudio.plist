@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Previous Input UID</key>
+	<string>AppleHDAEngineInput:1B,0,1,0:1</string>
+	<key>Previous Output UID</key>
+	<string>AppleHDAEngineOutput:1B,0,1,1:0</string>
+</dict>
+</plist>

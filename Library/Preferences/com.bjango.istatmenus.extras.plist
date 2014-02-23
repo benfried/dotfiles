@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CPUMultiple</key>
+	<integer>1</integer>
+	<key>DisksMenubar</key>
+	<array>
+		<string>9CDDBA25-A659-366D-8182-E8E74DA1CC4E</string>
+	</array>
+	<key>FanActiveSet</key>
+	<string></string>
+	<key>FanSpeedSets</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>Medium</string>
+			<key>speeds</key>
+			<array>
+				<dict>
+					<key>fan</key>
+					<string>F0Ac</string>
+					<key>speed</key>
+					<real>4050</real>
+				</dict>
+				<dict>
+					<key>fan</key>
+					<string>F1Ac</string>
+					<key>speed</key>
+					<real>3525</real>
+				</dict>
+			</array>
+			<key>uuid</key>
+			<string>35F7A630-DE06-4B42-B421-BC1B1727A704</string>
+		</dict>
+	</array>
+	<key>MemoryDisplayMode</key>
+	<string>100,1,3</string>
+	<key>NetworkPrimaryInterface</key>
+	<string></string>
+	<key>SensorsFanSetDefault</key>
+	<string></string>
+	<key>SensorsMenubar</key>
+	<array>
+		<string>TCXC</string>
+	</array>
+	<key>_mac_id</key>
+	<string>0182d47d2c3aba81d04c025eb73d8faf</string>
+	<key>migrated4.0</key>
+	<true/>
+	<key>migratedExtras4.0</key>
+	<true/>
+	<key>sendDiagnostics</key>
+	<false/>
+	<key>skinColor</key>
+	<integer>0</integer>
+	<key>updateCheckerEnabled</key>
+	<true/>
+</dict>
+</plist>

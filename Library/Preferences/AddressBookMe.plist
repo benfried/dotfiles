@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AreaCode</key>
+	<string>917</string>
+	<key>City</key>
+	<string>New York</string>
+	<key>Company</key>
+	<string></string>
+	<key>CountryName</key>
+	<string>United States</string>
+	<key>ExistingEmailAddress</key>
+	<string>ben.fried@gmail.com</string>
+	<key>FirstName</key>
+	<string>Benjamin</string>
+	<key>LastName</key>
+	<string>Fried</string>
+	<key>LocalPhoneNumber</key>
+	<string>720-4229</string>
+	<key>StateProv</key>
+	<string>NY</string>
+	<key>StreetAddr1</key>
+	<string>845 West End Ave</string>
+	<key>StreetAddr2</key>
+	<string>Apt. 14E</string>
+	<key>ZipPostal</key>
+	<string>10025-8478</string>
+</dict>
+</plist>

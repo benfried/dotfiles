@@ -1,0 +1,914 @@
+DEBUG	  101	16:33:20.439146	:140 Setting '/Users/bf/Library/Preferences/Google/Silver Efex Pro 2/swap' as swap dir. 
+CRITICAL	  101	16:33:20.439579	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+DEBUG	  101	16:33:20.441096	:54 Searching for translation files in '/Applications/Nik Collection/Silver Efex Pro 2.app/Contents/Resources' for language 'en' 
+INFO	  101	16:33:20.452696	:102 DummyInteger IntInc 
+INFO	  101	16:33:20.452744	:174 Starting Silver Efex Pro 2 (Lightroom) Version 2.2.0.5 Revision 3010-70 (1.105), 64 bit mode, built on Oct 30 2013 
+INFO	  101	16:33:21.336400	:178 System info:
+
+OS
+Version: 10.9.1
+Language: English
+Country: English
+
+CPU
+DeviceId: Unknown
+Description: Intel Core i7
+Architecture: x86_64
+Cores: 4
+Speed per Core (MHz): 2300
+
+HDD
+
+Memory
+Physical Size (MB): 8192
+Available Virtual Memory (MB): 2048
+
+Display
+Primary Display: true
+Resolution Width: 2556
+Resolution Height: 1578
+Bitrate: 24
+
+Graphic card
+Description: Intel HD Graphics 4000
+Display Driver Version: 
+Video Memory (MB): 1024
+ 
+INFO	  101	16:33:21.336445	:102 DummyCount IntInc 
+INFO	  101	16:33:21.970336	:102 DummyCount IntInc 
+INFO	  101	16:33:21.970860	:107 GPU filtering switched on globally by user settings. 
+INFO	  101	16:33:21.970896	:236 Setting GPU preferred tile size to 1024 
+INFO	  101	16:33:21.971258	:239 Setting CPU preferred tile size to 256 
+TRACE	  101	16:33:21.971274	:274 Initializing the memory settings. 
+INFO	  101	16:33:22.604591	:345 Setting physicalMemoryLimit to 6144 MB 
+DEBUG	  101	16:33:22.606174	:308 Memory manager physical limit set to: 6144 mb 
+INFO	  101	16:33:22.606582	:359 Setting tileCacheSize to 5632 MB 
+INFO	  101	16:33:22.606616	:369 Setting imageStorageLimitGpu to 960 MB 
+INFO	  101	16:33:22.606683	:378 Setting imageStorageLimitCpu to 6144 MB 
+TRACE	  101	16:33:22.606697	:277 Initializing the plugin factory. 
+TRACE	  101	16:33:22.606759	:280 Initializing the file io utilities. 
+TRACE	  101	16:33:22.607147	:283 Initializing the application controller. 
+CRITICAL	  101	16:33:22.608602	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+TRACE	  101	16:33:22.610043	:45 Filter module LeonisFilter registered succesfully. 
+DEBUG	  101	16:33:22.887583	:299 Swap path set to /Users/bf/Library/Preferences/Google/Silver Efex Pro 2/swap 
+TRACE	  101	16:33:22.903038	:253 Entering 'RendererGL::RendererGL(GLContextType ctx)' 
+TRACE	  101	16:33:22.907560	:311 Initialized OpenGL-Renderer sucessfully: 
+INFO	  101	16:33:22.907581	:312 Vendor: NVIDIA Corporation 
+INFO	  101	16:33:22.907593	:313 Renderer: NVIDIA GeForce GT 650M OpenGL Engine 
+INFO	  101	16:33:22.907605	:314 Version: 2.1 NVIDIA-8.18.22 310.40.05f01 
+TRACE	  101	16:33:22.907631	:316 Extensions: GL_ARB_color_buffer_float GL_ARB_depth_buffer_float GL_ARB_depth_clamp GL_ARB_depth_texture GL_ARB_draw_buffers GL_ARB_draw_elements_base_vertex GL_ARB_draw_instanced GL_ARB_fragment_program GL_ARB_fragment_program_shadow GL_ARB_fragment_shader GL_ARB_framebuffer_object GL_ARB_framebuffer_sRGB GL_ARB_half_float_pixel GL_ARB_half_float_vertex GL_ARB_imaging GL_ARB_instanced_arrays GL_ARB_multisample GL_ARB_multitexture GL_ARB_occlusion_query GL_ARB_pixel_buffer_object GL_ARB_point_parameters GL_ARB_point_sprite GL_ARB_provoking_vertex GL_ARB_seamless_cube_map GL_ARB_shader_objects GL_ARB_shader_texture_lod GL_ARB_shading_language_100 GL_ARB_shadow GL_ARB_sync GL_ARB_texture_border_clamp GL_ARB_texture_compression GL_ARB_texture_compression_rgtc GL_ARB_texture_cube_map GL_ARB_texture_env_add GL_ARB_texture_env_combine GL_ARB_texture_env_crossbar GL_ARB_texture_env_dot3 GL_ARB_texture_float GL_ARB_texture_mirrored_repeat GL_ARB_texture_non_power_of_two GL_ARB_texture_rectangle GL_ARB_texture_rg GL_ARB_transpose_matrix GL_ARB_vertex_array_bgra GL_ARB_vertex_blend GL_ARB_vertex_buffer_object GL_ARB_vertex_program GL_ARB_vertex_shader GL_ARB_window_pos GL_EXT_abgr GL_EXT_bgra GL_EXT_bindable_uniform GL_EXT_blend_color GL_EXT_blend_equation_separate GL_EXT_blend_func_separate GL_EXT_blend_minmax GL_EXT_blend_subtract GL_EXT_clip_volume_hint GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_bounds_test GL_EXT_draw_buffers2 GL_EXT_draw_range_elements GL_EXT_fog_coord GL_EXT_framebuffer_blit GL_EXT_framebuffer_multisample GL_EXT_framebuffer_multisample_blit_scaled GL_EXT_framebuffer_object GL_EXT_framebuffer_sRGB GL_EXT_geometry_shader4 GL_EXT_gpu_program_parameters GL_EXT_gpu_shader4 GL_EXT_multi_draw_arrays GL_EXT_packed_depth_stencil GL_EXT_packed_float GL_EXT_provoking_vertex GL_EXT_rescale_normal GL_EXT_secondary_color GL_EXT_separate_specular_color GL_EXT_shadow_funcs GL_EXT_stencil_two_side GL_EXT_stencil_wrap GL_EXT_texture_array GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_s3tc GL_EXT_texture_env_add GL_EXT_texture_filter_anisotropic GL_EXT_texture_integer GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp GL_EXT_texture_rectangle GL_EXT_texture_shared_exponent GL_EXT_texture_sRGB GL_EXT_texture_sRGB_decode GL_EXT_timer_query GL_EXT_transform_feedback GL_EXT_vertex_array_bgra GL_APPLE_aux_depth_stencil GL_APPLE_client_storage GL_APPLE_element_array GL_APPLE_fence GL_APPLE_float_pixels GL_APPLE_flush_buffer_range GL_APPLE_flush_render GL_APPLE_object_purgeable GL_APPLE_packed_pixels GL_APPLE_pixel_buffer GL_APPLE_rgb_422 GL_APPLE_row_bytes GL_APPLE_specular_vector GL_APPLE_texture_range GL_APPLE_transform_hint GL_APPLE_vertex_array_object GL_APPLE_vertex_array_range GL_APPLE_vertex_point_size GL_APPLE_vertex_program_evaluators GL_APPLE_ycbcr_422 GL_ATI_separate_stencil GL_ATI_texture_env_combine3 GL_ATI_texture_float GL_ATI_texture_mirror_once GL_IBM_rasterpos_clip GL_NV_blend_square GL_NV_conditional_render GL_NV_depth_clamp GL_NV_fog_distance GL_NV_fragment_program_option GL_NV_fragment_program2 GL_NV_light_max_exponent GL_NV_multisample_filter_hint GL_NV_point_sprite GL_NV_texgen_reflection GL_NV_texture_barrier GL_NV_vertex_program2_option GL_NV_vertex_program3 GL_SGIS_generate_mipmap GL_SGIS_texture_edge_clamp GL_SGIS_texture_lod  
+INFO	  101	16:33:22.907661	:323 GL_MULTISAMPLE_ARB=1 GL_SAMPLE_BUFFERS_ARB=0 
+INFO	  101	16:33:22.908079	:326 GL_MULTISAMPLE_ARB=0 GL_SAMPLE_BUFFERS_ARB=0 
+DEBUG	  101	16:33:22.908117	:1045 Detected version major = 2 minor = 1 
+TRACE	  101	16:33:22.908144	:991 detected vendor identifier: 1 
+TRACE	  101	16:33:22.908155	:335 Calling 'checkExtensions' 
+DEBUG	  101	16:33:22.908313	:1022 GL_ARB_framebuffer_object = true 
+DEBUG	  101	16:33:22.908325	:1023 GL_ARB_debug_output = false 
+DEBUG	  101	16:33:22.908335	:1024 GL_ATI_meminfo = false 
+DEBUG	  101	16:33:22.908345	:1025 GL_NVX_gpu_memory_info = false 
+TRACE	  101	16:33:22.908359	:337 Calling 'checkTextureSize' 
+DEBUG	  101	16:33:22.908394	:540 Detected major version 10 minor version 9.1 OS 
+DEBUG	  101	16:33:22.908407	:599 FBOReadback = 0 
+TRACE	  101	16:33:22.908544	:345 Calling 'updateMemoryUsage' 
+TRACE	  101	16:33:22.908558	:734 Calling 'checkFBOFloatTextureTarget' 
+TRACE	  101	16:33:22.913992	:736 Calling 'checkFBOIntegerTextureTarget' 
+TRACE	  101	16:33:22.914256	:738 Calling 'checkFBORedTextureTarget' 
+TRACE	  101	16:33:22.914898	:351 Leaving 'RendererGL::RendererGL(GLContextType ctx)' 
+INFO	  101	16:33:22.914915	:146 ***** System information bits *** 
+INFO	  101	16:33:22.914928	:149 bit HwAccelerated is ON  
+INFO	  101	16:33:22.914939	:149 bit FrameBufferObjectBit is ON  
+INFO	  101	16:33:22.914950	:149 bit BlendFunctionSeparateBit is ON  
+INFO	  101	16:33:22.914961	:149 bit VertexShaderBit is ON  
+INFO	  101	16:33:22.914972	:149 bit FragmentShaderBit is ON  
+INFO	  101	16:33:22.914982	:149 bit BlendColorBit is ON  
+INFO	  101	16:33:22.914993	:149 bit TextureFloatFilteringBit is ON  
+INFO	  101	16:33:22.915003	:149 bit FBOReadback is OFF  
+INFO	  101	16:33:22.915014	:149 bit NonPowerOfTwoTextures is ON  
+INFO	  101	16:33:22.915024	:149 bit MultipleOpenGLWindowsDefect is ON  
+INFO	  101	16:33:22.915035	:149 bit OffscreenRenderSupport is ON  
+INFO	  101	16:33:22.915045	:149 bit ProxyTextureDefect is OFF  
+INFO	  101	16:33:22.915069	:149 bit FullscreenSecondaryWindowDefect is OFF  
+INFO	  101	16:33:22.915080	:149 bit HalfFloatPixelBit is ON  
+INFO	  101	16:33:22.915090	:149 bit NeedsInitialisedTextures is OFF  
+INFO	  101	16:33:22.915113	:149 bit TooAlignedMemoryDefect is OFF  
+INFO	  101	16:33:22.915124	:149 bit SlowGPUGenerateMipmaps is OFF  
+INFO	  101	16:33:22.915135	:149 bit NeedsDelayedContextDeletion is OFF  
+INFO	  101	16:33:22.915145	:149 bit NeedsInitialisedTexturesOnce is OFF  
+INFO	  101	16:33:22.915155	:149 bit ReadPixelsDefect is OFF  
+INFO	  101	16:33:22.915166	:149 bit UnpackSubImageBit is ON  
+INFO	  101	16:33:22.915176	:149 bit PackSubImageBit is ON  
+INFO	  101	16:33:22.915186	:152 ***** Texture capabilities *** 
+INFO	  101	16:33:22.915196	:155 bit TextureFloatFormat is ON  
+INFO	  101	16:33:22.915207	:155 bit TextureIntegerFormat is ON  
+INFO	  101	16:33:22.915217	:155 bit TextureRedFormat is ON  
+INFO	  101	16:33:22.915228	:155 bit RGBA16F_RenderTarget is ON  
+INFO	  101	16:33:22.915238	:155 bit RGBA32F_RenderTarget is ON  
+INFO	  101	16:33:22.915248	:155 bit RGB16F_RenderTarget is ON  
+INFO	  101	16:33:22.915259	:155 bit RGB32F_RenderTarget is ON  
+INFO	  101	16:33:22.915269	:155 bit RGBA16U_RenderTarget is ON  
+INFO	  101	16:33:22.915279	:155 bit RGB16U_RenderTarget is ON  
+INFO	  101	16:33:22.915289	:155 bit Red16F_RenderTarget is ON  
+INFO	  101	16:33:22.915300	:155 bit Red32F_RenderTargetRed8_RenderTarget is ON  
+INFO	  101	16:33:22.915310	:155 bit Red16_RenderTarget is ON  
+TRACE	  101	16:33:22.915321	:93 Calling 'nik::gpu::loadRenderer():registerTextureImageFormat' 
+DEBUG	  101	16:33:23.128478	:20 Entering 'ICCDeviceManager::ICCDeviceManager() ' 
+DEBUG	  101	16:33:23.128504	:63 Calling 'ColorProfile::create(standardCProfile)' with standardCProfile=0'. 
+DEBUG	  101	16:33:23.128536	:49 Getting ColorManager instance. 
+DEBUG	  101	16:33:23.128547	:53 Creating color profile '0'. 
+DEBUG	  101	16:33:23.213887	:65 Calling 'updateAllScreens' 
+DEBUG	  101	16:33:23.214767	:131 Color profile for screen: 0 is /Library/ColorSync/Profiles/Displays/HP LP3065-D3A6D993-29FA-7283-E484-802DE5F520F3.icc 
+DEBUG	  101	16:33:23.224480	:28 Leaving 'ICCDeviceManager::ICCDeviceManager() ' 
+TRACE	  101	16:33:23.269555	:521 Entering BaseApplication::onGuiInitialize. 
+INFO	  101	16:33:23.270017	:182 GPUAutoSwitchFilter decided that GPU filtering is available. 
+DEBUG	  101	16:33:23.270049	:22 Explicitly trying to compile the color management shader. 
+TRACE	  101	16:33:23.282994	:850 Creating a new window. 
+DEBUG	  101	16:33:23.305018	:81 Loading XML style /Applications/Nik Collection/Silver Efex Pro 2.app/Contents/Resources/style.xml 
+DEBUG	  101	16:33:23.305063	:87 parsing file...  
+DEBUG	  101	16:33:23.586448	:89 parsing done. 
+TRACE	  101	16:33:23.618639	:861 Turning global color management off. 
+TRACE	  101	16:33:23.618676	:863 Getting current screen. 
+TRACE	  101	16:33:23.618718	:865 Getting color profile for current screen. 
+DEBUG	  101	16:33:23.619279	:296 Loading profile '/Library/ColorSync/Profiles/Displays/HP LP3065-D3A6D993-29FA-7283-E484-802DE5F520F3.icc' for displayID '1007264769'. 
+TRACE	  101	16:33:23.619298	:868 Setting color profile for visible image areas. 
+TRACE	  101	16:33:23.619351	:535 Initializing the DDEHandler. 
+TRACE	  101	16:33:23.621820	:552 Creating KeyboardInteractionLayer. 
+TRACE	  101	16:33:23.622108	:555 Creating BaseWindowLayout. 
+WARNING	  101	16:33:23.643448	:962 No Installed license version number found,fallback to compare version: 1 with accepted:  
+TRACE	  101	16:33:23.644883	:578 Calling 'show' on the window. 
+TRACE	  101	16:33:23.734650	:624 Going to load all sticky states. 
+TRACE	  101	16:33:23.808861	:632 Leaving BaseApplication::onGuiInitialize. 
+CRITICAL	  114	16:33:23.846496	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+CRITICAL	  114	16:33:23.846691	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+CRITICAL	  114	16:33:23.846809	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+CRITICAL	  114	16:33:23.847171	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+TRACE	  101	16:33:23.852280	:543 Starting to load image at index '0'. 
+DEBUG	  101	16:33:23.852303	:634 Opening FileName: /Volumes/media/Pictures/2013.12.December/788A4319-Edit.tif 
+TRACE	  110	16:33:23.855335	:483 Tiff with Photometric 2 , PlanarConfig 1, Compression 1, SamplesPerPixel 3, BitsPerSample 16  
+DEBUG	  110	16:33:23.860269	:200 Color profile description: sRGB IEC61966-2.1 
+INFO	  101	16:33:24.065901	:102 DummyCount IntInc 
+INFO	  101	16:33:24.066245	:102 DummyCount IntInc 
+DEBUG	  101	16:33:24.066357	:18 Primary screen has the working area size: (2556, 1578). 
+DEBUG	  101	16:33:24.066374	:20 Preferred size based on working area without top and bottom margin: (2321, 1433). 
+CRITICAL	  101	16:33:24.066387	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+DEBUG	  101	16:33:24.066478	:115 setupWorkingColorSpace. WCS: sRGB IEC61966-2.1 (RGB16u). FilteroutCS: sRGB IEC61966-2.1. Out: NULL (0?) 
+DEBUG	  101	16:33:24.066494	:149 setupOutput. Out: sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:24.066516	:199 convertFromInputToWorkingColorSpace 
+DEBUG	  101	16:33:24.066541	:40 Converting from color profile sRGB IEC61966-2.1 (RGB16u) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  101	16:33:24.084175	:490 Starting creation of scaled image pyramid. 
+TRACE	  110	16:33:25.263450	:273 scaleToPreferredSize got a original image of size: 4717 x 3145 
+TRACE	  110	16:33:25.263494	:275 scaleToPreferredSize got a preferredSize of: 2321 x 1433 
+TRACE	  110	16:33:25.263507	:299 scaleToPreferredSize decided to have a screen scaled image of: 2149 x 1433 
+TRACE	  101	16:33:25.990893	:506 Finished creation of scaled image pyramid. 
+TRACE	  101	16:33:25.991401	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:33:25.991419	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:33:25.991431	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+DEBUG	  101	16:33:25.991443	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:25.991459	:40 Converting from color profile sRGB IEC61966-2.1 (RGB16u) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:26.007833	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:26.007854	:40 Converting from color profile sRGB IEC61966-2.1 (RGB16u) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:26.024127	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:26.024146	:40 Converting from color profile sRGB IEC61966-2.1 (RGB16u) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  101	16:33:26.040252	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:33:26.040269	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:33:26.040281	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+DEBUG	  101	16:33:26.040292	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:26.040306	:40 Converting from color profile sRGB IEC61966-2.1 (RGB16u) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:26.056487	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:26.056507	:40 Converting from color profile sRGB IEC61966-2.1 (RGB16u) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:26.072606	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:26.072625	:40 Converting from color profile sRGB IEC61966-2.1 (RGB16u) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  101	16:33:26.097386	:97 Starting loadImagePostProcessing 
+TRACE	  101	16:33:27.378419	:578 Finished to load image at index '0'. 
+DEBUG	  101	16:33:27.382235	:222 Delete BaseImageHandler 
+TRACE	  101	16:33:27.486886	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:33:27.487459	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  101	16:33:27.487477	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  101	16:33:27.487491	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  101	16:33:27.487502	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  101	16:33:27.487514	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  101	16:33:27.487526	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  101	16:33:27.487538	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  101	16:33:27.487550	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  101	16:33:27.487562	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  101	16:33:27.487574	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  101	16:33:27.487588	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  101	16:33:27.487600	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  101	16:33:27.487612	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  101	16:33:27.487624	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+TRACE	  101	16:33:27.491027	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:33:27.491050	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  101	16:33:27.491064	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  101	16:33:27.491076	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  101	16:33:27.491087	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  101	16:33:27.491099	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  101	16:33:27.491110	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  101	16:33:27.491122	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  101	16:33:27.491134	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  101	16:33:27.491146	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  101	16:33:27.491158	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  101	16:33:27.491171	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  101	16:33:27.491182	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  101	16:33:27.491195	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  101	16:33:27.491207	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+TRACE	  101	16:33:27.494178	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  101	16:33:27.494199	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  101	16:33:27.494212	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  101	16:33:27.494224	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  101	16:33:27.494236	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  101	16:33:27.494247	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  101	16:33:27.494277	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  101	16:33:27.494290	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  101	16:33:27.494302	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  101	16:33:27.494318	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  101	16:33:27.494330	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  101	16:33:27.494346	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  101	16:33:27.494359	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  101	16:33:27.494371	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  101	16:33:27.494383	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  101	16:33:27.496559	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:27.496583	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:27.512576	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:27.512596	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:27.528408	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:27.528428	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  101	16:33:27.544733	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 4717 x 3145. 
+TRACE	  101	16:33:27.544750	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 2149 x 1433. 
+TRACE	  101	16:33:27.544763	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+DEBUG	  101	16:33:27.544774	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:27.544787	:40 Converting from color profile sRGB IEC61966-2.1 (RGB16u) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:27.560748	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:27.560767	:40 Converting from color profile sRGB IEC61966-2.1 (RGB16u) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:27.576947	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  101	16:33:27.576967	:40 Converting from color profile sRGB IEC61966-2.1 (RGB16u) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:27.709872	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:27.710413	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:27.710434	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:27.710448	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:27.710460	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:27.710473	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:27.710485	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:27.710497	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:27.710510	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:27.710523	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:27.710535	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:27.710549	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:27.710561	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:27.710596	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:27.710611	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:27.712991	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:27.713019	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+WARNING	  112	16:33:28.410731	:136 GenericTiledFilter::ImageSource::createTiling: very small output patch (4x4) - may result in a large number of patches 
+TRACE	  101	16:33:28.667252	:374 Displayed Image update finished 
+TRACE	  111	16:33:28.670586	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:28.671170	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:28.671188	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:28.671201	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:28.671214	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:28.671226	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:28.671237	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:28.671250	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:28.671262	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:28.671275	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:28.671287	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:28.671301	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:28.671313	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:28.671326	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:28.671339	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:28.673629	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:28.673654	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:29.204704	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:29.205143	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:29.205161	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:29.205174	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:29.205186	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:29.205197	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:29.205209	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:29.205221	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:29.205233	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:29.205245	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:29.205257	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:29.205270	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:29.205282	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:29.205294	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:29.205548	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:29.207737	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:29.207761	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:29.296872	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:29.297299	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:29.297316	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:29.297330	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:29.297342	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:29.297354	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:29.297366	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:29.297378	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:29.297391	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:29.297403	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:29.297420	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:29.297434	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:29.297446	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:29.297459	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:29.297472	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:29.299750	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:29.299772	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:29.388029	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:29.388482	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:29.388505	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:29.388519	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:29.388532	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:29.388545	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:29.388557	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:29.388569	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:29.388582	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:29.388595	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:29.388608	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:29.388621	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:29.388634	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:29.388647	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:29.388659	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:29.391183	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:29.391226	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:29.486448	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:29.487091	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:29.487118	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:29.487137	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:29.487155	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:29.487172	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:29.487189	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:29.487206	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:29.487224	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:29.487241	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:29.487259	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:29.487278	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:29.487296	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:29.487313	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:29.487331	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:29.490323	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:29.490347	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:29.590799	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:29.591320	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:29.591342	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:29.591358	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:29.591373	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:29.591388	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:29.591403	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:29.591418	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:29.591433	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:29.591449	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:29.591464	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:29.591481	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:29.591496	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:29.591511	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:29.591527	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:29.593922	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:29.593944	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  101	16:33:30.166107	:374 Displayed Image update finished 
+TRACE	  112	16:33:36.275042	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	16:33:36.275510	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  112	16:33:36.275530	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  112	16:33:36.275544	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  112	16:33:36.275557	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  112	16:33:36.275569	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  112	16:33:36.275581	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  112	16:33:36.275593	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  112	16:33:36.275606	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  112	16:33:36.275618	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  112	16:33:36.275631	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  112	16:33:36.275644	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  112	16:33:36.275657	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  112	16:33:36.275670	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  112	16:33:36.275682	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  112	16:33:36.278052	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	16:33:36.278080	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:39.367631	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	16:33:39.372693	:62 No control points added to the filter LeonisFilter. 
+TRACE	  111	16:33:44.190239	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:44.190980	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:44.191007	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:44.191022	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:44.191034	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:44.191047	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:44.191059	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:44.191071	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:44.191083	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:44.191096	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:44.191109	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:44.191122	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:44.191135	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:44.191148	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:44.191169	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:44.193631	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:44.193655	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  101	16:33:44.732788	:374 Displayed Image update finished 
+TRACE	  110	16:33:44.861330	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	16:33:44.861774	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	16:33:44.861811	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	16:33:44.861825	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	16:33:44.861837	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	16:33:44.861849	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	16:33:44.861861	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	16:33:44.861873	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	16:33:44.861885	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	16:33:44.861898	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	16:33:44.861911	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	16:33:44.861924	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	16:33:44.861936	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	16:33:44.861949	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	16:33:44.861961	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	16:33:44.864311	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	16:33:44.864333	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+CRITICAL	  101	16:33:45.150288	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/gui/LazyMultiLayeredImage.cpp:442"!rect_.empty()" "requestImage() ignored for empty rectangle!" 
+TRACE	  111	16:33:46.265055	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:46.265501	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:46.265519	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:46.265532	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:46.265545	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:46.265557	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:46.265569	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:46.265581	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:46.265594	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:46.265606	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:46.265618	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:46.265632	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:46.265644	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:46.265657	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:46.265670	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:46.268664	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:46.268697	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+CRITICAL	  101	16:33:46.447379	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/gui/LazyMultiLayeredImage.cpp:442"!rect_.empty()" "requestImage() ignored for empty rectangle!" 
+TRACE	  110	16:33:46.970593	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	16:33:46.971075	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	16:33:46.971094	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	16:33:46.971107	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	16:33:46.971120	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	16:33:46.971132	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	16:33:46.971144	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	16:33:46.971156	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	16:33:46.971168	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	16:33:46.971181	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	16:33:46.971193	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	16:33:46.971206	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	16:33:46.971219	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	16:33:46.971231	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	16:33:46.971244	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	16:33:46.973608	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	16:33:46.973630	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:47.150351	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:47.150784	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:47.150802	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:47.150816	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:47.150828	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:47.150840	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:47.150852	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:47.150864	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:47.150877	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:47.150889	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:47.150902	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:47.150915	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:47.150927	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:47.150940	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:47.150952	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:47.153264	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:47.153289	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  110	16:33:47.309991	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	16:33:47.310414	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	16:33:47.310431	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	16:33:47.310461	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	16:33:47.310473	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	16:33:47.310485	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	16:33:47.310496	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	16:33:47.310508	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	16:33:47.310520	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	16:33:47.310532	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	16:33:47.310553	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	16:33:47.310567	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	16:33:47.310579	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	16:33:47.310592	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	16:33:47.310604	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	16:33:47.312941	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	16:33:47.312963	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:50.562157	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:50.562649	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:50.562668	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:50.562681	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:50.562693	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:50.562706	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:50.562717	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:50.562730	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:50.562743	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:50.562755	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:50.562768	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:50.562781	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:50.562794	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:50.562811	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:50.562824	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:50.565242	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:50.565278	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:50.641477	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:50.642275	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:50.642298	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:50.642312	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:50.642324	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:50.642336	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:50.642365	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:50.642378	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:50.642391	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:50.642404	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:50.642416	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:50.642430	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:50.642442	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:50.642454	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:50.642467	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:50.644790	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:50.644811	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:50.731067	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:50.731703	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:50.731726	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:50.731745	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:50.731762	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:50.731780	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:50.731797	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:50.731814	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:50.731832	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:50.731850	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:50.731868	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:50.731887	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:50.731905	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:50.731923	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:50.731941	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:50.735632	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:50.735674	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:50.822757	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:50.823207	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:50.823225	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:50.823239	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:50.823251	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:50.823263	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:50.823275	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:50.823287	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:50.823300	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:50.823333	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:50.823346	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:50.823360	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:50.823372	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:50.823385	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:50.823397	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:50.825713	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:50.825736	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:50.917217	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:50.917930	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:50.917955	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:50.917975	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:50.917993	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:50.918011	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:50.918029	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:50.918047	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:50.918066	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:50.918084	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:50.918102	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:50.918121	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:50.918139	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:50.918157	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:50.918175	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:50.921734	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:50.921773	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:51.014102	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:51.014662	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:51.014683	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:51.014696	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:51.014709	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:51.014721	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:51.014733	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:51.014745	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:51.014758	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:51.014771	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:51.014783	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:51.014816	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:51.014829	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:51.014842	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:51.014855	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:51.017658	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:51.017692	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	16:33:51.122866	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	16:33:51.123331	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	16:33:51.123349	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	16:33:51.123363	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	16:33:51.123375	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	16:33:51.123387	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	16:33:51.123399	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	16:33:51.123411	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	16:33:51.123424	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	16:33:51.123437	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	16:33:51.123449	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	16:33:51.123463	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	16:33:51.123476	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	16:33:51.123488	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	16:33:51.123501	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	16:33:51.126080	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	16:33:51.126102	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	16:33:53.263083	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	16:33:53.275699	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	16:33:56.178170	:374 Displayed Image update finished 
+DEBUG	  101	17:52:05.274741	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	17:52:05.287314	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:52:05.726831	:374 Displayed Image update finished 
+CRITICAL	  101	17:52:12.368695	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/gui/LazyMultiLayeredImage.cpp:442"!rect_.empty()" "requestImage() ignored for empty rectangle!" 
+TRACE	  112	17:52:15.453591	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	17:52:15.454077	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  112	17:52:15.454097	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  112	17:52:15.454110	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  112	17:52:15.454123	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  112	17:52:15.454135	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  112	17:52:15.454147	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  112	17:52:15.454159	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  112	17:52:15.454193	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  112	17:52:15.454207	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  112	17:52:15.454220	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  112	17:52:15.454234	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  112	17:52:15.454246	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  112	17:52:15.454259	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  112	17:52:15.454271	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  112	17:52:15.456858	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	17:52:15.456882	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+CRITICAL	  101	17:52:17.626751	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/gui/LazyMultiLayeredImage.cpp:442"!rect_.empty()" "requestImage() ignored for empty rectangle!" 
+TRACE	  110	17:52:22.282879	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	17:52:22.283411	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	17:52:22.283432	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	17:52:22.283446	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	17:52:22.283459	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	17:52:22.283472	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	17:52:22.283485	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	17:52:22.283498	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	17:52:22.283512	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.283526	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.283539	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	17:52:22.283554	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	17:52:22.283567	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	17:52:22.283581	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	17:52:22.283594	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	17:52:22.286224	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	17:52:22.286260	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  110	17:52:22.347344	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	17:52:22.347808	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	17:52:22.347826	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	17:52:22.347839	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	17:52:22.347851	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	17:52:22.347863	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	17:52:22.347875	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	17:52:22.347887	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	17:52:22.347919	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.347932	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.347945	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	17:52:22.347958	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	17:52:22.347970	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	17:52:22.347983	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	17:52:22.347995	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	17:52:22.350447	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	17:52:22.350469	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  110	17:52:22.424266	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	17:52:22.424727	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	17:52:22.424746	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	17:52:22.424760	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	17:52:22.424773	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	17:52:22.424786	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	17:52:22.424798	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	17:52:22.424811	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	17:52:22.424824	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.424836	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.424849	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	17:52:22.424863	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	17:52:22.424875	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	17:52:22.424889	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	17:52:22.424901	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	17:52:22.427346	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	17:52:22.427369	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  110	17:52:22.510328	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	17:52:22.510766	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	17:52:22.510784	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	17:52:22.510797	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	17:52:22.510809	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	17:52:22.510821	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	17:52:22.510833	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	17:52:22.510845	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	17:52:22.510857	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.510870	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.510882	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	17:52:22.510915	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	17:52:22.510928	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	17:52:22.510940	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	17:52:22.510953	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	17:52:22.513284	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	17:52:22.513326	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  110	17:52:22.606985	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	17:52:22.607687	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	17:52:22.607723	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	17:52:22.607743	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	17:52:22.607762	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	17:52:22.607781	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	17:52:22.607799	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	17:52:22.607818	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	17:52:22.607838	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.607857	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.607877	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	17:52:22.607898	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	17:52:22.607917	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	17:52:22.607937	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	17:52:22.607957	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	17:52:22.611424	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	17:52:22.611453	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  110	17:52:22.720614	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	17:52:22.721046	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	17:52:22.721064	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	17:52:22.721076	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	17:52:22.721088	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	17:52:22.721099	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	17:52:22.721111	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	17:52:22.721123	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	17:52:22.721135	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.721147	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.721158	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	17:52:22.721171	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	17:52:22.721183	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	17:52:22.721216	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	17:52:22.721229	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	17:52:22.723509	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	17:52:22.723531	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  110	17:52:22.785983	:1493 ToningPreset not found: 34 
+TRACE	  110	17:52:22.788274	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	17:52:22.788682	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	17:52:22.788699	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	17:52:22.788712	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	17:52:22.788724	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	17:52:22.788735	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	17:52:22.788747	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	17:52:22.788758	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	17:52:22.788770	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.788782	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.788795	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	17:52:22.788807	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	17:52:22.788820	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	17:52:22.788831	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	17:52:22.788844	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	17:52:22.791218	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	17:52:22.791258	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  110	17:52:22.891333	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  110	17:52:22.891769	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  110	17:52:22.891787	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  110	17:52:22.891800	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  110	17:52:22.891813	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  110	17:52:22.891825	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  110	17:52:22.891837	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  110	17:52:22.891849	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  110	17:52:22.891861	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.891874	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  110	17:52:22.891886	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  110	17:52:22.891900	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  110	17:52:22.891912	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  110	17:52:22.891924	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  110	17:52:22.891937	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  110	17:52:22.894298	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  110	17:52:22.894320	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	17:52:26.201698	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	17:52:26.213426	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:52:26.723018	:374 Displayed Image update finished 
+TRACE	  101	17:52:34.488866	:374 Displayed Image update finished 
+TRACE	  101	17:52:41.752296	:374 Displayed Image update finished 
+TRACE	  101	17:52:42.309870	:374 Displayed Image update finished 
+DEBUG	  101	17:52:55.279980	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	17:52:55.291477	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:52:55.768991	:374 Displayed Image update finished 
+DEBUG	  101	17:53:01.414841	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	17:53:01.426819	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:53:01.837561	:374 Displayed Image update finished 
+DEBUG	  101	17:53:04.183345	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	17:53:04.195135	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:53:04.517833	:374 Displayed Image update finished 
+DEBUG	  101	17:53:06.166731	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	17:53:06.178594	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:53:06.468039	:374 Displayed Image update finished 
+DEBUG	  101	17:53:07.391177	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	17:53:07.403172	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:53:07.736309	:374 Displayed Image update finished 
+TRACE	  101	17:53:20.896640	:374 Displayed Image update finished 
+TRACE	  101	17:53:30.975583	:374 Displayed Image update finished 
+TRACE	  101	17:53:31.101257	:374 Displayed Image update finished 
+TRACE	  101	17:53:31.241129	:374 Displayed Image update finished 
+TRACE	  101	17:53:31.734479	:374 Displayed Image update finished 
+TRACE	  101	17:53:32.812619	:374 Displayed Image update finished 
+TRACE	  101	17:53:35.014379	:374 Displayed Image update finished 
+TRACE	  101	17:53:36.236044	:374 Displayed Image update finished 
+TRACE	  101	17:53:37.271170	:374 Displayed Image update finished 
+TRACE	  101	17:53:47.415191	:374 Displayed Image update finished 
+TRACE	  101	17:53:47.636742	:374 Displayed Image update finished 
+TRACE	  101	17:53:48.312183	:374 Displayed Image update finished 
+TRACE	  101	17:53:49.931154	:374 Displayed Image update finished 
+TRACE	  101	17:53:50.435066	:374 Displayed Image update finished 
+TRACE	  101	17:53:53.317671	:374 Displayed Image update finished 
+TRACE	  101	17:53:54.258903	:374 Displayed Image update finished 
+TRACE	  101	17:53:55.315242	:374 Displayed Image update finished 
+DEBUG	  101	17:53:58.705259	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:54:00.846371	:374 Displayed Image update finished 
+DEBUG	  101	17:54:01.950691	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	17:54:01.972622	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:54:02.304385	:374 Displayed Image update finished 
+DEBUG	  101	17:54:05.390013	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	17:54:05.407101	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:54:05.728309	:374 Displayed Image update finished 
+TRACE	  101	17:54:21.580580	:374 Displayed Image update finished 
+TRACE	  101	17:54:30.548325	:374 Displayed Image update finished 
+TRACE	  111	17:54:31.711054	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	17:54:31.711505	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	17:54:31.711523	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	17:54:31.711536	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	17:54:31.711570	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	17:54:31.711583	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	17:54:31.711595	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	17:54:31.711607	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	17:54:31.711620	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	17:54:31.711632	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	17:54:31.711645	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	17:54:31.711658	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	17:54:31.711670	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	17:54:31.711683	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	17:54:31.711696	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	17:54:31.714106	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	17:54:31.714127	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  112	17:54:32.053574	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	17:54:32.054016	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  112	17:54:32.054033	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  112	17:54:32.054046	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  112	17:54:32.054058	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  112	17:54:32.054070	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  112	17:54:32.054081	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  112	17:54:32.054093	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  112	17:54:32.054104	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  112	17:54:32.054116	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  112	17:54:32.054128	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  112	17:54:32.054141	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  112	17:54:32.054153	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  112	17:54:32.054165	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  112	17:54:32.054178	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  112	17:54:32.056633	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	17:54:32.056656	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  111	17:54:32.372329	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  111	17:54:32.372784	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  111	17:54:32.372803	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  111	17:54:32.372816	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  111	17:54:32.372828	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  111	17:54:32.372840	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  111	17:54:32.372851	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  111	17:54:32.372883	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  111	17:54:32.372897	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  111	17:54:32.372909	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  111	17:54:32.372921	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  111	17:54:32.372934	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  111	17:54:32.372945	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  111	17:54:32.372958	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  111	17:54:32.372970	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  111	17:54:32.375663	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  111	17:54:32.375685	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+TRACE	  112	17:54:32.797306	:91 FilterGraphGenerator::createResultImage Building sources list for inputImage size 188 x 126. 
+TRACE	  112	17:54:32.797777	:103 Begin resolving module graph with root filter LeonisFilter 
+TRACE	  112	17:54:32.797806	:139  - Using imageDataMap to resolve source originalImage in filter LeonisFilter 
+TRACE	  112	17:54:32.797820	:139  - Using imageDataMap to resolve source texture1 in filter LeonisFilter 
+TRACE	  112	17:54:32.797832	:139  - Using imageDataMap to resolve source texture2 in filter LeonisFilter 
+TRACE	  112	17:54:32.797845	:139  - Using imageDataMap to resolve source texture3 in filter LeonisFilter 
+TRACE	  112	17:54:32.797857	:139  - Using imageDataMap to resolve source texture4 in filter LeonisFilter 
+TRACE	  112	17:54:32.797869	:139  - Using imageDataMap to resolve source texture5 in filter LeonisFilter 
+TRACE	  112	17:54:32.797882	:139  - Using imageDataMap to resolve source transferLSCStructure in filter LeonisFilter 
+TRACE	  112	17:54:32.797895	:139  - Using imageDataMap to resolve source transferLSCFineStructure in filter LeonisFilter 
+TRACE	  112	17:54:32.797907	:139  - Using imageDataMap to resolve source transferLSCSoftContrast in filter LeonisFilter 
+TRACE	  112	17:54:32.797921	:139  - Using imageDataMap to resolve source transferSinterAdaptiveBrightness in filter LeonisFilter 
+TRACE	  112	17:54:32.797934	:139  - Using imageDataMap to resolve source transferSinterHiKey in filter LeonisFilter 
+TRACE	  112	17:54:32.797946	:139  - Using imageDataMap to resolve source transferSinterLowKey in filter LeonisFilter 
+TRACE	  112	17:54:32.797959	:139  - Using imageDataMap to resolve source transferSinterHiKeyLowKey in filter LeonisFilter 
+DEBUG	  112	17:54:32.800423	:186 convertFromWorkingColorSpaceToOutput 
+DEBUG	  112	17:54:32.800445	:40 Converting from color profile sRGB IEC61966-2.1 (RGBA16f) to sRGB IEC61966-2.1 (RGB16u) 
+DEBUG	  101	17:54:35.867202	:62 No control points added to the filter LeonisFilter. 
+DEBUG	  101	17:54:35.879846	:62 No control points added to the filter LeonisFilter. 
+TRACE	  101	17:54:36.180238	:374 Displayed Image update finished 
+DEBUG	  101	17:54:45.345578	:62 No control points added to the filter LeonisFilter. 
+TRACE	  112	17:54:45.375876	:251 Will create intermediate saved image file with name '/Volumes/media/Pictures/2013.12.December/788A4319-Edit.tif_tmp' 
+ERROR	  112	17:54:45.377221	:28 /Volumes/media/Pictures/2013.12.December/788A4319-Edit.tif_tmp: Unknown tag 40962 
+ERROR	  112	17:54:45.377242	:28 /Volumes/media/Pictures/2013.12.December/788A4319-Edit.tif_tmp: Unknown tag 40963 
+TRACE	  101	17:54:52.348812	:374 Displayed Image update finished 
+DEBUG	  112	17:54:53.253375	:280 Finished saving full image. status = true time = 7.876 
+TRACE	  112	17:54:53.348803	:276 Will move image file with name '/Volumes/media/Pictures/2013.12.December/788A4319-Edit.tif'to '/Volumes/media/Pictures/2013.12.December/788A4319-Edit.tif_tmp2'. 
+TRACE	  112	17:54:53.350785	:279 Will delete image file with name '/Volumes/media/Pictures/2013.12.December/788A4319-Edit.tif_tmp2' 
+TRACE	  112	17:54:53.383356	:286 Will move image file with name '/Volumes/media/Pictures/2013.12.December/788A4319-Edit.tif_tmp' to '/Volumes/media/Pictures/2013.12.December/788A4319-Edit.tif' 
+CRITICAL	  101	17:54:53.463386	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+CRITICAL	  101	17:54:53.464375	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+DEBUG	  101	17:54:53.470034	:222 Delete BaseImageHandler 
+DEBUG	  101	17:54:53.614369	:362 FontManager released 
+DEBUG	  101	17:54:53.614399	:365 TileCache released 
+DEBUG	  101	17:54:53.614479	:368 ICCDeviceManager released 
+DEBUG	  101	17:54:53.614525	:371 ColorManager released 
+DEBUG	  101	17:54:53.614537	:374 Unused storage freed 
+DEBUG	  101	17:54:53.614576	:379 ImageStorageManager released 
+DEBUG	  101	17:54:53.617739	:1114 GL texture cache: free 685, used 1 
+DEBUG	  101	17:54:53.774753	:388 Renderer released 
+DEBUG	  101	17:54:53.774799	:391 DefaultJobDispatcher released 
+DEBUG	  101	17:54:53.775508	:215 Releasing ImageMemoryManager ressources 
+TRACE	  101	17:54:53.775532	:373 Deleting all pools. 
+DEBUG	  101	17:54:53.876043	:423 Application Shutdown finished 
+CRITICAL	  101	17:54:53.876067	:138 assertion failed /Volumes/Build/google3/third_party/nik/plugin/../common/libs/stdlib/trunk/src/nik/eos/src/Core/SpecialFolders.cpp:165"0" 
+INFO	  101	17:54:53.876143	:125 Metrics aggregation returned: failed 
