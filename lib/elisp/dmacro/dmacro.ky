@@ -1,0 +1,11 @@
+\entry{C-c d}{3}{\code {C-c d}}
+\entry{C-c l}{5}{\code {C-c l}}
+\entry{C-c t}{6}{\code {C-c t}}
+\entry{C-c d ?}{7}{\code {C-c d ?}}
+\entry{C-c d}{8}{\code {C-c d}}
+\entry{C-c d ?}{8}{\code {C-c d ?}}
+\entry{C-c l}{8}{\code {C-c l}}
+\entry{C-c r}{9}{\code {C-c r}}
+\entry{C-c C-d}{11}{\code {C-c C-d}}
+\entry{C-c C-m}{12}{\code {C-c C-m}}
+\entry{C-c f}{19}{\code {C-c f}}

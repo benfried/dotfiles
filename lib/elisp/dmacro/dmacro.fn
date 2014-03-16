@@ -1,0 +1,54 @@
+\entry{insert-dmacro}{8}{\code {insert-dmacro}}
+\entry{dmacro-wrap-line}{8}{\code {dmacro-wrap-line}}
+\entry{dmacro-wrap-region}{9}{\code {dmacro-wrap-region}}
+\entry{dmacro-build}{11}{\code {dmacro-build}}
+\entry{dmacro-build-directive}{11}{\code {dmacro-build-directive}}
+\entry{dmacro-build-modifier}{12}{\code {dmacro-build-modifier}}
+\entry{dmacro-save}{12}{\code {dmacro-save}}
+\entry{year}{16}{\code {year}}
+\entry{user-name}{16}{\code {user-name}}
+\entry{user-initials}{16}{\code {user-initials}}
+\entry{user-id}{16}{\code {user-id}}
+\entry{dmacro}{16}{\code {dmacro}}
+\entry{shell}{16}{\code {shell}}
+\entry{sec}{16}{\code {sec}}
+\entry{prompt}{16}{\code {prompt}}
+\entry{month-num}{16}{\code {month-num}}
+\entry{month}{16}{\code {month}}
+\entry{mon}{16}{\code {mon}}
+\entry{min}{16}{\code {min}}
+\entry{insert-file}{16}{\code {insert-file}}
+\entry{if}{16}{\code {if}}
+\entry{hour24}{16}{\code {hour24}}
+\entry{hour}{16}{\code {hour}}
+\entry{file-name}{16}{\code {file-name}}
+\entry{file-long}{16}{\code {file-long}}
+\entry{file-ext}{16}{\code {file-ext}}
+\entry{file-dir}{16}{\code {file-dir}}
+\entry{file}{16}{\code {file}}
+\entry{eval}{16}{\code {eval}}
+\entry{day}{16}{\code {day}}
+\entry{date}{16}{\code {date}}
+\entry{chron}{16}{\code {chron}}
+\entry{ampm}{16}{\code {ampm}}
+\entry{{\tt\char '176}}{16}{\code {~}}
+\entry{@}{16}{\code {@}}
+\entry{:up}{16}{\code {:up}}
+\entry{:down}{16}{\code {:down}}
+\entry{:cap}{16}{\code {:cap}}
+\entry{up}{16}{\code {up}}
+\entry{down}{16}{\code {down}}
+\entry{cap}{16}{\code {cap}}
+\entry{pad}{17}{\code {pad}}
+\entry{sexp}{17}{\code {sexp}}
+\entry{auto-dmacro-alist}{17}{auto-dmacro-alist}
+\entry{dmacro-command}{18}{\code {dmacro-command}}
+\entry{dont-bind-my-keys}{19}{dont-bind-my-keys}
+\entry{dmacro-prompt}{19}{dmacro-prompt}
+\entry{dmacro-fill-in-blanks}{19}{\code {dmacro-fill-in-blanks}}
+\entry{dmacro-month-names}{20}{dmacro-month-names}
+\entry{dmacro-prefix-char}{20}{dmacro-prefix-char}
+\entry{dmacro-rank-in-initials}{20}{dmacro-rank-in-initials}
+\entry{def-dmacro-alias}{21}{\code {def-dmacro-alias}}
+\entry{def-dmacro-function}{21}{\code {def-dmacro-function}}
+\entry{eval}{21}{\code {eval}}

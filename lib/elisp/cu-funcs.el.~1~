@@ -1,0 +1,392 @@
+;;; CU emacs-lisp functions
+;;; ahh, for those good old days when your .emacs was a measure of your worthiness
+(defvar hostname nil "Name of machine Emacs was dumped on")
+
+(setq inhibit-local-variables t)
+(defun get-hostname () "get the hostname by running /bin/hostname"
+  (let ((buf (get-buffer-create "*TMP*")))
+    (save-excursion
+      (call-process "hostname" nil buf nil)
+      (set-buffer buf)
+      (goto-char (point-min))
+      (end-of-line 1)
+      (setq hostname (buffer-substring (point-min) (point))))
+    (kill-buffer buf))
+  hostname)
+
+(defun backward-uppercase-word (n)  "uppercase previous word"
+  (interactive "p")
+  (upcase-word (- 0 n))
+)
+
+(defun backward-lowercase-word (n)  "lowercase previous word"
+  (interactive "p")
+  (downcase-word (- 0 n)))
+
+(defun backward-capitalize-word (n)  "capitalize previous word"
+   (interactive "p")
+   (capitalize-word (- 0 n)))
+
+; add comments, up down, and all around
+
+(defun down-comment-lines (n)  "Comment next lines"
+  (interactive "*p")			
+  (if (< n 0) 
+      (up-comment-lines (- 0 n))
+    (while (>= (setq n (1- n)) 0)
+      (progn
+	(kill-empty-comment)
+	(next-line 1)
+	(indent-for-comment)))))
+
+(defun up-comment-lines (n)  "Comment Previous lines"
+  (interactive "*p")
+  (if (< n 0) 
+      (down-comment-lines (- 0 n))
+    (while (>= (setq n (1- n)) 0)
+      (progn
+	(kill-empty-comment)
+	(previous-line 1)
+	(indent-for-comment)))))
+
+(defun kill-empty-comment () "If a comment is empty, delete it"
+  (interactive)
+  (save-excursion
+    (let ((eolpos (save-excursion (next-line 1) (beginning-of-line) (point)))
+	  (x nil)
+	  (ce comment-end))
+
+      (if (equal ce "") (setq ce "
+"))
+      (save-excursion
+	(beginning-of-line nil)
+	(setq x (re-search-forward
+		 (concat comment-start-skip (quotedstring ce)) eolpos 'move)))
+      (if x (kill-comment 1)))))
+
+;;; quote special regexp characters inside a string
+(defun quotedstring (string)
+  "quote a string so that it does not interfere with a regexp"
+  (interactive "k")
+  (let ((len (- (length string) 1)) (ret "") (i 0))
+    (while (<= i len)
+      (let ((c (aref string i)))
+	(cond ((equal c ?$) (setq ret (concat ret "\\")))
+	      ((equal c ?^) (setq ret (concat ret "\\")))
+	      ((equal c ?.) (setq ret (concat ret "\\")))
+	      ((equal c ?*) (setq ret (concat ret "\\")))
+	      ((equal c ?[) (setq ret (concat ret "\\")))
+	      ((equal c ?]) (setq ret (concat ret "\\")))
+	      ((equal c ?\\) (setq ret (concat ret "\\"))))
+	(setq ret (concat ret (char-to-string c))))
+      (setq i (+ i 1)))
+    ret))
+
+(define-key esc-map "n" 'down-comment-lines)
+(define-key esc-map "p" 'up-comment-lines)
+
+					; go to top or bottom of the screen
+(defun move-to-window-top () "move to top of window"
+  (interactive)
+  (push-mark)
+  (move-to-window-line 0))
+
+(defun move-to-window-bottom () "move to bottom of window"
+  (interactive)
+  (push-mark)
+  (move-to-window-line -1))
+
+					;;; trim - strips off trailing
+					;;; blanks & tabs from end of lines
+(defun trim ()
+  "strip trailing blanks and tabs from a buffer, and then tabify "
+  (interactive "*")			; barf if buffer is read only
+  (save-excursion			; remember where we are and...
+    (goto-char (point-min))		; jump to the beginning of the buffer
+    (while (not (eobp))			; loop through the buffer
+      (end-of-line nil)			; go to end
+      (delete-horizontal-space)
+      (beginning-of-line 2))		; look at next line
+    (tabify (point-min) (point-max))))	; strip trailing white space
+
+
+(defun date-edit (arg)
+  "Insert new line in edit history.
+If there is a line in the file with the text 'Edit history\:' within it,
+we insert our comment on a new line after the first such line, using
+the text before and after 'Edit history:' as the text before and after
+our inserted comment line.  Otherwise we add a line to the start of the
+file, using the comment start and end strings for the file's mode.
+
+The format for the comment line is:
+    start system-name ':' file-name ', ' date ' by ' user-name end
+where start and end are the comment start and end strings as above.
+Then another line is added with just the start and end strings, and
+point is left between them, for human generated comments."
+
+  (interactive "*P")			;This can be used from m-X or a key
+  (if (not buffer-file-name)		;Make sure we know our file name
+      (error "no buffer-file-name in effect"))
+  (set-mark (point))			;c-x c-x should take us back to 
+					;Default to usual comment delims
+  (let ((start (if comment-start comment-start ""))
+	(end (if comment-end comment-end "")))
+    (goto-char (point-min))		;Starting at the buffer start
+    (if (search-forward "Edit history:" ;Look for edit history beginning
+			(point-max) t)	;Through whole buffer, say if fail
+	(let ((here (point)))		;If found, save where it ends
+	  (beginning-of-line)		;Find start of line it's on
+	  (setq start (buffer-substring (point) (- here 13))) ;Pick up string
+	  (end-of-line)			;Go to end of the line
+	  (setq end (buffer-substring here (point))) ;Pick up there too
+	  (if (= (point) (point-max))	;If no more in the buffer
+	      (insert ?\n)		;Add char to start new line
+	    (forward-char))))		;Else just move to next line start
+    (if (not (and start end))		;If we don't have start or end strs
+	(error "comment-start and comment-end are not defined")) ;Complain
+    (let* ((now (current-time-string))	;Pick up ugly-printed date and time
+	   (long-sys-name (system-name));Long system name with dots
+	   (dot-pos (string-match "\\." long-sys-name))
+	   (sys-name (if dot-pos	;Find first dot, get first field
+			 (substring long-sys-name 0 dot-pos)
+		       long-sys-name)))	;Or whole thing if not dotted
+      (insert start			;Add line start
+	      sys-name ?:		;Name of computer
+	      buffer-file-name ", "	;Name of file on computer
+	      (substring now 8 10) ?-	;Day of month
+	      (substring now 4 7) ?-	;Abbreviated name of month
+	      (substring now 20 24) ? ; ;Full number for year, space
+	      (substring now 11 19)	;Time of day, hh:mm:ss
+	      " by " (user-login-name)	;Who did it
+	      end ?\n)			;Line end string, and new line
+      (cond (arg (insert start "  ")	;Start of human comment line
+		  (save-excursion	;Stay here after following insertion
+		    (insert end ?\n)))	;Finish human comment line
+	    (t (exchange-point-and-mark)))))) ;otherwise return to prev. pos.
+
+(fset 'edit-header (symbol-function 'date-edit))
+
+
+; comment out a line, or remove the comment character from a commented out line
+(defun comment-out-lines (n) "comment out the next arg lines"
+  (interactive "*p")
+  (while (> n 0)
+    (beginning-of-line)
+    (insert-string comment-start)
+    (end-of-line)
+    (insert-string comment-end)
+    (next-line 1)
+    (beginning-of-line)
+    (setq n (1- n))))
+
+
+(defun uncomment-out-lines (n) "uncomment out the next arg lines"
+  (interactive "*p")
+  (while (> n 0)
+    (beginning-of-line)
+    (if (looking-at (quotedstring comment-start))
+	(progn
+	  (delete-char (length comment-start))
+	  (end-of-line)
+	  (backward-char (length comment-end))
+	  (if (looking-at (quotedstring comment-end))
+	      (delete-char (length comment-end)))))
+    (next-line 1)
+    (beginning-of-line)
+    (setq n (1- n))))
+
+					; count words in different ways
+(defun count-words-page ()
+   "Report number of words on page, and how many are before or after dot."
+   (interactive)
+   (setq current (point))
+   (save-excursion
+     (princ "Page has ")
+     (mark-page 0)
+     (count-words-area (point) current (mark))))
+
+(defun count-words ()
+   "Report number of words in buffer, and how many are before or after dot."
+   (interactive)
+   (setq current (point))
+   (save-excursion
+     (princ "Buffer has ")
+     (mark-whole-buffer)
+     (count-words-area (point) current (mark))))
+
+(defun count-words-region ()
+  "Report number of words in region, and how many are before or after dot."
+  (interactive)
+  (save-excursion
+    (princ "Region has ")
+    (count-words-area (point) (point) (mark))))
+
+
+(defun count-words-area (top middle bottom)
+  (cond ((< bottom top)			;make sure top < bottom
+	 (setq temp top)
+	 (setq top bottom)
+	 (setq bottom temp)))
+  (setq before (setq after 0))		;initialize
+  (goto-char top)			;start at the beginning
+  (while (< (point) bottom)		;count words
+    (cond ((> (point) middle) (setq after (+ 1 after)))
+	  (t (setq before (+ 1 before))))
+    (forward-word 1))
+
+   (princ  (int-to-string (+ before after))) ;display answer
+   (princ " words (")
+   (princ (int-to-string before))
+   (princ " + ")
+   (princ (int-to-string after))
+   (princ ")"))
+
+; jump past a comment before inserting the newline
+(defun new-line(arg) "Insert a newline.  With arg, insert that many newlines.
+If the newline would break a comment, insert it at the end of the line"
+  (interactive "*p")
+  (if (in-comment)
+      (end-of-line 1))
+  (newline arg))
+
+(defun in-comment () "Check if we are inside a comment, on this line"
+  (interactive)
+  (cond ((equal comment-start nil) nil)
+	(t (let ((bol (save-excursion (beginning-of-line 1) (point)))
+		 (eol (save-excursion
+			(next-line 1)
+			(backward-char 1)
+			(+ 1 (point))))
+		 (ce (cond ((equal comment-end "") "
+")
+			   (t comment-end))))
+	     (and (save-excursion
+		    (search-backward comment-start bol t))
+		  (save-excursion
+		    (search-forward ce eol t)))))))
+
+					; window fiddling
+(defun deselect-other-window (n)
+  "Fix other window after help and stuff.  Returns other window to what was
+in it before you switched buffers or asked for help"
+  (interactive "p")
+  (other-window n)
+  (switch-to-buffer (other-buffer))
+  (other-window (- 0 n)))
+
+(defun transpose-windows (n) "switch this window with another one"
+  (interactive "p")
+  (let ((f1 (buffer-name) (f2 0)))
+    (other-window n)
+    (setq f2 (buffer-name))
+    (switch-to-buffer f1)
+    (other-window (- 0 n))
+    (switch-to-buffer f2)
+    (other-window n)))
+
+(defun find-line-comment () "return location of comment begin on this line"
+  (interactive)
+  (let* ((eol (save-excursion (end-of-line) (point))) cpos)
+    (save-excursion
+      (beginning-of-line)		;go to beginning of line
+      (if (equal comment-start-skip nil) (setq comment-start-skip " ;"))
+      (cond ((re-search-forward comment-start-skip eol t) (point))
+	    (t nil)))))
+
+					; send messages to your friends
+(defun to () "send a message to a user"
+  (interactive)
+  (let ((user "") (msg ""))
+    (setq user (read-string "To: "))
+    (setq msg (read-string (concat "To: " user " Msg: ")))
+    (set-process-filter
+     (start-process-no-pty "to" nil "/usr/local/send" user " " msg)
+     'to-process-filter)))
+
+(defun to-process-filter (proc str)
+  (error str))
+
+(defun reply () "reply to the last message which you received"
+  (interactive)
+  (let ((msg ""))
+    (setq msg (read-string "Msg: "))
+    (start-process-no-pty "reply" nil "/usr/local/reply" " " msg)))
+
+(defun what (howmany) "Redisplay the last message"
+  (interactive "p")
+  (pop-to-buffer "*msg*")
+  (erase-buffer)
+  (if (<= howmany 0) (setq howmany 1))
+  (start-process "what" "*msg*" "/usr/local/what"
+			(int-to-string howmany)) ;
+  (other-window -1))
+
+(defun window-to-size () "shrink a window to the size of the text in it"
+  (interactive "")
+  (let ((len 0))
+    (if (> (setq len (- (window-height) (count-lines (point-min) (point-max))))
+	   1)
+	(shrink-window (1- len)))))
+
+(defun insert-date-and-time() "insert current date and time at point"
+  (interactive)
+  (insert (current-time-string)))
+
+(defun read-string-with-default (prompt default)
+"read a string from the minibuffer, prompts with PROMPT.  If no response
+is given, DEFAULT is returned"
+  (let ((str (read-string (concat prompt ": (default " default") "))))
+    (if (string= str "") default str)))
+
+(defun start-process-no-pty (name buffer program &rest program-args)
+  "Run a process via start-process, but do it on a pipe"
+  (let ((temp process-connection-type)
+	(x nil)
+	(y nil))
+    (setq process-connection-type nil)
+    (setq x '(start-process name buffer program))
+    (setq x (append x program-args))
+    (setq y (eval x))
+    (setq process-connection-type temp)
+    y))
+
+(defun next-error (&optional argp)
+  "Visit next compilation error message and corresponding source code.
+This operates on the output from the \\[compile] command.
+If all preparsed error messages have been processed,
+the error message buffer is checked for new ones.
+If the prefix arg is 0, it means reparse the error message
+buffer and start at the first error. A positive prefix arg
+means move forward that many errors. A negative prefix arg
+will generate an error."
+  (interactive "p")
+  (if (or (eq compilation-error-list t)
+	  (eq argp 0))
+      (progn (compilation-forget-errors)
+	     (setq compilation-parsing-end 1)))
+  (if compilation-error-list
+      nil
+    (save-excursion
+      (switch-to-buffer "*compilation*")
+      (set-buffer-modified-p nil)
+      (compilation-parse-errors)))
+  (let ((next-error (nth (or argp 1) compilation-error-list)))
+    (if (null next-error)
+	(error (concat compilation-error-message
+		       (if (and compilation-process
+				(eq (process-status compilation-process)
+				    'run))
+			   " yet" ""))))
+    (setq compilation-error-list (nthcdr (or argp 1) compilation-error-list))
+    (if (null (car (cdr next-error)))
+	nil
+      (switch-to-buffer (marker-buffer (car (cdr next-error))))
+      (goto-char (car (cdr next-error)))
+      (set-marker (car (cdr next-error)) nil))
+    (let* ((pop-up-windows t)
+	   (w (display-buffer (marker-buffer (car next-error)))))
+      (set-window-point w (car next-error))
+      (set-window-start w (car next-error)))
+    (set-marker (car next-error) nil)))
+
+(provide 'cu-funcs)

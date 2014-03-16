@@ -1,0 +1,243 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=tex 97.3.14)  23 NOV 1997 02:32
+**dmacro.texinfo
+(dmacro.texinfo
+Babel <v3.6h> and hyphenation patterns for american, german, loaded.
+(/ms/dist/tex/PROJ/base/1.0/texmf/tex/texinfo/texinfo.tex
+Loading texinfo package [Version 2.196]: Basics,
+\bindingoffset=\dimen16
+\normaloffset=\dimen17
+\pagewidth=\dimen18
+\pageheight=\dimen19
+\cornerlong=\dimen20
+\cornerthick=\dimen21
+\topandbottommargin=\dimen22
+\outerhsize=\dimen23
+\outervsize=\dimen24
+\headlinebox=\box16
+\footlinebox=\box17
+\margin=\insert252
+\EMsimple=\toks12
+\singlespaceskip=\skip18
+\groupinvalidhelp=\toks13
+\mil=\dimen25
+\exdentamount=\skip19
+\inmarginspacing=\skip20
+ fonts,
+\sffam=\fam8
+\fontdepth=\count26
+ page headings,
+\titlepagetopglue=\skip21
+\titlepagebottomglue=\skip22
+\evenheadline=\toks14
+\oddheadline=\toks15
+\evenfootline=\toks16
+\oddfootline=\toks17
+ tables,
+\tableindent=\dimen26
+\itemindent=\dimen27
+\itemmargin=\dimen28
+\itemmax=\dimen29
+\itemno=\count27
+\multitableparskip=\skip23
+\multitableparindent=\skip24
+\multitablecolspace=\dimen30
+\multitablelinespace=\skip25
+\colcount=\count28
+
+indexing,
+\initialskipamount=\skip26
+\secondaryindent=\skip27
+\partialpage=\box18
+\doublecolumnhsize=\dimen31
+ sectioning,
+\chapno=\count29
+\secno=\count30
+\subsecno=\count31
+\subsubsecno=\count32
+\appendixno=\count33
+\contentsfile=\write0
+\absseclevel=\count34
+\secbase=\count35
+\chapheadingskip=\skip28
+\secheadingskip=\skip29
+\subsecheadingskip=\skip30
+ toc printing,
+\contentsrightmargin=\skip31
+\shortappendixwidth=\dimen32
+\tocindent=\dimen33
+ environments,
+\dblarrowbox=\box19
+\longdblarrowbox=\box20
+\pushcharbox=\box21
+\bullbox=\box22
+\equivbox=\box23
+\errorbox=\box24
+\lispnarrowing=\skip32
+\envskipamount=\skip33
+\circthick=\dimen34
+\cartouter=\dimen35
+\cartinner=\dimen36
+\normbskip=\skip34
+\normpskip=\skip35
+\normlskip=\skip36
+\lskip=\skip37
+\rskip=\skip38
+ defuns,
+\defbodyindent=\skip39
+\defargsindent=\skip40
+\deftypemargin=\skip41
+\deflastargmargin=\skip42
+\parencount=\count36
+ cross reference,
+\auxfile=\write1
+\footnoteno=\count37
+
+and turning on texinfo input format.
+\defaultparindent=\dimen37
+) (dmacro.aux)
+@cpindfile=@write2
+@fnindfile=@write3
+@vrindfile=@write4
+@tpindfile=@write5
+@kyindfile=@write6
+@pgindfile=@write7
+ [1] [2] (Administrivia)
+(Overview) [1] Chapter1 [2] [3] [4] [5] [6] Chapter2 [7] [8] Chapter3 [9]
+Chapter4 [10] [11]
+Overfull \hbox (26.43913pt too wide) in paragraph at lines 858--858
+ []@texttt Modifiers: (U)pper (L)ower (C)aps (P)ad (S)ubstring (E)xpression. Or
+ Return[] |
+
+@hbox(7.60416+2.43333)x433.62
+.@glue(@leftskip) 28.90755
+.@hbox(0.0+0.0)x0.0
+.@texttt M
+.@texttt o
+.@texttt d
+.etc.
+
+[12] [13] [14] [15] [16] [17] Chapter5 [18] [19] Chapter6 [20]
+Overfull \hbox (26.43913pt too wide) in paragraph at lines 1604--1604
+ []@texttt # The ~@ function is a synonym for ~point. It could have been define
+d like:[] |
+
+@hbox(6.69167+2.43333)x433.62
+.@glue(@leftskip) 28.90755
+.@hbox(0.0+0.0)x0.0
+.@texttt #
+.@penalty 10000
+.@glue 5.74869
+.etc.
+
+
+Overfull \hbox (32.18782pt too wide) in paragraph at lines 1622--1622
+ []@texttt ;; The ~@ function is a synonym for ~point. It could have been defin
+ed like:[] |
+
+@hbox(6.69167+2.43333)x433.62
+.@glue(@leftskip) 28.90755
+.@hbox(0.0+0.0)x0.0
+.@texttt ;
+.@texttt ;
+.@penalty 10000
+.etc.
+
+
+Overfull \hbox (14.94176pt too wide) in paragraph at lines 1630--1630
+ []  @texttt (prompt header-file "Header file name:" read-file-name "/usr/inclu
+de"))[] |
+
+@hbox(7.60416+2.43333)x433.62
+.@glue(@leftskip) 28.90755
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 5.74869
+.@penalty 10000
+.etc.
+
+[21] Chapter7 [22] Chapter8 [23] (Key Index) [24]
+Overfull \vbox (6.0pt too high) has occurred while \output is active
+\vbox(38.14322+2.25)x207.80492
+.\glue(\topskip) 37.39322
+.\hbox(6.75+2.25)x207.80492, glue set 104.30484fil
+..\hbox(0.0+0.0)x15.0
+..\indrm (
+..\indrm I
+..\indrm n
+..\indrm d
+..etc.
+
+
+Overfull \vbox (6.0pt too high) has occurred while \output is active
+\vbox(38.14322+2.25)x207.80492
+.\glue(\topskip) 37.39322
+.\hbox(6.75+2.25)x207.80492, glue set 104.30484fil
+..\hbox(0.0+0.0)x15.0
+..\indrm (
+..\indrm I
+..\indrm n
+..\indrm d
+..etc.
+
+
+(Function and Variable Index) [25]
+Overfull \vbox (6.0pt too high) has occurred while \output is active
+\vbox(38.14322+2.25)x207.80492
+.\glue(\topskip) 37.39322
+.\hbox(6.75+2.25)x207.80492, glue set 104.30484fil
+..\hbox(0.0+0.0)x15.0
+..\indrm (
+..\indrm I
+..\indrm n
+..\indrm d
+..etc.
+
+
+Overfull \vbox (6.0pt too high) has occurred while \output is active
+\vbox(38.14322+2.25)x207.80492
+.\glue(\topskip) 37.39322
+.\hbox(6.75+2.25)x207.80492, glue set 104.30484fil
+..\hbox(0.0+0.0)x15.0
+..\indrm (
+..\indrm I
+..\indrm n
+..\indrm d
+..etc.
+
+
+(Concept Index) [26]
+Overfull \vbox (6.0pt too high) has occurred while \output is active
+\vbox(38.14322+2.25)x207.80492
+.\glue(\topskip) 37.39322
+.\hbox(6.75+2.25)x207.80492, glue set 104.30484fil
+..\hbox(0.0+0.0)x15.0
+..\indrm (
+..\indrm I
+..\indrm n
+..\indrm d
+..etc.
+
+
+Overfull \vbox (6.0pt too high) has occurred while \output is active
+\vbox(38.14322+2.25)x207.80492
+.\glue(\topskip) 37.39322
+.\hbox(6.75+2.25)x207.80492, glue set 104.30484fil
+..\hbox(0.0+0.0)x15.0
+..\indrm (
+..\indrm I
+..\indrm n
+..\indrm d
+..etc.
+
+ [27]
+(dmacro.toc [-1]) [-2] ) 
+Here is how much of TeX's memory you used:
+ 1114 strings out of 12965
+ 12472 string characters out of 95045
+ 32947 words of memory out of 262141
+ 2041 multiletter control sequences out of 9500
+ 27642 words of font info for 95 fonts, out of 150000 for 255
+ 18 hyphenation exceptions out of 607
+ 12i,7n,11p,193b,214s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on dmacro.dvi (31 pages, 72676 bytes).

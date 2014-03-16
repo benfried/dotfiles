@@ -1,0 +1,46 @@
+\unnumbchapentry {Administrivia}{1}
+\unnumbchapentry {Overview}{2}
+\chapentry {Dmacros for C --- A tutorial}{1}{3}
+\chapentry {Using Dmacro}{2}{8}
+\secentry {dmacro-load}{2}{1}{8}
+\secentry {insert-dmacro}{2}{2}{8}
+\secentry {dmacro-wrap-line}{2}{3}{8}
+\secentry {dmacro-wrap-region}{2}{4}{9}
+\chapentry {Installing Dynamic Macro}{3}{10}
+\chapentry {Creating Macros}{4}{11}
+\secentry {Dmacro Builder}{4}{1}{11}
+\subsecentry {dmacro-build}{4}{1}{1}{11}
+\subsecentry {dmacro-build-directive}{4}{1}{2}{11}
+\subsecentry {dmacro-build-modifier}{4}{1}{3}{12}
+\subsecentry {dmacro-save}{4}{1}{4}{12}
+\secentry {Dmacro Files}{4}{2}{12}
+\subsecentry {Name}{4}{2}{1}{13}
+\subsecentry {Expander}{4}{2}{2}{13}
+\subsecentry {Documentation}{4}{2}{3}{13}
+\subsecentry {Text}{4}{2}{4}{13}
+\subsecentry {Shortcuts}{4}{2}{5}{14}
+\secentry {Dmacro Directives}{4}{3}{14}
+\subsecentry {Functions}{4}{3}{1}{14}
+\subsecentry {Modifiers}{4}{3}{2}{16}
+\subsubsecentry {Casification} {4}{3}{2}{1} {16}
+\subsubsecentry {Padding} {4}{3}{2}{2} {17}
+\subsubsecentry {Substrings} {4}{3}{2}{3} {17}
+\subsubsecentry {Sub-expressions} {4}{3}{2}{4} {17}
+\secentry {Auto-Insertion of Dmacros}{4}{4}{17}
+\secentry {Binding Dmacros to Keys}{4}{5}{18}
+\chapentry {Customizing Dmacro}{5}{19}
+\secentry {Interface Options}{5}{1}{19}
+\subsecentry {dont-bind-my-keys}{5}{1}{1}{19}
+\subsecentry {dmacro-prompt}{5}{1}{2}{19}
+\secentry {Expansion Options}{5}{2}{20}
+\subsecentry {dmacro-month-names}{5}{2}{1}{20}
+\subsecentry {dmacro-prefix-char}{5}{2}{2}{20}
+\subsecentry {dmacro-rank-in-initials}{5}{2}{3}{20}
+\chapentry {Defining New Directives}{6}{21}
+\secentry {Defining Aliases}{6}{1}{21}
+\secentry {Defining Functions}{6}{2}{21}
+\chapentry {Release Notes}{7}{23}
+\chapentry {Glossary}{8}{24}
+\unnumbchapentry {Key Index}{25}
+\unnumbchapentry {Function and Variable Index}{26}
+\unnumbchapentry {Concept Index}{27}

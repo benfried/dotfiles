@@ -1,0 +1,55 @@
+(defun rmail-move-messages (num file)
+  (interactive "P\nFoutput file:")
+  (let ((curr 0))
+    (rmail-show-message curr)
+    (while (and (not (rmail-next-message 1)) (< curr num))
+      (rmail-output-to-rmail-file file)
+      (rmail-delete-message)
+      (setq curr (+ curr 1)))
+    (rmail-show-message curr)))
+      
+(defun rmail-move-range (start end file)
+  (interactive "nstart: \nnend: \nFoutput file: ")
+  (let ((curr start))
+    (while (and (not (rmail-next-message 1)) (<= curr end))
+      (rmail-show-message curr)
+      (rmail-output-to-rmail-file file)
+      (rmail-delete-message)
+      (setq curr (+ curr 1)))
+    (rmail-show-message curr)))
+
+(defun rmail-move-some (num start file)
+  (interactive "P\nnStarting From:\nFoutput file: ")
+  (let ((curr start) (end (+ num start)))
+    (while (and (not (rmail-next-message 1)) (<= curr end))
+      (rmail-show-message curr)
+      (rmail-output-to-rmail-file file)
+      (rmail-delete-message)
+      (setq curr (+ curr 1)))
+    (rmail-show-message curr)))
+    
+(defun rmail-do-list (l fn &optional &rest args)
+  (let ((nl l))
+    (while nl
+      (rmail-show-message (car nl))
+      (setq nl (cdr nl))
+      (if args
+	  (funcall fn args)
+	(funcall fn)))))
+
+(defun rmail-move-list (l f)
+  "Move list of messages in l into the file f, deleting as we go"
+  (rmail-do-list l '(lambda ()
+		       (rmail-output-to-rmail-file f)
+		       (rmail-delete-message))))
+
+(defun rmail-keyword-list (l kwrd)
+  "Add keyword kwrd to the list of messages enumerated in l"
+  (rmail-do-list l 'rmail-set-label kwrd t))
+
+(defun move-bens-mail ()
+  (message "starting...")
+  (rmail)
+  (rmail-move-messages 830 "/us/ui/ben/XMAIL")
+  (rmail-expunge-and-save)
+  (message "done"))
