@@ -187,6 +187,8 @@
 (fset 'control-meta-prefix control-meta-map)		;link these two
 (define-key global-map "\^c" 'control-meta-prefix)	;define it
 
+(define-key global-map "\^j" 'newline-and-indent)
+
 (defvar backquote-map (make-keymap)
   "Variable to hold backquote-prefix key mappings")
 (fset 'backquote-prefix backquote-map)
@@ -619,7 +621,7 @@ to find the text that egrep hits refer to."
 
 (defun python-mode-hook-code ()
   (auto-complete-mode)
-  (setq python-shell-interpreter "ipython3"
+  (setq python-shell-interpreter "/opt/local/bin/ipython3-3.3"
 	python-shell-interpreter-args ""
 	python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 	python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
@@ -780,12 +782,16 @@ which specify the range to operate on."
 (require 'edit-server)
 (edit-server-start)
 (setenv "GOROOT" (concat homedir "/go"))
-(setenv "GOPATH" (concat (getenv "HOME") "/src/gocode"))
+(setenv "GOPATH" (concat (getenv "HOME") "/gocode"))
 (setenv "PATH"
 	(concat "/opt/local/bin:"
 		(getenv "PATH") ":"
 		(concat (getenv "GOPATH") "/bin") ":"
 		(concat (getenv "GOROOT") "/bin")))
+
+(setq exec-path (append exec-path (list (expand-file-name "~/go/bin")
+			(expand-file-name "~/gocode/bin"))))
+
 (autoload 'go-mode "go-mode" "\
 Major mode for editing Go source text.
 
@@ -815,6 +821,8 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "/Applications/Emacs.app/Contents/Resources/site-lisp/ac-dict")
 (ac-config-default)
+(require 'go-eldoc) ;; Don't need to require, if you install by package.el
+(add-hook 'go-mode-hook 'go-eldoc-setup)
 
 
 (defun eval-and-replace (value)
