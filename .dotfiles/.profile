@@ -3,6 +3,6 @@
 # The orginal version is saved in .profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/Current/bin:${PATH}"
 GOROOT=~/go
-GOPATH=~/src/gocode
+GOPATH=~/gocode
 PATH=/opt/local/bin:$PATH:$GOROOT/bin
 export PATH GOROOT GOPATH
