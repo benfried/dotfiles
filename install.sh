@@ -21,3 +21,18 @@ popd
 cd .dotfiles
 ln -s ${PWD}/.[A-Za-z]* ~/
 
+if [ ! -d ~/src ]; then
+	mkdir ~/src || exit 2
+fi
+
+cd ~/src
+
+if [ ! -d oh-my-zsh ]; then
+    git clone https://github.com/robbyrussell/oh-my-zsh.git
+else
+    cd oh-my-zsh
+    git pull
+    cd ..
+fi
+
+
