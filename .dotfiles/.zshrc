@@ -1,6 +1,6 @@
 emulate zsh
 . ~/.zshnew
-. ~/go/misc/zsh/go
+. ~/src/oh-my-zsh/plugins/golang/golang.plugin.zsh
 setenv () {
         eval "$1=\"$2\""
         export $1
