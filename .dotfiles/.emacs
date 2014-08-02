@@ -43,6 +43,15 @@
 
 ;;; how to colorize mode line?
 
+(require 'package)
+(add-to-list 'package-archives
+	     '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.milkbox.net/packages/"))
+
+(package-initialize)
+
+
 (setq-default mode-line-buffer-identification (propertized-buffer-identification "%b"))
 
 (message "set mode-line-buffer-identification to %s" mode-line-buffer-identification)
@@ -495,7 +504,7 @@ to find the text that egrep hits refer to."
   (switch-to-buffer (make-shell "lisp" "cl"))
   (inferior-lisp-mode))
 
-(setq inferior-lisp-program "~/src/ccl/dx86cl64") ; your Lisp system
+(setq inferior-lisp-program "/opt/local/bin/sbcl") ; your Lisp system
 (add-to-list 'load-path "~/src/slime/")  ; your SLIME directory
 (require 'slime)
 (slime-setup '(slime-fancy))
@@ -745,6 +754,7 @@ which specify the range to operate on."
       org-export-with-toc nil		; no table of contents please.
       org-export-with-section-numbers nil
       org-ascii-headline-spacing nil
+      org-use-speed-commands t
       org-default-notes-file (concat org-directory "notes.org"))
 (define-key global-map "\C-c\C-\\" 'org-remember)
 
@@ -817,11 +827,11 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 
 (add-hook 'before-save-hook #'gofmt-before-save)
  
-(require 'go-autocomplete)
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "/Applications/Emacs.app/Contents/Resources/site-lisp/ac-dict")
+;(require 'go-autocomplete)
+;(require 'auto-complete-config)
+; (add-to-list 'ac-dictionary-directories "/Applications/Emacs.app/Contents/Resources/site-lisp/ac-dict")
+(require 'yasnippet)
 (ac-config-default)
-(require 'go-eldoc) ;; Don't need to require, if you install by package.el
 (add-hook 'go-mode-hook 'go-eldoc-setup)
 
 
@@ -833,13 +843,6 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 
 (define-key global-map "\C-c\C-e" 'eval-and-replace)
 
-(require 'package)
-(add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/"))
-
-(package-initialize)
 (require 'linum)
 (load-theme 'solarized-dark t)
 ;;; to swap backquote and escape:
@@ -851,4 +854,11 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (require 'rainbow-delimiters)
 (require 'smartparens)
 (show-smartparens-global-mode)
+
+(add-hook 'slime-mode-hook 'set-up-slime-ac)
+(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+
+(eval-after-load "auto-complete"
+  '(add-to-list 'ac-modes 'slime-repl-mode))
+
 (provide '.emacs)
