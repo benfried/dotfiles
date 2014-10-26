@@ -505,7 +505,7 @@ to find the text that egrep hits refer to."
   (inferior-lisp-mode))
 
 (setq inferior-lisp-program "/opt/local/bin/sbcl") ; your Lisp system
-(add-to-list 'load-path "~/src/slime/")  ; your SLIME directory
+;;; (add-to-list 'load-path "~/src/slime/")  ; your SLIME directory
 (require 'slime)
 (slime-setup '(slime-fancy))
 (require 'hyperspec)
