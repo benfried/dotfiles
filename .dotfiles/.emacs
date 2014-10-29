@@ -505,7 +505,8 @@ to find the text that egrep hits refer to."
   (inferior-lisp-mode))
 
 (setq inferior-lisp-program "/opt/local/bin/sbcl") ; your Lisp system
-(add-to-list 'load-path "~/src/slime/")  ; your SLIME directory
+;; (add-to-list 'load-path "~/src/slime/")  ; your SLIME directory
+(require 'auto-complete)
 (require 'slime)
 (slime-setup '(slime-fancy))
 (require 'hyperspec)
@@ -741,7 +742,7 @@ which specify the range to operate on."
 	 (concat org-directory "inbox.org") "Remember")
 	("AppleScript note" ?z "* %?\n\n  Date: %u\n" (concat org-directory "inbox.org") "Notes")))
 
-(require 'org-mac-protocol)
+(if (equal window-system 'ns) (require 'org-mac-protocol))
 
 ;(org-remember-insinuate)
 (setq org-directory "~/Google Drive/notes/"
@@ -827,8 +828,8 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 
 (add-hook 'before-save-hook #'gofmt-before-save)
  
-;(require 'go-autocomplete)
-;(require 'auto-complete-config)
+(require 'go-autocomplete)
+(require 'auto-complete-config)
 ; (add-to-list 'ac-dictionary-directories "/Applications/Emacs.app/Contents/Resources/site-lisp/ac-dict")
 (require 'yasnippet)
 (ac-config-default)
@@ -855,10 +856,8 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (require 'smartparens)
 (show-smartparens-global-mode)
 
+(require 'slime)
 (add-hook 'slime-mode-hook 'set-up-slime-ac)
 (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-
-(eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'slime-repl-mode))
 
 (provide '.emacs)
