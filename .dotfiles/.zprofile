@@ -16,4 +16,6 @@ stty dec
 append PATH /usr/games
 prepend PATH /opt/local/bin
 append MANPATH /opt/local/man
+export GOPATH=~/src/gocode/
+export EDITOR=~/bin/emacsclient
 fortune
