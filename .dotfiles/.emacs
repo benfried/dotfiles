@@ -498,7 +498,7 @@ to find the text that egrep hits refer to."
 	    "No more bm hits" "egrep"))
 
 
-(defun run-lisp ()
+(defun bf-run-lisp ()
   "Run an inferior Lisp process, input and output via buffer *lisp*."
   (interactive)
   (switch-to-buffer (make-shell "lisp" "cl"))
@@ -508,7 +508,7 @@ to find the text that egrep hits refer to."
 ;; (add-to-list 'load-path "~/src/slime/")  ; your SLIME directory
 (require 'auto-complete)
 (require 'slime)
-(slime-setup '(slime-fancy))
+(slime-setup '(slime-fancy slime-banner))
 (require 'hyperspec)
 (setq common-lisp-hyperspec-root "file:/Users/bf/src/HyperSpec/"
       common-lisp-hyperspec-symbol-table "/Users/bf/src/HyperSpec/Data/Map_Sym.txt")
