@@ -1,49 +1,78 @@
 install   adns  
+install   aspcud  
 install   aspell  
 install   aspell-dict-en  
+install   at-spi2-atk  
+install   at-spi2-core  
 install   atk  
 install   autoconf  
 install   automake  
+install   bash  
+install   bash-completion  
 install   bison  
+install   bison-runtime  
+install   blosc  
+install   boost +no_single+no_static+python27 
 install   bsdmake  
 install   bzip2  
 install   bzr  
-install   cairo +x11 
-install   cctools +llvm31
+install   cairo +quartz+x11 
 install   cctools +llvm33 
-install   cctools-headers  
+install   cctools-headers 
+install   clasp  
 install   cloog  
 install   cmake  
+install   coreutils  
 install   cppunit  
+install   ctags  
 install   curl +ssl 
 install   curl-ca-bundle  
+install   cyrus-sasl2 +kerberos 
+install   cython_select  
 install   db46  
+install   db48  
 install   db_select  
-install   dbus +startupitem 
+install   dbus  
+install   dbus-glib  
+install   dbus-python27  
 install   desktop-file-utils  
 install   dirac  
 install   djvulibre  
+install   docbook-xml  
+install   docbook-xml-4.1.2  
+install   docbook-xml-4.2  
+install   docbook-xml-4.3  
+install   docbook-xml-4.4  
+install   docbook-xml-4.5  
+install   docbook-xml-5.0  
+install   docbook-xsl  
 install   dyld-headers  
 install   enca  
 install   enscript +mediaLetter 
 install   exif  
 install   expat  
 install   faac  
-install   ffmpeg-devel +gpl2+nonfree 
+install   ffmpeg-devel +gpl2+nonfree+x11 
 install   fftw-3 +gcc48 
 install   flac  
 install   fontconfig  
+install   fop  
 install   fortune  
 install   freetype  
 install   fribidi  
+install   gawk  
 install   gcc45  
 install   gcc48  
+install   gcc49  
 install   gcc_select  
 install   gdbm  
 install   gdk-pixbuf2 +x11 
 install   gettext  
+install   ghc  
+install   ghc-bootstrap  
 install   ghostscript +x11 
-install   git-core +credential_osxkeychain+doc+pcre+perl5_12+python27 
+install   git +bash_completion+credential_osxkeychain+doc+pcre+perl5_16+python27 
+install   git-core +credential_osxkeychain+doc+pcre+perl5_12+python27
 install   glib2  
 install   glpk  
 install   gmake  
@@ -53,20 +82,86 @@ install   gnupg2
 install   gnutls  
 install   gobject-introspection  
 install   gperf  
-install   gpg-agent  
+install   gpg-agent +pinentry_mac 
 install   graphite2  
+install   gringo  
 install   gsed  
+install   gtk-doc  
 install   gtk2 +x11 
+install   gtk3 +x11 
 install   gzip  
 install   harfbuzz  
-install   hdf5-18 +cxx 
+install   hdf5 +cxx 
+install   hdf5-18 +cxx
 install   help2man  
 install   hicolor-icon-theme  
+install   hs-aeson  
+install   hs-alex  
+install   hs-async  
+install   hs-attoparsec  
+install   hs-base-unicode-symbols  
+install   hs-base64-bytestring  
+install   hs-binary 
+install   hs-blaze-builder  
+install   hs-blaze-html  
+install   hs-blaze-markup  
+install   hs-conduit  
+install   hs-data-default  
+install   hs-data-default-class  
+install   hs-data-default-instances-base  
+install   hs-data-default-instances-containers  
+install   hs-data-default-instances-dlist  
+install   hs-data-default-instances-old-locale  
+install   hs-deepseq-generics  
+install   hs-digest  
+install   hs-dlist  
+install   hs-enclosed-exceptions  
+install   hs-exceptions  
+install   hs-extensible-exceptions  
+install   hs-happy  
+install   hs-hashable  
+install   hs-highlighting-kate  
+install   hs-hslua  
+install   hs-http  
+install   hs-lifted-base  
+install   hs-mmorph  
+install   hs-monad-control  
+install   hs-mtl  
+install   hs-nats  
+install   hs-network  
+install   hs-pandoc-types  
+install   hs-parsec  
+install   hs-pcre-light  
+install   hs-primitive  
+install   hs-quickcheck  
+install   hs-random  
+install   hs-resourcet  
+install   hs-scientific  
+install   hs-semigroups  
+install   hs-sha  
+install   hs-stm  
+install   hs-syb  
+install   hs-tagsoup  
+install   hs-temporary  
+install   hs-texmath  
+install   hs-text  
+install   hs-transformers 
+install   hs-transformers-base  
+install   hs-unordered-containers  
+install   hs-utf8-string  
+install   hs-vector  
+install   hs-void  
+install   hs-xml  
+install   hs-yaml  
+install   hs-zip-archive  
+install   hs-zlib  
 install   icu  
+install   ilmbase  
 install   ImageMagick +x11 
-install   intltool +perl5_12 
+install   intltool +perl5_16 
 install   ipython_select  
 install   isl  
+install   itstool  
 install   jack  
 install   jasper  
 install   jbig2dec  
@@ -75,17 +170,21 @@ install   jpeg
 install   kerberos5  
 install   lame  
 install   lcms2  
-install   ld64 +llvm31
-install   ld64 +llvm33 
+install   ld64  
+install   ld64-latest +llvm33 
+install   libarchive  
 install   libart_lgpl  
 install   libass  
 install   libassuan  
 install   libbluray  
 install   libcomerr  
 install   libcroco  
+install   libcxx  
 install   libedit  
+install   libepoxy  
 install   libevent  
 install   libexif  
+install   libfdk-aac  
 install   libffi  
 install   libgcc  
 install   libgcc45  
@@ -96,6 +195,7 @@ install   libgsf
 install   libiconv  
 install   libidn  
 install   libksba  
+install   libmacho-headers  
 install   libmodplug  
 install   libmpc  
 install   libogg  
@@ -104,7 +204,7 @@ install   libpaper
 install   libpcap  
 install   libpixman  
 install   libpng  
-install   librsvg  
+install   librsvg +viewer 
 install   libsamplerate  
 install   libsdl +x11 
 install   libsmi  
@@ -122,40 +222,109 @@ install   libvpx
 install   libxml2  
 install   libxslt  
 install   llvm-3.3  
+install   llvm-3.5  
 install   llvm_select  
 install   lua  
 install   lzo2  
 install   m4  
 install   mercurial  
+install   mesa +osmesa+python27 
 install   mosh  
+install   most  
 install   mpfr  
 install   multimarkdown  
 install   ncurses  
 install   netcdf +dap+netcdf4 
 install   nettle  
 install   nosetests_select  
+install   ocaml  
+install   opam  
+install   openexr  
+install   openjade  
 install   openjpeg  
 install   openjpeg15  
+install   openldap  
+install   opensp  
 install   openssl  
 install   orc  
-install   p5.12-error  
-install   p5.12-getopt-long  
-install   p5.12-io-socket-ssl  
-install   p5.12-io-tty  
-install   p5.12-locale-gettext  
-install   p5.12-net-libidn  
-install   p5.12-net-smtp-ssl  
-install   p5.12-net-ssleay  
-install   p5.12-pathtools  
-install   p5.12-scalar-list-utils  
-install   p5.12-term-readkey  
-install   p5.12-xml-parser  
+install   p5.12-error 
+install   p5.12-getopt-long 
+install   p5.12-io-socket-ssl 
+install   p5.12-io-tty 
+install   p5.12-locale-gettext 
+install   p5.12-net-libidn 
+install   p5.12-net-smtp-ssl 
+install   p5.12-net-ssleay 
+install   p5.12-pathtools 
+install   p5.12-scalar-list-utils 
+install   p5.12-term-readkey 
+install   p5.12-xml-parser 
+install   p5.16-authen-sasl  
+install   p5.16-cpan-meta  
+install   p5.16-cpan-meta-requirements  
+install   p5.16-cpan-meta-yaml  
+install   p5.16-digest-hmac  
+install   p5.16-digest-sha1  
+install   p5.16-encode-locale  
+install   p5.16-error  
+install   p5.16-file-listing  
+install   p5.16-file-slurp-tiny  
+install   p5.16-getopt-long  
+install   p5.16-gssapi  
+install   p5.16-html-form  
+install   p5.16-html-parser  
+install   p5.16-html-tagset  
+install   p5.16-http-cookies  
+install   p5.16-http-daemon  
+install   p5.16-http-date  
+install   p5.16-http-message  
+install   p5.16-http-negotiate  
+install   p5.16-inc-latest  
+install   p5.16-io  
+install   p5.16-io-html  
+install   p5.16-io-socket-inet6  
+install   p5.16-io-socket-ssl  
+install   p5.16-io-tty  
+install   p5.16-libwww-perl +ssl 
+install   p5.16-locale-gettext  
+install   p5.16-lwp-mediatypes  
+install   p5.16-lwp-protocol-https  
+install   p5.16-mime-base64  
+install   p5.16-module-build  
+install   p5.16-module-metadata  
+install   p5.16-mozilla-ca  
+install   p5.16-net-http  
+install   p5.16-net-libidn  
+install   p5.16-net-smtp-ssl  
+install   p5.16-net-ssleay  
+install   p5.16-parse-cpan-meta  
+install   p5.16-pathtools  
+install   p5.16-perl-ostype  
+install   p5.16-pod-escapes  
+install   p5.16-pod-simple  
+install   p5.16-podlators  
+install   p5.16-scalar-list-utils  
+install   p5.16-socket6  
+install   p5.16-sub-uplevel  
+install   p5.16-term-readkey  
+install   p5.16-test-exception  
+install   p5.16-test-nowarnings  
+install   p5.16-test-simple  
+install   p5.16-test-warn  
+install   p5.16-tree-dag_node  
+install   p5.16-uri  
+install   p5.16-version  
+install   p5.16-www-robotrules  
+install   p5.16-xml-parser  
 install   p11-kit  
-install   pango +x11 
+install   pandoc  
+install   pango +quartz+x11 
 install   pcre  
-install   perl5 +perl5_12 
+install   perl5 +perl5_16 
 install   perl5.12  
+install   perl5.16  
 install   pinentry  
+install   pinentry-mac  
 install   pkgconfig  
 install   popt  
 install   portaudio  
@@ -163,57 +332,199 @@ install   ppl
 install   protobuf-cpp  
 install   pstree  
 install   pth  
+install   py-htmldocs  
+install   py-terminado  
+install   py-tornado  
 install   py-zmq  
+install   py27-alabaster  
+install   py27-altgraph  
+install   py27-babel  
+install   py27-backports  
+install   py27-backports-ssl_match_hostname  
+install   py27-beaker  
+install   py27-cairo  
 install   py27-certifi  
 install   py27-crypto  
 install   py27-curl  
+install   py27-cython  
+install   py27-dateutil  
 install   py27-distribute 
 install   py27-docutils  
-install   py27-ipython +scientific 
+install   py27-ecdsa  
+install   py27-functools32  
+install   py27-gobject  
+install   py27-htmldocs  
+install   py27-ipython +notebook+parallel+scientific 
+install   py27-jinja2  
+install   py27-jsonschema  
+install   py27-libxml2  
+install   py27-macholib  
+install   py27-mako  
+install   py27-markupsafe  
+install   py27-matplotlib +cairo+tkinter 
+install   py27-mistune  
+install   py27-modulegraph  
 install   py27-nose  
-install   py27-numpy  
+install   py27-numpy +gfortran 
 install   py27-paramiko  
+install   py27-parsing  
+install   py27-ptyprocess  
+install   py27-py2app  
+install   py27-pygments  
+install   py27-pyobjc  
+install   py27-pyobjc-cocoa  
 install   py27-pyrex  
 install   py27-readline  
+install   py27-requests  
 install   py27-roman  
 install   py27-scientific  
-install   py27-scipy +gcc45 
+install   py27-scipy +gfortran 
 install   py27-setuptools  
 install   py27-simplejson  
+install   py27-six  
+install   py27-snowballstemmer  
+install   py27-sphinx  
+install   py27-sphinx_rtd_theme  
+install   py27-terminado  
+install   py27-tkinter  
+install   py27-tornado  
+install   py27-tz  
+install   py27-vcversioner  
 install   py27-zmq  
+install   py33-alabaster  
+install   py33-altgraph  
+install   py33-babel  
+install   py33-certifi  
+install   py33-cffi  
+install   py33-cython  
+install   py33-dateutil  
 install   py33-distribute 
-install   py33-ipython  
-install   py33-readline  
+install   py33-docutils  
+install   py33-epc 
+install   py33-htmldocs  
+install   py33-ipython +notebook+parallel
+install   py33-jinja2  
+install   py33-macholib  
+install   py33-markupsafe  
+install   py33-modulegraph  
+install   py33-nose  
+install   py33-numpy +gfortran 
+install   py33-parsing  
+install   py33-py2app  
+install   py33-pycparser  
+install   py33-pygments  
+install   py33-pyobjc  
+install   py33-pyobjc-cocoa  
+install   py33-readline 
+install   py33-requests 
+install   py33-roman  
 install   py33-setuptools  
+install   py33-sexpdata 
+install   py33-six  
+install   py33-snowballstemmer  
+install   py33-sphinx  
+install   py33-sphinx_rtd_theme  
+install   py33-tkinter  
+install   py33-tornado  
+install   py33-tz  
+install   py33-virtualenv  
+install   py33-zmq  
+install   py34-alabaster  
+install   py34-altgraph  
+install   py34-babel  
+install   py34-bottleneck  
+install   py34-cairo  
+install   py34-certifi  
+install   py34-cffi  
+install   py34-cython  
+install   py34-dateutil  
+install   py34-docutils  
+install   py34-epc  
+install   py34-htmldocs  
+install   py34-ipython +notebook+parallel 
+install   py34-jinja2  
+install   py34-jsonschema  
+install   py34-macholib  
+install   py34-markdown  
+install   py34-markdown2  
+install   py34-markupsafe  
+install   py34-matplotlib +cairo+tkinter 
+install   py34-mistune  
+install   py34-modulegraph  
+install   py34-nose  
+install   py34-numexpr  
+install   py34-numpy +gfortran 
+install   py34-pandas  
+install   py34-parsing  
+install   py34-ptyprocess  
+install   py34-py2app  
+install   py34-pycparser  
+install   py34-pygments  
+install   py34-pyobjc  
+install   py34-pyobjc-cocoa  
+install   py34-readline  
+install   py34-requests  
+install   py34-roman  
+install   py34-scipy +gcc48 
+install   py34-setuptools  
+install   py34-sexpdata  
+install   py34-six  
+install   py34-snowballstemmer  
+install   py34-sphinx  
+install   py34-sphinx_rtd_theme  
+install   py34-tables  
+install   py34-terminado  
+install   py34-tkinter  
+install   py34-tornado  
+install   py34-tz  
+install   py34-vcversioner  
+install   py34-zmq  
+install   python2_select  
+install   python3_select  
 install   python27  
 install   python33  
 install   python34  
 install   python_select  
+install   re2c  
 install   readline  
 install   rsync  
-install   sbcl  
+install   sbcl +fancy+html 
 install   schroedinger  
+install   scons  
 install   shared-mime-info  
+install   slang2  
+install   source-highlight  
 install   speex  
+install   sphinx_select  
 install   sqlite3  
 install   SuiteSparse  
 install   swig  
 install   swig-python  
+install   tcl +corefoundation+threads 
+install   tcp_wrappers  
 install   texi2html  
 install   texinfo  
 install   tiff +jbig 
+install   tk +quartz 
 install   tmux  
 install   tmux-pasteboard  
 install   urw-fonts  
+install   vala  
+install   vim +huge+python27 
+install   virtualenv_select  
 install   webp  
 install   wget +ssl 
-install   wireshark  
+install   wireshark +adns+geoip+gnutls+ipv6+libgcrypt+libsmi+lua+rtp+ssl+x11 
 install   x264  
 install   Xft2  
+install   xmlcatmgr  
 install   xorg-bigreqsproto  
 install   xorg-compositeproto  
 install   xorg-damageproto  
+install   xorg-dri2proto  
+install   xorg-evieproto  
 install   xorg-fixesproto  
+install   xorg-glproto  
 install   xorg-inputproto  
 install   xorg-kbproto  
 install   xorg-libice  
@@ -226,13 +537,17 @@ install   xorg-libXcomposite
 install   xorg-libXcursor  
 install   xorg-libXdamage  
 install   xorg-libXdmcp  
+install   xorg-libXevie  
 install   xorg-libXext  
 install   xorg-libXfixes  
 install   xorg-libXi  
 install   xorg-libXinerama  
+install   xorg-libXmu  
 install   xorg-libXrandr  
 install   xorg-libXt  
+install   xorg-libXtst  
 install   xorg-randrproto  
+install   xorg-recordproto  
 install   xorg-renderproto  
 install   xorg-util-macros  
 install   xorg-xcb-proto +python27 
@@ -249,3 +564,4 @@ install   xz
 install   yasm  
 install   zlib  
 install   zmq22  
+install   zsh  
