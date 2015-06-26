@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "ac-slime" "ac-slime.el" (21607 54647 0 0))
+;;;### (autoloads nil "ac-slime" "ac-slime.el" (21571 62771 0 0))
 ;;; Generated autoloads from ac-slime.el
 
 (defface ac-slime-menu-face '((t (:inherit ac-candidate-face))) "\
@@ -22,6 +22,11 @@ Source for slime completion.")
 Add an optionally FUZZY slime completion source to `ac-sources'.
 
 \(fn &optional FUZZY)" t nil)
+
+;;;***
+
+;;;### (autoloads nil nil ("ac-slime-pkg.el") (21571 62771 90351
+;;;;;;  0))
 
 ;;;***
 
