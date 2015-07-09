@@ -18,7 +18,6 @@ install   bzip2
 install   bzr  
 install   cairo +quartz+x11 
 install   cctools +llvm33 
-install   cctools-headers 
 install   clasp  
 install   cloog  
 install   cmake  
@@ -72,7 +71,6 @@ install   ghc
 install   ghc-bootstrap  
 install   ghostscript +x11 
 install   git +bash_completion+credential_osxkeychain+doc+pcre+perl5_16+python27 
-install   git-core +credential_osxkeychain+doc+pcre+perl5_12+python27
 install   glib2  
 install   glpk  
 install   gmake  
@@ -92,7 +90,6 @@ install   gtk3 +x11
 install   gzip  
 install   harfbuzz  
 install   hdf5 +cxx 
-install   hdf5-18 +cxx
 install   help2man  
 install   hicolor-icon-theme  
 install   hs-aeson  
@@ -101,7 +98,6 @@ install   hs-async
 install   hs-attoparsec  
 install   hs-base-unicode-symbols  
 install   hs-base64-bytestring  
-install   hs-binary 
 install   hs-blaze-builder  
 install   hs-blaze-html  
 install   hs-blaze-markup  
@@ -145,9 +141,6 @@ install   hs-tagsoup
 install   hs-temporary  
 install   hs-texmath  
 install   hs-text  
-install   hs-transformers 
-install   hs-transformers-base  
-install   hs-unordered-containers  
 install   hs-utf8-string  
 install   hs-vector  
 install   hs-void  
@@ -209,7 +202,6 @@ install   libsamplerate
 install   libsdl +x11 
 install   libsmi  
 install   libsndfile  
-install   libstdcxx 
 install   libtasn1  
 install   libtheora  
 install   libtool  
@@ -247,18 +239,6 @@ install   openldap
 install   opensp  
 install   openssl  
 install   orc  
-install   p5.12-error 
-install   p5.12-getopt-long 
-install   p5.12-io-socket-ssl 
-install   p5.12-io-tty 
-install   p5.12-locale-gettext 
-install   p5.12-net-libidn 
-install   p5.12-net-smtp-ssl 
-install   p5.12-net-ssleay 
-install   p5.12-pathtools 
-install   p5.12-scalar-list-utils 
-install   p5.12-term-readkey 
-install   p5.12-xml-parser 
 install   p5.16-authen-sasl  
 install   p5.16-cpan-meta  
 install   p5.16-cpan-meta-requirements  
@@ -348,7 +328,6 @@ install   py27-crypto
 install   py27-curl  
 install   py27-cython  
 install   py27-dateutil  
-install   py27-distribute 
 install   py27-docutils  
 install   py27-ecdsa  
 install   py27-functools32  
@@ -398,37 +377,8 @@ install   py33-certifi
 install   py33-cffi  
 install   py33-cython  
 install   py33-dateutil  
-install   py33-distribute 
 install   py33-docutils  
-install   py33-epc 
 install   py33-htmldocs  
-install   py33-ipython +notebook+parallel
-install   py33-jinja2  
-install   py33-macholib  
-install   py33-markupsafe  
-install   py33-modulegraph  
-install   py33-nose  
-install   py33-numpy +gfortran 
-install   py33-parsing  
-install   py33-py2app  
-install   py33-pycparser  
-install   py33-pygments  
-install   py33-pyobjc  
-install   py33-pyobjc-cocoa  
-install   py33-readline 
-install   py33-requests 
-install   py33-roman  
-install   py33-setuptools  
-install   py33-sexpdata 
-install   py33-six  
-install   py33-snowballstemmer  
-install   py33-sphinx  
-install   py33-sphinx_rtd_theme  
-install   py33-tkinter  
-install   py33-tornado  
-install   py33-tz  
-install   py33-virtualenv  
-install   py33-zmq  
 install   py34-alabaster  
 install   py34-altgraph  
 install   py34-babel  
