@@ -1,6 +1,8 @@
 emulate zsh
 . ~/.zshnew
-. ~/src/oh-my-zsh/plugins/golang/golang.plugin.zsh
+export ZSH=$HOME/src/oh-my-zsh
+plugins=(git golang macports)
+source $ZSH/oh-my-zsh.sh
 setenv () {
         eval "$1=\"$2\""
         export $1
@@ -30,7 +32,11 @@ export WORDCHARS='*_-[]~=;!#$%^(){}<>'
 #		autoload $j
 #	done
 #done
-test -z "${-%%*i*}" && return
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+
+test ! -z "${-:#*i*}" && return
+
+# echo "got here in .zshrc"
 
 compctl -z -P '%' bg
 compctl -j -P '%' fg jobs disown
@@ -113,5 +119,6 @@ compctl -k '(if of conv ibs obs bs cbs files skip file seek count)' \
 	-S '=' -x 's[if=], s[of=]' -f - 'C[0,conv=*,*] n[-1,,], s[conv=]' \
 	-k '(ascii ebcdic ibm block unblock lcase ucase swap noerror sync)' \
 	-q -S ',' - 'n[-1,=]' -X '<number>'  -- dd
+
 
 
