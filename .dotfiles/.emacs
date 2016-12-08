@@ -179,7 +179,9 @@
  '(paren-sexp-mode t)
  '(safe-local-variable-values
    (quote
-    ((encoding . utf-8)
+    ((eval c-make-noise-macro-regexps)
+     (c-noise-macro-with-parens-names "IF_LINT")
+     (encoding . utf-8)
      (Package . GUI)
      (Syntax . Common-Lisp)
      (eval fold-set-marks "# {{{" "# }}}")

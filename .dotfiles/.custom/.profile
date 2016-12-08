@@ -9,7 +9,7 @@ prepend PATH ~/bin:/sbin:/usr/sbin:/usr/X11R6/bin
 append PATH ~/android-sdk_38172_mac-x86/tools
 export GOROOT=~/go
 append PATH $GOROOT/bin
-eval $(go env | grep -v TERM)
+test -x $GOROOT/bin/go && eval $(go env | grep -v TERM)
 append PATH $GOPATH/bin
 # module load dev
 set -a
