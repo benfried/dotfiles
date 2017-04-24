@@ -1,2 +1,3 @@
 #!/bin/zsh
-/opt/local/bin/port -F ./Ports
+# /opt/local/bin/port -F ./Ports
+/opt/local/bin/port install $(cat ./Ports)
