@@ -3,191 +3,189 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (shrek\.1)))
+ '(custom-enabled-themes '(shrek\.1))
  '(custom-safe-themes
-   (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432" "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2" default)))
- '(desktop-save (quote ask))
+   '("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432" "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2" default))
+ '(desktop-save 'ask)
  '(electric-indent-mode t)
  '(magit-use-overlays nil)
- '(org-agenda-files (quote ("~/Google Drive/notes/notes.org")))
+ '(maxima-command "/opt/local/bin/maxima")
+ '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   (quote
-    (dash-at-point
-     [cl-struct-package-desc auto-complete
-			     (20150218 819)
-			     "Auto Completion for GNU Emacs"
-			     ((popup
-			       (0 5 0))
-			      (cl-lib
-			       (0 5)))
-			     tar "melpa" nil nil nil]
-     [cl-struct-package-desc ein
-			     (20150216 1954)
-			     "Emacs IPython Notebook"
-			     ((websocket
-			       (1 3))
-			      (request
-			       (0 2)))
-			     tar "melpa" nil nil nil]
-     [cl-struct-package-desc f
-			     (20150217 328)
-			     "Modern API for working with files and directories"
-			     ((s
-			       (1 7 0))
-			      (dash
-			       (2 2 0)))
-			     single "melpa" nil
-			     ((:url . "http://github.com/rejeep/f.el")
-			      (:keywords "files" "directories"))
-			     nil]
-     [cl-struct-package-desc go-eldoc
-			     (20150222 1500)
-			     "eldoc for go-mode"
-			     ((go-mode
-			       (1 0 0))
-			      (cl-lib
-			       (0 5)))
-			     single "melpa" nil
-			     ((:url . "https://github.com/syohex/emacs-go-eldoc"))
-			     nil]
-     [cl-struct-package-desc jedi
-			     (20150217 2122)
-			     "Python auto-completion for Emacs"
-			     ((epc
-			       (0 1 0))
-			      (auto-complete
-			       (1 4))
-			      (python-environment
-			       (0 0 2)))
-			     tar "melpa" nil nil nil]
-     [cl-struct-package-desc projectile
-			     (20150223 8)
-			     "Manage and navigate projects in Emacs easily"
-			     ((dash
-			       (1 5 0))
-			      (pkg-info
-			       (0 4)))
-			     single "melpa" nil
-			     ((:url . "https://github.com/bbatsov/projectile")
-			      (:keywords "project" "convenience"))
-			     nil]
-     [cl-struct-package-desc slime
-			     (20150221 645)
-			     "Superior Lisp Interaction Mode for Emacs"
-			     ((cl-lib
-			       (0 5)))
-			     tar "melpa" nil
-			     ((:url . "https://github.com/slime/slime")
-			      (:keywords "languages" "lisp" "slime"))
-			     nil]
-     [cl-struct-package-desc smartparens
-			     (20150218 1058)
-			     "Automatic insertion, wrapping and paredit-like navigation with user defined pairs."
-			     ((cl-lib
-			       (0 3))
-			      (dash
-			       (2 10 0)))
-			     tar "melpa" nil nil nil]
-     [cl-struct-package-desc solarized-theme
-			     (20150220 1042)
-			     "The Solarized color theme, ported to Emacs."
-			     ((dash
-			       (2 6 0)))
-			     tar "melpa" nil nil nil]
-     [cl-struct-package-desc web-mode
-			     (20150223 1131)
-			     "major mode for editing web templates" nil single "melpa" nil
-			     ((:url . "http://web-mode.org")
-			      (:keywords "languages"))
-			     nil]
-     [cl-struct-package-desc yasnippet
-			     (20150212 240)
-			     "Yet another snippet extension for Emacs." nil tar "melpa" nil
-			     ((:url . "http://github.com/capitaomorte/yasnippet")
-			      (:keywords "convenience" "emulation"))
-			     nil]
-     [cl-struct-package-desc concurrent
-			     (20150205 616)
-			     "Concurrent utility functions for emacs lisp"
-			     ((deferred
-				(0 3 1)))
-			     single "melpa" nil
-			     ((:url . "https://github.com/kiwanami/emacs-deferred/blob/master/README-concurrent.markdown")
-			      (:keywords "deferred" "async" "concurrent"))
-			     nil]
-     [cl-struct-package-desc deferred
-			     (20150205 616)
-			     "Simple asynchronous functions for emacs lisp" nil single "melpa" nil
-			     ((:url . "https://github.com/kiwanami/emacs-deferred")
-			      (:keywords "deferred" "async"))
-			     nil]
-     [cl-struct-package-desc f
-			     (20150211 626)
-			     "Modern API for working with files and directories"
-			     ((s
-			       (1 7 0))
-			      (dash
-			       (2 2 0)))
-			     single "melpa" nil
-			     ((:url . "http://github.com/rejeep/f.el")
-			      (:keywords "files" "directories"))
-			     nil]
-     [cl-struct-package-desc jedi
-			     (20150203 706)
-			     "Python auto-completion for Emacs"
-			     ((epc
-			       (0 1 0))
-			      (auto-complete
-			       (1 4))
-			      (python-environment
-			       (0 0 2)))
-			     tar "melpa" nil nil nil]
-     [cl-struct-package-desc projectile
-			     (20150209 542)
-			     "Manage and navigate projects in Emacs easily"
-			     ((dash
-			       (1 5 0))
-			      (pkg-info
-			       (0 4)))
-			     single "melpa" nil
-			     ((:url . "https://github.com/bbatsov/projectile")
-			      (:keywords "project" "convenience"))
-			     nil]
-     [cl-struct-package-desc smartparens
-			     (20150208 1215)
-			     "Automatic insertion, wrapping and paredit-like navigation with user defined pairs."
-			     ((cl-lib
-			       (0 3))
-			      (dash
-			       (2 10 0)))
-			     tar "melpa" nil nil nil]
-     [cl-struct-package-desc solarized-theme
-			     (20150205 952)
-			     "The Solarized color theme, ported to Emacs."
-			     ((dash
-			       (2 6 0)))
-			     tar "melpa" nil nil nil]
-     [cl-struct-package-desc web-mode
-			     (20150208 240)
-			     "major mode for editing web templates" nil single "melpa" nil
-			     ((:url . "http://web-mode.org")
-			      (:keywords "languages"))
-			     nil]
-     rainbow-delimiters oauth2 go-autocomplete gmail-message-mode fuzzy edit-server ac-slime)))
- '(paren-match-face (quote highlight))
+   '(cider org ox-clip dash-at-point
+	   [cl-struct-package-desc auto-complete
+				   (20150218 819)
+				   "Auto Completion for GNU Emacs"
+				   ((popup
+				     (0 5 0))
+				    (cl-lib
+				     (0 5)))
+				   tar "melpa" nil nil nil]
+	   [cl-struct-package-desc ein
+				   (20150216 1954)
+				   "Emacs IPython Notebook"
+				   ((websocket
+				     (1 3))
+				    (request
+				     (0 2)))
+				   tar "melpa" nil nil nil]
+	   [cl-struct-package-desc f
+				   (20150217 328)
+				   "Modern API for working with files and directories"
+				   ((s
+				     (1 7 0))
+				    (dash
+				     (2 2 0)))
+				   single "melpa" nil
+				   ((:url . "http://github.com/rejeep/f.el")
+				    (:keywords "files" "directories"))
+				   nil]
+	   [cl-struct-package-desc go-eldoc
+				   (20150222 1500)
+				   "eldoc for go-mode"
+				   ((go-mode
+				     (1 0 0))
+				    (cl-lib
+				     (0 5)))
+				   single "melpa" nil
+				   ((:url . "https://github.com/syohex/emacs-go-eldoc"))
+				   nil]
+	   [cl-struct-package-desc jedi
+				   (20150217 2122)
+				   "Python auto-completion for Emacs"
+				   ((epc
+				     (0 1 0))
+				    (auto-complete
+				     (1 4))
+				    (python-environment
+				     (0 0 2)))
+				   tar "melpa" nil nil nil]
+	   [cl-struct-package-desc projectile
+				   (20150223 8)
+				   "Manage and navigate projects in Emacs easily"
+				   ((dash
+				     (1 5 0))
+				    (pkg-info
+				     (0 4)))
+				   single "melpa" nil
+				   ((:url . "https://github.com/bbatsov/projectile")
+				    (:keywords "project" "convenience"))
+				   nil]
+	   [cl-struct-package-desc slime
+				   (20150221 645)
+				   "Superior Lisp Interaction Mode for Emacs"
+				   ((cl-lib
+				     (0 5)))
+				   tar "melpa" nil
+				   ((:url . "https://github.com/slime/slime")
+				    (:keywords "languages" "lisp" "slime"))
+				   nil]
+	   [cl-struct-package-desc smartparens
+				   (20150218 1058)
+				   "Automatic insertion, wrapping and paredit-like navigation with user defined pairs."
+				   ((cl-lib
+				     (0 3))
+				    (dash
+				     (2 10 0)))
+				   tar "melpa" nil nil nil]
+	   [cl-struct-package-desc solarized-theme
+				   (20150220 1042)
+				   "The Solarized color theme, ported to Emacs."
+				   ((dash
+				     (2 6 0)))
+				   tar "melpa" nil nil nil]
+	   [cl-struct-package-desc web-mode
+				   (20150223 1131)
+				   "major mode for editing web templates" nil single "melpa" nil
+				   ((:url . "http://web-mode.org")
+				    (:keywords "languages"))
+				   nil]
+	   [cl-struct-package-desc yasnippet
+				   (20150212 240)
+				   "Yet another snippet extension for Emacs." nil tar "melpa" nil
+				   ((:url . "http://github.com/capitaomorte/yasnippet")
+				    (:keywords "convenience" "emulation"))
+				   nil]
+	   [cl-struct-package-desc concurrent
+				   (20150205 616)
+				   "Concurrent utility functions for emacs lisp"
+				   ((deferred
+				      (0 3 1)))
+				   single "melpa" nil
+				   ((:url . "https://github.com/kiwanami/emacs-deferred/blob/master/README-concurrent.markdown")
+				    (:keywords "deferred" "async" "concurrent"))
+				   nil]
+	   [cl-struct-package-desc deferred
+				   (20150205 616)
+				   "Simple asynchronous functions for emacs lisp" nil single "melpa" nil
+				   ((:url . "https://github.com/kiwanami/emacs-deferred")
+				    (:keywords "deferred" "async"))
+				   nil]
+	   [cl-struct-package-desc f
+				   (20150211 626)
+				   "Modern API for working with files and directories"
+				   ((s
+				     (1 7 0))
+				    (dash
+				     (2 2 0)))
+				   single "melpa" nil
+				   ((:url . "http://github.com/rejeep/f.el")
+				    (:keywords "files" "directories"))
+				   nil]
+	   [cl-struct-package-desc jedi
+				   (20150203 706)
+				   "Python auto-completion for Emacs"
+				   ((epc
+				     (0 1 0))
+				    (auto-complete
+				     (1 4))
+				    (python-environment
+				     (0 0 2)))
+				   tar "melpa" nil nil nil]
+	   [cl-struct-package-desc projectile
+				   (20150209 542)
+				   "Manage and navigate projects in Emacs easily"
+				   ((dash
+				     (1 5 0))
+				    (pkg-info
+				     (0 4)))
+				   single "melpa" nil
+				   ((:url . "https://github.com/bbatsov/projectile")
+				    (:keywords "project" "convenience"))
+				   nil]
+	   [cl-struct-package-desc smartparens
+				   (20150208 1215)
+				   "Automatic insertion, wrapping and paredit-like navigation with user defined pairs."
+				   ((cl-lib
+				     (0 3))
+				    (dash
+				     (2 10 0)))
+				   tar "melpa" nil nil nil]
+	   [cl-struct-package-desc solarized-theme
+				   (20150205 952)
+				   "The Solarized color theme, ported to Emacs."
+				   ((dash
+				     (2 6 0)))
+				   tar "melpa" nil nil nil]
+	   [cl-struct-package-desc web-mode
+				   (20150208 240)
+				   "major mode for editing web templates" nil single "melpa" nil
+				   ((:url . "http://web-mode.org")
+				    (:keywords "languages"))
+				   nil]
+	   rainbow-delimiters oauth2 go-autocomplete gmail-message-mode fuzzy edit-server ac-slime))
+ '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(safe-local-variable-values
-   (quote
-    ((eval c-make-noise-macro-regexps)
+   '((eval c-make-noise-macro-regexps)
      (c-noise-macro-with-parens-names "IF_LINT")
      (encoding . utf-8)
      (Package . GUI)
      (Syntax . Common-Lisp)
      (eval fold-set-marks "# {{{" "# }}}")
      (major-mode . makefile-mode)
-     (folded-file . t))))
- '(scroll-bar-mode (quote right))
+     (folded-file . t)))
+ '(scroll-bar-mode 'right)
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -215,6 +213,10 @@
 	     '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives
+	     '("org" . "https://orgmode.org/elpa/") t)
+
+
 
 (package-initialize)
 
@@ -249,9 +251,10 @@
 	       mode-name minor-mode-alist "; %n"
 	       ") " mode-line-buffer-identification ": %* %f %p %12l%]"))))
 
-(setq mode-line-format default-mode-line-format
-      display-time-display-time-foreground "yellow"
-      homedir (getenv "HOME"))
+(setq-default mode-line-format default-mode-line-format
+	      display-time-display-time-foreground "yellow"
+	      homedir (getenv "HOME"))
+
 
 ;;; (insert "mode line...")
 
@@ -302,6 +305,7 @@
 			      auto-mode-alist)
       load-path (append (list (concat homedir "/lib/elisp"))
 			(list (concat homedir "/lib/elisp/dmacro"))
+			(list "/opt/local/share/maxima/5.39.0/emacs")
 			load-path)
       ms-old-style-kill t
       ispell-program-name "/opt/local/bin/aspell"
@@ -318,6 +322,9 @@
 (set-face-foreground 'mode-line-inactive "firebrick")
 (set-face-background 'mode-line-inactive "yellow")
 
+
+(require 'maxima-font-lock)
+(require 'maxima)
 
 (setq frame-title-format (list "emacs\@" (get-hostname) ":%b"))
 (font-lock-mode t)
@@ -899,7 +906,7 @@ which specify the range to operate on."
 (add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'org-hooks)
-
+(require 'ox-odt)
 (require 'remember)
 
 (setq org-remember-templates
@@ -967,8 +974,9 @@ which specify the range to operate on."
 		(concat (getenv "GOPATH") "/bin") ":"
 		(concat (getenv "GOROOT") "/bin")))
 
-(setq exec-path (append exec-path (list (expand-file-name "~/go/bin")
-			(expand-file-name "~/gocode/bin"))))
+(setq exec-path (append exec-path (list "/opt/local/bin"
+					(expand-file-name "~/go/bin")
+					(expand-file-name "~/gocode/bin"))))
 
 (autoload 'go-mode "go-mode" "\
 Major mode for editing Go source text.
@@ -1012,7 +1020,8 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (define-key global-map "\C-c\C-e" 'eval-and-replace)
 
 (require 'linum)
-(load-theme 'solarized-dark t)
+(setq frame-background-mode 'dark)
+(load-theme 'solarized t)
 ;;; to swap backquote and escape:
 ;;; (aset keyboard-translate-table ?\` ?\e)
 ;;; (aset keyboard-translate-table ?\e ?\`)
