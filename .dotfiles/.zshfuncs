@@ -29,3 +29,108 @@ zle -N backward-capitalize-word
 bindkey '^[u' backward-upcase-word
 bindkey '^[l' backward-downcase-word
 bindkey '^[c' backward-capitalize-word
+
+bracketed-paste-magic() {
+    old_trap=$(trap | grep ZERR)
+    trap ZERR
+    trap "eval $old_trap" EXIT
+    if [[ "$LASTWIDGET" = *vi-set-buffer ]]; then
+	# Fast exit in the vi-mode cut-buffer context
+	zle .bracketed-paste
+	return
+    else
+	# Capture the pasted text in $PASTED
+	local PASTED REPLY
+	zle .bracketed-paste PASTED
+    fi
+
+    # Really necessary to go to this much effort?
+    local bpm_emulate="$(emulate)" bpm_opts="$-"
+
+    emulate -L zsh
+    local -a bpm_hooks bpm_inactive
+    local bpm_func bpm_active bpm_keymap=$KEYMAP
+
+    # Run the paste-init functions
+    if zstyle -a :bracketed-paste-magic paste-init bpm_hooks; then
+	for bpm_func in $bpm_hooks; do
+	    if (( $+functions[$bpm_func] )); then
+		function () {
+		    emulate -L $bpm_emulate; set -$bpm_opts
+		    $bpm_func || break
+		}
+	    fi
+	done
+    fi
+
+    zstyle -a :bracketed-paste-magic inactive-keys bpm_inactive
+    if zstyle -s :bracketed-paste-magic active-widgets bpm_active '|'; then
+	# Save context, create a clean slate for the paste
+	integer bpm_mark=$MARK bpm_region=$REGION_ACTIVE
+	integer bpm_numeric=${NUMERIC:-1}
+	integer bpm_limit=$UNDO_LIMIT_NO bpm_undo=$UNDO_CHANGE_NO
+	zle .split-undo
+	UNDO_LIMIT_NO=$UNDO_CHANGE_NO
+	BUFFER=
+	CURSOR=1
+	fc -p -a /dev/null 0 0
+	if [[ $bmp_keymap = vicmd ]]; then
+	    zle -K viins
+	fi
+
+	# There are active widgets.  Reprocess $PASTED as keystrokes.
+	NUMERIC=1
+	zle -U - $PASTED
+
+	# Just in case there are active undo widgets
+
+	while [[ -n $PASTED ]] && zle .read-command; do
+	    PASTED=${PASTED#$KEYS}
+	    if [[ $KEYS = ${(~j:|:)${(b)bpm_inactive}} ]]; then
+		zle .self-insert
+	    else
+		case $REPLY in
+		    (${~bpm_active}) function () {
+			emulate -L $bpm_emulate; set -$bpm_opts
+			zle $REPLY -w
+		    };;
+		    (*) zle .self-insert;;
+		esac
+	    fi
+	done
+	PASTED=$BUFFER
+
+	# Restore state
+	zle -K $bpm_keymap
+	fc -P
+	MARK=$bpm_mark
+	REGION_ACTIVE=$bpm_region
+	NUMERIC=$bpm_numeric
+	zle .undo $bpm_undo
+	UNDO_LIMIT_NO=$bpm_limit
+    fi
+
+    # PASTED has been updated, run the paste-finish functions
+    if zstyle -a :bracketed-paste-magic paste-finish bpm_hooks; then
+	for bpm_func in $bpm_hooks; do
+	    if (( $+functions[$bpm_func] )); then
+		function () {
+		    emulate -L $bpm_emulate; set -$bpm_opts
+		    $bpm_func || break
+		}
+	    fi
+	done
+    fi
+
+    # Reprocess $PASTED as an actual paste this time
+    zle -U - $PASTED$'\e[201~'	# append paste-end marker
+    zle .bracketed-paste -- "$@"
+    zle .split-undo
+
+    # Arrange to display highlighting if necessary
+    if [[ -z $zle_highlight || -n ${(M)zle_highlight:#paste:*} ]]; then
+	zle -R
+	zle .read-command && zle -U - $KEYS
+    fi
+    return 0
+}
