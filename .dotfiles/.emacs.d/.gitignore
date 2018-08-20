@@ -1,0 +1,19 @@
+elpa
+snippets
+tramp
+network-security.data
+url
+tramp
+auto-save-list
+
+# Compiled
+*.elc
+
+# Packaging
+.cask
+
+# Backup files
+*~
+
+# Undo-tree save-files
+*.~undo-tree
