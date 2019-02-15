@@ -5,6 +5,8 @@ network-security.data
 url
 tramp
 auto-save-list
+bookmarks
+
 
 # Compiled
 *.elc
