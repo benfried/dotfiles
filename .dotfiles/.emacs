@@ -12,7 +12,7 @@
  '(maxima-command "/opt/local/bin/maxima")
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(cider org ox-clip dash-at-point
+   '((async concurrent ctable deferred f git-commit go-eldoc jedi jedi-core magit magit-popup projectile python-environment request smartparens solarized-theme web-mode websocket with-editor yasnippet go-mode dart-mode dash-at-point cider org ox-clip 
 	   [cl-struct-package-desc auto-complete
 				   (20150218 819)
 				   "Auto Completion for GNU Emacs"
@@ -218,7 +218,7 @@
 
 
 
-(package-initialize)
+; (package-initialize)
 
 
 (setq-default mode-line-buffer-identification (propertized-buffer-identification "%b"))
@@ -751,6 +751,7 @@ to find the text that egrep hits refer to."
 
 (defun lisp-mode-hook-code ()
   (setq comment-column 40)		; normal comment column
+  (slime-mode t)
   (setq comment-start "\;"))		; and a real comment character
 
 (defun fundamental-mode-hook-code ()	;just so i'll have a comment char.
