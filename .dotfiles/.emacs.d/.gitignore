@@ -6,6 +6,7 @@ url
 tramp
 auto-save-list
 bookmarks
+.emacs.desktop*
 
 
 # Compiled
