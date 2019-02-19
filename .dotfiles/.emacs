@@ -63,8 +63,21 @@
 	("melpa" . 2)
 	("marmalade" . 1)
 	("gnu" . 0)))
+
+;;; make package subsystem install all selected but uninstalled packages
 (unless (package-installed-p (car package-selected-packages))
   (package-install-selected-packages))
+
+;;; however, for packages that are distributed with emacs but for which there's a newer version in one of the archives,
+;;; what we really want to do is force download of the newer version. Org is the case I'm most concerned about.
+;;; however, one hitch: it looks like the pkg-desc struct in package-alist is not initialized with the full ino like repo it
+;;; was loaded from: the package-desc looks like 
+;;; #s(package-desc org (20190218) "Outline-based notes management and organizer" nil nil nil "/Users/bf/.emacs.d/elpa/org-20190218" nil nil)
+;;; so not sure what to do, and will have to resort to manual installs of org for the time being
+
+(let ((orgs (cdr (assoc 'org package-archive-contents))) ; all version of org
+      (current-org (cadr (assq 'org package-alist))))	 ; pkg-desc of the version of org that's installed now
+  (unless (equal (package-desc-archive current-org) "org"))) ; *** TODO *** can't figure this out now
 
 
 (setq-default mode-line-buffer-identification (propertized-buffer-identification "%b"))
