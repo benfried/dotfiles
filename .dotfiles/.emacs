@@ -11,6 +11,8 @@
  '(magit-use-overlays nil)
  '(maxima-command "/opt/local/bin/maxima")
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
+ '(package-selected-packages
+   '(ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode jedi jedi-core magit magit-popup oauth2 org ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(safe-local-variable-values
@@ -30,7 +32,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "Black" :foreground "White" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "apple" :family "Inconsolata"))))
+ '(default ((t (:inherit nil :stipple nil :background "Black" :foreground "White" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "apple" :family "Hack"))))
  '(cursor ((t (:background "yellow"))))
  '(mode-line-buffer-id ((t (:foreground "blue" :background "firebrick" :slant italic :weight bold))))
  '(org-done ((t (:foreground "yellow1" :weight bold))))
@@ -663,9 +665,28 @@ to find the text that egrep hits refer to."
 	     (shell-command (concat "fs la " dir) t))
 	    (t (insert "  " (directory-file-name dir) ":\n"))))))
 
+(require 'python)
+
+(defun bf-python-hideshow-forward-sexp-function (arg)
+  "Python specific `forward-sexp' function for `hs-minor-mode'.
+Argument ARG is ignored."
+  arg  ; Shut up, byte compiler.
+  (python-nav-end-of-block))
+
 (defun python-mode-hook-code ()
   (auto-complete-mode)
-  (setq python-shell-interpreter "/opt/local/bin/ipython3-3.3"
+  (add-to-list 'hs-special-modes-alist
+	       (list 'python-mode
+		     (python-rx block-start)
+		     ""
+		     "#"
+		     'bf-python-hideshow-forward-sexp-function nil))
+  (hs-minor-mode)
+  (cond ((equal system-type "darwin") "/opt/local/bin/ipython3")
+	(t "/usr/bin/ipython3"))
+  (setq python-shell-interpreter
+	(cond ((equal system-type "darwin") "/opt/local/bin/ipython3")
+	      (t "/usr/bin/ipython3"))
 	python-shell-interpreter-args ""
 	python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 	python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
@@ -891,6 +912,7 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (require 'rainbow-delimiters)
 (require 'smartparens)
 (show-smartparens-global-mode)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 (require 'slime)
 (add-hook 'slime-mode-hook 'set-up-slime-ac)
