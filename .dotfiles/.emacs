@@ -748,8 +748,9 @@ Argument ARG is ignored."
 		     "#"
 		     'bf-python-hideshow-forward-sexp-function nil))
   (hs-minor-mode)
+  (define-key python-mode-map "\C-c\t" 'hs-toggle-hiding)
   (setq python-shell-interpreter
-	(cond ((equal system-type "darwin") "/opt/local/bin/ipython3")
+	(cond ((equal system-type "odarwin") "/opt/local/bin/ipython3")
 	      (t "/usr/bin/ipython3"))
 	python-shell-interpreter-args ""
 	python-shell-prompt-regexp "In \\[[0-9]+\\]: "
