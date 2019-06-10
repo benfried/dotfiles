@@ -3,18 +3,51 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
+ '(compilation-message-face 'default)
+ '(cua-global-mark-cursor-color "#2aa198")
+ '(cua-normal-cursor-color "#839496")
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
  '(custom-enabled-themes '(shrek\.1))
  '(custom-safe-themes
-   '("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432" "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2" default))
+   '("0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432" "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2" default))
  '(desktop-save 'ask)
  '(electric-indent-mode t)
+ '(fci-rule-color "#073642")
+ '(highlight-changes-colors '("#d33682" "#6c71c4"))
+ '(highlight-symbol-colors
+   (--map
+    (solarized-color-blend it "#002b36" 0.25)
+    '("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2")))
+ '(highlight-symbol-foreground-color "#93a1a1")
+ '(highlight-tail-colors
+   '(("#073642" . 0)
+     ("#546E00" . 20)
+     ("#00736F" . 30)
+     ("#00629D" . 50)
+     ("#7B6000" . 60)
+     ("#8B2C02" . 70)
+     ("#93115C" . 85)
+     ("#073642" . 100)))
+ '(hl-bg-colors
+   '("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00"))
+ '(hl-fg-colors
+   '("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36"))
+ '(hl-paren-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
+ '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(maxima-command "/opt/local/bin/maxima")
+ '(nrepl-message-colors
+   '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
    '(ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode jedi jedi-core magit magit-popup oauth2 org ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
+ '(pos-tip-background-color "#073642")
+ '(pos-tip-foreground-color "#93a1a1")
  '(safe-local-variable-values
    '((eval c-make-noise-macro-regexps)
      (c-noise-macro-with-parens-names "IF_LINT")
@@ -26,7 +59,38 @@
      (folded-file . t)))
  '(scroll-bar-mode 'right)
  '(show-paren-mode t)
- '(tool-bar-mode nil))
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
+ '(term-default-bg-color "#002b36")
+ '(term-default-fg-color "#839496")
+ '(tool-bar-mode nil)
+ '(vc-annotate-background nil)
+ '(vc-annotate-background-mode nil)
+ '(vc-annotate-color-map
+   '((20 . "#dc322f")
+     (40 . "#c9485ddd1797")
+     (60 . "#bf7e73b30bcb")
+     (80 . "#b58900")
+     (100 . "#a5a58ee30000")
+     (120 . "#9d9d91910000")
+     (140 . "#9595943e0000")
+     (160 . "#8d8d96eb0000")
+     (180 . "#859900")
+     (200 . "#67119c4632dd")
+     (220 . "#57d79d9d4c4c")
+     (240 . "#489d9ef365ba")
+     (260 . "#3963a04a7f29")
+     (280 . "#2aa198")
+     (300 . "#288e98cbafe2")
+     (320 . "#27c19460bb87")
+     (340 . "#26f38ff5c72c")
+     (360 . "#268bd2")))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   '(unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83"))
+ '(xterm-color-names
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
+ '(xterm-color-names-bright
+   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -54,17 +118,19 @@
 	     '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives
 	     '("org" . "https://orgmode.org/elpa/") t)
-(setq package-selected-packages
-      '(ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode jedi jedi-core magit magit-popup oauth2 org ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
 
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
 (setq package-archive-priorities
       '(("org" . 3)
 	("melpa" . 2)
 	("marmalade" . 1)
 	("gnu" . 0)))
+
+(setq package-selected-packages
+   '(ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode go-snippets jedi jedi-core magit magit-popup oauth2 org ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet yasnippet-snippets))
+
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
 
 ;;; make package subsystem install all selected but uninstalled packages
 (unless (package-installed-p (car package-selected-packages))
@@ -682,8 +748,6 @@ Argument ARG is ignored."
 		     "#"
 		     'bf-python-hideshow-forward-sexp-function nil))
   (hs-minor-mode)
-  (cond ((equal system-type "darwin") "/opt/local/bin/ipython3")
-	(t "/usr/bin/ipython3"))
   (setq python-shell-interpreter
 	(cond ((equal system-type "darwin") "/opt/local/bin/ipython3")
 	      (t "/usr/bin/ipython3"))
