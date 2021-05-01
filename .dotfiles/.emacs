@@ -12,9 +12,10 @@
  '(cua-read-only-cursor-color "#859900")
  '(custom-enabled-themes '(shrek\.1))
  '(custom-safe-themes
-   '("0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432" "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2" default))
+   '("2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432" "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2" default))
  '(desktop-save 'ask)
  '(electric-indent-mode t)
+ '(elpy-syntax-check-command "/opt/local/bin/pyflakes")
  '(fci-rule-color "#073642")
  '(highlight-changes-colors '("#d33682" "#6c71c4"))
  '(highlight-symbol-colors
@@ -43,13 +44,25 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode jedi jedi-core magit magit-popup oauth2 org ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
+   '(org-bullets elpy xwwp osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode jedi jedi-core magit magit-popup oauth2 org ox-clip projectile python-environment rainbow-delimiters request slime solarized-theme web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
+ '(python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter" "jupyter-3.7"))
+ '(python-shell-interpreter "/opt/local/bin/jupyter-3.7 ")
+ '(python-shell-interpreter-args "console --simple-prompt")
  '(safe-local-variable-values
-   '((eval c-make-noise-macro-regexps)
+   '((eval font-lock-add-keywords nil
+	   `((,(concat "("
+		       (regexp-opt
+			'("sp-do-move-op" "sp-do-move-cl" "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op" "sp-do-del-cl")
+			t)
+		       "\\_>")
+	      1 'font-lock-variable-name-face)))
+     (Syntax . ANSI-Common-Lisp)
+     (Base . 10)
+     (eval c-make-noise-macro-regexps)
      (c-noise-macro-with-parens-names "IF_LINT")
      (encoding . utf-8)
      (Package . GUI)
@@ -98,6 +111,7 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "Black" :foreground "White" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "apple" :family "Hack"))))
  '(cursor ((t (:background "yellow"))))
+ '(highlight ((((class color) (min-colors 89)) (:background "#073642"))))
  '(mode-line-buffer-id ((t (:foreground "blue" :background "firebrick" :slant italic :weight bold))))
  '(org-done ((t (:foreground "yellow1" :weight bold))))
  '(org-level-1 ((t (:inherit default :foreground "#cb4b16" :height 1.3))))
@@ -107,15 +121,16 @@
  '(org-level-5 ((t (:inherit default :foreground "#2aa198"))))
  '(org-level-6 ((t (:inherit default :foreground "#859900"))))
  '(org-level-7 ((t (:inherit default :foreground "#dc322f"))))
- '(org-level-8 ((t (:inherit default :foreground "#268bd2")))))
+ '(org-level-8 ((t (:inherit default :foreground "#268bd2"))))
+ '(sp-pair-overlay-face ((t (:background "#073642" :inverse-video t)))))
 
 ;;; how to colorize mode line?
 
 (require 'package)
 (add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/"))
+	     '("marmalade" . "https://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/"))
+	     '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
 	     '("org" . "https://orgmode.org/elpa/") t)
 
@@ -609,10 +624,79 @@ to find the text that egrep hits refer to."
 ;; (add-to-list 'load-path "~/src/slime/")  ; your SLIME directory
 ;(require 'auto-complete)
 ;(require 'slime)
+
+(setq slime-lisp-implementations
+      '((sbcl ("/opt/local/bin/sbcl") :init slime-init-command)
+	(mit-scheme ("/Users/bf/homebrew/bin/mit-scheme") :init mit-scheme-init)))
+
+;; (defun mit-scheme-init (file encoding)
+;;   (format "%S\n\n"
+;; 	  `(begin
+;; 	    (load-option 'format)
+;; 	    (load-option 'sos)
+;; 	    (eval 
+;; 	     '(create-package-from-description
+;; 	       (make-package-description '(swank) (list (list))
+;; 					 (vector) (vector) (vector) false))
+;; 	     (->environment '(package)))
+;; 	    (load ,(expand-file-name 
+;; 		    "/Users/bf/src/swank-mit-scheme.scm" ; <-- insert your path
+;; 		    slime-path)
+;; 		  (->environment '(swank)))
+;; ;	    (eval '(start-swank ,file) (->environment '(swank))))))
+;; 	    (eval '(start-swank ,file) (the-environment)))))
+
+(setq *using-slime-mit-scheme-swank* nil)
+
+(defun mit-scheme-init (file encoding)
+  (if *using-slime-mit-scheme-swank*
+      (format "%S\n\n"
+	      `(begin
+		(load-option 'format)
+		(load-option 'sos)
+ 		(eval 
+ 		 '(create-package-from-description
+ 		   (make-package-description '(swank) (list (list))
+ 					     (vector) (vector) (vector) false))
+ 		 (->environment '(package)))
+		(load "/Users/bf/src/swank-mit-scheme.scm")
+		(eval '(start-swank ,file) (->environment '(swank)))))
+    (format "%S\n\n"
+	    `(begin
+	      (load-option 'format)
+	      (load-option 'sos)
+	      (load "/Users/bf/src/mit-scheme-swank/swank.scm")
+	      (->environment '(runtime swank))
+	      (trace read-packet)
+	      (trace decode-message)
+	      (trace process-one-message)
+	      (trace serve)
+	      (trace start-swank)
+	      (trace main-loop)
+	      (trace with-keyboard-interrupt-handler)
+	      (start-swank ,file)))))
+    
+
+(defun mit-scheme ()
+  (interactive)
+  ;;  (slime 'mit-scheme)
+  (run-geiser 'mit))
+
+(defun find-mit-scheme-package ()
+  (save-excursion
+    (let ((case-fold-search t))
+      (and (re-search-backward "^[;]+ package: \\((.+)\\).*$" nil t)
+	   (match-string-no-properties 1)))))
+
+;(setq slime-find-buffer-package-function 'find-mit-scheme-package)
+; (add-hook 'scheme-mode-hook (lambda () (slime-mode 1)))
+
 (slime-setup '(slime-fancy slime-banner))
 (require 'hyperspec)
 (setq common-lisp-hyperspec-root "file:/Users/bf/src/HyperSpec/"
       common-lisp-hyperspec-symbol-table "/Users/bf/src/HyperSpec/Data/Map_Sym.txt")
+
+(setq geiser-active-implementations '(mit))
 
 
 (defun idl-mode ()
@@ -750,7 +834,7 @@ Argument ARG is ignored."
   (hs-minor-mode)
   (define-key python-mode-map "\C-c\t" 'hs-toggle-hiding)
   (setq python-shell-interpreter
-	(cond ((equal system-type "odarwin") "/opt/local/bin/ipython3")
+	(cond ((string-equal system-type "darwin") "/opt/local/bin/ipython3")
 	      (t "/usr/bin/ipython3"))
 	python-shell-interpreter-args ""
 	python-shell-prompt-regexp "In \\[[0-9]+\\]: "
@@ -762,6 +846,10 @@ Argument ARG is ignored."
 	python-shell-completion-string-code
 	"';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
   (jedi:ac-setup))
+
+;;; Sun Aug 30 13:48:58 EDT 2020
+;;; beginning to convert to elpy
+(elpy-enable)
 
 (add-hook 'dired-load-hook 'dired-load-hook-code) 
 (add-hook 'text-mode-hook 'text-mode-hook-code)
@@ -845,6 +933,7 @@ which specify the range to operate on."
 (global-font-lock-mode 1)
 (defun org-hooks ()
   "hooks for org mode"
+  (org-bullets-mode 1)
   (global-set-key "\C-c\C-l" 'org-store-link)
   (global-set-key "\C-c\C-a" 'org-agenda)
   (global-set-key "\C-c\C-s" 'org-iswitchb))
@@ -868,7 +957,9 @@ which specify the range to operate on."
 (setq org-directory "~/Google Drive/notes/"
       org-log-done 'time
       org-todo-keywords '((sequence "TODO" "DONE"))
-      org-todo-keywords '((sequence "TODO" "WAIT(@)" "DONE"))
+      ;; turns out I use org mostly for personal stuff so there's not a lot of delegation.
+      ;; next state for TODO tasks should be DONE, and the rare exception will go to WAIT.
+      org-todo-keywords '((sequence "TODO" "DONE" "WAIT(@)"))
       org-archive-location "::* Archived Tasks"
       org-archive-location "~/Google Drive/notes/notes-archive.org::"
       org-export-headline-levels 0	; no headlines, just export as lists
@@ -913,7 +1004,7 @@ which specify the range to operate on."
 (require 'edit-server)
 (edit-server-start)
 (setenv "GOROOT" (concat homedir "/go"))
-(setenv "GOPATH" (concat (getenv "HOME") "/gocode"))
+(setenv "GOPATH" (concat (getenv "HOME") "/src/gocode"))
 (setenv "PATH"
 	(concat "/opt/local/bin:"
 		(getenv "PATH") ":"
@@ -921,8 +1012,9 @@ which specify the range to operate on."
 		(concat (getenv "GOROOT") "/bin")))
 
 (setq exec-path (append exec-path (list "/opt/local/bin"
+					(expand-file-name "~/homebrew/bin")
 					(expand-file-name "~/go/bin")
-					(expand-file-name "~/gocode/bin"))))
+					(expand-file-name "~/src/gocode/bin"))))
 
 (autoload 'go-mode "go-mode" "\
 Major mode for editing Go source text.
@@ -950,7 +1042,8 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (add-hook 'before-save-hook #'gofmt-before-save)
  
 (require 'yasnippet)
-(yas-global-mode)
+(yas-global-mode 1)
+
 (require 'go-autocomplete)
 (require 'auto-complete-config)
 ; (add-to-list 'ac-dictionary-directories "/Applications/Emacs.app/Contents/Resources/site-lisp/ac-dict")
@@ -975,8 +1068,40 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 ;;; (aset keyboard-translate-table ?\d ?\C-h)
 ;;; (aset keyboard-translate-table ?\C-h ?\d)
 (require 'rainbow-delimiters)
-(require 'smartparens)
-(show-smartparens-global-mode)
+(require 'smartparens-config)
+(show-smartparens-global-mode +1)
+(setq sp-lisp-modes (cons 'repl sp-lisp-modes)
+      sp-smartparens-bindings
+      '(("C-M-f" . sp-forward-sexp)
+	("C-M-b" . sp-backward-sexp)
+	("C-M-d" . sp-down-sexp)
+	("C-M-a" . sp-backward-down-sexp)
+	("C-S-d" . sp-beginning-of-sexp)
+	("C-S-a" . sp-end-of-sexp)
+	("C-M-e" . sp-up-sexp)
+	("C-M-u" . sp-backward-up-sexp)
+	("C-M-n" . sp-next-sexp)
+	("C-M-p" . sp-previous-sexp)
+	("C-M-k" . sp-kill-sexp)
+	("C-M-w" . sp-copy-sexp)
+	("C-<delete>" . sp-unwrap-sexp)
+	("C-<backspace>" . sp-backward-unwrap-sexp)
+	("C-<right>" . sp-forward-slurp-sexp)
+	("C-<left>" . sp-forward-barf-sexp)
+	("C-M-<left>" . sp-backward-slurp-sexp)
+	("C-M-<right>" . sp-backward-barf-sexp)
+	("M-D" . sp-splice-sexp)
+	("C-M-<delete>" . sp-splice-sexp-killing-forward)
+	("C-M-<backspace>" . sp-splice-sexp-killing-backward)
+	("C-S-<backspace>" . sp-splice-sexp-killing-around)
+	("C-]" . sp-select-next-thing-exchange)
+	("C-M-]" . sp-select-next-thing)
+	("C-M-SPC" . sp-mark-sexp)
+	("M-F" . sp-forward-symbol)
+	("M-B" . sp-backward-symbol)))
+
+(sp-use-smartparens-bindings)
+
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 (require 'slime)
