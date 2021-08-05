@@ -17,6 +17,7 @@
  '(electric-indent-mode t)
  '(elpy-syntax-check-command "/opt/local/bin/pyflakes")
  '(fci-rule-color "#073642")
+ '(gnutls-algorithm-priority "normal:-vers-tls1.3")
  '(highlight-changes-colors '("#d33682" "#6c71c4"))
  '(highlight-symbol-colors
    (--map
@@ -44,7 +45,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(geiser-mit org-bullets elpy xwwp osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode jedi jedi-core magit magit-popup oauth2 org ox-clip projectile python-environment rainbow-delimiters request slime solarized-theme web-mode websocket with-editor yasnippet))
+   '(geiser-mit org-bullets elpy xwwp osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime solarized-theme web-mode websocket yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -127,10 +128,12 @@
 ;;; how to colorize mode line?
 
 (require 'package)
+
+
 (add-to-list 'package-archives
 	     '("marmalade" . "https://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
+	     '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
 	     '("org" . "https://orgmode.org/elpa/") t)
 
