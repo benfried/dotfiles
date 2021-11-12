@@ -1116,9 +1116,9 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (add-hook 'slime-mode-hook 'set-up-slime-ac)
 (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
 
-(unless (and (fboundp 'play-sound-internal)
-             (subrp (symbol-function 'play-sound-internal)))
-  (require 'play-sound))
+;(unless (and (fboundp 'play-sound-internal)
+;             (subrp (symbol-function 'play-sound-internal)))
+;  (require 'play-sound))
 
 
 (provide '.emacs)
