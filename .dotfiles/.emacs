@@ -136,6 +136,7 @@
 ;(add-to-list 'package-archives
 ;	     '("org" . "https://orgmode.org/elpa/") t)
 
+
 (setq package-archive-priorities
       '(;("org" . 3)
 	("melpa" . 2)
@@ -640,24 +641,7 @@ to find the text that egrep hits refer to."
 
 (setq slime-lisp-implementations
       '((sbcl ("/opt/local/bin/sbcl") :init slime-init-command)
-	(mit-scheme ("/Users/bf/homebrew/bin/mit-scheme") :init mit-scheme-init)))
-
-;; (defun mit-scheme-init (file encoding)
-;;   (format "%S\n\n"
-;; 	  `(begin
-;; 	    (load-option 'format)
-;; 	    (load-option 'sos)
-;; 	    (eval 
-;; 	     '(create-package-from-description
-;; 	       (make-package-description '(swank) (list (list))
-;; 					 (vector) (vector) (vector) false))
-;; 	     (->environment '(package)))
-;; 	    (load ,(expand-file-name 
-;; 		    "/Users/bf/src/swank-mit-scheme.scm" ; <-- insert your path
-;; 		    slime-path)
-;; 		  (->environment '(swank)))
-;; ;	    (eval '(start-swank ,file) (->environment '(swank))))))
-;; 	    (eval '(start-swank ,file) (the-environment)))))
+	(mit-scheme ("mit-scheme") :init mit-scheme-init)))
 
 (setq *using-slime-mit-scheme-swank* nil)
 
@@ -1020,9 +1004,12 @@ which specify the range to operate on."
 		(concat (getenv "GOROOT") "/bin")))
 
 (setq exec-path (append exec-path (list "/opt/local/bin"
-					(expand-file-name "~/homebrew/bin")
+					"/usr/local/bin"
 					(expand-file-name "~/go/bin")
 					(expand-file-name "~/src/gocode/bin"))))
+
+(if (file-directory-p (expand-file-name "~/homebrew/bin"))
+    (setq exec-path (cons (expand-file-name "~/homebrew/bin") exec-path)))
 
 (autoload 'go-mode "go-mode" "\
 Major mode for editing Go source text.
