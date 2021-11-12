@@ -45,7 +45,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(geiser-mit org-bullets elpy xwwp osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime solarized-theme web-mode websocket yasnippet))
+   '(org counsel ivy geiser-mit org-bullets elpy xwwp osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime solarized-theme web-mode websocket yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -99,6 +99,7 @@
      (340 . "#26f38ff5c72c")
      (360 . "#268bd2")))
  '(vc-annotate-very-old-color nil)
+ '(warning-suppress-types '((comp)))
  '(weechat-color-list
    '(unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83"))
  '(xterm-color-names
@@ -130,8 +131,9 @@
 (require 'package)
 
 
-(add-to-list 'package-archives
-	     '("marmalade" . "https://marmalade-repo.org/packages/"))
+;; marmalade seems to be DOA - cert expired in 2018!
+;; (add-to-list 'package-archives
+;; 	     '("marmalade" . "https://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
@@ -140,11 +142,11 @@
 (setq package-archive-priorities
       '(("org" . 3)
 	("melpa" . 2)
-	("marmalade" . 1)
+;	("marmalade" . 1)
 	("gnu" . 0)))
 
 (setq package-selected-packages
-   '(ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode go-snippets jedi jedi-core magit magit-popup oauth2 org ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet yasnippet-snippets))
+   '(ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode go-snippets ivy jedi jedi-core magit magit-popup oauth2 org ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet yasnippet-snippets))
 
 (package-initialize)
 (unless package-archive-contents
