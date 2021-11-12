@@ -45,7 +45,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(org counsel ivy geiser-mit org-bullets elpy xwwp osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime solarized-theme web-mode websocket yasnippet))
+   '(company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -129,24 +129,21 @@
 ;;; how to colorize mode line?
 
 (require 'package)
-
-
-;; marmalade seems to be DOA - cert expired in 2018!
-;; (add-to-list 'package-archives
-;; 	     '("marmalade" . "https://marmalade-repo.org/packages/"))
+;(add-to-list 'package-archives
+;	     '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives
-	     '("org" . "https://orgmode.org/elpa/") t)
+;(add-to-list 'package-archives
+;	     '("org" . "https://orgmode.org/elpa/") t)
 
 (setq package-archive-priorities
-      '(("org" . 3)
+      '(;("org" . 3)
 	("melpa" . 2)
 ;	("marmalade" . 1)
 	("gnu" . 0)))
 
-(setq package-selected-packages
-   '(ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode go-snippets ivy jedi jedi-core magit magit-popup oauth2 org ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet yasnippet-snippets))
+;(setq package-selected-packages
+;   '(ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode go-snippets jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet yasnippet-snippets))
 
 (package-initialize)
 (unless package-archive-contents
@@ -156,6 +153,16 @@
 (unless (package-installed-p (car package-selected-packages))
   (package-install-selected-packages))
 
+(if (version< "27.0" emacs-version)
+    (set-fontset-font
+     "fontset-default" 'unicode "Apple Color Emoji" nil 'prepend)
+  (set-fontset-font
+   t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
+
+(global-company-mode)
+(add-to-list 'company-backends 'company-emoji)
+
+
 ;;; however, for packages that are distributed with emacs but for which there's a newer version in one of the archives,
 ;;; what we really want to do is force download of the newer version. Org is the case I'm most concerned about.
 ;;; however, one hitch: it looks like the pkg-desc struct in package-alist is not initialized with the full ino like repo it
@@ -163,9 +170,9 @@
 ;;; #s(package-desc org (20190218) "Outline-based notes management and organizer" nil nil nil "/Users/bf/.emacs.d/elpa/org-20190218" nil nil)
 ;;; so not sure what to do, and will have to resort to manual installs of org for the time being
 
-(let ((orgs (cdr (assoc 'org package-archive-contents))) ; all version of org
-      (current-org (cadr (assq 'org package-alist))))	 ; pkg-desc of the version of org that's installed now
-  (unless (equal (package-desc-archive current-org) "org"))) ; *** TODO *** can't figure this out now
+;(let ((orgs (cdr (assoc 'org package-archive-contents))) ; all version of org
+;      (current-org (cadr (assq 'org package-alist))))	 ; pkg-desc of the version of org that's installed now
+;  (unless (equal (package-desc-archive current-org) "org"))) ; *** TODO *** can't figure this out now
 
 
 (setq-default mode-line-buffer-identification (propertized-buffer-identification "%b"))
@@ -251,6 +258,7 @@
 				("wid\\..*$" . wid-mode))
 			      auto-mode-alist)
       load-path (append (list (concat homedir "/lib/elisp"))
+			(list (concat homedir "/lib/elisp/org/lisp"))
 			(list (concat homedir "/lib/elisp/dmacro"))
 			(list "/opt/local/share/maxima/5.39.0/emacs")
 			load-path)
@@ -525,7 +533,7 @@ Runs COMMAND, a shell command, in a separate process asynchronously
 with output going to the buffer *compilation*.
 You can then use the command  next-error  to find the next error message
 and move to the source code that caused it."
-  (interactive (list (read-input "Compile command: " (set-compile-command))))
+  (interactive (list (read-from-minibuffer "Compile command: " (set-compile-command))))
   (setq compile-command command)
   (compile compile-command))
 
@@ -701,7 +709,8 @@ to find the text that egrep hits refer to."
 (setq common-lisp-hyperspec-root "file:/Users/bf/src/HyperSpec/"
       common-lisp-hyperspec-symbol-table "/Users/bf/src/HyperSpec/Data/Map_Sym.txt")
 
-(setq geiser-active-implementations '(mit))
+(setq geiser-active-implementations '(mit)
+      geiser-mit-source-directory "/Users/bf/src/mit-scheme-11.2/src")
 
 
 (defun idl-mode ()
@@ -982,21 +991,15 @@ which specify the range to operate on."
 	("\\.H$" . hhtemplate)))
 
 (define-key global-map [?\C-h] 'help-command)
-(setq org-tag-alist '(("@wmc" . ?w)
-		      ("@home" . ?h)
-		      ("@pops" . ?p)
-		      ("@comp" . ?m)
-		      ("@perf" . nil)
-		      ("@kmagal" . ?k)
-		      ("@dhenrich" . ?d)
-		      ("@jpearl" . ?j)
-		      ("@cekiss" . ?C)
-		      ("@frodo" . ?f)
-		      ("@dierks" . ?D)
-		      ("@jbates" . ?J)
-		      ("@heatherkaye" . ?H)
-		      ("@shikha" . ?s)
-		      ("@sre" . ?r)
+(setq org-tag-alist '(("@jen" . ?j)
+		      ("@dhenrich" . ?h)
+		      ("@kankotecha" . ?k)
+		      ("@heatherberson" . ?b)
+		      ("@jonsaxe" . ?s)
+		      ("@arvindkc" ?c)
+		      ("@colm" ?B)
+		      ("@jordyn" ?j)
+		      ("@kirachapelle" ?C)
 		      ("@nyc" . ?n)))
 
 (require 're-builder)
@@ -1112,5 +1115,10 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (require 'slime)
 (add-hook 'slime-mode-hook 'set-up-slime-ac)
 (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+
+(unless (and (fboundp 'play-sound-internal)
+             (subrp (symbol-function 'play-sound-internal)))
+  (require 'play-sound))
+
 
 (provide '.emacs)
