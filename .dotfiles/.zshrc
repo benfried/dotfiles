@@ -1,7 +1,7 @@
 emulate zsh
 . ~/.zshnew
 export ZSH=$HOME/src/oh-my-zsh
-plugins=(git golang macports)
+plugins=(git golang macports flutter)
 source $ZSH/oh-my-zsh.sh
 setenv () {
         eval "$1=\"$2\""
