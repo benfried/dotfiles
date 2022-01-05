@@ -11,6 +11,7 @@ export GOROOT=~/go
 append PATH $GOROOT/bin
 test -x $GOROOT/bin/go && eval $(go env | grep -v TERM)
 append PATH $GOPATH/bin
+append PATH ~/src/flutter/bin
 # module load dev
 set -a
 HISTSIZE=1000
