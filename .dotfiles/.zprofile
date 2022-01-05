@@ -30,5 +30,3 @@ fortune
 # MacPorts Installer addition on 2021-04-15_at_16:17:52: adding an appropriate DISPLAY variable for use with MacPorts.
 export DISPLAY=:0
 # Finished adapting your DISPLAY environment variable for use with MacPorts.
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
