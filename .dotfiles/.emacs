@@ -45,7 +45,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
+   '(ivy-hydra company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -161,8 +161,12 @@
    t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
 
 (global-company-mode)
-(add-to-list 'company-backends 'company-emoji)
-
+(setq company-backends
+      '(company-emoji
+	company-capf
+	company-clang
+	company-files
+	(company-dabbrev-code company-gtags company-etags company-keywords) company-yasnippet company-dabbrev))
 
 ;;; however, for packages that are distributed with emacs but for which there's a newer version in one of the archives,
 ;;; what we really want to do is force download of the newer version. Org is the case I'm most concerned about.
@@ -1106,6 +1110,15 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 ;(unless (and (fboundp 'play-sound-internal)
 ;             (subrp (symbol-function 'play-sound-internal)))
 ;  (require 'play-sound))
+
+;;; for ivy, which really screws up on find-file, won't allow creating a new file if there's a fuzzy match!
+(setq read-file-name-function
+  (lambda (&rest args)
+    (let ((completing-read-function #'completing-read-default))
+      (apply #'read-file-name-default args))))
+
+(setq ivy-use-virtual-buffers t)
+(setq ivy-count-format "(%d/%d) ")
 
 
 (provide '.emacs)
