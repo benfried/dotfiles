@@ -12,7 +12,7 @@
  '(cua-read-only-cursor-color "#859900")
  '(custom-enabled-themes '(shrek\.1))
  '(custom-safe-themes
-   '("2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432" "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2" default))
+   '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432" "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2" default))
  '(desktop-save 'ask)
  '(electric-indent-mode t)
  '(elpy-syntax-check-command "/opt/local/bin/pyflakes")
@@ -281,7 +281,8 @@
 (set-face-background 'mode-line-buffer-id "firebrick")
 (set-face-foreground 'mode-line-inactive "firebrick")
 (set-face-background 'mode-line-inactive "yellow")
-
+(set-face-font 'mode-line-active (face-font 'mode-line))
+; was "-*-Hack-medium-normal-normal-*-*-*-*-*-m-0-iso10646-1"
 
 ;(require 'maxima-font-lock)
 ;(require 'maxima)

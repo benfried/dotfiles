@@ -1,1327 +1,523 @@
-;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; -*- mode: emacs-lisp; lexical-binding:t; coding: utf-8-emacs; -*-
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Tue Feb 23 06:44:07 2016
+;; Created Wed Jan  5 16:01:09 2022
 ;; Desktop file format version 208
-;; Emacs version 25.1.50.1
+;; Emacs version 28.0.50
 
 ;; Global section:
-(setq desktop-saved-frameset [frameset 1 (22220 28727 274705 0) (desktop . "208") "bf@lensman.roam.corp.google.com" nil nil ((((font-backend mac-ct) (fontsize . 0) (font . "-*-Inconsolata-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (scroll-bar-height . 0) (alpha) (fullscreen) (display-type . color) (background-mode . dark) (cursor-color . "yellow") (frameset--id . "06D8-D483-5ED7-0EBF") (frameset--mini t) (height . 53) (width . 143) (modeline . t) (minibuffer . t) (unsplittable) (left . 4) (top . 23) (right-divider-width . 0) (bottom-divider-width . 0) (icon-name) (visibility . t) (display . "lensman.roam.corp.google.com") (explicit-name) (tool-bar-position . top)) ((min-height . 3) (min-width . 6) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 51) (min-pixel-width . 48) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 1175) (pixel-height . 884) (total-width . 146) (total-height . 52) (normal-height . 1.0) (normal-width . 1.0) (buffer "notes.org" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 nil) (vscroll . 0) (dedicated) (point . 234128) (start . 232970))) (((font-backend mac-ct) (fontsize . 0) (font . "-*-Inconsolata-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (scroll-bar-height . 0) (alpha) (fullscreen . fullboth) (display . "lensman.roam.corp.google.com") (display-type . color) (background-mode . dark) (cursor-color . "yellow") (visibility . t) (mouse-color . "#839496") (frameset--id . "5CE5-EBBE-B549-F4D9") (frameset--mini t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (right-divider-width . 0) (bottom-divider-width . 0) (maximized . maximized) (height . 93) (width . 315) (left . 2) (top . 8)) ((min-height . 3) (min-width . 6) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 51) (min-pixel-width . 48) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 2551) (pixel-height . 1564) (total-width . 318) (total-height . 92) (normal-height . 1.0) (normal-width . 1.0) (buffer "lax-offsite.org" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 nil) (vscroll . 0) (dedicated) (point . 948) (start . 1))) (((font-backend mac-ct) (fontsize . 0) (font . "-*-Inconsolata-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (vertical-scroll-bars . right) (horizontal-scroll-bars . t) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (scroll-bar-height . 0) (alpha) (fullscreen) (display-type . color) (background-mode . dark) (cursor-color . "yellow") (environment) (display . "lensman.roam.corp.google.com") (visibility . t) (mouse-color . "#839496") (frameset--id . "E376-6CFE-8E1D-6DE6") (frameset--mini t . t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (right-divider-width . 0) (bottom-divider-width . 0) (height . 60) (width . 209) (left . 27) (top . 429)) ((min-height . 3) (min-width . 6) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 51) (min-pixel-width . 48) (min-pixel-height-ignore . 51) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 17) (min-pixel-width-safe . 16)) leaf (pixel-width . 1703) (pixel-height . 1003) (total-width . 212) (total-height . 59) (normal-height . 1.0) (normal-width . 1.0) (buffer "libproc.h" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 nil) (vscroll . 0) (dedicated) (point . 1843) (start . 1))))])
+(setq desktop-saved-frameset [frameset 1 (25046 1813 238558 0) (desktop . "208") "bf@yoyodyne.roam.corp.google.com" nil nil ((((minibuffer . t) (fontsize . 0) (font . "-*-Hack-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (child-frame-border-width) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (undecorated) (ns-appearance) (ns-transparent-titlebar) (z-group) (no-focus-on-map) (no-accept-focus) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (scroll-bar-height . 15) (alpha) (fullscreen) (display . "yoyodyne.roam.corp.google.com") (cursor-color . "yellow") (display-type . color) (background-mode . dark) (scroll-bar-foreground . "white") (visibility . t) (last-focus-update) (frameset--id . "B971-036C-2506-8322") (frameset--mini t) (modeline . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (height . 60) (width . 88) (left . 680) (top . 378)) ((min-height . 4) (min-width . 6) (min-height-ignore . 4) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 84) (min-pixel-width . 60) (min-pixel-height-ignore . 84) (min-pixel-width-ignore . 60) (min-pixel-height-safe . 21) (min-pixel-width-safe . 20)) leaf (pixel-width . 911) (pixel-height . 1239) (total-width . 91) (total-height . 59) (normal-height . 1.0) (normal-width . 1.0) (buffer "*info*" (selected) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 2 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 18217) (start . 16503))) (((minibuffer . t) (fontsize . 0) (font . "-*-Hack-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (child-frame-border-width) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (undecorated) (ns-appearance) (ns-transparent-titlebar) (z-group) (no-focus-on-map) (no-accept-focus) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (scroll-bar-height . 15) (alpha) (fullscreen) (display . "yoyodyne.roam.corp.google.com") (cursor-color . "yellow") (display-type . color) (background-mode . dark) (scroll-bar-foreground . "white") (visibility . t) (last-focus-update) (frameset--id . "FB13-E810-C8AC-2A6A") (frameset--mini t) (modeline . t) (unsplittable) (icon-name) (explicit-name) (tool-bar-position . top) (tabs (current-tab (name . "*eshell*") (explicit-name))) (height . 54) (width . 140) (left . 788) (top . 411)) ((min-height . 3) (min-width . 6) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 63) (min-pixel-width . 60) (min-pixel-height-ignore . 63) (min-pixel-width-ignore . 60) (min-pixel-height-safe . 21) (min-pixel-width-safe . 20)) leaf (pixel-width . 1431) (pixel-height . 1113) (total-width . 143) (total-height . 53) (normal-height . 1.0) (normal-width . 1.0) (buffer "*scratch*" (selected) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 2 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 1) (start . 1)) (prev-buffers ("*scratch*" 1 1))) (((minibuffer . t) (fontsize . 0) (font . "-*-Hack-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (child-frame-border-width) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "White") (background-color . "Black") (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (undecorated) (ns-appearance) (ns-transparent-titlebar) (z-group) (no-focus-on-map) (no-accept-focus) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (scroll-bar-height . 15) (alpha) (fullscreen) (display-type . color) (background-mode . dark) (cursor-color . "yellow") (scroll-bar-foreground . "white") (environment) (last-focus-update) (tabs (current-tab (name . "*Backtrace*") (explicit-name))) (frameset--id . "1EEB-4500-BB27-5838") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (visibility . t) (display . "yoyodyne.roam.corp.google.com") (explicit-name) (tool-bar-position . top) (height . 89) (width . 118) (left . 0) (top . 33)) ((min-height . 3) (min-width . 6) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 63) (min-pixel-width . 60) (min-pixel-height-ignore . 63) (min-pixel-width-ignore . 60) (min-pixel-height-safe . 21) (min-pixel-width-safe . 20)) leaf (pixel-width . 1211) (pixel-height . 1848) (total-width . 121) (total-height . 88) (normal-height . 1.0) (normal-width . 1.0) (buffer "magit: dotfiles" (selected . t) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 2 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 100446) (start . 1)) (prev-buffers ("magit: dotfiles" 1 1) (".gitignore" 1 27))))])
 (setq desktop-missing-file-warning nil)
 (setq tags-file-name nil)
 (setq tags-table-list nil)
-(setq search-ring '("plugin_run" "_zshtmux_" "tmux_iterm2" "only." "-t" "trace" "s" "dtrace" "comp" "zshnew" "compinit" "bg" "-z" "buddy" "lssharedfilelist" "169"))
-(setq regexp-search-ring '("^  yasnippet"))
-(setq register-alist (list (list 82 "Unprintable entity" (let ((mk (make-marker))) (add-hook 'desktop-delay-hook `(lambda nil (set-marker ,mk ,1 (get-buffer ,"notes.org")))) mk))))
-(setq file-name-history '("~/Google Drive/notes/lax-offsite.org" "~/src/oh-my-zsh/plugins/tmux" "~/src/oh-my-zsh/plugins/emacs/emacsclient.sh" "~/src/oh-my-zsh/oh-my-zsh.sh" "~/src/oh-my-zsh/templates/zshrc.zsh-template" "~/src/oh-my-zsh/README.markdown" "~/src/oh-my-zsh/" "~/src/oh-my-zsh/plugins/golang/golang.plugin.zsh" "~/src/oh-my-zsh/plugins/macports/_port" "~/src/oh-my-zsh/plugins/macports/macports.plugin.zsh" "~/src/dotfiles/.dotfiles/.zprofile" "~/Google Drive/notes/donkey-speech.org" "~/.zcompdump" "~/src/dotfiles/.dotfiles/.zshnew" "~/.zshrc" "~/pllist.txt" "~/Library/Preferences/com.apple.loginitems.plist" "~/Library/Application Support/Google/Chrome/Default/Extensions/aihpiglmnhnhijdnjghpfnlledckkhja/" "~/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/scripts/" "~/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0" "~/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/mainapp.html" "~/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/scripts/host.js" "~/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/scripts" "~/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/scripts/" "~/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/" "~/Google Drive/notes/perfx.txt" "~/Google Drive/notes/" "/Users/bf/.zshrc" "~/Google Drive/notes/urs-notes-budget-2016.org" "~/.emacs.d/elpa/" "/tmp/notes.txt" "~/src/emacs/lisp/textmodes/flyspell.el" "~/google3/experimental/users/bjones/flashtools/" "~/f.par" "~/src/ps/print.c" "~/src/emacs/src/lisp.h" "~/Downloads/getargv.c" "~/Downloads/getargv.c.txt" "/usr/include/sys/proc.h" "~/Downloads/osx-ps.c" "/usr/include/sys/proc_info.h" "/usr/include/libproc.h" "~/src/emacs/src/sysdep.c.bf" "~/src/emacs/src/sysdep.c" "~/tmp/findflac.pl" "~/Downloads/Media Center21 Mac-299490.mjr" "/Users/bf/src/dotfiles/.git/MERGE_MSG" "~/go/src/pkg/database/sql/sql.go" "~/.emacs.d/elpa/smartparens-20131227.423/smartparens-config.el" "~/go/misc/emacs/go-mode.el" "~/.custom/.profile" "/Users/bf/src/emacs/src/Makefile" "~/Google Drive/notes/notes.org" "/Users/bf/src/emacs/src/Makefile" "~/src/dotfiles/.dotfiles/.custom/.profile" "~/.custom/.profile" "/Users/bf/src/dotfiles/.git/MERGE_MSG" "/Users/bf/.profile" "~/src/emacs/etc/NEWS" "/Users/bf/src/dotfiles/.git/COMMIT_EDITMSG" "/tmp/elpa.2" "/tmp/elpa.1" "/Users/bf/src/dotfiles/.dotfiles/.emacs" "/Users/bf/.emacs" "/Users/bf/src/dotfiles/.dotfiles/.emacs" "~/src/emacs/lisp/emacs-lisp/package.el" "~/Google Drive/.emacs.macula" "~/t.html" "/tmp/" "~/.custom/.profile" "~/src/gocode/src/github.com/nsf/gocode/" "~/go/doc/progs/json5.go" "~/src/gocode/src/gols/gols.go" "~/foo.go" "~/foo.c" "~/.emacs"))
+(setq search-ring '(#("/lib:" 0 5 (isearch-regexp-function nil isearch-case-fold-search t)) #("oddm" 0 4 (isearch-regexp-function nil isearch-case-fold-search t)) #("oddmu" 0 5 (isearch-regexp-function nil isearch-case-fold-search t)) #("oddmn" 0 5 (isearch-regexp-function nil isearch-case-fold-search t)) #("backends" 0 8 (isearch-regexp-function nil isearch-case-fold-search t)) #("company" 0 7 (isearch-regexp-function nil isearch-case-fold-search t)) #("ivy" 0 3 (isearch-regexp-function nil isearch-case-fold-search t)) #("ivy-hy" 0 6 (isearch-regexp-function nil isearch-case-fold-search t)) #("ivy-hydrag" 0 10 (isearch-regexp-function nil isearch-case-fold-search t)) #("complete" 0 8 (isearch-regexp-function nil isearch-case-fold-search t)) #("show" 0 4 (isearch-regexp-function nil isearch-case-fold-search t)) #("emoji" 0 5 (isearch-case-fold-search t isearch-regexp-function nil)) #("HEAD" 0 4 (isearch-regexp-function nil isearch-case-fold-search nil)) #("start-swank" 0 11 (isearch-regexp-function nil isearch-case-fold-search t)) #("head" 0 4 (isearch-case-fold-search t isearch-regexp-function nil)) #("geisr" 0 5 (isearch-case-fold-search t isearch-regexp-function nil))))
+(setq regexp-search-ring '(#("^  org" 0 6 (isearch-case-fold-search t)) #("^  ivy" 0 6 (isearch-case-fold-search t)) #("^  org " 0 7 (isearch-case-fold-search t)) #("$  " 0 3 (isearch-case-fold-search t)) #("^  smartp" 0 9 (isearch-case-fold-search t)) #("^  sly" 0 6 (isearch-case-fold-search t)) #("^  yasnipp" 0 10 (isearch-case-fold-search t)) #("^yasn" 0 5 (isearch-case-fold-search t)) #("^  smart-pa" 0 11 (isearch-case-fold-search t)) #("^  smartpar" 0 11 (isearch-case-fold-search t)) "[^ ] [^ ]" "[^ ] [^ +]" "[^ ] [^ ]" "^  yasnippet"))
+(setq register-alist (list (list 82 "Unprintable entity" (let ((mk (make-marker))) (add-hook 'desktop-delay-hook (lambda nil (set-marker mk nil (get-buffer " *temp*")))) mk))))
+(setq file-name-history '("~/src/dotfiles/.gitignore" "~/.gitignore" "~/src/dotfiles/" "~/src/gcc-emacs/src/sound.c.mac" "~/src/gcc-emacs/src/sound.c" "~/src/gcc-emacs/options" "~/foo.c" "~/t.c" #("/Users/bf/.codereview_upload_cookies_codereview.appspot.com" 0 59 (ivy-index 0)) #("/Users/bf/test.c" 0 16 (ivy-index 0)) #("/t.c" 0 4 (ivy-index 0)) #("/Users/bf/Downloads/System_log-moby-20211220-183237.zip" 0 55 (ivy-index 0)) "/Users/bf/.ssh/known_hosts" #("/Users/bf/src/gcc-emacs/.git/" 0 29 (ivy-index 0)) #("/Users/bf/Library/KeyBindings/DefaultKeyBinding.dict" 0 52 (ivy-index 0)) #("/Users/bf/emacskeys.dict" 0 24 (ivy-index 0)) #("/Users/bf/src/dotfiles/.dotfiles/.emacs.stash" 0 45 (ivy-index 0)) #("/Users/bf/.emacs" 0 16 (ivy-index 1)) #("/.emacs" 0 7 (ivy-index 0)) #("/Users/bf/.emacs.d/" 0 19 (ivy-index 0)) #("/Users/bf/Google Drive/notes/notes.org" 0 38 (ivy-index 1)) #("/Users/bf/Google Drive/notes/notes.org.bakbak" 0 45 (ivy-index 0)) #("/Users/bf/src/org-mode/doc/Makefile" 0 35 (ivy-index 0)) #("/Users/bf/src/org-mode/mk/default.mk" 0 36 (ivy-index 0)) #("/Users/bf/src/org-mode/Makefile" 0 31 (ivy-index 0)) #("/Users/bf/src/org-mode/mk/targets.mk" 0 36 (ivy-index 0)) #("/Users/bf/src/org-mode/mk/local.mk" 0 34 (ivy-index 0)) #("/Users/bf/Google Drive/notes/sites.org" 0 38 (ivy-index 0)) #("/tmp/buck.txt" 0 13 (ivy-index 0)) #("/Users/bf/quicklisp/setup.lisp" 0 30 (ivy-index 0)) #("/Users/bf/.sbclrc" 0 17 (ivy-index 0)) "/Users/bf/src/maxima-jupyter/pkg/usr/local/share/Jupyter/kernels/maxima/kernel.json" #("/Users/bf/src/maxima-jupyter/Readme.md" 0 38 (ivy-index 0)) #("/Users/bf/src/maxima-jupyter/load-maxima-jupyter.lisp" 0 53 (ivy-index 0)) #("/Users/bf/Google Drive/nyff.org" 0 31 (ivy-index 0)) #("/opt/local/var/macports/build/_opt_local_var_macports_sources_rsync.macports.org_macports_release_tarballs_ports_math_maxima/maxima-devel/work/maxima-5.43-dev-20200126/doc/info" 0 176 (ivy-index 0)) #("/opt/local/var/macports/logs/_opt_local_var_macports_sources_rsync.macports.org_macports_release_tarballs_ports_math_maxima/maxima-devel/main.log" 0 145 (ivy-index 0)) #("/Users/bf/src/org-mode/mk/" 0 26 (ivy-index 0)) #("/Users/bf/Pictures/" 0 19 (ivy-index 0)) #("/Users/bf/Downloads/2021 NYFF Lineup (NYFF 59) - Sheet3.csv" 0 59 (ivy-index 0)) #("/Users/bf/Google Drive/NYFF59.csv" 0 33 (ivy-index 0)) #("/Users/bf/Google Drive/" 0 23 (ivy-index 0)) "/Users/bf/src/gcc-emacs/options.n" #("/Users/bf/src/gcc-emacs/gccjittest.c" 0 36 (ivy-index 0)) "/Users/bf/src/gcc-emacs/config.log" #("/Users/bf/src/gcc-emacs/vars" 0 28 (ivy-index 0)) "/Users/bf/src/gcc-emacs/options.n" "/Users/bf/src/gcc-emacs/configure.ac" "~/src/dotfiles/.dotfiles/.emacs.~18~" "~/src/t.c" "/Applications/Emacs.app/Contents/Resources/lisp" "/Applications/Emacs.app/Contents/Resources/lisp/font-lock.el.gz" "~/Google Drive/notes/notes.html" "~/.emacs.d/elpa/ein-20210429.1630/ein.el" "~/.emacs.d/elpa/ein-20210429.1630" "~/.emacs.d/elpa/geiser-20210421.1938" "~/.emacs.d/elpa/geiser-20210421.1938/" "~/.emacs" "~/src/gcc-emacs/build-emacs" "~/src/gcc-emacs/options" "/Users/bf/src/gcc-emacs/options" "~/Downloads" "~/Google Drive/notes/notes.org" "~/src/pset0.scm" "~/src/t.scm" "~/.emacs.d/elpa/smartparens-20210213.1851/smartparens-config.el" "~/src/mit-scheme-11.2/src/runtime/syntax.scm" "~/src/swank-mit-scheme.scm" "~/src/mit-scheme-11.2/src/runtime/syntax-parser.scm" "~/src/mit-scheme-11.2/src/runtime/predicate.scm" "~/src/mit-scheme-swank/swank.scm" "~/src/t.scm" "~/src/swank-mit-scheme.scm" "~/src/mit-scheme-11.2/src/runtime/packag.scm" "~/src/mit-scheme-11.2/" "~/homebrew/lib/mit-scheme-x86-64-11.2/runtime/load.bci" "/tmp/dir" "/usr/local/share/info" "/usr/local/share/info/maxima.info" "/usr/local/share/info" "/usr/share/info/dir" "~/src/" "~/.emacs.d/elpa/slime-20210214.2243" "~/Downloads/t.py" "/Users/bf/Downloads/t.py" "~/data/coronavirus-data/Geography-resources/MODZCTA_2010_WGS1984.geo.json" "~/Google Drive/notes/notes-to-family.org" "/opt/local/share/info/maxima-index.lisp" "~/sbcl.out" "~/maxima.out" "~/src/maxima-jupyter" "/opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/math/maxima" "/opt/local/var/macports/distfiles/maxima/" "/opt/local/var/macports/software/maxima/" "/opt/local/share/maxima/" "~/quicklisp/asdf.lisp" "/Users/bf/quicklisp/quicklisp/quicklisp.asd" "~/foo.el" "~/.emacs.d/elpa/smartparens-20201007.1753"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
 (desktop-create-buffer 208
-  "/Users/bf/Google Drive/notes/notes.org"
-  "notes.org"
-  'org-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode org-indent-mode)
-  234128
-  '(232604 nil)
+  "/Users/bf/src/dotfiles/.gitignore"
+  ".gitignore"
+  'fundamental-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode auto-revert-mode)
+  27
+  '(14 nil)
   nil
   nil
-  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-emacs-unix) (fill-column . 72) (truncate-lines . t))
-  '((mark-ring (228316 226502 224699 222830 222692 221902 222648 1 221435 222143 219540 219540 219822 218726 218726 234243))))
+  '((buffer-display-time 25046 1473 657892 0) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1))))
 
 (desktop-create-buffer 208
   nil
-  "plugins"
+  "dotfiles"
   'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  10337
-  '(3081 nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/")
-  nil
-  '((mark-ring (281 181 227))))
-
-(desktop-create-buffer 208
-  "/Users/bf/Google Drive/notes/lax-offsite.org"
-  "lax-offsite.org"
-  'org-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode org-indent-mode)
-  948
-  '(nil nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "oh-my-zsh"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  716
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  241
   '(nil nil)
   t
-  '("/Users/bf/src/oh-my-zsh/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/oh-my-zsh/oh-my-zsh.sh"
-  "oh-my-zsh.sh"
-  'sh-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/dotfiles/.dotfiles/.zshrc"
-  ".zshrc"
-  'sh-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  111
-  '(111 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring (25 868 832 738 5925 5925 13))))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/oh-my-zsh/templates/zshrc.zsh-template"
-  "zshrc.zsh-template"
-  'fundamental-mode
-  '(filladapt-mode yas-minor-mode)
-  2073
-  '(40 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/oh-my-zsh/README.markdown"
-  "README.markdown"
-  'markdown-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode)
-  4675
-  '(nil nil)
-  nil
-  nil
-  '((tab-width . 4) (buffer-file-coding-system . utf-8-unix) (fill-column . 72))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/oh-my-zsh/plugins/golang/golang.plugin.zsh"
-  "golang.plugin.zsh"
-  'sh-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  4740
-  '(1 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/oh-my-zsh/plugins/macports/macports.plugin.zsh"
-  "macports.plugin.zsh"
-  'sh-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/oh-my-zsh/plugins/macports/_port"
-  "_port"
-  'fundamental-mode
-  '(filladapt-mode yas-minor-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
+  '("/Users/bf/src/dotfiles/")
+  '((buffer-display-time 25046 825 707859 0))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
   "/Users/bf/src/dotfiles/.dotfiles/.zprofile"
   ".zprofile"
   'sh-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  195
-  '(393 nil)
+  '(company-mode filladapt-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode auto-revert-mode)
+  494
+  '(433 nil)
   nil
   nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring (1))))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/dotfiles/.dotfiles/.zshnew"
-  ".zshnew"
-  'fundamental-mode
-  '(filladapt-mode yas-minor-mode smartparens-mode)
-  192
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Google Drive/notes/donkey-speech.org"
-  "donkey-speech.org"
-  'org-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode org-indent-mode)
-  648
-  '(1092 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t))
-  '((mark-ring (649 649))))
-
-(desktop-create-buffer 208
-  "/usr/include/libproc.h"
-  "libproc.h"
-  'c-mode
-  '(abbrev-mode filladapt-mode auto-complete-mode yas-minor-mode)
-  1843
-  '(3450 nil)
-  t
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 79))
-  '((mark-ring (2518 1919 5214))))
-
-(desktop-create-buffer 208
-  "/Users/bf/pllist.txt"
-  "pllist.txt"
-  'text-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode)
-  14836
-  '(12485 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . utf-8-unix) (fill-column . 72))
-  '((mark-ring (14224 14836 9439 1))))
-
-(desktop-create-buffer 208
-  "/Users/bf/Library/Preferences/com.apple.loginitems.plist"
-  "com.apple.loginitems.plist"
-  'fundamental-mode
-  '(filladapt-mode yas-minor-mode)
-  73
-  '(1 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . no-conversion))
-  '((mark-ring (1794 975 1))))
-
-(desktop-create-buffer 208
-  "/Users/bf/Library/Application Support/Google/Chrome/Default/Extensions/aihpiglmnhnhijdnjghpfnlledckkhja/3.126_0/background_js_compiled.js"
-  "background_js_compiled.js"
-  'js-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  584938
-  '(60795 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring (1))))
-
-(desktop-create-buffer 208
-  nil
-  "3.126_0"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  433
-  '(nil nil)
-  t
-  '("/Users/bf/Library/Application Support/Google/Chrome/Default/Extensions/aihpiglmnhnhijdnjghpfnlledckkhja/3.126_0/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "aihpiglmnhnhijdnjghpfnlledckkhja"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  296
-  '(nil nil)
-  t
-  '("/Users/bf/Library/Application Support/Google/Chrome/Default/Extensions/aihpiglmnhnhijdnjghpfnlledckkhja/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "scripts"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  337
-  '(nil nil)
-  t
-  '("/Users/bf/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/scripts/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/settingsdialog.html"
-  "settingsdialog.html"
-  'html-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode)
-  1444
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 72))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "2016.128.418.1_0"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  822
-  '(nil nil)
-  t
-  '("/Users/bf/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/mainapp.html"
-  "mainapp.html"
-  'html-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 72))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/scripts/host.js"
-  "host.js"
-  'js-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  1
-  '(104304 nil)
-  t
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring (1 101660 1 55226 1))))
-
-(desktop-create-buffer 208
-  nil
-  "knipolnnllmklapflnccelgolnpehhpl"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  296
-  '(nil nil)
-  t
-  '("/Users/bf/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Downloads/net-internals-log.json"
-  "net-internals-log.json"
-  'js-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . utf-8-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "notes"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  1068
-  '(nil nil)
-  t
-  '("/Users/bf/Google Drive/notes/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Google Drive/notes/urs-notes-budget-2016.org"
-  "urs-notes-budget-2016.org"
-  'org-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode org-indent-mode)
-  6774
-  '(7384 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (fill-column . 72) (truncate-lines . t))
-  '((mark-ring (6148 5782 4333 5936 2832 3165 4162))))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/emacs/lisp/textmodes/flyspell.el"
-  "flyspell.el"
-  'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  39711
-  '(1 nil)
-  nil
-  nil
-  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . prefer-utf-8-unix) (fill-column . 70))
-  '((mark-ring (35966 1 35932 35966 1))))
-
-(desktop-create-buffer 208
-  nil
-  "textmodes"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  1322
-  '(2819 nil)
-  t
-  '("/Users/bf/src/emacs/lisp/textmodes/")
-  '((tab-width . 8) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/emacs/src/sysdep.c"
-  "sysdep.c"
-  'c-mode
-  '(abbrev-mode filladapt-mode auto-complete-mode yas-minor-mode)
-  93440
-  '(94682 nil)
-  nil
-  nil
-  '((tab-width . 8) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
-  '((mark-ring (92304 93543 93778 93667 92608 92522 92520 92767 92322 92498 92322 92290 93486 91905 77794 75406))))
-
-(desktop-create-buffer 208
-  "/Users/bf/Downloads/getargv.c"
-  "getargv.c"
-  'c-mode
-  '(abbrev-mode filladapt-mode auto-complete-mode yas-minor-mode)
-  748
-  '(911 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 79))
-  '((mark-ring (1385 1750 3016 1189 2900 3016 214 3016 3016 1472 1649 1469 1385 3016 1385 533))))
-
-(desktop-create-buffer 208
-  nil
-  "flashtools"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  490
-  '(nil nil)
-  t
-  '("/Users/bf/google3/experimental/users/bjones/flashtools/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/google3/experimental/users/bjones/flashtools/FLoath.py"
-  "FLoath.py"
-  'python-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  13150
-  '(nil nil)
-  nil
-  nil
-  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/f.par"
-  "f.par"
-  'sh-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  2251257
-  '(1 nil)
-  t
-  nil
-  '((buffer-file-coding-system . no-conversion))
-  '((mark-ring (1))))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/ps/print.c"
-  "print.c"
-  'c-mode
-  '(abbrev-mode filladapt-mode auto-complete-mode yas-minor-mode)
-  6400
-  '(3417 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 79))
-  '((mark-ring (7606 6342 5137 5136 5060 25243 5060 5060 1))))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/emacs/src/alloc.c"
-  "alloc.c"
-  'c-mode
-  '(abbrev-mode filladapt-mode auto-complete-mode yas-minor-mode)
-  61647
-  '(nil nil)
-  nil
-  nil
-  '((tab-width . 8) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Downloads/osx-ps.c"
-  "osx-ps.c"
-  'c-mode
-  '(abbrev-mode filladapt-mode auto-complete-mode yas-minor-mode)
-  14951
-  '(16151 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 79))
-  '((mark-ring (16151 16128 9391 9334 1 23486 9334 9334 1 4095 1 28441 1 28463 30101 2282))))
-
-(desktop-create-buffer 208
-  "/usr/include/sys/proc_info.h"
-  "proc_info.h"
-  'c-mode
-  '(abbrev-mode filladapt-mode auto-complete-mode yas-minor-mode)
-  3490
-  '(1 nil)
-  t
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 79))
-  '((mark-ring (18294 21467))))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/emacs/src/sysdep.c.bf"
-  "sysdep.c.bf"
-  'c-mode
-  '(abbrev-mode filladapt-mode auto-complete-mode yas-minor-mode)
-  93228
-  '(93221 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 79))
-  '((mark-ring (93165 101935 97523 97523 97516 96402 96402 95902 95902 95902 96179 95902 94927 94639 96179 95769))))
-
-(desktop-create-buffer 208
-  "/Users/bf/tmp/findflac.pl"
-  "findflac.pl"
-  'perl-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode)
-  186
-  '(224 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . utf-8-unix))
-  '((mark-ring (299 119 299 115 119 299 115 113 113 113))))
-
-(desktop-create-buffer 208
-  "/Users/bf/Downloads/Media Center21 Mac-299490.mjr"
-  "Media Center21 Mac-299490.mjr"
-  'fundamental-mode
-  '(filladapt-mode yas-minor-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-dos))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "nextstep"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  221
-  '(nil nil)
-  t
-  '("/Users/bf/src/emacs/nextstep/")
-  '((tab-width . 8) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "deps"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  129
-  '(nil nil)
-  t
-  '("/Users/bf/src/emacs/src/deps/")
-  '((tab-width . 8) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "*info*"
-  'Info-mode
-  '(filladapt-mode yas-minor-mode)
-  3419
-  '(1 nil)
-  t
-  '("dir" "Top" ((history ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 1876) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 153315) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO basics" 154092) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 143380) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 1037) ("dir" "Top" 813) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 4975) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Display" 2460983) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Faces" 2539103) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Face Attributes" 2545644) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Faces" 2537725) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Backslash" 2224374) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Index" 8849) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Backslash" 76245) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Char Classes" 68491) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax of Regexps" 57265) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regular Expressions" 54923) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 4778) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117686) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Descriptors" 122155) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Class Table" 123397) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Backslash" 76093) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Char Classes" 69302) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Special" 67491) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax of Regexps" 57540) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regular Expressions" 54923) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 4778) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 118222) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Categories" 158172) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 118222) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Parsing Expressions" 141517) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117967) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Motion and Syntax" 139923) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117892) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Properties" 137067) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117823) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Table Functions" 135143) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117744) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 4778) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117686) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Descriptors" 120193) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Basics" 118378) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax Tables" 117149) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 4776) ("dir" "Top" 2863) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Top" 3205) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Matrix Functions" 56605) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing and Mapping" 105709) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing" 116759) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing and Mapping" 105709) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Generalized Products" 123266) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing and Mapping" 105751) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Mapping" 115290) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing and Mapping" 105697) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Specifying Operators" 111030) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Reducing and Mapping" 105670) ("/Applications/Emacs.app/Contents/Resources/info/Calc" "Matrix Functions" 56603) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Font Lock Basics" 81064) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Imenu" 74463) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Example Major Modes" 31906) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Derived Modes" 13685) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Basic Completion" 277992) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Around-Advice" 107074) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Dynamic Binding Tips" 160797) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Defining Hash" 32329) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Text Comparison" 218987) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 1213) ("dir" "Top" 1112) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 3879) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Modes" 275363) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Font Lock Mode" 79488) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Other Font Lock Variables" 96655) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Customizing Keywords" 95396) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Font Lock Mode" 79417) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 34386) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Searching and Matching" 46678) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Match Data" 94616) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Replacing Match" 95239) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Search" 90262) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regular Expressions" 55847) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Functions" 83388) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Example" 80655) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax of Regexps" 57680) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Backslash" 73576) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Char Classes" 69031) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax of Regexps" 57609) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regexp Special" 61903) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Syntax of Regexps" 56011) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Regular Expressions" 54923) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 3466) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Text" 80645) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Text Properties" 185218) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Property Search" 197069) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Special Properties" 201675) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Property Search" 195227) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Changing Properties" 189909) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Examining Properties" 186137) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Text Properties" 185077) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Property Search" 197070) ("/Applications/Emacs.app/Contents/Resources/info/elisp" "Top" 1213) ("dir" "Top" 1043) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2644) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 141522) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO extensions" 145493) ("/Applications/Emacs.app/Contents/Resources/info/org" "Faces for TODO keywords" 153451) ("/Applications/Emacs.app/Contents/Resources/info/org" "Per-file keywords" 151863) ("/Applications/Emacs.app/Contents/Resources/info/org" "Fast access to TODO states" 150709) ("/Applications/Emacs.app/Contents/Resources/info/org" "Multiple sets in one file" 148837) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO types" 147146) ("/Applications/Emacs.app/Contents/Resources/info/org" "Workflow states" 145718) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO extensions" 144685) ("/Applications/Emacs.app/Contents/Resources/info/org" "Progress logging" 156645) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO extensions" 144685) ("/Applications/Emacs.app/Contents/Resources/info/org" "Workflow states" 145718) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO types" 147146) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO extensions" 145218) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 141522) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tags" 175249) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 140836) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2646) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tags" 175249) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2715) ("/Applications/Emacs.app/Contents/Resources/info/org" "Capture - Refile - Archive" 254892) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 278823) ("/Applications/Emacs.app/Contents/Resources/info/org" "Moving subtrees" 278963) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274009) ("/Applications/Emacs.app/Contents/Resources/info/org" "Moving subtrees" 274719) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274009) ("/Applications/Emacs.app/Contents/Resources/info/org" "Capture - Refile - Archive" 250553) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274484) ("/Applications/Emacs.app/Contents/Resources/info/org" "Moving subtrees" 274719) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274482) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 1327) ("dir" "Top" 902) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Top" 3180) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Concept Index" 172849) ("/Applications/Emacs.app/Contents/Resources/info/org" "Moving subtrees" 274704) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274469) ("/Applications/Emacs.app/Contents/Resources/info/org" "Internal archiving" 278923) ("/Applications/Emacs.app/Contents/Resources/info/org" "Moving subtrees" 275777) ("/Applications/Emacs.app/Contents/Resources/info/org" "Archiving" 274467) ("/Applications/Emacs.app/Contents/Resources/info/org" "Capture - Refile - Archive" 250547) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2915) ("/Applications/Emacs.app/Contents/Resources/info/org" "Agenda Views" 279485) ("/Applications/Emacs.app/Contents/Resources/info/org" "Capture - Refile - Archive" 249735) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2941) ("dir" "Top" 991) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Top" 4868) ("dir" "Top" 3131) ("/Applications/Emacs.app/Contents/Resources/info/ede" "Top" 2358) ("/Applications/Emacs.app/Contents/Resources/info/ede" "EDE Project Concepts" 2923) ("/Applications/Emacs.app/Contents/Resources/info/ede" "Top" 1095) ("dir" "Top" 3131) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 3104) ("/Applications/Emacs.app/Contents/Resources/info/org" "Exporting" 87293) ("/Applications/Emacs.app/Contents/Resources/info/org" "ASCII/Latin-1/UTF-8 export" 95075) ("/Applications/Emacs.app/Contents/Resources/info/org" "Exporting" 69994) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2527) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tables" 65777) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 5884) ("/Applications/Emacs.app/Contents/Resources/info/org" "Introduction" 21208) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 5459) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tables" 66113) ("/Applications/Emacs.app/Contents/Resources/info/org" "The spreadsheet" 81272) ("/Applications/Emacs.app/Contents/Resources/info/org" "Formula syntax for Calc" 90842) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 5459) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 133107) ("/Applications/Emacs.app/Contents/Resources/info/org" "Breaking down tasks" 159507) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 133167) ("/Applications/Emacs.app/Contents/Resources/info/org" "Progress logging" 148521) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 133029) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tags" 166395) ("/Applications/Emacs.app/Contents/Resources/info/org" "Properties and Columns" 176572) ("/Applications/Emacs.app/Contents/Resources/info/org" "Tags" 166395) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 132906) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO basics" 135396) ("/Applications/Emacs.app/Contents/Resources/info/org" "TODO Items" 132904) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 2698) ("dir" "Top" 3060) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 3375) ("/Applications/Emacs.app/Contents/Resources/info/org" "Miscellaneous" 184638) ("/Applications/Emacs.app/Contents/Resources/info/org" "Speed keys" 187118) ("/Applications/Emacs.app/Contents/Resources/info/org" "Top" 14457) ("dir" "Top" 2036) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Top" 5696) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Maintaining" 36245) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Version Control" 37996) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Remote Repositories" 94691))))
-  '((tab-width . 8) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Applications/Emacs.app/Contents/Resources/etc/NEWS"
-  "NEWS"
-  'outline-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode smartparens-mode view-mode)
-  936
-  '(nil nil)
-  t
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 72))
+  '((buffer-display-time 25046 714 488210 0) (buffer-file-coding-system . undecided-unix))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
   "/Users/bf/src/dotfiles/.dotfiles/.emacs"
   ".emacs"
   'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  28967
-  '(28967 nil)
+  '(eldoc-mode company-mode filladapt-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode auto-revert-mode)
+  7812
+  '(7812 nil)
   nil
   nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/emacs/etc/NEWS"
-  "NEWS"
-  'outline-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode smartparens-mode)
-  16431
-  '(30608 nil)
-  nil
-  nil
-  '((tab-width . 8) (buffer-file-coding-system . utf-8-unix) (fill-column . 70))
-  '((mark-ring nil)))
+  '((buffer-display-time 25046 174 545260 281000) (buffer-file-coding-system . iso-2022-7bit-unix))
+  '((mark-ring (2379 2516 1 40693 40421 3950 40421 1 1 1 1 14284 1 1 1 1))))
 
 (desktop-create-buffer 208
   nil
-  "tmp"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  1503
-  '(nil nil)
+  "*info*"
+  'Info-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  18217
+  '(45161 nil)
   t
-  '("/tmp/")
-  nil
-  '((mark-ring nil)))
+  '("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Tooltip Frontends" ((history ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Frontends" 16366) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Top" 1369) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Overview" 2073) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Top" 1338) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Customization" 9608) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Commands" 8134) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Getting Started" 5278) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Commands" 9259) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Usage Basics" 6602) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Initial Setup" 5776) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Getting Started" 5241) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Top" 1300) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Backends" 34512) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Package Backends" 38265) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Code Completion" 40003) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Text Completion" 40834) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "File Name Completion" 45161) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Template Expansion" 46675) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Package Backends" 38330) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Template Expansion" 46675) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "File Name Completion" 45162) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Text Completion" 41603) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Code Completion" 40102) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Package Backends" 38263) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Grouped Backends" 35954) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Backends Usage Basics" 34565) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Backends" 34463) ("/Users/bf/.emacs.d/elpa/company-20220102.10/company" "Top" 631) ("dir" "Top" 829) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 1328) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Getting started" 8247) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Basic customization" 8534) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 1608) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings" 8957) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Getting started" 8068) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings" 8957) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Getting started" 8068) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Installation" 5646) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Introduction" 3825) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 1294) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Customization" 28630) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Faces" 28749) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Customization" 28630) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Defcustoms" 31654) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Customization" 28638) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 1387) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings" 9024) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Minibuffer key bindings" 11613) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Global key bindings" 11075) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings" 8998) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Getting started" 8068) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Installation" 5961) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 1311) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Customization" 28667) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Packages" 38232) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Customization" 28667) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Defcustoms" 31102) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 2303) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Commands" 39236) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Counsel commands" 43212) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Commands" 39236) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "File Name Completion" 41090) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Using TRAMP" 41107) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 2884) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Customization" 28655) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Actions" 32604) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Example - define a new command with several actions" 36590) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Example - add two actions to each command" 34839) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "How to modify the actions list?" 34176) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "How can different actions be called?" 33611) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "What are actions?" 32761) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Actions" 32457) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Packages" 38232) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Actions" 32422) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 2316) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Customization" 28630) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Faces" 28749) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Customization" 28630) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Actions" 32522) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "What are actions?" 32761) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 2351) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings" 9024) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Minibuffer key bindings" 11613) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings" 9024) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Minibuffer key bindings" 12636) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Other key bindings" 20871) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Minibuffer key bindings" 12585) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings for single selection action then exit minibuffer" 15888) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 1759) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Commands" 39236) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Counsel commands" 43212) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Commands" 39236) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "File Name Completion" 40739) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Commands" 39182) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 1405) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Customization" 28585) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Completion Styles" 26184) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "ivy--regex-plus" 26349) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Completion Styles" 26182) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings" 9024) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Minibuffer key bindings" 12608) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Hydra in the minibuffer" 22616) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Minibuffer key bindings" 12608) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings that alter the minibuffer input" 19060) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Minibuffer key bindings" 12536) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings for navigation" 12842) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Minibuffer key bindings" 12227) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Global key bindings" 9053) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Key bindings" 8998) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 1348) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Getting started" 8247) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Basic customization" 8531) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Getting started" 8247) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Installation" 5646) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Introduction" 5183) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 1292) ("dir" "Top" 829) ("/Users/bf/.emacs.d/elpa/ivy-20211231.1730/ivy" "Top" 1249) ("dir" "Top" 829) ("/Users/bf/.emacs.d/elpa/ivy-20210930.1450/ivy" "Top" 1294) ("/Users/bf/.emacs.d/elpa/ivy-20210930.1450/ivy" "Introduction" 5012) ("/Users/bf/.emacs.d/elpa/ivy-20210930.1450/ivy" "Top" 1294) ("dir" "Top" 1452) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Top" 2004) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Properties and Columns" 201824) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Special Properties" 207579) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Properties and Columns" 202856) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Property Syntax" 203099) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Top" 7553) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Document Structure" 35445) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Drawers" 62001) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Document Structure" 36509) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Blocks" 63806) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Top" 4104) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Dynamic Headline Numbering" 676497) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Headlines" 37520) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Document Structure" 36107) ("/Users/bf/.emacs.d/elpa/org-9.5/org" "Top" 1687) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Org Authoring" 856675) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Org Mode" 853196) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Top" 4775) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Calendar/Diary" 1308886) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Top" 3094) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Customization" 28653) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Actions" 32457) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "What are actions?" 32759) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "How can different actions be called?" 33609) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "What are actions?" 32759) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Actions" 32455) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Packages" 38230) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Actions" 32420) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Packages" 38230) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Actions" 32420) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Customization" 28651) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Top" 1387) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Completion Styles" 26230) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "ivy--regex-fuzzy" 28118) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Completion Styles" 24690) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Top" 1363) ("dir" "Top" 551) ("/Users/bf/.emacs.d/elpa/ivy-20210730.1743/ivy" "Top" 2883) ("dir" "Top" 1302) ("/Applications/Emacs.app/Contents/Resources/info/emacs" "Top" 5617) ("dir" "Top" 227))))
+  '((tab-width . 8) (buffer-display-time 25046 193 200213 0) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t))
+  '((mark-ring (40834 40003 1 1 1 1 1 1 1 1 1 1 1 1 1 1))))
 
 (desktop-create-buffer 208
-  "/Users/bf/src/emacs/lisp/emacs-lisp/package.el"
-  "package.el"
-  'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  33854
-  '(9455 nil)
+  "/Users/bf/src/t.c"
+  "t.c"
+  'c++-mode
+  '(abbrev-mode company-mode filladapt-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode)
+  314
+  '(690 nil)
   nil
   nil
-  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . prefer-utf-8-unix) (fill-column . 70))
-  '((mark-ring nil)))
+  '((buffer-display-time 25042 32280 185282 958000) (buffer-file-coding-system . utf-8-unix) (fill-column . 79))
+  '((mark-ring (462 395 667 667 389 55 396 395 387 388 407 481))))
 
 (desktop-create-buffer 208
-  "/Applications/Emacs.app/Contents/Resources/lisp/emacs-lisp/package.el.gz"
-  "package.el.gz"
-  'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  33791
-  '(33721 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Google Drive/.emacs.macula"
-  ".emacs.macula"
-  'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  29020
+  "/Users/bf/t.c"
+  "t.c"
+  'c++-mode
+  '(abbrev-mode company-mode filladapt-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode)
+  1
   '(1 nil)
   nil
   nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
+  '((buffer-display-time 25042 31847 852330 958000) (buffer-file-coding-system . utf-8-unix) (fill-column . 79))
+  '((mark-ring (1))))
 
 (desktop-create-buffer 208
-  "/Users/bf/src/gocode/src/gols/gols.go"
-  "gols.go"
-  'go-mode
-  '(eldoc-mode filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  473
-  '(432 nil)
-  nil
-  nil
-  '((indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/gocode/src/github.com/nsf/gocode/README.md"
-  "README.md"
-  'fundamental-mode
-  '(filladapt-mode yas-minor-mode smartparens-mode)
-  2894
-  '(2894 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "gocode"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  405
-  '(nil nil)
-  t
-  '("/Users/bf/src/gocode/src/github.com/nsf/gocode/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/go/doc/progs/json5.go"
-  "json5.go"
-  'go-mode
-  '(eldoc-mode filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  1
+  "/Users/bf/test.c"
+  "test.c"
+  'c++-mode
+  '(abbrev-mode company-mode filladapt-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode smartparens-mode ivy-mode)
+  59
   '(nil nil)
   nil
   nil
-  '((indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix))
+  '((buffer-display-time 25042 29223 475150 958000) (buffer-file-coding-system . utf-8-unix) (fill-column . 79))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  "/Users/bf/Google Drive/bf-stuy.org"
-  "bf-stuy.org"
+  "/Users/bf/Google Drive/notes/notes.org"
+  "notes.org"
   'org-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode smartparens-mode org-indent-mode)
-  8669
-  '(7140 nil)
+  '(auto-fill-mode company-mode filladapt-mode yas-minor-mode ivy-mode org-indent-mode)
+  584221
+  '(583965 nil)
   nil
   nil
-  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t))
+  '((indent-tabs-mode) (buffer-display-time 25042 29116 556005 958000) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t))
+  '((mark-ring (583964 584831 584831 584705 584923 583964 584704 584500 584500 584535 584500 584500 583964 584220 583964 583602))))
+
+(desktop-create-buffer 208
+  "/Users/bf/src/gcc-emacs/.git/config"
+  "config"
+  'conf-unix-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  8
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 25002 43982 529965 958000) (buffer-file-coding-system . undecided-unix))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  "/Users/bf/src/emacs/config.status"
-  "config.status"
-  'sh-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  41463
-  '(26792 nil)
   nil
-  nil
-  '((tab-width . 8) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "Extensions"
+  ".git"
   'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  5122
-  '(222 nil)
-  t
-  '("/Users/bf/Library/Application Support/Google/Chrome Canary/Default/Extensions/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "Default"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  1288
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  443
   '(nil nil)
   t
-  '("/Users/bf/Library/Application Support/Google/Chrome Canary/Default/")
-  nil
+  '("/Users/bf/src/gcc-emacs/.git/")
+  '((tab-width . 8) (buffer-display-time 24991 60441 938538 958000) (fill-column . 70))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  nil
-  "Chrome Canary"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  460
-  '(nil nil)
-  t
-  '("/Users/bf/Library/Application Support/Google/Chrome Canary/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Google Drive/ft-api.py"
-  "ft-api.py"
-  'python-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  1652
+  "/Users/bf/Library/KeyBindings/DefaultKeyBinding.dict"
+  "DefaultKeyBinding.dict"
+  'fundamental-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  2374
   '(1 nil)
   nil
   nil
-  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
+  '((buffer-display-time 24991 60419 967609 958000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (2374))))
 
 (desktop-create-buffer 208
-  "/Users/bf/src/workspace/m.go"
-  "m.go"
-  'go-mode
-  '(eldoc-mode filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  14
-  '(1 nil)
-  nil
-  nil
-  '((indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "org-mode"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  984
-  '(nil nil)
-  t
-  '("/Users/bf/src/org-mode/")
-  '((tab-width . 8) (indent-tabs-mode . t) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "doc<2>"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  227
-  '(nil nil)
-  t
-  '("/Users/bf/src/org-mode/doc/")
-  '((tab-width . 8) (indent-tabs-mode . t) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "lisp<2>"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  1
-  '(11478 nil)
-  t
-  '("/Users/bf/src/org-mode/lisp/")
-  '((tab-width . 8) (indent-tabs-mode . t) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/org-mode/local.mk"
-  "local.mk"
-  'makefile-bsdmake-mode
-  '(filladapt-mode yas-minor-mode smartparens-mode)
-  1215
-  '(nil nil)
-  nil
-  nil
-  '((tab-width . 8) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Google Drive/notes/idse.org"
-  "idse.org"
-  'org-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode smartparens-mode org-indent-mode)
-  427
-  '(nil nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/yasnippet/README.mdown"
-  "README.mdown"
-  'fundamental-mode
-  '(filladapt-mode yas-minor-mode smartparens-mode)
-  3680
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/yasnippet/Rakefile"
-  "Rakefile"
-  'ruby-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  37
-  '(205 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "doc"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  272
-  '(nil nil)
-  t
-  '("/Users/bf/src/yasnippet/doc/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "yasnippet"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  566
-  '(nil nil)
-  t
-  '("/Users/bf/src/yasnippet/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/emacs/lisp/emacs-lisp/byte-run.el"
-  "byte-run.el"
+  "/Users/bf/.emacs.d/elpa/org-9.5/org-loaddefs.el"
+  "org-loaddefs.el"
   'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  3356
-  '(5787 nil)
+  '(eldoc-mode company-mode filladapt-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode)
+  128844
+  '(128844 nil)
   nil
   nil
-  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
+  '((tab-width . 8) (indent-tabs-mode) (buffer-display-time 24991 57601 587527 958000) (buffer-file-coding-system . utf-8-unix) (fill-column . 70))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  "/Users/bf/src/emacs/bootstrap.log"
-  "bootstrap.log"
-  'fundamental-mode
-  '(filladapt-mode yas-minor-mode smartparens-mode)
-  96055
-  '(1 nil)
-  nil
-  nil
-  '((tab-width . 8) (buffer-file-coding-system . utf-8-unix) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/emacs/Makefile"
-  "Makefile"
-  'makefile-bsdmake-mode
-  '(filladapt-mode yas-minor-mode smartparens-mode)
-  36178
-  '(13504 nil)
-  nil
-  nil
-  '((tab-width . 8) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Applications/Emacs.app/Contents/Resources/lisp/vc/diff-mode.el.gz"
-  "diff-mode.el.gz"
+  "/Users/bf/src/dotfiles/.dotfiles/.emacs.stash"
+  ".emacs.stash"
   'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  72775
-  '(72002 nil)
+  '(eldoc-mode company-mode filladapt-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode)
+  6459
+  '(5075 t)
   nil
   nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/workspace/t.go"
-  "t.go"
-  'go-mode
-  '(eldoc-mode filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  316
-  '(425 nil)
-  nil
-  nil
-  '((indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/go/doc/docs.html"
-  "docs.html"
-  'html-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode smartparens-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 72))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Google Drive/public_html/index.html"
-  "index.html"
-  'html-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode smartparens-mode)
-  55
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . utf-8-unix) (fill-column . 72))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/go/doc/contrib.html"
-  "contrib.html"
-  'html-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode smartparens-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 72))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Google Drive/nycmap.html"
-  "nycmap.html"
-  'html-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode smartparens-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . utf-8-unix) (fill-column . 72))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "emacs"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  1263
-  '(nil nil)
-  t
-  '("/Users/bf/src/emacs/")
-  '((tab-width . 8) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "src"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  182
-  '(8410 nil)
-  t
-  '("/Users/bf/src/emacs/src/")
-  '((tab-width . 8) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "lisp"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  1399
-  '(nil nil)
-  t
-  '("/Users/bf/src/emacs/lisp/")
-  '((tab-width . 8) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Google Drive/notes/ppichette-staff.org"
-  "ppichette-staff.org"
-  'org-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode smartparens-mode org-indent-mode)
-  2219
-  '(2445 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/Google Drive/notes/thinkweek.org"
-  "thinkweek.org"
-  'org-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode smartparens-mode org-indent-mode)
-  3011
-  '(2083 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/dotfiles/.dotfiles/.zshfuncs"
-  ".zshfuncs"
-  'fundamental-mode
-  '(filladapt-mode yas-minor-mode smartparens-mode)
-  521
-  '(521 nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/dotfiles/.dotfiles/.emacs.d/shrek.1-theme.el"
-  "shrek.1-theme.el"
-  'emacs-lisp-mode
-  '(filladapt-mode auto-complete-mode yas-minor-mode smartparens-mode)
-  1
-  '(nil nil)
-  nil
-  nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
+  '((buffer-display-time 24986 38642 145087 210000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (7360 40238 37149 37045 25887 25887 25514 24882 24764 25887 24882 6775 6775 6774 6512 2343))))
 
 (desktop-create-buffer 208
   nil
   ".emacs.d"
   'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  703
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  126
   '(nil nil)
   t
   '("/Users/bf/.emacs.d/")
-  nil
+  '((buffer-display-time 24982 46925 116540 234000))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
+  "/Users/bf/Google Drive/notes/notes.org.bakbak"
+  "notes.org.bakbak"
+  'fundamental-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  543593
+  '(542017 nil)
   nil
-  "workspace"
+  nil
+  '((buffer-display-time 24982 37218 609119 234000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (537019 537932 521719 522824 523445 534809 536441 535219 534468 532922 532405 532405 534810 1 524890 527390))))
+
+(desktop-create-buffer 208
+  "/Users/bf/src/org-mode/Makefile"
+  "Makefile"
+  'makefile-bsdmake-mode
+  '(company-mode filladapt-mode yas-minor-mode rainbow-delimiters-mode ivy-mode auto-revert-mode)
+  128
+  '(2292 nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode . t) (buffer-display-time 24976 30454 104773 234000) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
+  '((mark-ring (128))))
+
+(desktop-create-buffer 208
+  "/Users/bf/src/org-mode/mk/default.mk"
+  "default.mk"
+  'makefile-bsdmake-mode
+  '(company-mode filladapt-mode yas-minor-mode rainbow-delimiters-mode ivy-mode auto-revert-mode)
+  965
+  '(665 nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode . t) (buffer-display-time 24974 43402 755547 234000) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
+  '((mark-ring (577 475 369 3057 1 3217 1 4227 4227 1))))
+
+(desktop-create-buffer 208
+  "/Users/bf/src/org-mode/mk/targets.mk"
+  "targets.mk"
+  'makefile-bsdmake-mode
+  '(company-mode filladapt-mode yas-minor-mode rainbow-delimiters-mode ivy-mode auto-revert-mode)
+  1775
+  '(3579 nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode . t) (buffer-display-time 24974 43057 215385 234000) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
+  '((mark-ring (4208 1))))
+
+(desktop-create-buffer 208
+  "/Users/bf/Google Drive/notes/sites.org"
+  "sites.org"
+  'org-mode
+  '(auto-fill-mode company-mode filladapt-mode yas-minor-mode ivy-mode org-indent-mode)
+  743
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 24974 42691 976882 234000) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/bf/Google Drive/nyff.org"
+  "nyff.org"
+  'org-mode
+  '(auto-fill-mode company-mode filladapt-mode yas-minor-mode ivy-mode org-indent-mode)
+  329
+  '(1 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-display-time 24970 29115 319539 234000) (buffer-file-coding-system . utf-8-unix) (fill-column . 72) (truncate-lines . t))
+  '((mark-ring (15))))
+
+(desktop-create-buffer 208
+  "/Users/bf/.sbclrc"
+  ".sbclrc"
+  'lisp-mode
+  '(eldoc-mode company-mode filladapt-mode slime-mode slime-autodoc-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode)
+  392
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24965 17443 972666 234000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/bf/quicklisp/setup.lisp"
+  "setup.lisp"
+  'lisp-mode
+  '(eldoc-mode company-mode filladapt-mode slime-mode slime-autodoc-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode)
+  4960
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24958 45751 277607 234000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/bf/src/maxima-jupyter/Readme.md"
+  "Readme.md"
+  'markdown-mode
+  '(auto-fill-mode eldoc-mode company-mode filladapt-mode yas-minor-mode ivy-mode auto-revert-mode)
+  3501
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-display-time 24958 45657 89362 234000) (buffer-file-coding-system . undecided-dos) (fill-column . 72))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/bf/src/maxima-jupyter/load-maxima-jupyter.lisp"
+  "load-maxima-jupyter.lisp"
+  'lisp-mode
+  '(eldoc-mode company-mode filladapt-mode slime-mode slime-autodoc-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode auto-revert-mode)
+  66
+  '(644 nil)
+  nil
+  nil
+  '((buffer-display-time 24949 20745 563982 234000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (604 1))))
+
+(desktop-create-buffer 208
+  "/opt/local/var/macports/build/_opt_local_var_macports_sources_rsync.macports.org_macports_release_tarballs_ports_math_maxima/maxima-devel/work/maxima-5.43-dev-20200126/doc/Makefile"
+  "Makefile"
+  'makefile-bsdmake-mode
+  '(company-mode filladapt-mode yas-minor-mode rainbow-delimiters-mode ivy-mode)
+  6637
+  '(1 nil)
+  t
+  nil
+  '((indent-tabs-mode . t) (buffer-display-time 24944 19196 79053 234000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/opt/local/var/macports/logs/_opt_local_var_macports_sources_rsync.macports.org_macports_release_tarballs_ports_math_maxima/maxima-devel/main.log"
+  "main.log"
+  'fundamental-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  3598752
+  '(3598339 nil)
+  t
+  nil
+  '((buffer-display-time 24940 17840 38746 234000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (3598382 1 3598514))))
+
+(desktop-create-buffer 208
+  nil
+  "doc"
   'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  212
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  456
   '(nil nil)
   t
-  '("/Users/bf/src/workspace/")
-  nil
+  '("/opt/local/var/macports/build/_opt_local_var_macports_sources_rsync.macports.org_macports_release_tarballs_ports_math_maxima/maxima-devel/work/maxima-5.43-dev-20200126/doc/")
+  '((buffer-display-time 24933 36464 776273 234000))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  "/Applications/Emacs.app/Contents/Resources/etc/COPYING"
-  "COPYING"
+  nil
+  "info"
+  'dired-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  345
+  '(35041 nil)
+  t
+  '("/opt/local/var/macports/build/_opt_local_var_macports_sources_rsync.macports.org_macports_release_tarballs_ports_math_maxima/maxima-devel/work/maxima-5.43-dev-20200126/doc/info/")
+  '((buffer-display-time 24933 36273 606418 234000))
+  '((mark-ring (34755 8571 404))))
+
+(desktop-create-buffer 208
+  "/Users/bf/src/org-mode/mk/local.mk"
+  "local.mk"
+  'makefile-bsdmake-mode
+  '(company-mode filladapt-mode yas-minor-mode rainbow-delimiters-mode ivy-mode)
+  1
+  '(5194 nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode . t) (buffer-display-time 24932 20826 886505 234000) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "mk"
+  'dired-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  241
+  '(nil nil)
+  t
+  '("/Users/bf/src/org-mode/mk/")
+  '((tab-width . 8) (indent-tabs-mode . t) (buffer-display-time 24932 20696 118029 234000) (fill-column . 70))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "Backups"
+  'dired-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  193
+  '(nil nil)
+  t
+  '("/Users/bf/Pictures/Lightroom/Backups/")
+  '((buffer-display-time 24897 49510 365723 833000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "Pictures"
+  'dired-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  366
+  '(nil nil)
+  t
+  '("/Users/bf/Pictures/")
+  '((buffer-display-time 24897 49419 999320 833000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/bf/Downloads/2021 NYFF Lineup (NYFF 59) - Sheet3.csv"
+  "2021 NYFF Lineup (NYFF 59) - Sheet3.csv"
   'fundamental-mode
-  '(filladapt-mode yas-minor-mode smartparens-mode view-mode goto-address-mode)
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  952
+  '(952 nil)
+  nil
+  nil
+  '((buffer-display-time 24896 21037 149685 369000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/bf/Google Drive/NYFF59.csv"
+  "NYFF59.csv"
+  'fundamental-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  1
+  '(10066 nil)
+  nil
+  nil
+  '((buffer-display-time 24896 20571 578963 369000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring (1 10186 1 10131 1 10302 1 4930 6407 10303 10245 10187 10132 10067 10017 9958))))
+
+(desktop-create-buffer 208
+  "/Users/bf/Google Drive/gccjittest.c"
+  "gccjittest.c"
+  'c++-mode
+  '(abbrev-mode company-mode filladapt-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode)
+  1
+  '(2570 nil)
+  nil
+  nil
+  '((tab-width . 8) (buffer-display-time 24888 42075 401962 360000) (buffer-file-coding-system . undecided-unix) (fill-column . 70))
+  '((mark-ring (2570 1))))
+
+(desktop-create-buffer 208
+  "/Users/bf/src/pset0.scm"
+  "pset0.scm"
+  'scheme-mode
+  '(eldoc-mode company-mode filladapt-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode smartparens-mode ivy-mode geiser-autodoc-mode geiser-mode)
+  1744
+  '(1865 nil)
+  nil
+  nil
+  '((buffer-display-time 24786 65006 758302 904000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring (1525 1496 1744 1475 1636 1744 1098 1744 1257 868 1253 1005 866 610 857 1))))
+
+(desktop-create-buffer 208
+  "/Users/bf/src/gcc-emacs/build-emacs"
+  "build-emacs"
+  'fundamental-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  479
+  '(473 nil)
+  nil
+  nil
+  '((tab-width . 8) (buffer-display-time 24752 51974 765865 253000) (buffer-file-coding-system . utf-8-unix) (fill-column . 70))
+  '((mark-ring (220 33))))
+
+(desktop-create-buffer 208
+  nil
+  "Lightroom"
+  'dired-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  712
+  '(nil nil)
+  t
+  '("/Users/bf/Pictures/Lightroom/")
+  '((buffer-display-time 24897 49460 309692 833000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/bf/.emacs.d/elpa/org-20210920/org-loaddefs.el"
+  "org-loaddefs.el"
+  'emacs-lisp-mode
+  '(eldoc-mode company-mode filladapt-mode yas-minor-mode auto-complete-mode rainbow-delimiters-mode ivy-mode)
+  127935
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24991 57601 160532 958000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/bf/Downloads/System_log-moby-20211220-183237.zip"
+  "System_log-moby-20211220-183237.zip"
+  'archive-mode
+  '(company-mode filladapt-mode yas-minor-mode ivy-mode)
+  3676
+  '(nil nil)
+  t
+  nil
+  '((buffer-display-time 25046 173 815787 281000) (buffer-file-coding-system . no-conversion-multibyte) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Users/bf/src/dotfiles/.dotfiles/.codereview_upload_cookies_codereview.appspot.com"
+  ".codereview_upload_cookies_codereview.appspot.com"
+  'dcl-mode
+  '(company-mode filladapt-mode yas-minor-mode rainbow-delimiters-mode ivy-mode auto-revert-mode)
   1
   '(nil nil)
-  t
   nil
-  '((buffer-file-coding-system . undecided-unix))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
   nil
-  ".metadata"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  229
-  '(nil nil)
-  t
-  '("/Users/bf/src/workspace/.metadata/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "progmodes"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  5269
-  '(nil nil)
-  t
-  '("/Users/bf/src/emacs/lisp/progmodes/")
-  '((tab-width . 8) (fill-column . 70))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/Users/bf/src/HyperSpec/Data/Map_Sym.txt"
-  "Map_Sym.txt"
-  'text-mode
-  '(auto-fill-mode filladapt-mode yas-minor-mode)
-  32371
-  '(nil nil)
-  t
-  nil
-  '((buffer-file-coding-system . undecided-unix) (fill-column . 72))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "elpa"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  4351
-  '(175 nil)
-  t
-  '("/Users/bf/.emacs.d/elpa/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "_metadata"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  327
-  '(nil nil)
-  t
-  '("/Users/bf/Library/Application Support/Google/Chrome/Default/Extensions/knipolnnllmklapflnccelgolnpehhpl/2016.128.418.1_0/_metadata/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "emacs"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  234
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/emacs/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "emoji"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  238
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/emoji/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "go"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  230
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/go/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "iwhois"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  234
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/iwhois/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "man"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  231
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/man/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "osx"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  291
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/osx/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "profiles"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  236
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/profiles/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "rsync"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  233
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/rsync/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "sudo"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  232
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/sudo/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "thefuck"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  236
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/thefuck/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "tmux"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  356
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/tmux/")
-  nil
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "z"
-  'dired-mode
-  '(filladapt-mode yas-minor-mode)
-  285
-  '(nil nil)
-  t
-  '("/Users/bf/src/oh-my-zsh/plugins/z/")
-  nil
+  '((buffer-display-time 25046 192 710755 0) (buffer-file-coding-system . undecided-unix))
   '((mark-ring nil)))
 
