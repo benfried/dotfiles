@@ -20,7 +20,7 @@ export GOPATH=~/src/gocode/
 export EDITOR=~/bin/emacsclient
 
 BREW=/opt/homebrew/bin/brew
-test -x ~/homebrew/bin && BREW=~/homebrew/bin
+test -x ~/homebrew/bin/brew && BREW=~/homebrew/bin/brew
 
 eval $(${BREW} shellenv)
 
