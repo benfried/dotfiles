@@ -996,6 +996,7 @@ which specify the range to operate on."
 
 (setq desktop-path '("~"))
 (desktop-save-mode t)
+(setq url-cookie-file "~/.emacs-cookies")
 
 (server-start)
 
