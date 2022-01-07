@@ -994,9 +994,9 @@ which specify the range to operate on."
 (require 're-builder)
 (setq reb-re-syntax 'string)
 
-(setq desktop-path '("~"))
 (desktop-save-mode t)
-(setq url-cookie-file (expand-file-name "~/.emacs-cookies")
+(setq desktop-path '("~")
+      url-cookie-file (expand-file-name "~/.emacs-cookies")
       ac-comphist-file (expand-file-name "~/.ac-comphist.dat"))
 
 (server-start)
