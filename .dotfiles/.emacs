@@ -994,6 +994,7 @@ which specify the range to operate on."
 (require 're-builder)
 (setq reb-re-syntax 'string)
 
+(setq desktop-path '("~"))
 (desktop-save-mode t)
 
 (server-start)
