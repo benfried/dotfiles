@@ -1,0 +1,8 @@
+*/eln-cache/
+*/eln-cache/*
+*/.emacs.desktop*
+.emacs.desktop*
+ac-comphist.dat
+network-security.data
+.emacs.d/url
+

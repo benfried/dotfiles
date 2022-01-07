@@ -19,14 +19,19 @@ append MANPATH /opt/local/man
 export GOPATH=~/src/gocode/
 export EDITOR=~/bin/emacsclient
 
-test -x /opt/homebrew/bin/brew && eval $(/opt/homebrew/bin/brew shellenv)
+BREW=/opt/homebrew/bin/brew
+test -x ~/homebrew/bin/brew && BREW=~/homebrew/bin/brew
+
+eval $(${BREW} shellenv)
+
 
 fortune
 
 ##
-# Your previous /Users/bf/.zprofile file was backed up as /Users/bf/.zprofile.macports-saved_2021-04-15_at_16:17:52
+# Your previous /Users/bf/.zprofile file was backed up as /Users/bf/.zprofile.macports-saved_2021-04-22_at_17:06:25
 ##
 
-# MacPorts Installer addition on 2021-04-15_at_16:17:52: adding an appropriate DISPLAY variable for use with MacPorts.
+# MacPorts Installer addition on 2021-04-22_at_17:06:25: adding an appropriate DISPLAY variable for use with MacPorts.
 export DISPLAY=:0
 # Finished adapting your DISPLAY environment variable for use with MacPorts.
+
