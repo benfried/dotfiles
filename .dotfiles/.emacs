@@ -995,6 +995,9 @@ which specify the range to operate on."
 (setq reb-re-syntax 'string)
 
 (desktop-save-mode t)
+(setq desktop-path '("~")
+      url-cookie-file (expand-file-name "~/.emacs-cookies")
+      ac-comphist-file (expand-file-name "~/.ac-comphist.dat"))
 
 (server-start)
 
