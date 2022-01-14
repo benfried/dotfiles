@@ -1,0 +1,4 @@
+lisp-implementation-type: SBCL
+lisp-implementation-version: 2.1.9
+machine-type: X86-64
+machine-version: Intel(R) Xeon(R) W-3245 CPU @ 3.20GHz
