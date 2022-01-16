@@ -1,0 +1,19 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp (ql:quickload :common-lisp-jupyter :silent t))
+
+(defpackage :ros.script.cl-jupyter.3758812737
+  (:use :cl))
+(in-package :ros.script.cl-jupyter.3758812737)
+
+(defun main (&optional connection-file &rest argv)
+  (declare (ignore argv))
+  (if connection-file
+    (jupyter:run-kernel 'common-lisp-jupyter:kernel connection-file)
+    (format *error-output* "give me connection file!~%")))
+;;; vim: set ft=lisp lisp:

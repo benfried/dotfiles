@@ -292,7 +292,7 @@
 (require 'filladapt)
 (setq-default filladapt-mode t)
 
-(require 'cl)
+(require 'cl-loaddefs)
 (transient-mark-mode t)
 (setq-default comment-column 40)
 (require 'server)
