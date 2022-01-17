@@ -980,15 +980,10 @@ which specify the range to operate on."
 	("\\.H$" . hhtemplate)))
 
 (define-key global-map [?\C-h] 'help-command)
+
 (setq org-tag-alist '(("@jen" . ?j)
-		      ("@dhenrich" . ?h)
-		      ("@kankotecha" . ?k)
-		      ("@heatherberson" . ?b)
-		      ("@jonsaxe" . ?s)
-		      ("@arvindkc" ?c)
-		      ("@colm" ?B)
-		      ("@jordyn" ?j)
-		      ("@kirachapelle" ?C)
+		      ("@heatherberson" . ?h)
+		      ("@kirachapelle" . ?C)
 		      ("@nyc" . ?n)))
 
 (require 're-builder)
