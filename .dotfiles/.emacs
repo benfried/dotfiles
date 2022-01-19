@@ -267,6 +267,12 @@
 			(list (concat homedir "/lib/elisp/dmacro"))
 			(list "/opt/local/share/maxima/5.39.0/emacs")
 			load-path)
+      Info-default-directory-list (cons (concat homedir "/lib/elisp/org/info/")
+					Info-default-directory-list)
+      Info-additional-directory-list
+      (list (concat homedir "/lib/elisp/org/info/")
+	    "/opt/local/share/info/")
+      Info-directory-list (cons (concat homedir "/lib/elisp/org/info/") Info-directory-list)
       ms-old-style-kill t
       ispell-program-name "/opt/local/bin/aspell"
       ispell-extra-args '("--sug-mode=ultra")
@@ -955,6 +961,15 @@ which specify the range to operate on."
 	("AppleScript note" ?z "* %?\n\n  Date: %u\n" (concat org-directory "inbox.org") "Notes")))
 
 (if (equal window-system 'ns) (require 'org-mac-protocol))
+(defun make-orgcapture-frame ()
+  "Create a new frame and run org-capture."
+  (interactive)
+  (make-frame '((name . "remember") (width . 80) (height . 16)
+                (top . 400) (left . 300)
+                (font . "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
+                ))
+  (select-frame-by-name "remember")
+  (org-capture))
 
 ;(org-remember-insinuate)
 (setq org-directory "~/Google Drive/notes/"
@@ -971,7 +986,9 @@ which specify the range to operate on."
       org-ascii-headline-spacing nil
       org-use-speed-commands t
       org-default-notes-file (concat org-directory "notes.org"))
-(define-key global-map "\C-c\C-\\" 'org-remember)
+(define-key global-map "\C-c\C-\\" 'org-capture)
+
+
 
 (setq auto-dmacro-alist
       '(("\\.[cly]$" . ctemplate)

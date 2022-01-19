@@ -1,8 +1,13 @@
-;;;; Emacs Bookmark Format Version 1 ;;;;
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-remember-last-stored"
+(("org-capture-last-stored"
+ (filename . "~/Google Drive/notes/notes.org")
+ (front-context-string . "** TODO foo\n  [2")
+ (rear-context-string . "4-05 Mon 14:22]\n")
+ (position . 362942))
+("org-remember-last-stored"
  (filename . "~/Google Drive/notes/notes.org")
  (front-context-string . "** cool\n\n  Sourc")
  (rear-context-string . "off\n\n* Remember\n")
