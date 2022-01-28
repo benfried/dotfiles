@@ -287,7 +287,7 @@
 (set-face-background 'mode-line-buffer-id "firebrick")
 (set-face-foreground 'mode-line-inactive "firebrick")
 (set-face-background 'mode-line-inactive "yellow")
-(set-face-font 'mode-line-active (face-font 'mode-line))
+(if (face-font 'mode-line) (set-face-font 'mode-line-active (face-font 'mode-line)))
 ; was "-*-Hack-medium-normal-normal-*-*-*-*-*-m-0-iso10646-1"
 
 ;(require 'maxima-font-lock)
