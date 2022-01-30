@@ -1013,8 +1013,8 @@ which specify the range to operate on."
 
 (server-start)
 
-(require 'edit-server)
-(edit-server-start)
+;(require 'edit-server)
+;(edit-server-start)
 (setenv "GOROOT" (concat homedir "/go"))
 (setenv "GOPATH" (concat (getenv "HOME") "/src/gocode"))
 (setenv "PATH"
