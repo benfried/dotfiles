@@ -988,9 +988,9 @@ which specify the range to operate on."
       org-ascii-headline-spacing nil
       org-use-speed-commands t
       org-default-notes-file (concat org-directory "notes.org"))
+
+
 (define-key global-map "\C-c\C-\\" 'org-capture)
-
-
 
 (setq auto-dmacro-alist
       '(("\\.[cly]$" . ctemplate)
