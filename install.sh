@@ -1,6 +1,5 @@
 #!/bin/zsh
 
-
 if [ ! -d .dotfiles ]; then
 	echo 'install.sh must be run from root of dotfiles src tree' 1>&2
 	exit 1
@@ -20,6 +19,13 @@ popd
 
 cd .dotfiles
 ln -s ${PWD}/.[A-Za-z]* ~/
+
+if [ $(uname) = "Darwin"]; then
+    ln -s ~/.tmux.conf.mac ~/.tmux.conf
+else
+    ln -s ~/.tmux.conf.non-mac ~/.tmux.conf
+fi    
+
 
 if [ ! -d ~/src ]; then
 	mkdir ~/src || exit 2
