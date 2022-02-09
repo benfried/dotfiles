@@ -45,7 +45,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
+   '(modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -287,7 +287,7 @@
 (set-face-background 'mode-line-buffer-id "firebrick")
 (set-face-foreground 'mode-line-inactive "firebrick")
 (set-face-background 'mode-line-inactive "yellow")
-(set-face-font 'mode-line-active (face-font 'mode-line))
+(if (face-font 'mode-line) (set-face-font 'mode-line-active (face-font 'mode-line)))
 ; was "-*-Hack-medium-normal-normal-*-*-*-*-*-m-0-iso10646-1"
 
 ;(require 'maxima-font-lock)
@@ -878,6 +878,8 @@ Argument ARG is ignored."
 (add-hook 'electric-buffer-menu-mode-hook 'electric-buffer-menu-mode-hook-code)
 ;(add-hook 'font-lock-mode-hook 'font-lock-mode-hook-code)
 (add-hook 'python-mode-hook 'python-mode-hook-code)
+(add-hook 'Info-selection-hook 'info-colors-fontify-node)
+
 (setq compile-command nil)
 
 (defun indent-with (start end with)
@@ -986,9 +988,9 @@ which specify the range to operate on."
       org-ascii-headline-spacing nil
       org-use-speed-commands t
       org-default-notes-file (concat org-directory "notes.org"))
+
+
 (define-key global-map "\C-c\C-\\" 'org-capture)
-
-
 
 (setq auto-dmacro-alist
       '(("\\.[cly]$" . ctemplate)
@@ -1013,8 +1015,8 @@ which specify the range to operate on."
 
 (server-start)
 
-(require 'edit-server)
-(edit-server-start)
+;(require 'edit-server)
+;(edit-server-start)
 (setenv "GOROOT" (concat homedir "/go"))
 (setenv "GOPATH" (concat (getenv "HOME") "/src/gocode"))
 (setenv "PATH"
