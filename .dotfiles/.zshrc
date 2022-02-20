@@ -1,7 +1,7 @@
 emulate zsh
 . ~/.zshnew
 export ZSH=$HOME/src/oh-my-zsh
-plugins=(git golang macports flutter)
+plugins=(git golang macports flutter pip brew macos pipenv)
 source $ZSH/oh-my-zsh.sh
 setenv () {
         eval "$1=\"$2\""
@@ -120,5 +120,19 @@ compctl -k '(if of conv ibs obs bs cbs files skip file seek count)' \
 	-k '(ascii ebcdic ibm block unblock lcase ucase swap noerror sync)' \
 	-q -S ',' - 'n[-1,=]' -X '<number>'  -- dd
 
-
-
+if test -d $HOME/miniforge3; then
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$(${HOME}'/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+	eval "$__conda_setup"
+    else
+	if [ -f "${HOME}/miniforge3/etc/profile.d/conda.sh" ]; then
+            . "${HOME}/miniforge3/etc/profile.d/conda.sh"
+	else
+            export PATH="${HOME}/miniforge3/bin:$PATH"
+	fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
+fi
