@@ -8,6 +8,9 @@ setenv () {
         export $1
 }
 PS1='%B%m%(!.%F{yellow}#%f.$)%b '
+bs='%F{blue}'
+# have prompt include current conda env if it is set
+PS1='%B%m${CONDA_DEFAULT_ENV:+ ${bs}($CONDA_DEFAULT_ENV)%f}%(!.%F{yellow}#%f.$)%b '
 bindkey "?" list-choices
 set -X -9 -k
 setopt nobgnice
