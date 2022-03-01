@@ -7,8 +7,8 @@ setenv () {
         eval "$1=\"$2\""
         export $1
 }
+# my long-term prompt is below
 PS1='%B%m%(!.%F{yellow}#%f.$)%b '
-bs='%F{blue}'
 # have prompt include current conda env (in blue) if it is set and not
 # the base PS1='%B%m${CONDA_DEFAULT_ENV:+
 # ${bs}($CONDA_DEFAULT_ENV)%f}%(!.%F{yellow}#%f.$)%b ' logic: turn on
@@ -16,7 +16,7 @@ bs='%F{blue}'
 # is set and not base, add it, in blue, to the prompt; then end the
 # blue sequence. Next, the prompt care is either '#' if we are root or
 # '$' if not. Then turn off bold and add a space.
-
+bs='%F{blue}'
 PS1='%B%m${${CONDA_DEFAULT_ENV:#base}:+ ${bs}($CONDA_DEFAULT_ENV)%f}%(!.%F{yellow}#%f.$)%b '
 bindkey "?" list-choices
 set -X -9 -k
