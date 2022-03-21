@@ -45,13 +45,14 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
+;   '(lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
+    '(lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
- '(python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter" "jupyter-3.7"))
- '(python-shell-interpreter "/opt/local/bin/jupyter-3.7 ")
+ '(python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter" "jupyter-3.9"))
+ '(python-shell-interpreter "/opt/local/bin/jupyter-3.9 ")
  '(python-shell-interpreter-args "console --simple-prompt")
  '(safe-local-variable-values
    '((eval font-lock-add-keywords nil
@@ -833,7 +834,10 @@ Argument ARG is ignored."
   (python-nav-end-of-block))
 
 (defun python-mode-hook-code ()
+  (setenv "PYTHONPATH" (replace-regexp-in-string "elpy.elc?" "elpy/" (locate-library "elpy")))
+  (setenv "WORKON_HOME" (expand-file-name "~/miniforge3/envs/"))
   (auto-complete-mode)
+  (smartparens-mode +1)
   (add-to-list 'hs-special-modes-alist
 	       (list 'python-mode
 		     (python-rx block-start)
@@ -854,11 +858,16 @@ Argument ARG is ignored."
 	"';'.join(module_completion('''%s'''))\n"
 	python-shell-completion-string-code
 	"';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
-  (jedi:ac-setup))
+  ; (jedi:ac-setup)
+)
 
 ;;; Sun Aug 30 13:48:58 EDT 2020
 ;;; beginning to convert to elpy
-(elpy-enable)
+;(elpy-enable)
+(require 'lsp-python-ms)
+(setq lsp-python-ms-auto-install-server t)
+(add-hook 'python-mode-hook #'lsp)
+(define-key lsp-ui-mode-map (kbd "C-c l") 'lsp-ui-imenu)
 
 (add-hook 'dired-load-hook 'dired-load-hook-code) 
 (add-hook 'text-mode-hook 'text-mode-hook-code)
