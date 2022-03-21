@@ -50,8 +50,8 @@
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
- '(python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter" "jupyter-3.7"))
- '(python-shell-interpreter "/opt/local/bin/jupyter-3.7 ")
+ '(python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter" "jupyter-3.9"))
+ '(python-shell-interpreter "/opt/local/bin/jupyter-3.9 ")
  '(python-shell-interpreter-args "console --simple-prompt")
  '(safe-local-variable-values
    '((eval font-lock-add-keywords nil
@@ -833,7 +833,10 @@ Argument ARG is ignored."
   (python-nav-end-of-block))
 
 (defun python-mode-hook-code ()
+  (setenv "PYTHONPATH" (replace-regexp-in-string "elpy.elc?" "elpy/" (locate-library "elpy")))
+  (setenv "WORKON_HOME" (expand-file-name "~/miniforge3/envs/"))
   (auto-complete-mode)
+  (smartparens-mode +1)
   (add-to-list 'hs-special-modes-alist
 	       (list 'python-mode
 		     (python-rx block-start)
@@ -854,11 +857,16 @@ Argument ARG is ignored."
 	"';'.join(module_completion('''%s'''))\n"
 	python-shell-completion-string-code
 	"';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
-  (jedi:ac-setup))
+  ; (jedi:ac-setup)
+)
 
 ;;; Sun Aug 30 13:48:58 EDT 2020
 ;;; beginning to convert to elpy
-(elpy-enable)
+;(elpy-enable)
+(require 'lsp-python-ms)
+(setq lsp-python-ms-auto-install-server t)
+(add-hook 'python-mode-hook #'lsp)
+(define-key lsp-ui-mode-map (kbd "C-c l") 'lsp-ui-imenu)
 
 (add-hook 'dired-load-hook 'dired-load-hook-code) 
 (add-hook 'text-mode-hook 'text-mode-hook-code)
