@@ -35,3 +35,8 @@ fortune
 export DISPLAY=:0
 # Finished adapting your DISPLAY environment variable for use with MacPorts.
 
+
+# MacPorts Installer addition on 2022-03-16_at_13:02:53: adding an appropriate MANPATH variable for use with MacPorts.
+export MANPATH="/opt/local/share/man:$MANPATH"
+# Finished adapting your MANPATH environment variable for use with MacPorts.
+
