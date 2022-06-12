@@ -945,7 +945,7 @@ which specify the range to operate on."
 	("AppleScript note" ?z "* %?\n\n  Date: %u\n" (concat org-directory "inbox.org") "Notes")))
 
 (if (equal window-system 'ns) (require 'org-mac-protocol))
-(defun make-orgcapture-frame (type)
+(defun make-orgcapture-frame (type text)
   "Create a new frame and run org-capture."
   (interactive)
   (setq *org-capture-frame*
@@ -953,7 +953,7 @@ which specify the range to operate on."
 		      (top . 400) (left . 300)
 		      (font . "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1"))))
   (select-frame-by-name "remember")
-  (org-capture t type)
+  (org-capture-string text type)
   (delete-other-windows))
 
 (defun my-org-capture-cleanup ()
