@@ -146,3 +146,4 @@ if test -d $HOME/miniforge3; then
     unset __conda_setup
     # <<< conda initialize <<<
 fi
+export PS1='%B%m${${CONDA_DEFAULT_ENV:#base}:+ ${bs}($CONDA_DEFAULT_ENV)%f}%(!.%F{yellow}#%f.$)%b '
