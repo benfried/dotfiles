@@ -1,7 +1,7 @@
 emulate zsh
 . ~/.zshnew
 export ZSH=$HOME/src/oh-my-zsh
-plugins=(git golang macports flutter pip brew macos pipenv)
+plugins=(brew flutter git golang iterm2 macos macports pip pipenv)
 source $ZSH/oh-my-zsh.sh
 setenv () {
         eval "$1=\"$2\""

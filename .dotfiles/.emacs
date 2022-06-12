@@ -162,6 +162,7 @@
   (set-fontset-font
    t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
 
+(require 'company)
 (global-company-mode)
 (setq company-backends
       '(company-emoji
@@ -818,6 +819,7 @@ Argument ARG is ignored."
   (lsp-ui-mode)
   (define-key lsp-ui-mode-map (kbd "C-c l") 'lsp-ui-imenu)
   (define-key python-mode-map "\C-c\t" 'hs-toggle-hiding)
+  (define-key lsp-ui-mode-map (kbd "C-c l") 'lsp-ui-imenu)
   (setq python-shell-interpreter
 	(cond ((string-equal system-type "darwin") "/opt/local/bin/ipython3")
 	      (t "/usr/bin/ipython3"))
@@ -1086,6 +1088,15 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 ;;; (aset keyboard-translate-table ?\C-h ?\d)
 (require 'rainbow-delimiters)
 (require 'smartparens-config)
+
+;;; below is for the model f77 keyboards, which (god bless IBM)
+;;; do not have a ` or a ~ key; I've remapped shift-escape to ~
+;;; and in my macos keyboard layout have mapped option-' to `, but
+;;; emacs seems to intercept the option sequence and interpret it as -
+;;; so now command-escape is backquote
+;;; not needed now that I've reprogrammed fn-esc to send `
+; (define-key key-translation-map (kbd "s-<escape>") (kbd "`"))
+
 (show-smartparens-global-mode +1)
 (setq sp-lisp-modes (cons 'repl sp-lisp-modes)
       sp-smartparens-bindings
