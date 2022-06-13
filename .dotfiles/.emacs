@@ -835,6 +835,7 @@ Argument ARG is ignored."
 (defun python-mode-hook-code ()
   (setenv "PYTHONPATH" (replace-regexp-in-string "elpy.elc?" "elpy/" (locate-library "elpy")))
   (setenv "WORKON_HOME" (expand-file-name "~/miniforge3/envs/"))
+  (lsp)
   (auto-complete-mode)
   (smartparens-mode +1)
   (add-to-list 'hs-special-modes-alist
@@ -845,6 +846,7 @@ Argument ARG is ignored."
 		     'bf-python-hideshow-forward-sexp-function nil))
   (hs-minor-mode)
   (define-key python-mode-map "\C-c\t" 'hs-toggle-hiding)
+  (define-key lsp-ui-mode-map (kbd "C-c l") 'lsp-ui-imenu)
   (setq python-shell-interpreter
 	(cond ((string-equal system-type "darwin") "/opt/local/bin/ipython3")
 	      (t "/usr/bin/ipython3"))
@@ -865,8 +867,6 @@ Argument ARG is ignored."
 ;(elpy-enable)
 (require 'lsp-python-ms)
 (setq lsp-python-ms-auto-install-server t)
-(add-hook 'python-mode-hook #'lsp)
-(define-key lsp-ui-mode-map (kbd "C-c l") 'lsp-ui-imenu)
 
 (add-hook 'dired-load-hook 'dired-load-hook-code) 
 (add-hook 'text-mode-hook 'text-mode-hook-code)
