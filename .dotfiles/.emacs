@@ -972,9 +972,9 @@ which specify the range to operate on."
 
 (setq org-capture-templates
       '(("n" "capture a quick note" entry (file+headline org-default-notes-file "Quick Notes")
-	 "* %?\nEntered on %U\n  %i\n  %a")
+	 "* %?\nEntered on %U from %(get-hostname)\n  %i\n  %a")
 	("t" "Add Unfiled Todo entry" entry (file+headline org-default-notes-file "Quick Tasks")
-	 "* TODO %?\n  %i\n  %a")))
+	 "* TODO %?\n From %(get-hostname): %i\n  %a")))
 
 ;(org-remember-insinuate)
 (setq org-directory "~/Google Drive/My Drive/notes/"
