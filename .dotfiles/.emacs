@@ -6,11 +6,13 @@
  '(ansi-color-names-vector
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
  '(compilation-message-face 'default)
+ '(conda-home-candidates
+   '("~/.anaconda3" "~/miniconda3" "~/mambaforge" "~/anaconda" "~/miniconda" "~/mamba" "~/miniforge3"))
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-normal-cursor-color "#839496")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes '(shrek\.1))
+ '(custom-enabled-themes '(shrek.1))
  '(custom-safe-themes
    '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432" "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2" default))
  '(desktop-save 'ask)
@@ -45,7 +47,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet filladapt))
+   '(filladapt sly-repl-ansi-color sly conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -99,7 +101,7 @@
      (340 . "#26f38ff5c72c")
      (360 . "#268bd2")))
  '(vc-annotate-very-old-color nil)
- '(warning-suppress-types '((comp)))
+ '(warning-suppress-types '((emacs) (comp)))
  '(weechat-color-list
    '(unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83"))
  '(xterm-color-names
@@ -655,39 +657,7 @@ to find the text that egrep hits refer to."
 ;(require 'slime)
 
 (setq slime-lisp-implementations
-      '((sbcl ("/opt/local/bin/sbcl") :init slime-init-command)
-	(mit-scheme ("mit-scheme") :init mit-scheme-init)))
-
-(setq *using-slime-mit-scheme-swank* nil)
-
-(defun mit-scheme-init (file encoding)
-  (if *using-slime-mit-scheme-swank*
-      (format "%S\n\n"
-	      `(begin
-		(load-option 'format)
-		(load-option 'sos)
- 		(eval 
- 		 '(create-package-from-description
- 		   (make-package-description '(swank) (list (list))
- 					     (vector) (vector) (vector) false))
- 		 (->environment '(package)))
-		(load "/Users/bf/src/swank-mit-scheme.scm")
-		(eval '(start-swank ,file) (->environment '(swank)))))
-    (format "%S\n\n"
-	    `(begin
-	      (load-option 'format)
-	      (load-option 'sos)
-	      (load "/Users/bf/src/mit-scheme-swank/swank.scm")
-	      (->environment '(runtime swank))
-	      (trace read-packet)
-	      (trace decode-message)
-	      (trace process-one-message)
-	      (trace serve)
-	      (trace start-swank)
-	      (trace main-loop)
-	      (trace with-keyboard-interrupt-handler)
-	      (start-swank ,file)))))
-    
+      '((sbcl ("/opt/local/bin/sbcl") :init slime-init-command)))
 
 (defun mit-scheme ()
   (interactive)
@@ -703,7 +673,8 @@ to find the text that egrep hits refer to."
 ;(setq slime-find-buffer-package-function 'find-mit-scheme-package)
 ; (add-hook 'scheme-mode-hook (lambda () (slime-mode 1)))
 
-(slime-setup '(slime-fancy slime-banner))
+; (slime-setup '(slime-fancy slime-banner))
+(sly-setup '(sly-fancy))
 (require 'hyperspec)
 (setq common-lisp-hyperspec-root "file:/Users/bf/src/HyperSpec/"
       common-lisp-hyperspec-symbol-table "/Users/bf/src/HyperSpec/Data/Map_Sym.txt")
@@ -775,7 +746,7 @@ to find the text that egrep hits refer to."
 
 (defun lisp-mode-hook-code ()
   (setq comment-column 40)		; normal comment column
-  (slime-mode t)
+  (sly-mode 1)
   (setq comment-start "\;"))		; and a real comment character
 
 (defun fundamental-mode-hook-code ()	;just so i'll have a comment char.
@@ -839,6 +810,7 @@ Argument ARG is ignored."
 (defun python-mode-hook-code ()
   (setenv "PYTHONPATH" (replace-regexp-in-string "elpy.elc?" "elpy/" (locate-library "elpy")))
   (setenv "WORKON_HOME" (expand-file-name "~/miniforge3/envs/"))
+  (lsp)
   (auto-complete-mode)
   (smartparens-mode +1)
   (add-to-list 'hs-special-modes-alist
@@ -849,6 +821,7 @@ Argument ARG is ignored."
 		     'bf-python-hideshow-forward-sexp-function nil))
   (hs-minor-mode)
   (lsp-ui-mode)
+  (define-key lsp-ui-mode-map (kbd "C-c l") 'lsp-ui-imenu)
   (define-key python-mode-map "\C-c\t" 'hs-toggle-hiding)
   (define-key lsp-ui-mode-map (kbd "C-c l") 'lsp-ui-imenu)
   (setq python-shell-interpreter
@@ -975,19 +948,39 @@ which specify the range to operate on."
 	 (concat org-directory "inbox.org") "Remember")
 	("AppleScript note" ?z "* %?\n\n  Date: %u\n" (concat org-directory "inbox.org") "Notes")))
 
-;(if (equal window-system 'ns) (require 'org-mac-protocol))
-(defun make-orgcapture-frame ()
+(if (equal window-system 'ns) (require 'org-mac-protocol))
+(defun make-orgcapture-frame (type text)
   "Create a new frame and run org-capture."
   (interactive)
-  (make-frame '((name . "remember") (width . 80) (height . 16)
-                (top . 400) (left . 300)
-                (font . "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
-                ))
+  (setq *org-capture-frame*
+	(make-frame '((name . "remember") (width . 80) (height . 16)
+		      (top . 400) (left . 300)
+		      (font . "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1"))))
   (select-frame-by-name "remember")
-  (org-capture))
+  (org-capture-string text type)
+  (delete-other-windows))
+
+(defun my-org-capture-cleanup ()
+  "Delete the frame containing this org capture buffer"
+  (cond ((equal (frame-parameter (selected-frame) 'name) "remember")
+	 (delete-frame (selected-frame)))))
+
+(add-hook 'org-capture-after-finalize-hook 'my-org-capture-cleanup)
+
+;;;(setq org-capture-templates
+;;;      '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+;;;         "* TODO %?\n  %i\n  %a")
+;;;        ("j" "Journal" entry (file+datetree "~/org/journal.org")
+;;;         "* %?\nEntered on %U\n  %i\n  %a")))
+
+(setq org-capture-templates
+      '(("n" "capture a quick note" entry (file+headline org-default-notes-file "Quick Notes")
+	 "* %?\nEntered on %U from %(get-hostname)\n  %i\n  %a")
+	("t" "Add Unfiled Todo entry" entry (file+headline org-default-notes-file "Quick Tasks")
+	 "* TODO %?\n From %(get-hostname): %i\n  %a")))
 
 ;(org-remember-insinuate)
-(setq org-directory "~/Google Drive/notes/"
+(setq org-directory "~/Google Drive/My Drive/notes/"
       org-log-done 'time
       org-todo-keywords '((sequence "TODO" "DONE"))
       ;; turns out I use org mostly for personal stuff so there's not a lot of delegation.
@@ -1143,9 +1136,9 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
-(require 'slime)
-(add-hook 'slime-mode-hook 'set-up-slime-ac)
-(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+;(require 'slime)
+;(add-hook 'slime-mode-hook 'set-up-slime-ac)
+;(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
 
 ;(unless (and (fboundp 'play-sound-internal)
 ;             (subrp (symbol-function 'play-sound-internal)))
