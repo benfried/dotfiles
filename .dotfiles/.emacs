@@ -45,7 +45,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
+   '(conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet filladapt))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -288,7 +288,10 @@
 (set-face-background 'mode-line-buffer-id "firebrick")
 (set-face-foreground 'mode-line-inactive "firebrick")
 (set-face-background 'mode-line-inactive "yellow")
-(if (face-font 'mode-line) (set-face-font 'mode-line-active (face-font 'mode-line)))
+(if (and (member 'mode-line-active (face-list)) 
+	 (face-font 'mode-line)) 
+    (set-face-font 'mode-line-active (face-font 'mode-line)))
+
 ; was "-*-Hack-medium-normal-normal-*-*-*-*-*-m-0-iso10646-1"
 
 ;(require 'maxima-font-lock)
@@ -972,7 +975,7 @@ which specify the range to operate on."
 	 (concat org-directory "inbox.org") "Remember")
 	("AppleScript note" ?z "* %?\n\n  Date: %u\n" (concat org-directory "inbox.org") "Notes")))
 
-(if (equal window-system 'ns) (require 'org-mac-protocol))
+;(if (equal window-system 'ns) (require 'org-mac-protocol))
 (defun make-orgcapture-frame ()
   "Create a new frame and run org-capture."
   (interactive)
