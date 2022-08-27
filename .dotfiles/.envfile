@@ -1,3 +1,7 @@
+alias ech=echo
+alias ech=true
+
+ech "entering .envfile"
 test -n "${-%%*i*}" && return 
 test "$TERM" = xterm && trap 'eval $(resize -u)' WINCH
 test -z "${KRBTKFILE:-}" && unset KRBTKFILE
@@ -201,3 +205,4 @@ test $debug -gt 0 && echo "$0 '${0%zsh}'"
 test "${SHELL%zsh}" != "${SHELL}" && ERR=ZERR
 test -z "${-%%*i*}" && trap 'status 1>&2' $ERR
 
+ech "Leaving .envfile"

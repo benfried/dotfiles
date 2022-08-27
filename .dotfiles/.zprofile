@@ -3,6 +3,10 @@
 #
 # Default FID user .profile
 
+alias ech=echo
+alias ech=true
+ech "entering .zprofile"
+
 set +a
 loginshell=1
 SH_LEVEL=0
@@ -40,3 +44,4 @@ export DISPLAY=:0
 export MANPATH="/opt/local/share/man:$MANPATH"
 # Finished adapting your MANPATH environment variable for use with MacPorts.
 
+ech "leaving .zprofile"
