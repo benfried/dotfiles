@@ -3,10 +3,11 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
- (filename . "~/Google Drive/notes/notes.org")
- (front-context-string . "** TODO foo\n  [2")
- (rear-context-string . "4-05 Mon 14:22]\n")
- (position . 362942))
+ (filename . "~/Google Drive/My Drive/notes/notes.org")
+ (front-context-string . "** offer letter,")
+ (rear-context-string . "hing like that)\n")
+ (position . 85897)
+ (last-modified 25342 44266 840449 0))
 ("org-remember-last-stored"
  (filename . "~/Google Drive/notes/notes.org")
  (front-context-string . "** cool\n\n  Sourc")
