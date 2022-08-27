@@ -17,6 +17,11 @@ rm -rf .[A-z]*~(.Trash|.dotfiles) || { echo "error deleting old dotfiles after b
 
 popd
 
+if [ ! -d ~/lib ]; then
+    cp -rp lib ~/ || exit 2
+fi
+
+
 cd .dotfiles
 ln -s ${PWD}/.[A-Za-z]* ~/
 

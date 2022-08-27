@@ -998,6 +998,42 @@ which specify the range to operate on."
 
 (define-key global-map "\C-c\C-\\" 'org-capture)
 
+;;; below should perhaps go in a separate libary, but whatever.
+;;; an after-save-hook that uses pandoc to make a markdown version of org files after save.
+;;; It uses a template I created that preserves the title in a format that quarto likes
+(defcustom pandoc-binary "pandoc" "Location of pandoc binary"
+  :type 'string)
+
+(defcustom markdown-template (expand-file-name "~/lib/pandoc-org-template")
+  "Location of custom pandoc markdown template"
+  :type 'string)
+
+(defcustom always-convert-org-to-md nil
+  "If non-nil, auto-markdown-after-save will convert the org file to md regardless of
+whether or not there is a _quarto.yml file in the current directory"
+  :type 'boolean)
+
+;;; DEBUG
+;(setq pandoc-binary "/bin/echo")
+;;; END DEBUG
+
+(defun auto-markdown-after-save ()
+  "Use Pandoc to auto-convert an org file to markdown every time it's saved; 
+Set `after-save-hook` in org mode to this value if you use quarto with org"
+  (interactive)
+  (when (and (eq major-mode 'org-mode)
+	     (or always-convert-org-to-md (file-exists-p "_quarto.yml")))
+    (let* ((errbuf (get-buffer-create "*Pandoc Errors*"))
+	   (ofile (concat (file-name-sans-extension (buffer-file-name)) ".md")))
+      (message "converting org file to markdown...")
+      (call-process pandoc-binary nil errbuf nil
+		    (concat "--template=" markdown-template)
+		    "-o"
+		    ofile
+		    (buffer-file-name))
+      (message "converting org file to markdown...done"))))
+
+
 (setq auto-dmacro-alist
       '(("\\.[cly]$" . ctemplate)
 	("\\.h$" . htemplate)
