@@ -20,8 +20,8 @@
 [credential]
 	helper = osxkeychain
 
-[merge]					
-	tool = code
+#[merge]					
+#	tool = code
 
-[mergetool "code"]
-	cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+#[mergetool "code"]
+#	cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
