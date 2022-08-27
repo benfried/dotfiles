@@ -21,7 +21,6 @@ if [ ! -d ~/lib ]; then
     cp -rp lib ~/ || exit 2
 fi
 
-
 cd .dotfiles
 ln -s ${PWD}/.[A-Za-z]* ~/
 
