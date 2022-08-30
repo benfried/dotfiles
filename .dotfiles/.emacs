@@ -1029,7 +1029,7 @@ Set `after-save-hook` in org mode to this value if you use quarto with org"
 	   (ofile (concat (file-name-sans-extension (buffer-file-name)) ".md")))
       (message "converting org file to markdown...")
       (call-process pandoc-binary nil errbuf nil
-		    (concat "--template=" markdown-template)
+		    "-s"
 		    "-o"
 		    ofile
 		    (buffer-file-name))

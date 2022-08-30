@@ -19,8 +19,10 @@
 	dump = cat-file -p
 [credential]
 	helper = osxkeychain
+[help]
+	autocorrect = 1
 
-#[merge]					
+#[merge]
 #	tool = code
 
 #[mergetool "code"]

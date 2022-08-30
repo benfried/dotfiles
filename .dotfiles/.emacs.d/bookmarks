@@ -4,10 +4,11 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
  (filename . "~/Google Drive/My Drive/notes/notes.org")
- (front-context-string . "** TODO do somet")
- (rear-context-string . "s][here it is]]\n")
- (position . 74812)
- (last-modified 25254 39067 1297 0))
+ (front-context-string . "** offer letter,")
+ (rear-context-string . "hing like that)\n")
+ (position . 85897)
+ (last-modified 25342 44266 840449 0))
+
 ("org-remember-last-stored"
  (filename . "~/Google Drive/notes/notes.org")
  (front-context-string . "** cool\n\n  Sourc")
