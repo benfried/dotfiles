@@ -928,12 +928,14 @@ which specify the range to operate on."
 (org-defkey org-mode-map  "\C-c\C-l" 'org-store-link)
 (org-defkey org-mode-map "\C-c\C-s" 'org-iswitchb)
 (global-font-lock-mode 1)
+
 (defun org-hooks ()
   "hooks for org mode"
   (org-bullets-mode 1)
   (global-set-key "\C-c\C-l" 'org-store-link)
   (global-set-key "\C-c\C-a" 'org-agenda)
-  (global-set-key "\C-c\C-s" 'org-iswitchb))
+  (global-set-key "\C-c\C-s" 'org-iswitchb)
+  (add-hook 'after-save-hook #'auto-markdown-after-save))
 
 (add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
 (add-hook 'org-mode-hook 'org-indent-mode)
@@ -1032,7 +1034,6 @@ Set `after-save-hook` in org mode to this value if you use quarto with org"
 		    ofile
 		    (buffer-file-name))
       (message "converting org file to markdown...done"))))
-
 
 (setq auto-dmacro-alist
       '(("\\.[cly]$" . ctemplate)
