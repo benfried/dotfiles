@@ -1020,10 +1020,6 @@ which specify the range to operate on."
 whether or not there is a _quarto.yml file in the current directory"
   :type 'boolean)
 
-;;; DEBUG
-;(setq pandoc-binary "/bin/echo")
-;;; END DEBUG
-
 (defun auto-markdown-after-save ()
   "Use Pandoc to auto-convert an org file to markdown every time it's saved; 
 Set `after-save-hook` in org mode to this value if you use quarto with org"
