@@ -1015,10 +1015,6 @@ which specify the range to operate on."
 (defcustom pandoc-binary "pandoc" "Location of pandoc binary"
   :type 'string)
 
-(defcustom markdown-template (expand-file-name "~/lib/pandoc-org-template")
-  "Location of custom pandoc markdown template"
-  :type 'string)
-
 (defcustom always-convert-org-to-md nil
   "If non-nil, auto-markdown-after-save will convert the org file to md regardless of
 whether or not there is a _quarto.yml file in the current directory"
