@@ -1,3 +1,8 @@
+(setq load-path
+      (append
+       (list (concat (getenv "HOME")  "/lib/elisp/org/lisp"))
+       load-path))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1058,6 +1063,11 @@ Set `after-save-hook` in org mode to this value if you use quarto with org"
 			     "-o"
 			     ofile
 			     (buffer-file-name)))))
+      (call-process pandoc-binary nil errbuf nil
+		    "-s"
+		    "-o"
+		    ofile
+		    (buffer-file-name))
       (message "converting org file to markdown...done"))))
 
 (setq auto-dmacro-alist
@@ -1093,10 +1103,11 @@ Set `after-save-hook` in org mode to this value if you use quarto with org"
 		(concat (getenv "GOPATH") "/bin") ":"
 		(concat (getenv "GOROOT") "/bin")))
 
-(setq exec-path (append exec-path (list "/opt/local/bin"
-					"/usr/local/bin"
-					(expand-file-name "~/go/bin")
-					(expand-file-name "~/src/gocode/bin"))))
+(setq exec-path (append (list "/opt/local/bin"
+			      "/usr/local/bin"
+			      (expand-file-name "~/go/bin")
+			      (expand-file-name "~/src/gocode/bin"))
+			exec-path))
 
 (if (file-directory-p (expand-file-name "~/homebrew/bin"))
     (setq exec-path (cons (expand-file-name "~/homebrew/bin") exec-path)))
@@ -1214,6 +1225,7 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
+(ivy-mode 1)
 
 
 (provide '.emacs)
