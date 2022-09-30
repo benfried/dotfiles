@@ -1071,11 +1071,6 @@ it will pull the frontmatter out and pass it to pandoc as a separate metadata fi
 			     "-o"
 			     ofile
 			     (buffer-file-name)))))
-      (call-process pandoc-binary nil errbuf nil
-		    "-s"
-		    "-o"
-		    ofile
-		    (buffer-file-name))
       (message "converting org file to markdown...done"))))
 
 (setq auto-dmacro-alist
