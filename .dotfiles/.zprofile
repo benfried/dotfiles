@@ -3,6 +3,10 @@
 #
 # Default FID user .profile
 
+alias ech=echo
+alias ech=true
+ech "entering .zprofile"
+
 set +a
 loginshell=1
 SH_LEVEL=0
@@ -24,6 +28,8 @@ test -x ~/homebrew/bin/brew && BREW=~/homebrew/bin/brew
 
 test -n "${BREW}" && eval $(${BREW} shellenv)
 
+# final change to PATH is to put ~/bin at the front, so can use it to override anything else
+test -d ~/bin && prepend PATH ~/bin
 
 fortune
 
@@ -37,6 +43,8 @@ export DISPLAY=:0
 
 
 # MacPorts Installer addition on 2022-03-16_at_13:02:53: adding an appropriate MANPATH variable for use with MacPorts.
-export MANPATH="/opt/local/share/man:$MANPATH"
+prepend MANPATH /opt/local/share/man
+
 # Finished adapting your MANPATH environment variable for use with MacPorts.
 
+ech "leaving .zprofile"

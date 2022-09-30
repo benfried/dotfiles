@@ -1,5 +1,6 @@
 # stty dec
 stty erase '^?' intr '^c' kill '^u'
+# echo "entering .custom/.profile"
 #function myappend { test -d $2 && eval $1=$PATH:$2; }
 #function myprepend { test -d $2 && eval PATH=$2:$PATH; }
 
@@ -26,6 +27,8 @@ MAILCHECK=60
 WHO=`who am i`
 
 set +a
+# echo "leaving .custom/.profile"
+
 
 if [[ "${-#i*}" = "${-}" && "${-%i*}" = "${-}" ]]; then
     return 

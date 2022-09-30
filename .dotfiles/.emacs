@@ -1,3 +1,8 @@
+(setq load-path
+      (append
+       (list (concat (getenv "HOME")  "/lib/elisp/org/lisp"))
+       load-path))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -47,7 +52,8 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(filladapt sly-repl-ansi-color sly conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet))
+   ;;   '(filladapt sly-repl-ansi-color sly conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet)
+   '(sly-repl-ansi-color sly conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request smartparens solarized-theme web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -56,7 +62,9 @@
  '(python-shell-interpreter "/opt/local/bin/jupyter-3.9 ")
  '(python-shell-interpreter-args "console --simple-prompt")
  '(safe-local-variable-values
-   '((eval font-lock-add-keywords nil
+   '((vc-git-annotate-switches . "-w")
+     (diff-add-log-use-relative-names . t)
+     (eval font-lock-add-keywords nil
 	   `((,(concat "("
 		       (regexp-opt
 			'("sp-do-move-op" "sp-do-move-cl" "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op" "sp-do-del-cl")
@@ -301,8 +309,8 @@
 
 (setq frame-title-format (list "emacs\@" (get-hostname) ":%b"))
 (font-lock-mode t)
-(require 'filladapt)
-(setq-default filladapt-mode t)
+;(require 'filladapt)
+;(setq-default filladapt-mode t)
 
 (require 'cl-loaddefs)
 (transient-mark-mode t)
@@ -917,6 +925,7 @@ which specify the range to operate on."
 	      font-lock-maximum-size 256000
 	      font-lock-mode-enable-list nil
 	      font-lock-mode-disable-list nil
+	      org-export-with-smart-quotes t
 	      org-special-ctrl-a/e t)
 
 (require 'org)
@@ -928,12 +937,14 @@ which specify the range to operate on."
 (org-defkey org-mode-map  "\C-c\C-l" 'org-store-link)
 (org-defkey org-mode-map "\C-c\C-s" 'org-iswitchb)
 (global-font-lock-mode 1)
+
 (defun org-hooks ()
   "hooks for org mode"
   (org-bullets-mode 1)
   (global-set-key "\C-c\C-l" 'org-store-link)
   (global-set-key "\C-c\C-a" 'org-agenda)
-  (global-set-key "\C-c\C-s" 'org-iswitchb))
+  (global-set-key "\C-c\C-s" 'org-iswitchb)
+  (add-hook 'after-save-hook #'auto-markdown-after-save))
 
 (add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
 (add-hook 'org-mode-hook 'org-indent-mode)
@@ -998,6 +1009,70 @@ which specify the range to operate on."
 
 (define-key global-map "\C-c\C-\\" 'org-capture)
 
+;;; below should perhaps go in a separate libary, but whatever.
+;;; an after-save-hook that uses pandoc to make a markdown version of org files after save.
+;;; It uses a template I created that preserves the title in a format that quarto likes
+(defcustom pandoc-binary "pandoc" "Location of pandoc binary"
+  :type 'string)
+
+(defcustom always-convert-org-to-md nil
+  "If non-nil, auto-markdown-after-save will convert the org file to md regardless of
+whether or not there is a _quarto.yml file in the current directory"
+  :type 'boolean)
+
+;;; DEBUG
+;(setq pandoc-binary "/bin/echo")
+;;; END DEBUG
+
+(defvar *frontmatter-re* "\n*\\(---\n\\(.*\n\\)*---\n\\)" "regexp for frontmatter")
+(defvar *clean-up-pandoc-temp-files* nil "if non-nil, remove temp files in md creation")
+
+(defun auto-markdown-after-save ()
+  "Use Pandoc to auto-convert an org file to markdown every time it's saved; 
+Set `after-save-hook` in org mode to this value if you use quarto
+with org. Looks for a file called '_quarto.yml' in the current
+directory to determine if this file is part of a quarto tree.
+Setting 'always-convert-org-to-md' to t will do this regardless
+of the presence of _quarto.yml.
+
+If there is quarto / markdown frontmatter, which is of the form
+---
+key1: value1
+key2: value2
+---
+
+it will pull the frontmatter out and pass it to pandoc as a separate metadata file."
+  (interactive)
+  (when (and (eq major-mode 'org-mode)
+	     (or always-convert-org-to-md (file-exists-p "_quarto.yml")))
+    (let ((errbuf (get-buffer-create "*Pandoc Errors*"))
+	  (ofile (concat (file-name-sans-extension (buffer-file-name)) ".md")))
+      (message "converting org file to markdown...")
+      (save-excursion
+	(goto-char (point-min))
+	(cond ((looking-at *frontmatter-re*)
+	       (let ((frontmatter-file (concat (file-name-sans-extension (buffer-file-name)) ".fm"))
+		     (orgfile-sans-frontmatter (concat (buffer-file-name) ".tmp")))
+		 (write-region (match-beginning 1) (match-end 1) frontmatter-file)
+		 (write-region (match-end 0) (point-max) orgfile-sans-frontmatter)
+		 (call-process pandoc-binary nil errbuf nil
+			       "-s"
+			       "-o"
+			       ofile
+			       "--from=org"
+			       orgfile-sans-frontmatter
+			       (concat "--metadata-file=" frontmatter-file))
+		 (when *clean-up-pandoc-temp-files*
+		   (delete-file frontmatter-file)
+		   (delete-file orgfile-sans-frontmatter))))
+	      (t
+	       (call-process pandoc-binary nil errbuf nil
+			     "-s"
+			     "-o"
+			     ofile
+			     (buffer-file-name)))))
+      (message "converting org file to markdown...done"))))
+
 (setq auto-dmacro-alist
       '(("\\.[cly]$" . ctemplate)
 	("\\.h$" . htemplate)
@@ -1031,10 +1106,11 @@ which specify the range to operate on."
 		(concat (getenv "GOPATH") "/bin") ":"
 		(concat (getenv "GOROOT") "/bin")))
 
-(setq exec-path (append exec-path (list "/opt/local/bin"
-					"/usr/local/bin"
-					(expand-file-name "~/go/bin")
-					(expand-file-name "~/src/gocode/bin"))))
+(setq exec-path (append (list "/opt/local/bin"
+			      "/usr/local/bin"
+			      (expand-file-name "~/go/bin")
+			      (expand-file-name "~/src/gocode/bin"))
+			exec-path))
 
 (if (file-directory-p (expand-file-name "~/homebrew/bin"))
     (setq exec-path (cons (expand-file-name "~/homebrew/bin") exec-path)))
@@ -1152,6 +1228,7 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
+(ivy-mode 1)
 
 
 (provide '.emacs)
