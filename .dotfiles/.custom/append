@@ -38,6 +38,8 @@
 # variable with the arguments passed.  addpath ensures that redundant 
 # components and malformed path lists are removed from any resulting value.
 #
+if [[ "$0" =~ "zsh" ]]; then emulate ksh; fi
+
 function addpath
 {
   variable_name=$1

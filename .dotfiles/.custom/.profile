@@ -5,9 +5,7 @@ stty erase '^?' intr '^c' kill '^u'
 
 # export PAGER=~/bin/more METAMAIL_PAGER=~/"bin/more -r"
 #prepend PATH ~/bin/@sys
-prepend PATH ~/bin:/sbin:/usr/sbin:/usr/X11R6/bin
-append PATH ~/android-sdk_38172_mac-x86/tools
-export GOPATH=~/gocode
+echo $PATH | tr ':' '\n' | grep -q sbin || prepend PATH ~/bin:/sbin:/usr/sbin:/usr/X11R6/bin
 export GOROOT=~/go
 append PATH $GOROOT/bin
 test -x $GOROOT/bin/go && eval $(go env | grep -v TERM)
@@ -23,7 +21,7 @@ EXINIT='set aw ic sm sw=4'
 #LESS='-Mir'
 LESS='-MiR'
 MORE='-MiR'
-MAILPATH='/var/mail/bf?[You Have Mail]'
+MAILPATH="/var/mail/${USER}?[You Have Mail]"
 MAILCHECK=60
 WHO=`who am i`
 
