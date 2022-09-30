@@ -1029,7 +1029,19 @@ whether or not there is a _quarto.yml file in the current directory"
 
 (defun auto-markdown-after-save ()
   "Use Pandoc to auto-convert an org file to markdown every time it's saved; 
-Set `after-save-hook` in org mode to this value if you use quarto with org"
+Set `after-save-hook` in org mode to this value if you use quarto
+with org. Looks for a file called '_quarto.yml' in the current
+directory to determine if this file is part of a quarto tree.
+Setting 'always-convert-org-to-md' to t will do this regardless
+of the presence of _quarto.yml.
+
+If there is quarto / markdown frontmatter, which is of the form
+---
+key1: value1
+key2: value2
+---
+
+it will pull the frontmatter out and pass it to pandoc as a separate metadata file."
   (interactive)
   (when (and (eq major-mode 'org-mode)
 	     (or always-convert-org-to-md (file-exists-p "_quarto.yml")))
