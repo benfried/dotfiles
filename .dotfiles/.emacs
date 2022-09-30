@@ -307,7 +307,7 @@
 (setq frame-title-format (list "emacs\@" (get-hostname) ":%b"))
 (font-lock-mode t)
 (require 'filladapt)
-(setq-default filladapt-mode t)
+;(setq-default filladapt-mode t)
 
 (require 'cl-loaddefs)
 (transient-mark-mode t)
