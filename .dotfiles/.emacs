@@ -52,8 +52,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   ;;   '(filladapt sly-repl-ansi-color sly conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request slime smartparens solarized-theme web-mode websocket with-editor yasnippet)
-   '(sly-repl-ansi-color sly conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui ac-slime async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request smartparens solarized-theme web-mode websocket with-editor yasnippet))
+   '(yaml-mode sly-repl-ansi-color sly conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request smartparens solarized-theme web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -996,9 +995,9 @@ which specify the range to operate on."
       org-todo-keywords '((sequence "TODO" "DONE"))
       ;; turns out I use org mostly for personal stuff so there's not a lot of delegation.
       ;; next state for TODO tasks should be DONE, and the rare exception will go to WAIT.
-      org-todo-keywords '((sequence "TODO" "DONE" "WAIT(@)"))
-      org-archive-location "::* Archived Tasks"
-      org-archive-location "~/Google Drive/notes/notes-archive.org::"
+      ;; org-todo-keywords '((sequence "TODO" "DONE" "WAIT(@)"))
+      ;; org-archive-location "::* Archived Tasks"
+      org-archive-location "~/Google Drive/My Drive/notes/notes-archive.org::"
       org-export-headline-levels 0	; no headlines, just export as lists
       org-export-with-toc nil		; no table of contents please.
       org-export-with-section-numbers nil
@@ -1071,11 +1070,6 @@ it will pull the frontmatter out and pass it to pandoc as a separate metadata fi
 			     "-o"
 			     ofile
 			     (buffer-file-name)))))
-      (call-process pandoc-binary nil errbuf nil
-		    "-s"
-		    "-o"
-		    ofile
-		    (buffer-file-name))
       (message "converting org file to markdown...done"))))
 
 (setq auto-dmacro-alist
@@ -1086,10 +1080,8 @@ it will pull the frontmatter out and pass it to pandoc as a separate metadata fi
 
 (define-key global-map [?\C-h] 'help-command)
 
-(setq org-tag-alist '(("@jen" . ?j)
-		      ("@heatherberson" . ?h)
-		      ("@kirachapelle" . ?C)
-		      ("@nyc" . ?n)))
+(setq org-tag-alist '(("@rally" . ?r)
+		      ("@boardsearch" . ?b)))
 
 (require 're-builder)
 (setq reb-re-syntax 'string)
@@ -1235,5 +1227,8 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (setq ivy-count-format "(%d/%d) ")
 (ivy-mode 1)
 
+(defun yaml-mode-hook-code ()
+  (lsp-mode))
+(add-hook 'yaml-mode-hook 'yaml-mode-hook-code)
 
 (provide '.emacs)
