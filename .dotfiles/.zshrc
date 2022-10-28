@@ -1,3 +1,6 @@
+alias ech=echo
+alias ech=true
+ech "entering .zshrc"
 emulate zsh
 . ~/.zshnew
 export ZSH=$HOME/src/oh-my-zsh
@@ -138,12 +141,14 @@ if test -d $HOME/miniforge3; then
 	eval "$__conda_setup"
     else
 	if [ -f "${HOME}/miniforge3/etc/profile.d/conda.sh" ]; then
-            . "${HOME}/miniforge3/etc/profile.d/conda.sh"
+	    . "${HOME}/miniforge3/etc/profile.d/conda.sh"
 	else
-            export PATH="${HOME}/miniforge3/bin:$PATH"
+	    export PATH="${HOME}/miniforge3/bin:$PATH"
 	fi
     fi
     unset __conda_setup
     # <<< conda initialize <<<
 fi
+
 export PS1='%B%m${${CONDA_DEFAULT_ENV:#base}:+ ${bs}($CONDA_DEFAULT_ENV)%f}%(!.%F{yellow}#%f.$)%b '
+ech "leaving .zshrc"
