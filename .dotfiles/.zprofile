@@ -16,6 +16,7 @@ stty dec
 append PATH /usr/games
 prepend PATH /opt/local/bin
 append MANPATH /opt/local/man
+append MANPATH /usr/share/man
 export GOPATH=~/src/gocode/
 export EDITOR=~/bin/emacsclient
 
@@ -37,6 +38,6 @@ export DISPLAY=:0
 
 
 # MacPorts Installer addition on 2022-03-16_at_13:02:53: adding an appropriate MANPATH variable for use with MacPorts.
-export MANPATH="/opt/local/share/man:$MANPATH"
+append MANPATH /opt/local/share/man
 # Finished adapting your MANPATH environment variable for use with MacPorts.
 
