@@ -1228,7 +1228,7 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (ivy-mode 1)
 
 (defun yaml-mode-hook-code ()
-  (lsp-mode))
+  (lsp))
 (add-hook 'yaml-mode-hook 'yaml-mode-hook-code)
 
 (provide '.emacs)
