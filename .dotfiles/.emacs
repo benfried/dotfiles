@@ -681,7 +681,6 @@ to find the text that egrep hits refer to."
 ; (add-hook 'scheme-mode-hook (lambda () (slime-mode 1)))
 
 ; (slime-setup '(slime-fancy slime-banner))
-(require 'sly)
 (sly-setup '(sly-fancy))
 (require 'hyperspec)
 (setq common-lisp-hyperspec-root "file:/Users/bf/src/HyperSpec/"
