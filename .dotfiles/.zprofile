@@ -32,6 +32,8 @@ test -n "${BREW}" && eval $(${BREW} shellenv)
 # final change to PATH is to put ~/bin at the front, so can use it to override anything else
 test -d ~/bin && prepend PATH ~/bin
 
+eval $(keychain --eval --agents gpg --inherit any)
+
 fortune
 
 ##
