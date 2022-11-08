@@ -52,7 +52,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(counsel yaml-mode sly-repl-ansi-color sly conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request smartparens solarized-theme web-mode websocket with-editor yasnippet))
+   '(ox-asciidoc counsel ox-gfm yaml-mode sly-repl-ansi-color conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -1226,9 +1226,19 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
 (ivy-mode 1)
-
+(counsel-mode 1)
+(require 'lsp-yaml)
 (defun yaml-mode-hook-code ()
   (lsp))
 (add-hook 'yaml-mode-hook 'yaml-mode-hook-code)
+
+(require 'markdown-mode)
+(defun markdown-mode-hook-code ()
+  (setq markdown-command "pandoc"
+	markdown-asymmetric-header t
+	markdown-header-scaling t
+	markdown-hide-markup t))
+
+(add-hook 'markdown-mode-hook 'markdown-mode-hook-code)
 
 (provide '.emacs)
