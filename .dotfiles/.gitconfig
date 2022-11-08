@@ -17,8 +17,10 @@
 	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 	type = cat-file -t
 	dump = cat-file -p
-[credential]
-	helper = osxkeychain
+
+[includeIf "gitdir:/Users"]
+	path = ~/.gitconfig-macos
+
 [help]
 	autocorrect = 1
 

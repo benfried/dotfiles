@@ -1,0 +1,3 @@
+css: ${.}/pandoc.css
+embed-resources: true
+standalone: true
