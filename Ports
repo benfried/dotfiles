@@ -110,7 +110,6 @@ install   glpk
 install   gmake  
 install   gmp  
 install   gnome-common  
-install   gnupg2 +openldap+pinentry_mac 
 install   gnuplot +aquaterm+luaterm+pangocairo+wxwidgets+x11 
 install   gnutls  
 install   gobject-introspection  
@@ -564,8 +563,6 @@ install   perl5.26
 install   perl5.28  
 install   perl5.30  
 install   perl5.34  
-install   pinentry  
-install   pinentry-mac  
 install   pip_select  
 install   pipenv  
 install   pkgconfig  
