@@ -52,7 +52,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(ox-asciidoc counsel ox-gfm yaml-mode sly-repl-ansi-color conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request web-mode websocket with-editor yasnippet))
+   '(adoc-mode ox-asciidoc counsel ox-gfm yaml-mode sly-repl-ansi-color conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request web-mode websocket with-editor yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -714,25 +714,29 @@ to find the text that egrep hits refer to."
   (setq mode-name "CE")
   (message "Concurrent Euclid not trivial"))
 
+(defun find-file-not-found-try-rcs ()
+  (cond ((null buffer-file-name)
+	 t)
+	((or (file-readable-p (format "%s,v" buffer-file-name))
+	     (file-readable-p
+	      (format "%sRCS/%s,v"
+		      (or (file-name-directory buffer-file-name) "")
+		      (file-name-nondirectory buffer-file-name))))
+	 (save-excursion
+	   (message "Checking out %s" buffer-file-name)
+	   (call-process "sh"	;run the shell
+			 nil	;no input
+			 t	;output to current buffer
+			 nil	;don't update display
+			 "-c"	;shell command
+			 (format "co -p %s 2>/dev/null" buffer-file-name))
+	   (set-buffer-modified-p nil)
+	   (set-buffer-auto-saved)
+	   (setq buffer-read-only t)))
+	(t t)))
+
 (add-hook 'find-file-not-found-functions
-	  '(lambda nil
-             (if (or (file-readable-p (format "%s,v" buffer-file-name))
-		     (file-readable-p
-		      (format "%sRCS/%s,v"
-			      (or (file-name-directory buffer-file-name) "")
-			      (file-name-nondirectory buffer-file-name))))
-		 (save-excursion
-		   (message "Checking out %s" buffer-file-name)
-		   (call-process "sh"	;run the shell
-				 nil	;no input
-				 t	;output to current buffer
-				 nil	;don't update display
-				 "-c"	;shell command
-				 (format "co -p %s 2>/dev/null" buffer-file-name))
-		   (set-buffer-modified-p nil)
-		   (set-buffer-auto-saved)
-		   (setq buffer-read-only t))
-	       t)))
+	  'find-file-not-found-try-rcs)
 
 (defun shell-mode-hook-code ()
   (ansi-color-for-comint-mode-on)
@@ -1154,7 +1158,8 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 
 (define-key global-map "\C-c\C-e" 'eval-and-replace)
 
-(require 'linum)
+;obsolete since emacs 29.1
+;(require 'linum)
 (setq frame-background-mode 'dark)
 (load-theme 'solarized-dark t)
 ;;; to swap backquote and escape:
