@@ -714,25 +714,29 @@ to find the text that egrep hits refer to."
   (setq mode-name "CE")
   (message "Concurrent Euclid not trivial"))
 
+(defun find-file-not-found-try-rcs ()
+  (cond ((null buffer-file-name)
+	 t)
+	((or (file-readable-p (format "%s,v" buffer-file-name))
+	     (file-readable-p
+	      (format "%sRCS/%s,v"
+		      (or (file-name-directory buffer-file-name) "")
+		      (file-name-nondirectory buffer-file-name))))
+	 (save-excursion
+	   (message "Checking out %s" buffer-file-name)
+	   (call-process "sh"	;run the shell
+			 nil	;no input
+			 t	;output to current buffer
+			 nil	;don't update display
+			 "-c"	;shell command
+			 (format "co -p %s 2>/dev/null" buffer-file-name))
+	   (set-buffer-modified-p nil)
+	   (set-buffer-auto-saved)
+	   (setq buffer-read-only t)))
+	(t t)))
+
 (add-hook 'find-file-not-found-functions
-	  '(lambda nil
-             (if (or (file-readable-p (format "%s,v" buffer-file-name))
-		     (file-readable-p
-		      (format "%sRCS/%s,v"
-			      (or (file-name-directory buffer-file-name) "")
-			      (file-name-nondirectory buffer-file-name))))
-		 (save-excursion
-		   (message "Checking out %s" buffer-file-name)
-		   (call-process "sh"	;run the shell
-				 nil	;no input
-				 t	;output to current buffer
-				 nil	;don't update display
-				 "-c"	;shell command
-				 (format "co -p %s 2>/dev/null" buffer-file-name))
-		   (set-buffer-modified-p nil)
-		   (set-buffer-auto-saved)
-		   (setq buffer-read-only t))
-	       t)))
+	  'find-file-not-found-try-rcs)
 
 (defun shell-mode-hook-code ()
   (ansi-color-for-comint-mode-on)
@@ -1154,7 +1158,8 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 
 (define-key global-map "\C-c\C-e" 'eval-and-replace)
 
-(require 'linum)
+;obsolete since emacs 29.1
+;(require 'linum)
 (setq frame-background-mode 'dark)
 (load-theme 'solarized-dark t)
 ;;; to swap backquote and escape:
