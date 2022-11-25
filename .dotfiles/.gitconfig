@@ -29,3 +29,5 @@
 
 #[mergetool "code"]
 #	cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+[pull]
+	rebase = false
