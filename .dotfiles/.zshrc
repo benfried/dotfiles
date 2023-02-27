@@ -45,7 +45,10 @@ export WORDCHARS='*_-[]~=;!#$%^(){}<>'
 #		autoload $j
 #	done
 #done
-test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+
+if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
+    test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+fi
 
 test ! -z "${-:#*i*}" && return
 
