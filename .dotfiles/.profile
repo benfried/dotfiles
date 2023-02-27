@@ -6,3 +6,4 @@ GOROOT=~/go
 GOPATH=~/gocode
 PATH=/opt/local/bin:$PATH:$GOROOT/bin
 export PATH GOROOT GOPATH
+test -f "$HOME/.cargo/env" && . "$HOME/.cargo/env"
