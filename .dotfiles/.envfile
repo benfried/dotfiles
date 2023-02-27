@@ -203,6 +203,8 @@ ERR=ERR
 debug=0
 test $debug -gt 0 && echo "$0 '${0%zsh}'"
 test "${SHELL%zsh}" != "${SHELL}" && ERR=ZERR
-test -z "${-%%*i*}" && trap 'status 1>&2' $ERR
+if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
+   test -z "${-%%*i*}" && trap 'status 1>&2' $ERR
+fi
 
 ech "Leaving .envfile"
