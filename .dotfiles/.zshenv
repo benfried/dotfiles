@@ -7,3 +7,4 @@
 . ~/.envfile
 #unfunction pushd popd
 emulate zsh
+test -f "$HOME/.cargo/env" && . "$HOME/.cargo/env"
