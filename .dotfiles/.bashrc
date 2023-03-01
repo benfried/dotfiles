@@ -131,3 +131,4 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+test -f "$HOME/.cargo/env" && . "$HOME/.cargo/env"
