@@ -48,6 +48,8 @@ export WORDCHARS='*_-[]~=;!#$%^(){}<>'
 
 if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
     test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+else
+    trap - ZERR
 fi
 
 test ! -z "${-:#*i*}" && return
