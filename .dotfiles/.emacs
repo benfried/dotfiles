@@ -52,7 +52,7 @@
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(ghub popup adoc-mode ox-asciidoc counsel ox-gfm yaml-mode sly-repl-ansi-color conda lsp-python-ms modus-themes info-colors company-emoji company forge org-bullets ac-geiser geiser-mit elpy xwwp xwwp-follow-link-helm osx-plist lsp-mode lsp-python lsp-ui async auto-complete cider concurrent ctable dart-mode dash-at-point deferred edit-server ein f fuzzy git-commit gmail-message-mode go-autocomplete go-eldoc go-mode ivy jedi jedi-core magit magit-popup oauth2 ox-clip projectile python-environment rainbow-delimiters request web-mode websocket with-editor yasnippet))
+   '(ac-geiser adoc-mode age async auto-complete cider company company-emoji concurrent conda counsel ctable dart-mode dash-at-point deferred edit-server ein elpy emacsql emacsql-sqlite f forge fuzzy geiser geiser-mit ghub git-commit gmail-message-mode go-autocomplete go-eldoc go-mode info-colors ivy jedi jedi-core lsp-mode lsp-python lsp-python-ms lsp-ui macrostep magit magit-popup magit-section markdown-mode modus-themes oauth2 org-bullets osx-plist ox-asciidoc ox-clip ox-gfm popup projectile python-environment rainbow-delimiters request sly-repl-ansi-color smartparens solarized-theme swiper transient web-mode websocket with-editor xwwp xwwp-follow-link-helm yaml yaml-mode yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
