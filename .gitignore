@@ -8,3 +8,4 @@ network-security.data
 */random_seed
 /.dotfiles/.gnupg/ran
 /.dotfiles/.gnupg/random_seed
+.dotfiles/.gnupg/random_seed
