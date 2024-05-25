@@ -51,3 +51,6 @@ prepend MANPATH /opt/local/share/man
 # Finished adapting your MANPATH environment variable for use with MacPorts.
 
 ech "leaving .zprofile"
+
+# Added by OrbStack: command-line tools and integration
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :

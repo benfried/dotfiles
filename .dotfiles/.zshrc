@@ -4,7 +4,7 @@ ech "entering .zshrc"
 emulate zsh
 . ~/.zshnew
 export ZSH=$HOME/src/oh-my-zsh
-plugins=(brew flutter git golang iterm2 macos macports pip pipenv)
+plugins=(brew flutter git golang iterm2 macos macports pip pipenv gcloud)
 source $ZSH/oh-my-zsh.sh
 setenv () {
         eval "$1=\"$2\""
@@ -160,3 +160,9 @@ export GUILE_LOAD_PATH="/opt/homebrew/share/guile/site/3.0"
 export GUILE_LOAD_COMPILED_PATH="/opt/homebrew/lib/guile/3.0/site-ccache"
 export GUILE_SYSTEM_EXTENSIONS_PATH="/opt/homebrew/lib/guile/3.0/extensions"
 ech "leaving .zshrc"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/bf/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/bf/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/bf/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bf/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
