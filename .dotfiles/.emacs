@@ -9,17 +9,143 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
-   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198"
+    "#657b83"])
  '(compilation-message-face 'default)
  '(conda-home-candidates
-   '("~/.anaconda3" "~/miniconda3" "~/mambaforge" "~/anaconda" "~/miniconda" "~/mamba" "~/miniforge3"))
+   '("~/.anaconda3" "~/miniconda3" "~/mambaforge" "~/anaconda"
+     "~/miniconda" "~/mamba" "~/miniforge3"))
+ '(connection-local-criteria-alist
+   '(((:application tramp :protocol "kubernetes")
+      tramp-kubernetes-connection-local-default-profile)
+     ((:application eshell) eshell-connection-default-profile)
+     ((:application tramp :protocol "flatpak")
+      tramp-container-connection-local-default-flatpak-profile
+      tramp-flatpak-connection-local-default-profile)
+     ((:application tramp :machine "localhost")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "max.local")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp)
+      tramp-connection-local-default-system-profile
+      tramp-connection-local-default-shell-profile)))
+ '(connection-local-profile-alist
+   '((tramp-flatpak-connection-local-default-profile
+      (tramp-remote-path "/app/bin" tramp-default-remote-path "/bin"
+			 "/usr/bin" "/sbin" "/usr/sbin"
+			 "/usr/local/bin" "/usr/local/sbin"
+			 "/local/bin" "/local/freeware/bin"
+			 "/local/gnu/bin" "/usr/freeware/bin"
+			 "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin"
+			 "/opt/sbin" "/opt/local/bin"))
+     (tramp-kubernetes-connection-local-default-profile
+      (tramp-config-check . tramp-kubernetes--current-context-data)
+      (tramp-extra-expand-args 97
+			       (tramp-kubernetes--container
+				(car tramp-current-connection))
+			       104
+			       (tramp-kubernetes--pod
+				(car tramp-current-connection))
+			       120
+			       (tramp-kubernetes--context-namespace
+				(car tramp-current-connection))))
+     (eshell-connection-default-profile (eshell-path-env-list))
+     (tramp-container-connection-local-default-flatpak-profile
+      (tramp-remote-path "/app/bin" tramp-default-remote-path "/bin"
+			 "/usr/bin" "/sbin" "/usr/sbin"
+			 "/usr/local/bin" "/usr/local/sbin"
+			 "/local/bin" "/local/freeware/bin"
+			 "/local/gnu/bin" "/usr/freeware/bin"
+			 "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin"
+			 "/opt/sbin" "/opt/local/bin"))
+     (tramp-connection-local-darwin-ps-profile
+      (tramp-process-attributes-ps-args "-acxww" "-o"
+					"pid,uid,user,gid,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+					"-o" "state=abcde" "-o"
+					"ppid,pgid,sess,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etime,pcpu,pmem,args")
+      (tramp-process-attributes-ps-format (pid . number)
+					  (euid . number)
+					  (user . string)
+					  (egid . number) (comm . 52)
+					  (state . 5) (ppid . number)
+					  (pgrp . number)
+					  (sess . number)
+					  (ttname . string)
+					  (tpgid . number)
+					  (minflt . number)
+					  (majflt . number)
+					  (time . tramp-ps-time)
+					  (pri . number)
+					  (nice . number)
+					  (vsize . number)
+					  (rss . number)
+					  (etime . tramp-ps-time)
+					  (pcpu . number)
+					  (pmem . number) (args)))
+     (tramp-connection-local-busybox-ps-profile
+      (tramp-process-attributes-ps-args "-o"
+					"pid,user,group,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+					"-o" "stat=abcde" "-o"
+					"ppid,pgid,tty,time,nice,etime,args")
+      (tramp-process-attributes-ps-format (pid . number)
+					  (user . string)
+					  (group . string) (comm . 52)
+					  (state . 5) (ppid . number)
+					  (pgrp . number)
+					  (ttname . string)
+					  (time . tramp-ps-time)
+					  (nice . number)
+					  (etime . tramp-ps-time)
+					  (args)))
+     (tramp-connection-local-bsd-ps-profile
+      (tramp-process-attributes-ps-args "-acxww" "-o"
+					"pid,euid,user,egid,egroup,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+					"-o"
+					"state,ppid,pgid,sid,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etimes,pcpu,pmem,args")
+      (tramp-process-attributes-ps-format (pid . number)
+					  (euid . number)
+					  (user . string)
+					  (egid . number)
+					  (group . string) (comm . 52)
+					  (state . string)
+					  (ppid . number)
+					  (pgrp . number)
+					  (sess . number)
+					  (ttname . string)
+					  (tpgid . number)
+					  (minflt . number)
+					  (majflt . number)
+					  (time . tramp-ps-time)
+					  (pri . number)
+					  (nice . number)
+					  (vsize . number)
+					  (rss . number)
+					  (etime . number)
+					  (pcpu . number)
+					  (pmem . number) (args)))
+     (tramp-connection-local-default-shell-profile
+      (shell-file-name . "/bin/sh") (shell-command-switch . "-c"))
+     (tramp-connection-local-default-system-profile
+      (path-separator . ":") (null-device . "/dev/null"))))
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-normal-cursor-color "#839496")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
  '(custom-enabled-themes '(shrek.1))
  '(custom-safe-themes
-   '("00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "32bfdae3b84041f6c812d6a04f413f5ae28f6802ee1372f37e4e8a63648e4406" "ed91ee4317271eccb81990f3ef6a6c6dd8080393806f2a467e512f728cd99d83" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432" "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2" default))
+   '("00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c"
+     "32bfdae3b84041f6c812d6a04f413f5ae28f6802ee1372f37e4e8a63648e4406"
+     "ed91ee4317271eccb81990f3ef6a6c6dd8080393806f2a467e512f728cd99d83"
+     "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5"
+     "fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c"
+     "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3"
+     "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f"
+     "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26"
+     "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
+     "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6"
+     "b4272df32c348aac1d3d47d57017df115e3e3cb15c55549adc12899b18c07432"
+     "f0443a2e0956a410f6551282a9171a4fee2d4d4fe764fefb095824046981bde2"
+     default))
  '(desktop-save 'ask)
  '(electric-indent-mode t)
  '(elpy-syntax-check-command "/opt/local/bin/pyflakes")
@@ -27,32 +153,42 @@
  '(gnutls-algorithm-priority "normal:-vers-tls1.3")
  '(highlight-changes-colors '("#d33682" "#6c71c4"))
  '(highlight-symbol-colors
-   (--map
-    (solarized-color-blend it "#002b36" 0.25)
-    '("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2")))
+   (--map (solarized-color-blend it "#002b36" 0.25)
+	  '("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900"
+	    "#cb4b16" "#268bd2")))
  '(highlight-symbol-foreground-color "#93a1a1")
  '(highlight-tail-colors
-   '(("#073642" . 0)
-     ("#546E00" . 20)
-     ("#00736F" . 30)
-     ("#00629D" . 50)
-     ("#7B6000" . 60)
-     ("#8B2C02" . 70)
-     ("#93115C" . 85)
+   '(("#073642" . 0) ("#546E00" . 20) ("#00736F" . 30) ("#00629D" . 50)
+     ("#7B6000" . 60) ("#8B2C02" . 70) ("#93115C" . 85)
      ("#073642" . 100)))
  '(hl-bg-colors
-   '("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00"))
+   '("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D"
+     "#00736F" "#546E00"))
  '(hl-fg-colors
-   '("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36"))
+   '("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36"
+     "#002b36" "#002b36"))
  '(hl-paren-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(maxima-command "/opt/local/bin/maxima")
  '(nrepl-message-colors
-   '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
+   '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D"
+     "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
-   '(ac-geiser adoc-mode age async auto-complete cider company company-emoji concurrent conda counsel ctable dart-mode dash-at-point deferred edit-server ein elpy emacsql emacsql-sqlite f forge fuzzy geiser geiser-mit ghub git-commit gmail-message-mode go-autocomplete go-eldoc go-mode info-colors ivy jedi jedi-core lsp-mode lsp-python lsp-python-ms lsp-ui macrostep magit magit-popup magit-section markdown-mode modus-themes oauth2 org-bullets osx-plist ox-asciidoc ox-clip ox-gfm popup projectile python-environment rainbow-delimiters request sly-repl-ansi-color smartparens solarized-theme swiper transient web-mode websocket with-editor xwwp xwwp-follow-link-helm yaml yaml-mode yasnippet))
+   '(ac-geiser adoc-mode age async auto-complete cider company
+	       company-emoji concurrent conda counsel ctable dart-mode
+	       dash-at-point deferred edit-server ein elpy emacsql
+	       emacsql-sqlite f forge fuzzy geiser geiser-mit ghub
+	       git-commit gmail-message-mode go-autocomplete go-eldoc
+	       go-mode info-colors ivy jedi jedi-core lsp-mode
+	       lsp-python lsp-python-ms lsp-ui macrostep magit
+	       magit-popup magit-section markdown-mode modus-themes
+	       oauth2 org-bullets osx-plist ox-asciidoc ox-clip ox-gfm
+	       popup projectile python-environment rainbow-delimiters
+	       request sly-repl-ansi-color smartparens solarized-theme
+	       swiper transient web-mode websocket with-editor xwwp
+	       xwwp-follow-link-helm yaml yaml-mode yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(pos-tip-background-color "#073642")
@@ -60,26 +196,26 @@
  '(python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter" "jupyter-3.9"))
  '(python-shell-interpreter "/opt/local/bin/jupyter-3.9 ")
  '(python-shell-interpreter-args "console --simple-prompt")
+ '(safe-local-variable-directories '("/Users/bf/src/gcc-emacs/"))
  '(safe-local-variable-values
    '((vc-git-annotate-switches . "-w")
      (diff-add-log-use-relative-names . t)
      (eval font-lock-add-keywords nil
-	   `((,(concat "("
+	   `(
+	     (,(concat "("
 		       (regexp-opt
-			'("sp-do-move-op" "sp-do-move-cl" "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op" "sp-do-del-cl")
+			'("sp-do-move-op" "sp-do-move-cl"
+			  "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op"
+			  "sp-do-del-cl")
 			t)
 		       "\\_>")
 	      1 'font-lock-variable-name-face)))
-     (Syntax . ANSI-Common-Lisp)
-     (Base . 10)
+     (Syntax . ANSI-Common-Lisp) (Base . 10)
      (eval c-make-noise-macro-regexps)
-     (c-noise-macro-with-parens-names "IF_LINT")
-     (encoding . utf-8)
-     (Package . GUI)
-     (Syntax . Common-Lisp)
+     (c-noise-macro-with-parens-names "IF_LINT") (encoding . utf-8)
+     (Package . GUI) (Syntax . Common-Lisp)
      (eval fold-set-marks "# {{{" "# }}}")
-     (major-mode . makefile-mode)
-     (folded-file . t)))
+     (major-mode . makefile-mode) (folded-file . t)))
  '(scroll-bar-mode 'right)
  '(show-paren-mode t)
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
@@ -89,32 +225,26 @@
  '(vc-annotate-background nil)
  '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map
-   '((20 . "#dc322f")
-     (40 . "#c9485ddd1797")
-     (60 . "#bf7e73b30bcb")
-     (80 . "#b58900")
-     (100 . "#a5a58ee30000")
-     (120 . "#9d9d91910000")
-     (140 . "#9595943e0000")
-     (160 . "#8d8d96eb0000")
-     (180 . "#859900")
-     (200 . "#67119c4632dd")
-     (220 . "#57d79d9d4c4c")
-     (240 . "#489d9ef365ba")
-     (260 . "#3963a04a7f29")
-     (280 . "#2aa198")
-     (300 . "#288e98cbafe2")
-     (320 . "#27c19460bb87")
-     (340 . "#26f38ff5c72c")
-     (360 . "#268bd2")))
+   '((20 . "#dc322f") (40 . "#c9485ddd1797") (60 . "#bf7e73b30bcb")
+     (80 . "#b58900") (100 . "#a5a58ee30000") (120 . "#9d9d91910000")
+     (140 . "#9595943e0000") (160 . "#8d8d96eb0000") (180 . "#859900")
+     (200 . "#67119c4632dd") (220 . "#57d79d9d4c4c")
+     (240 . "#489d9ef365ba") (260 . "#3963a04a7f29") (280 . "#2aa198")
+     (300 . "#288e98cbafe2") (320 . "#27c19460bb87")
+     (340 . "#26f38ff5c72c") (360 . "#268bd2")))
  '(vc-annotate-very-old-color nil)
  '(warning-suppress-types '((emacs) (comp)))
  '(weechat-color-list
-   '(unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83"))
+   '(unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00"
+		 "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2"
+		 "#93115C" "#d33682" "#00736F" "#2aa198" "#839496"
+		 "#657b83"))
  '(xterm-color-names
-   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198"
+    "#eee8d5"])
  '(xterm-color-names-bright
-   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
+   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1"
+    "#fdf6e3"]))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
