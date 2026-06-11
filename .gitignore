@@ -9,3 +9,26 @@ network-security.data
 /.dotfiles/.gnupg/ran
 /.dotfiles/.gnupg/random_seed
 .dotfiles/.gnupg/random_seed
+
+# macOS
+.DS_Store
+
+# Backups / scratch
+Ports.bak
+*.old
+
+# Emacs runtime state & caches (not config — regenerated automatically)
+.dotfiles/.emacs.d/.lsp-session-v1
+.dotfiles/.emacs.d/recentf
+.dotfiles/.emacs.d/org-clock-save.el
+.dotfiles/.emacs.d/org-persist/
+.dotfiles/.emacs.d/transient/
+.dotfiles/.emacs.d/tree-sitter/
+.dotfiles/.emacs.d/forge-database*
+.dotfiles/.emacs.weird
+
+# Secrets — SSH keys, certs, tokens. NEVER commit these.
+.dotfiles/.ssh/bak/
+.dotfiles/.ssh/attcert
+.dotfiles/.ssh/corp_cert
+.dotfiles/.ssh/gNubbyKeyDaemon.gnubby.counter
