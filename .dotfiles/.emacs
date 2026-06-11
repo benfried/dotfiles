@@ -3,6 +3,8 @@
        (list (concat (getenv "HOME")  "/lib/elisp/org/lisp"))
        load-path))
 
+(require 'info)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -16,7 +18,12 @@
    '("~/.anaconda3" "~/miniconda3" "~/mambaforge" "~/anaconda"
      "~/miniconda" "~/mamba" "~/miniforge3"))
  '(connection-local-criteria-alist
-   '(((:application tramp :protocol "kubernetes")
+   '(((:application vc-git) vc-git-connection-default-profile)
+     ((:application tramp :machine "Mac.local")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "muninn.local")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :protocol "kubernetes")
       tramp-kubernetes-connection-local-default-profile)
      ((:application eshell) eshell-connection-default-profile)
      ((:application tramp :protocol "flatpak")
@@ -30,7 +37,8 @@
       tramp-connection-local-default-system-profile
       tramp-connection-local-default-shell-profile)))
  '(connection-local-profile-alist
-   '((tramp-flatpak-connection-local-default-profile
+   '((vc-git-connection-default-profile (vc-git--program-version))
+     (tramp-flatpak-connection-local-default-profile
       (tramp-remote-path "/app/bin" tramp-default-remote-path "/bin"
 			 "/usr/bin" "/sbin" "/usr/sbin"
 			 "/usr/local/bin" "/usr/local/sbin"
@@ -178,16 +186,16 @@
  '(package-selected-packages
    '(ac-geiser adoc-mode age async auto-complete cider company
 	       company-emoji concurrent conda counsel ctable dart-mode
-	       dash-at-point deferred edit-server ein elpy emacsql
-	       emacsql-sqlite f forge fuzzy geiser geiser-mit ghub
-	       git-commit gmail-message-mode go-autocomplete go-eldoc
-	       go-mode info-colors ivy jedi jedi-core lsp-mode
-	       lsp-python lsp-python-ms lsp-ui macrostep magit
-	       magit-popup magit-section markdown-mode modus-themes
-	       oauth2 org-bullets osx-plist ox-asciidoc ox-clip ox-gfm
-	       popup projectile python-environment rainbow-delimiters
-	       request sly-repl-ansi-color smartparens solarized-theme
-	       swiper transient web-mode websocket with-editor xwwp
+	       dash-at-point deferred edit-server ein elpy emacsql f
+	       forge fuzzy geiser geiser-mit ghub gmail-message-mode
+	       go-autocomplete go-eldoc go-mode info-colors ivy jedi
+	       jedi-core lsp-mode lsp-python lsp-python-ms lsp-ui
+	       macrostep magit magit-popup magit-section markdown-mode
+	       markup-faces modus-themes oauth2 org-bullets osx-plist
+	       ox-asciidoc ox-clip ox-gfm popup projectile
+	       python-environment rainbow-delimiters request
+	       sly-repl-ansi-color smartparens solarized-theme swiper
+	       transient web-mode websocket with-editor xwwp
 	       xwwp-follow-link-helm yaml yaml-mode yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
@@ -201,15 +209,15 @@
    '((vc-git-annotate-switches . "-w")
      (diff-add-log-use-relative-names . t)
      (eval font-lock-add-keywords nil
-	   `(
-	     (,(concat "("
-		       (regexp-opt
-			'("sp-do-move-op" "sp-do-move-cl"
-			  "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op"
-			  "sp-do-del-cl")
-			t)
-		       "\\_>")
-	      1 'font-lock-variable-name-face)))
+	   `
+	   ((,(concat "("
+		      (regexp-opt
+		       '("sp-do-move-op" "sp-do-move-cl"
+			 "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op"
+			 "sp-do-del-cl")
+		       t)
+		      "\\_>")
+	     1 'font-lock-variable-name-face)))
      (Syntax . ANSI-Common-Lisp) (Base . 10)
      (eval c-make-noise-macro-regexps)
      (c-noise-macro-with-parens-names "IF_LINT") (encoding . utf-8)
@@ -233,18 +241,8 @@
      (300 . "#288e98cbafe2") (320 . "#27c19460bb87")
      (340 . "#26f38ff5c72c") (360 . "#268bd2")))
  '(vc-annotate-very-old-color nil)
- '(warning-suppress-types '((emacs) (comp)))
- '(weechat-color-list
-   '(unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00"
-		 "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2"
-		 "#93115C" "#d33682" "#00736F" "#2aa198" "#839496"
-		 "#657b83"))
- '(xterm-color-names
-   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198"
-    "#eee8d5"])
- '(xterm-color-names-bright
-   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1"
-    "#fdf6e3"]))
+ '(warning-suppress-types '((emacs) (comp))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -264,6 +262,7 @@
  '(org-level-7 ((t (:inherit default :foreground "#dc322f"))))
  '(org-level-8 ((t (:inherit default :foreground "#268bd2"))))
  '(sp-pair-overlay-face ((t (:background "#073642" :inverse-video t)))))
+
 
 ;;; how to colorize mode line?
 

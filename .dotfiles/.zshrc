@@ -4,7 +4,8 @@ ech "entering .zshrc"
 emulate zsh
 . ~/.zshnew
 export ZSH=$HOME/src/oh-my-zsh
-plugins=(brew flutter git golang iterm2 macos macports pip pipenv gcloud)
+# plugins=(brew flutter git golang iterm2 macos macports pip pipenv gcloud)
+plugins=(brew flutter git golang iterm2 macos macports pip gcloud)
 source $ZSH/oh-my-zsh.sh
 setenv () {
         eval "$1=\"$2\""
@@ -166,3 +167,10 @@ if [ -f '/Users/bf/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/bf
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/bf/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bf/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+export PATH="$PATH:/Users/bf/.modular/bin"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/opt/homebrew/opt/ffmpeg-full/bin:$PATH"
+
+# nanobrew
+export PATH="/opt/nanobrew/prefix/bin:$PATH"
+export PATH="/opt/homebrew/opt/ffmpeg-full/bin:$PATH"
