@@ -10,10 +10,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198"
-    "#657b83"])
- '(compilation-message-face 'default)
  '(conda-home-candidates
    '("~/.anaconda3" "~/miniconda3" "~/mambaforge" "~/anaconda"
      "~/miniconda" "~/mamba" "~/miniforge3"))
@@ -22,6 +18,8 @@
      ((:application tramp :machine "Mac.local")
       tramp-connection-local-darwin-ps-profile)
      ((:application tramp :machine "muninn.local")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "max")
       tramp-connection-local-darwin-ps-profile)
      ((:application tramp :protocol "kubernetes")
       tramp-kubernetes-connection-local-default-profile)
@@ -135,10 +133,6 @@
       (shell-file-name . "/bin/sh") (shell-command-switch . "-c"))
      (tramp-connection-local-default-system-profile
       (path-separator . ":") (null-device . "/dev/null"))))
- '(cua-global-mark-cursor-color "#2aa198")
- '(cua-normal-cursor-color "#839496")
- '(cua-overwrite-cursor-color "#b58900")
- '(cua-read-only-cursor-color "#859900")
  '(custom-enabled-themes '(shrek.1))
  '(custom-safe-themes
    '("00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c"
@@ -157,31 +151,10 @@
  '(desktop-save 'ask)
  '(electric-indent-mode t)
  '(elpy-syntax-check-command "/opt/local/bin/pyflakes")
- '(fci-rule-color "#073642")
  '(gnutls-algorithm-priority "normal:-vers-tls1.3")
- '(highlight-changes-colors '("#d33682" "#6c71c4"))
- '(highlight-symbol-colors
-   (--map (solarized-color-blend it "#002b36" 0.25)
-	  '("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900"
-	    "#cb4b16" "#268bd2")))
- '(highlight-symbol-foreground-color "#93a1a1")
- '(highlight-tail-colors
-   '(("#073642" . 0) ("#546E00" . 20) ("#00736F" . 30) ("#00629D" . 50)
-     ("#7B6000" . 60) ("#8B2C02" . 70) ("#93115C" . 85)
-     ("#073642" . 100)))
- '(hl-bg-colors
-   '("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D"
-     "#00736F" "#546E00"))
- '(hl-fg-colors
-   '("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36"
-     "#002b36" "#002b36"))
- '(hl-paren-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(maxima-command "/opt/local/bin/maxima")
- '(nrepl-message-colors
-   '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D"
-     "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Google Drive/notes/notes.org"))
  '(package-selected-packages
    '(ac-geiser adoc-mode age async auto-complete cider company
@@ -199,8 +172,6 @@
 	       xwwp-follow-link-helm yaml yaml-mode yasnippet))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
- '(pos-tip-background-color "#073642")
- '(pos-tip-foreground-color "#93a1a1")
  '(python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter" "jupyter-3.9"))
  '(python-shell-interpreter "/opt/local/bin/jupyter-3.9 ")
  '(python-shell-interpreter-args "console --simple-prompt")
@@ -226,21 +197,7 @@
      (major-mode . makefile-mode) (folded-file . t)))
  '(scroll-bar-mode 'right)
  '(show-paren-mode t)
- '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
- '(term-default-bg-color "#002b36")
- '(term-default-fg-color "#839496")
  '(tool-bar-mode nil)
- '(vc-annotate-background nil)
- '(vc-annotate-background-mode nil)
- '(vc-annotate-color-map
-   '((20 . "#dc322f") (40 . "#c9485ddd1797") (60 . "#bf7e73b30bcb")
-     (80 . "#b58900") (100 . "#a5a58ee30000") (120 . "#9d9d91910000")
-     (140 . "#9595943e0000") (160 . "#8d8d96eb0000") (180 . "#859900")
-     (200 . "#67119c4632dd") (220 . "#57d79d9d4c4c")
-     (240 . "#489d9ef365ba") (260 . "#3963a04a7f29") (280 . "#2aa198")
-     (300 . "#288e98cbafe2") (320 . "#27c19460bb87")
-     (340 . "#26f38ff5c72c") (360 . "#268bd2")))
- '(vc-annotate-very-old-color nil)
  '(warning-suppress-types '((emacs) (comp))))
 
 (custom-set-faces

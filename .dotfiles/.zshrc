@@ -147,9 +147,9 @@ if test -d $HOME/miniforge3; then
 	eval "$__conda_setup"
     else
 	if [ -f "${HOME}/miniforge3/etc/profile.d/conda.sh" ]; then
-	    . "${HOME}/miniforge3/etc/profile.d/conda.sh"
+# . "${HOME}/miniforge3/etc/profile.d/conda.sh"  # commented out by conda initialize
 	else
-	    export PATH="${HOME}/miniforge3/bin:$PATH"
+# export PATH="${HOME}/miniforge3/bin:$PATH"  # commented out by conda initialize
 	fi
     fi
     unset __conda_setup
@@ -167,10 +167,23 @@ if [ -f '/Users/bf/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/bf
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/bf/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bf/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+test ! -e ~/.nofzf && source <(fzf --zsh)
 export PATH="$PATH:/Users/bf/.modular/bin"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/opt/homebrew/opt/ffmpeg-full/bin:$PATH"
 
 # nanobrew
 export PATH="/opt/nanobrew/prefix/bin:$PATH"
-export PATH="/opt/homebrew/opt/ffmpeg-full/bin:$PATH"
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba shell init' !!
+export MAMBA_EXE='/Users/bf/miniforge3/bin/mamba';
+export MAMBA_ROOT_PREFIX='/Users/bf/miniforge3';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
