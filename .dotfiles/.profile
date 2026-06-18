@@ -7,3 +7,7 @@ GOPATH=~/gocode
 PATH=/opt/local/bin:$PATH:$GOROOT/bin
 export PATH GOROOT GOPATH
 test -f "$HOME/.cargo/env" && . "$HOME/.cargo/env"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/bf/.local/bin:$PATH"

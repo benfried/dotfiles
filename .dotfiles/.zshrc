@@ -160,6 +160,8 @@ export PS1='%B%m${${CONDA_DEFAULT_ENV:#base}:+ ${bs}($CONDA_DEFAULT_ENV)%f}%(!.%
 export GUILE_LOAD_PATH="/opt/homebrew/share/guile/site/3.0"
 export GUILE_LOAD_COMPILED_PATH="/opt/homebrew/lib/guile/3.0/site-ccache"
 export GUILE_SYSTEM_EXTENSIONS_PATH="/opt/homebrew/lib/guile/3.0/extensions"
+export MODULAR_HOME="/Users/bf/.modular"
+export PATH="/Users/bf/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
 ech "leaving .zshrc"
 
 # The next line updates PATH for the Google Cloud SDK.
@@ -187,3 +189,6 @@ else
 fi
 unset __mamba_setup
 # <<< mamba initialize <<<
+
+# Added by Antigravity CLI installer
+export PATH="/Users/bf/.local/bin:$PATH"
