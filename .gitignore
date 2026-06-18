@@ -25,6 +25,7 @@ Ports.bak
 .dotfiles/.emacs.d/transient/
 .dotfiles/.emacs.d/tree-sitter/
 .dotfiles/.emacs.d/forge-database*
+.dotfiles/.emacs.d/abbrev_defs
 .dotfiles/.emacs.weird
 
 # Secrets — SSH keys, certs, tokens. NEVER commit these.
