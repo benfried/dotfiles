@@ -1,3 +1,5 @@
+zmodload zsh/zprof
+typeset -U fpath path PATH
 alias ech=echo
 alias ech=true
 ech "entering .zshrc"
@@ -46,6 +48,8 @@ export WORDCHARS='*_-[]~=;!#$%^(){}<>'
 #		autoload $j
 #	done
 #done
+
+
 
 if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
     test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
@@ -139,22 +143,44 @@ compctl -k '(if of conv ibs obs bs cbs files skip file seek count)' \
 	-k '(ascii ebcdic ibm block unblock lcase ucase swap noerror sync)' \
 	-q -S ',' - 'n[-1,=]' -X '<number>'  -- dd
 
-if test -d $HOME/miniforge3; then
-    # >>> conda initialize >>>
-    # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$(${HOME}'/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-	eval "$__conda_setup"
-    else
-	if [ -f "${HOME}/miniforge3/etc/profile.d/conda.sh" ]; then
-# . "${HOME}/miniforge3/etc/profile.d/conda.sh"  # commented out by conda initialize
+__lazy_conda_init() {
+    unfunction conda mamba __lazy_conda_init 2>/dev/null
+
+    local conda_prefix="$HOME/miniforge3"
+    export CONDA_AUTO_ACTIVATE_BASE=false
+
+    if [[ -x "$conda_prefix/bin/conda" ]]; then
+	local __conda_setup
+	__conda_setup="$("$conda_prefix/bin/conda" shell.zsh hook 2>/dev/null)"
+	if [[ $? -eq 0 ]]; then
+	    eval "$__conda_setup"
+	elif [[ -f "$conda_prefix/etc/profile.d/conda.sh" ]]; then
+	    . "$conda_prefix/etc/profile.d/conda.sh"
 	else
-# export PATH="${HOME}/miniforge3/bin:$PATH"  # commented out by conda initialize
+	    export PATH="$conda_prefix/bin:$PATH"
 	fi
+	unset __conda_setup
     fi
-    unset __conda_setup
-    # <<< conda initialize <<<
-fi
+
+    if [[ -x "$conda_prefix/bin/mamba" ]]; then
+	export MAMBA_EXE="$conda_prefix/bin/mamba"
+	export MAMBA_ROOT_PREFIX="$conda_prefix"
+	local __mamba_setup
+	__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2>/dev/null)"
+	[[ $? -eq 0 ]] && eval "$__mamba_setup"
+	unset __mamba_setup
+    fi
+}
+
+conda() {
+    __lazy_conda_init
+    conda "$@"
+}
+
+mamba() {
+    __lazy_conda_init
+    mamba "$@"
+}
 
 export PS1='%B%m${${CONDA_DEFAULT_ENV:#base}:+ ${bs}($CONDA_DEFAULT_ENV)%f}%(!.%F{yellow}#%f.$)%b '
 export GUILE_LOAD_PATH="/opt/homebrew/share/guile/site/3.0"
@@ -177,18 +203,6 @@ export PATH="/opt/homebrew/opt/ffmpeg-full/bin:$PATH"
 # nanobrew
 export PATH="/opt/nanobrew/prefix/bin:$PATH"
 
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba shell init' !!
-export MAMBA_EXE='/Users/bf/miniforge3/bin/mamba';
-export MAMBA_ROOT_PREFIX='/Users/bf/miniforge3';
-__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
-else
-    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
-fi
-unset __mamba_setup
-# <<< mamba initialize <<<
-
 # Added by Antigravity CLI installer
 export PATH="/Users/bf/.local/bin:$PATH"
+zprof
