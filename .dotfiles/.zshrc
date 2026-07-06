@@ -1,4 +1,4 @@
-zmodload zsh/zprof
+# zmodload zsh/zprof
 typeset -U fpath path PATH
 alias ech=echo
 alias ech=true
@@ -205,4 +205,4 @@ export PATH="/opt/nanobrew/prefix/bin:$PATH"
 
 # Added by Antigravity CLI installer
 export PATH="/Users/bf/.local/bin:$PATH"
-zprof
+# zprof
