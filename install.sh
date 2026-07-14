@@ -26,6 +26,7 @@ ln -s ${PWD}/.[A-Za-z]* ~/
 
 if [ $(uname) = "Darwin"]; then
     ln -s ~/.tmux.conf.mac ~/.tmux.conf
+    echo "Don't forget to run brew bundle install ~/src/dotfiles/Brewfile"
 else
     ln -s ~/.tmux.conf.non-mac ~/.tmux.conf
 fi    

@@ -4,7 +4,6 @@
        load-path))
 
 (require 'info)
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -14,7 +13,23 @@
    '("~/.anaconda3" "~/miniconda3" "~/mambaforge" "~/anaconda"
      "~/miniconda" "~/mamba" "~/miniforge3"))
  '(connection-local-criteria-alist
-   '(((:application vc-git) vc-git-connection-default-profile)
+   '(((:application tramp :machine "ipv6-loopback")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "ipv6-localhost")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "ip6-loopback")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "ip6-localhost")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "localhost6")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "localhost4")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "::1")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "127.0.0.1")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application vc-git) vc-git-connection-default-profile)
      ((:application tramp :machine "Mac.local")
       tramp-connection-local-darwin-ps-profile)
      ((:application tramp :machine "muninn.local")
@@ -132,7 +147,8 @@
      (tramp-connection-local-default-shell-profile
       (shell-file-name . "/bin/sh") (shell-command-switch . "-c"))
      (tramp-connection-local-default-system-profile
-      (path-separator . ":") (null-device . "/dev/null"))))
+      (path-separator . ":") (null-device . "/dev/null")
+      (exec-suffixes ""))))
  '(custom-enabled-themes '(shrek.1))
  '(custom-safe-themes
    '("00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c"
@@ -160,16 +176,20 @@
    '(ac-geiser adoc-mode age async auto-complete cider company
 	       company-emoji concurrent conda counsel ctable dart-mode
 	       dash-at-point deferred edit-server ein elpy emacsql f
-	       forge fuzzy geiser geiser-mit ghub gmail-message-mode
-	       go-autocomplete go-eldoc go-mode info-colors ivy jedi
-	       jedi-core lsp-mode lsp-python lsp-python-ms lsp-ui
-	       macrostep magit magit-popup magit-section markdown-mode
-	       markup-faces modus-themes oauth2 org-bullets osx-plist
-	       ox-asciidoc ox-clip ox-gfm popup projectile
-	       python-environment rainbow-delimiters request
-	       sly-repl-ansi-color smartparens solarized-theme swiper
-	       transient web-mode websocket with-editor xwwp
-	       xwwp-follow-link-helm yaml yaml-mode yasnippet))
+	       forge fuzzy geiser geiser-mit ghostel ghub
+	       gmail-message-mode go-autocomplete go-eldoc go-mode
+	       info-colors ivy jedi jedi-core lsp-mode lsp-python
+	       lsp-python-ms lsp-ui macrostep magit magit-popup
+	       magit-section markdown-mode markup-faces modus-themes
+	       oauth2 org-bullets osx-plist ox-asciidoc ox-clip ox-gfm
+	       popup projectile python-environment rainbow-delimiters
+	       reader request sly-repl-ansi-color smartparens
+	       solarized-theme swiper transient web-mode websocket
+	       with-editor xwwp xwwp-follow-link-helm yaml yaml-mode
+	       yasnippet))
+ '(package-vc-selected-packages
+   '((reader :url "https://codeberg.org/MonadicSheep/emacs-reader" :make
+	     "all")))
  '(paren-match-face 'highlight)
  '(paren-sexp-mode t)
  '(python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter" "jupyter-3.9"))
@@ -198,6 +218,8 @@
  '(scroll-bar-mode 'right)
  '(show-paren-mode t)
  '(tool-bar-mode nil)
+ '(treesit-auto-install-grammar t)
+ '(treesit-enabled-modes t)
  '(warning-suppress-types '((emacs) (comp))))
 
 (custom-set-faces
@@ -205,7 +227,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "Black" :foreground "White" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "apple" :family "Hack"))))
+; '(default ((t (:inherit nil :stipple nil :background "Black" :foreground "White" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 180 :width normal :foundry "apple" :family "BerkeleyMono Nerd Font"))))
+ '(default ((t (:inherit nil :stipple nil :background "Black" :foreground "White" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 180 :width normal :foundry "apple" :family "MonoLisa Nerd Font Mono"))))
  '(cursor ((t (:background "yellow"))))
  '(highlight ((((class color) (min-colors 89)) (:background "#073642"))))
  '(mode-line-buffer-id ((t (:foreground "blue" :background "firebrick" :slant italic :weight bold))))
@@ -1336,3 +1359,8 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (add-hook 'markdown-mode-hook 'markdown-mode-hook-code)
 
 (provide '.emacs)
+
+(setq package-vc-allow-build-commands t)
+(use-package reader
+  :vc (:url "https://codeberg.org/MonadicSheep/emacs-reader"
+  	    :make "all"))
