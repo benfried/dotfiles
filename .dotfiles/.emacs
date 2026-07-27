@@ -29,6 +29,8 @@
       tramp-connection-local-darwin-ps-profile)
      ((:application tramp :machine "127.0.0.1")
       tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "biff.local")
+      tramp-connection-local-darwin-ps-profile)
      ((:application vc-git) vc-git-connection-default-profile)
      ((:application tramp :machine "Mac.local")
       tramp-connection-local-darwin-ps-profile)
