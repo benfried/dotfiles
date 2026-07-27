@@ -34,7 +34,13 @@ Ports.bak
 .\#*
 
 # Secrets — SSH keys, certs, tokens. NEVER commit these.
-.dotfiles/.ssh/bak/
-.dotfiles/.ssh/attcert
-.dotfiles/.ssh/corp_cert
-.dotfiles/.ssh/gNubbyKeyDaemon.gnubby.counter
+#
+# Deny-by-default: ~/.ssh is a symlink to this directory, so anything that lands
+# in ~/.ssh (gcloud drops google_compute_engine there on first `gcloud compute
+# ssh`) lands in the git tree. Naming individual bad files is a losing game —
+# ignore everything and whitelist the three kinds of file that are safe to
+# publish. Add new exceptions only after being sure the file carries no secret.
+.dotfiles/.ssh/*
+!.dotfiles/.ssh/config
+!.dotfiles/.ssh/known_hosts
+!.dotfiles/.ssh/*.pub
