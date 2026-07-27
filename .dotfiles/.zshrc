@@ -7,7 +7,12 @@ emulate zsh
 . ~/.zshnew
 export ZSH=$HOME/src/oh-my-zsh
 # plugins=(brew flutter git golang iterm2 macos macports pip pipenv gcloud)
-plugins=(brew flutter git golang iterm2 macos macports pip gcloud)
+# brew/iterm2/macos/macports are macOS-only and are added just on Darwin; the
+# rest are portable.
+plugins=(flutter git golang pip gcloud)
+if [ "$(uname)" = "Darwin" ]; then
+    plugins+=(brew iterm2 macos macports)
+fi
 source $ZSH/oh-my-zsh.sh
 setenv () {
         eval "$1=\"$2\""
@@ -183,26 +188,32 @@ mamba() {
 }
 
 export PS1='%B%m${${CONDA_DEFAULT_ENV:#base}:+ ${bs}($CONDA_DEFAULT_ENV)%f}%(!.%F{yellow}#%f.$)%b '
-export GUILE_LOAD_PATH="/opt/homebrew/share/guile/site/3.0"
-export GUILE_LOAD_COMPILED_PATH="/opt/homebrew/lib/guile/3.0/site-ccache"
-export GUILE_SYSTEM_EXTENSIONS_PATH="/opt/homebrew/lib/guile/3.0/extensions"
-export MODULAR_HOME="/Users/bf/.modular"
-export PATH="/Users/bf/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
+# Everything below is optional tooling that lives at a fixed path on this Mac.
+# Each is guarded so a host without it stays quiet instead of exporting paths to
+# nonexistent directories (or, for fzf, erroring outright).
+if [ -d /opt/homebrew/share/guile/site/3.0 ]; then
+    export GUILE_LOAD_PATH="/opt/homebrew/share/guile/site/3.0"
+    export GUILE_LOAD_COMPILED_PATH="/opt/homebrew/lib/guile/3.0/site-ccache"
+    export GUILE_SYSTEM_EXTENSIONS_PATH="/opt/homebrew/lib/guile/3.0/extensions"
+fi
+if [ -d "$HOME/.modular" ]; then
+    export MODULAR_HOME="$HOME/.modular"
+    test -d "$HOME/.modular/pkg/packages.modular.com_mojo/bin" && \
+        export PATH="$HOME/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
+    test -d "$HOME/.modular/bin" && export PATH="$PATH:$HOME/.modular/bin"
+fi
 ech "leaving .zshrc"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/bf/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/bf/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$HOME/Downloads/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Downloads/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/bf/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bf/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-test ! -e ~/.nofzf && source <(fzf --zsh)
-export PATH="$PATH:/Users/bf/.modular/bin"
+if [ -f "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc"; fi
+# `source <(fzf --zsh)` aborts the rest of this file if fzf is not installed.
+test ! -e ~/.nofzf && command -v fzf >/dev/null 2>&1 && source <(fzf --zsh)
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="/opt/homebrew/opt/ffmpeg-full/bin:$PATH"
+test -d /opt/homebrew/opt/ffmpeg-full/bin && export PATH="/opt/homebrew/opt/ffmpeg-full/bin:$PATH"
 
 # nanobrew
-export PATH="/opt/nanobrew/prefix/bin:$PATH"
-
-# Added by Antigravity CLI installer
-export PATH="/Users/bf/.local/bin:$PATH"
+test -d /opt/nanobrew/prefix/bin && export PATH="/opt/nanobrew/prefix/bin:$PATH"
 # zprof

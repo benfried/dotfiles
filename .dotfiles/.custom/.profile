@@ -1,5 +1,7 @@
 # stty dec
-stty erase '^?' intr '^c' kill '^u'
+# Guarded on a tty: `ssh host cmd` sources this with stdin not a terminal, and
+# stty then errors with "Inappropriate ioctl for device" on every invocation.
+test -t 0 && stty erase '^?' intr '^c' kill '^u'
 # echo "entering .custom/.profile"
 #function myappend { test -d $2 && eval $1=$PATH:$2; }
 #function myprepend { test -d $2 && eval PATH=$2:$PATH; }

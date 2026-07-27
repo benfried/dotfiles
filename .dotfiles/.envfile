@@ -21,7 +21,13 @@ alias b="print -n \"`clear`\""
 alias j="jobs -l"
 alias z="kill -STOP $$"
 alias cls=b
-alias ls="ls -FG"
+# -G means "colorize" to BSD ls but "omit the group column" to GNU ls, so it
+# silently does the wrong thing on Linux. --color=auto is the GNU spelling.
+if ls --color=auto -d . >/dev/null 2>&1; then
+	alias ls="ls -F --color=auto"
+else
+	alias ls="ls -FG"
+fi
 alias h='fc -l'
 alias yell=yellow
 alias md=mkdir rd=rmdir
