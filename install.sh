@@ -95,7 +95,7 @@ chmod -R go-rwx "${PWD}/.ssh"
 
 if [ "$(uname)" = "Darwin" ]; then
     ln -sfn ~/.tmux.conf.mac ~/.tmux.conf
-    echo "Don't forget to run brew bundle install ~/src/dotfiles/Brewfile"
+    echo "Don't forget to run: brew bundle install --file=${DOTFILES_SRC}/Brewfile"
 else
     ln -sfn ~/.tmux.conf.non-mac ~/.tmux.conf
 fi
