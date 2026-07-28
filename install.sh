@@ -40,11 +40,12 @@ echo "backing up old dotfiles to $HOME/.dotfiles/${da}"
 
 mkdir -p .dotfiles/${da} || { echo "error in mkdir"; exit 1 }
 set -o extendedglob
-# .ssh is excluded deliberately -- see the ~/.ssh section below. Deleting it
-# here would take authorized_keys with it, which on a cloud VM is machine-owned
-# rather than ours.
-cp -rp .[A-Za-z]*~(.Trash|.dotfiles|.ssh) .dotfiles/${da}/ || { echo "error copying files"; exit 1 }
-rm -rf .[A-Za-z]*~(.Trash|.dotfiles|.ssh) || { echo "error deleting old dotfiles after backing up"; exit 1 }
+# .ssh and .config are excluded deliberately -- see their sections below. Both
+# are directories other software owns and writes to: .ssh holds authorized_keys,
+# which on a cloud VM is machine-owned, and .config holds live state for a large
+# number of unrelated applications. Only named files inside them are linked.
+cp -rp .[A-Za-z]*~(.Trash|.dotfiles|.ssh|.config) .dotfiles/${da}/ || { echo "error copying files"; exit 1 }
+rm -rf .[A-Za-z]*~(.Trash|.dotfiles|.ssh|.config) || { echo "error deleting old dotfiles after backing up"; exit 1 }
 
 popd
 
@@ -54,12 +55,35 @@ fi
 
 cd .dotfiles
 
-# Everything except .ssh gets symlinked wholesale. No parentheses around the
-# ~ exclusion: with a single alternative zsh reads (.ssh) as glob qualifiers
-# rather than a pattern group, and dies with "unknown file attribute".
-for f in .[A-Za-z]*~.ssh; do
+# Everything except .ssh and .config gets symlinked wholesale.
+for f in .[A-Za-z]*~(.ssh|.config); do
     ln -sfn "${PWD}/$f" ~/ || echo "warning: could not link $f"
 done
+
+# ~/.config, like ~/.ssh, is a directory owned by other software -- symlinking
+# the whole thing into this repo would drag every application's state in with
+# it. Create the directories for real and link only the files we manage.
+for rel in ghostty/config; do
+    if [ -f "${PWD}/.config/${rel}" ]; then
+        mkdir -p ~/.config/"$(dirname "$rel")"
+        ln -sfn "${PWD}/.config/${rel}" ~/.config/"${rel}"
+    fi
+done
+
+# Ghostty ships its terminfo only inside its own app bundle, so a host you ssh
+# INTO does not know TERM=xterm-ghostty and curses programs break outright.
+# Ghostty's ssh-terminfo shell integration handles the common case, but not a
+# tmux session that outlives the ssh which seeded it, a root shell after
+# sudo -i, or a connection from some other client -- so install it here too.
+# Skipped where the entry already resolves, which includes the Mac running
+# Ghostty itself.
+if command -v tic >/dev/null 2>&1 && ! infocmp xterm-ghostty >/dev/null 2>&1; then
+    if tic -x -o ~/.terminfo "${DOTFILES_SRC}/terminfo/xterm-ghostty.terminfo" 2>/dev/null; then
+        echo "installed xterm-ghostty terminfo into ~/.terminfo"
+    else
+        echo "warning: could not install xterm-ghostty terminfo" 1>&2
+    fi
+fi
 
 # ~/.ssh is handled per-file rather than symlinked as a directory.
 #

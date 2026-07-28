@@ -52,7 +52,7 @@ The installer picks `.tmux.conf.mac` or `.tmux.conf.non-mac` by `uname`, and the
 shell configs gate macOS-only paths (Homebrew, MacPorts, OrbStack, iTerm2) on
 existence, so the same tree works on both.
 
-## How `~/.ssh` is handled
+## How `~/.ssh` and `~/.config` are handled
 
 `~/.ssh` is **not** symlinked as a whole directory. The installer creates it as
 a real directory (mode 700) and links only two non-secret files out of the repo:
@@ -73,6 +73,11 @@ except `config`, `known_hosts`, and `*.pub`.
 If `install.sh` reports that `~/.ssh` is a symlink, that's the old layout. It
 refuses to migrate automatically, because relocating private key material should
 be deliberate. Follow the instructions it prints.
+
+`~/.config` gets the same treatment for the same reason — it holds live state
+for a great many unrelated applications, so it is created as a real directory
+and only named files are linked out of the repo. The list is the `for rel in …`
+loop in `install.sh`; add to it when you put a new file under `.dotfiles/.config/`.
 
 ## GCP VM access
 
@@ -167,6 +172,49 @@ keychain's.
 **The agent socket lives under `~/.ssh/agent/`.** On a machine still using the
 old whole-directory symlink layout that puts it inside the git tree; the
 deny-by-default `.gitignore` covers it.
+
+## Ghostty and terminfo
+
+Ghostty sets `TERM=xterm-ghostty` and ships that terminfo entry only inside its
+own app bundle. A host you SSH into therefore doesn't recognise it, and curses
+programs fail outright — `tput` errors, `infocmp` reports no match. This is
+handled at two levels.
+
+**On the Ghostty side**, `.config/ghostty/config` enables two shell-integration
+features that are *off* by default:
+
+```
+shell-integration-features = cursor,sudo,title,path,ssh-env,ssh-terminfo
+```
+
+`ssh-terminfo` installs Ghostty's terminfo on remote hosts via `infocmp`/`tic`
+and caches which hosts have it; `ssh-env` falls back to `xterm-256color` and
+propagates `COLORTERM` if that fails. This covers every host you connect to,
+including ones that never run `install.sh`. Use `ghostty +ssh-cache` to inspect
+or clear the cache.
+
+Note that `shell-integration-features` **replaces** the entire feature set
+rather than adding to it, so it must appear exactly once — a second occurrence
+silently discards the first, including any defaults you were relying on. Keep it
+on one line.
+
+**On the host side**, `install.sh` compiles `terminfo/xterm-ghostty.terminfo`
+into `~/.terminfo` when `tic` exists and the entry isn't already known. This
+covers what the Ghostty-side integration can't: a `tmux` session that outlives
+the ssh which seeded it, a root shell after `sudo -i` (which won't consult your
+`~/.terminfo`), `mosh`, or connecting from a different client.
+
+Refresh the committed copy after a Ghostty upgrade:
+
+```sh
+infocmp -x xterm-ghostty > terminfo/xterm-ghostty.terminfo
+```
+
+For a host that will never get these dotfiles:
+
+```sh
+infocmp -x xterm-ghostty | ssh HOST -- tic -x -
+```
 
 ## Notes on GCE Ubuntu images
 

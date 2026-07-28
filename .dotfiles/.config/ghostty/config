@@ -1,0 +1,23 @@
+# font-family = BerkeleyMono Nerd Font Mono
+font-family = BerkeleyMono Nerd Font Mono Plus Font Awesome Plus Font Awesome Extension Plus Octicons Plus Power Symbols Plus Codicons Plus Pomicons Plus Font Logos Plus Material Design Icons Plus Weather Icons
+cursor-style = block
+font-size = 18
+
+theme = Apple Classic
+background = black
+# theme = iterm2 Default
+
+scrollback-limit = 9999999
+keybind = grave_accent=text:\x1b
+keybind = escape=text:\x60
+
+keybind = shift+enter=text:\n
+
+# Must be a SINGLE line: this key REPLACES the whole feature set rather than
+# adding to it, so a second occurrence silently discards the first. Listing the
+# defaults (cursor, title, path) explicitly keeps that from biting again.
+#
+# ssh-terminfo installs Ghostty's terminfo on remote hosts via infocmp/tic, so
+# TERM=xterm-ghostty works there; ssh-env falls back to xterm-256color and
+# propagates COLORTERM if that install fails. Both are off by default.
+shell-integration-features = cursor,sudo,title,path,ssh-env,ssh-terminfo
