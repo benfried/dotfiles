@@ -205,6 +205,51 @@ note()
 	fi
 }
 
+# Remote desktop (XFCE) on carbonsteel, over an SSH tunnel.
+#
+#	vnc		bring the tunnel up if it is down, then open a viewer
+#	vncdown		drop the tunnel
+#
+# There is nothing to start on the far end: tigervncserver@:1 is a systemd
+# unit, enabled, so the session survives reboots and outlives every client.
+# To poke at it there: sudo systemctl {status,restart,stop} tigervncserver@:1
+#
+# The server binds 127.0.0.1 only, so the forward is not an optimisation, it is
+# the whole access path -- see Host carbonsteel-vnc in .ssh/config. A viewer
+# warning about the connection being unencrypted is expected and safe to
+# dismiss: SSH is carrying it, and nothing but sshd is exposed on that box.
+#
+# `ssh -f` rather than a trailing &, so that ssh forks only AFTER authenticating
+# and any passphrase prompt still reaches the terminal. In practice keychain has
+# the key cached, so this is silent except on the first connection after a boot.
+vnc()
+{
+	# -O check queries the multiplexing master, which unlike `nc -z` says
+	# whether OUR tunnel is alive rather than whether the port is occupied.
+	if ssh -O check carbonsteel-vnc 2>/dev/null; then
+		:
+	else
+		echo "vnc: bringing up tunnel..."
+		ssh -f -N carbonsteel-vnc || return 1
+	fi
+	if [ "`uname -s`" = Darwin ]; then
+		open vnc://localhost:5901		# Screen Sharing.app
+	else
+		vncviewer localhost:5901
+	fi
+}
+
+# The tunnel is otherwise reaped by ControlPersist a few minutes after the last
+# client goes away; this is only for when you want the port back now.
+#
+# Not vnc-down: this file is installed as $ENV (see .zprofile), so /bin/sh reads
+# it too, and a hyphen in a function name is a parse error there -- one that
+# takes the entire file down with it, not just the function.
+vncdown()
+{
+	ssh -O exit carbonsteel-vnc 2>/dev/null
+}
+
 ERR=ERR
 debug=0
 test $debug -gt 0 && echo "$0 '${0%zsh}'"

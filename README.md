@@ -124,6 +124,88 @@ Note that `gcloud compute instances add-metadata` **replaces** the entire
 thing; passing only the new key would silently delete every other machine's
 access.
 
+## Remote desktop on carbonsteel
+
+An XFCE session over VNC, reached through an SSH tunnel. From the Mac:
+
+```sh
+vnc        # bring the tunnel up if it is down, then open Screen Sharing
+vncdown    # drop the tunnel
+```
+
+Both are functions in `.envfile`. `vnc` is idempotent — it asks the existing
+connection whether it is alive (`ssh -O check`) rather than guessing from
+whoever holds port 5901, so running it twice is harmless.
+
+**The tunnel is the only access path, not a convenience.** Xtigervnc binds
+`127.0.0.1` and nothing else, so the desktop is unreachable from the network
+even with credentials. VNC's own authentication is weak — 8-character passwords,
+and a protocol nobody should expose — so none of it is load-bearing here. SSH
+carries the session, which is why your viewer's "unencrypted connection" warning
+is both correct in general and safe to dismiss for this specific case.
+
+`Host carbonsteel-vnc` in `.ssh/config` is plain `carbonsteel` plus the forward.
+It's a separate alias because `ExitOnForwardFailure yes` would otherwise make
+every routine `ssh carbonsteel` fail whenever a tunnel was already up.
+
+### Server side
+
+Nothing to start by hand — it's a systemd unit, so the session survives reboots
+and outlives every client:
+
+```sh
+sudo systemctl status tigervncserver@:1
+sudo systemctl restart tigervncserver@:1     # after editing the config below
+```
+
+**None of this state is in this repo.** It lives on the VM, which is why it's
+written down here:
+
+| Path (on carbonsteel) | What |
+|---|---|
+| `~/.config/tigervnc/config` | `geometry`, `depth`, `localhost=yes`, `alwaysshared` |
+| `~/.config/tigervnc/xstartup` | execs `startxfce4` |
+| `~/.config/tigervnc/passwd` | written by `vncpasswd` |
+| `/etc/tigervnc/vncserver.users` | `:1=ben` — maps the display to the account |
+
+To rebuild it on a fresh VM:
+
+```sh
+sudo apt install -y tigervnc-standalone-server xfce4 xfce4-goodies
+mkdir -p ~/.config/tigervnc
+vncpasswd                                             # needs a TTY
+printf '%s\n' '#!/bin/sh' 'exec startxfce4' > ~/.config/tigervnc/xstartup
+chmod +x ~/.config/tigervnc/xstartup
+printf '%s\n' geometry=1920x1080 depth=24 localhost=yes alwaysshared \
+    > ~/.config/tigervnc/config
+echo ':1=ben' | sudo tee -a /etc/tigervnc/vncserver.users
+sudo systemctl enable --now tigervncserver@:1
+```
+
+Then confirm it is actually private — this is the check that matters, and the
+service path is worth verifying separately from a hand-started server:
+
+```sh
+ss -tlnp | grep 5901        # must say 127.0.0.1, never 0.0.0.0
+```
+
+### Gotchas
+
+**Config lives in `~/.config/tigervnc/`, not `~/.vnc/`.** Every tutorial online
+says `~/.vnc`, and this TigerVNC treats that as a legacy directory it migrates
+from only if the XDG one doesn't already exist. Since `vncpasswd` creates the
+XDG directory on first run, anything you drop in `~/.vnc` afterwards is silently
+ignored — `vncpasswd` appears to have done nothing, and your `xstartup` never
+runs.
+
+**`config` and `config.pl` are different formats.** The first is `key=value`,
+the second is Perl. `config.pl` wins if both exist.
+
+**XFCE logs two harmless errors at startup.** `DPMS extension missing` is
+expected on a virtual display — there's no hardware to power down — and
+xfdesktop fails to load `xubuntu-wallpaper.png` because that package isn't
+installed, giving a plain background. Neither indicates a problem.
+
 ## keychain and the ssh-agent
 
 The `google_compute_engine` key is passphrase-protected. `keychain` means you
