@@ -298,6 +298,77 @@ For a host that will never get these dotfiles:
 infocmp -x xterm-ghostty | ssh HOST -- tic -x -
 ```
 
+## `who`, `users`, and the utmp removal
+
+On Ubuntu 25.10 and later `who` and `users` print **nothing and exit 0**, which
+looks identical to an idle machine. Nothing is misconfigured. utmp is being
+retired for Y2038 safety — `struct utmp` carries a 32-bit `time_t` even on
+64-bit systems — so `/run/utmp` is no longer created, systemd is built `-UTMP`,
+and current sessions live in logind. `/var/log/wtmp` gave way to wtmpdb
+(SQLite, at `/var/log/wtmp.db`) and `lastlog` to lastlog2.
+
+Ubuntu also made `coreutils-from-uutils` the default, and that Rust `who` has
+no logind support. The `gnu-coreutils` package does: GNU coreutils built
+`--enable-systemd`, installed as `gnuwho`, `gnuusers`, and ~100 other
+`gnu`-prefixed binaries alongside uutils rather than replacing it.
+
+`u` in `.envfile` prefers `gnuusers`, then `gusers` (the MacPorts/Homebrew
+name), then `users`, and falls back to `w` only when `users` came back empty.
+That last step is the point: `users` fails silently, so testing its *output*
+rather than its existence is what catches a utmp-less box without
+`gnu-coreutils`.
+
+Accuracy differs by source, and none is strictly right:
+
+| Source | Sees | Caveat |
+|---|---|---|
+| `w -h` | all sessions | includes the VNC desktop |
+| `gnuwho` / `gnuusers` | tty sessions | omits `Type=x11`, so no VNC session |
+| `loginctl list-sessions` | everything | includes sessions whose leader is dead |
+| `who` / `users` (uutils) | nothing | reads the absent utmp |
+
+### The AppArmor override this VM needs
+
+**Machine-local state, not in this repo** — recreate it after a rebuild.
+
+`gnuwho` is confined by the AppArmor profile `who`: the tunable is
+`@{coreutil_dirs}=/{bin/,usr/bin/,usr/bin/gnu,usr/lib/cargo/bin/coreutils/}`,
+and that `usr/bin/gnu` entry makes the profile match `/usr/bin/gnuwho`. But
+`abstractions/wutmp` grants only `/run/systemd/sessions/ r,` — the directory,
+note the trailing slash — never the files inside. So `who` enumerates session
+IDs, is denied every one, and prints nothing while exiting 0. Same silent
+failure as the utmp case, different cause.
+
+The tell is that `/usr/bin/gnuwho` and a byte-identical copy at another path
+behave differently: AppArmor confinement is path-based.
+
+```sh
+sudo tee /etc/apparmor.d/local/who >/dev/null <<'PROFILE'
+/run/systemd/sessions/* r,
+/dev/pts/ r,
+PROFILE
+sudo apparmor_parser -r /etc/apparmor.d/who
+```
+
+`local/who` is the extension point the profile already declares via
+`include if exists <local/who>`. `/dev/pts/` is needed too, or the TTY column
+is silently blank — the profile's comment assumes that lookup goes through
+unmediated `O_PATH`+`fstatat`, which holds for the utmp path but not the logind
+one. Both rules are read-only on world-readable paths, so they grant the
+profile nothing an unconfined process of yours could not already read.
+
+To revert: delete the file and re-run `apparmor_parser -r`. To check for
+breakage, count denials around a run:
+
+```sh
+sudo dmesg | grep -c 'apparmor="DENIED"'
+```
+
+This is an Ubuntu bug worth reporting (`ubuntu-bug apparmor`): the profile was
+taught about `gnu`-prefixed binaries, but the abstraction was never updated for
+what a logind-aware `who` actually reads. Drop the override once it is fixed
+upstream.
+
 ## Notes on GCE Ubuntu images
 
 They ship *minimized*: `/etc/dpkg/dpkg.cfg.d/excludes` contains

@@ -37,7 +37,8 @@ alias imr="im | egrep -v 'owner|rdist|web|www|notifyd'"
 alias pd=pushd
 alias root=su
 alias n=note
-alias u=users
+# u is a function further down -- utmp is gone on newer Linux, so plain
+# `users` cannot be relied on. An alias here would shadow that definition.
 umask 22
 su()
 {
@@ -202,6 +203,52 @@ note()
 		cat >> $nf
 	else
 		echo $@ >> $nf
+	fi
+}
+
+# Who is logged in -- formerly `alias u=users`.
+#
+# utmp is being retired for Y2038 safety: /run/utmp no longer exists on Ubuntu
+# 25.10+, systemd is built -UTMP, and current sessions live in logind instead.
+# users(1) still reads utmp, so on those systems it prints nothing AND EXITS 0
+# -- indistinguishable from nobody being logged in. That silence is the whole
+# reason this is a function rather than an alias.
+#
+# Tried in order, so the same definition works everywhere:
+#   gnuusers  Ubuntu 25.10+, from the gnu-coreutils package (GNU coreutils
+#             built --enable-systemd, so it queries logind). Note the default
+#             /usr/bin/users there is uutils, which has no logind support.
+#   gusers    same binary under the name MacPorts and Homebrew give it, for a
+#             Mac with GNU coreutils installed.
+#   users     correct on macOS (which still keeps utmpx) and on any Linux
+#             predating the utmp removal.
+#   w         last resort, for a utmp-less system without gnu-coreutils, where
+#             users would otherwise be silently empty. Only consulted when
+#             users produced nothing, so a genuinely empty system still just
+#             prints nothing.
+#
+# `command -v` rather than `which`: POSIX, and a builtin everywhere this file
+# is read. Guarding on the command existing rather than on `uname` keeps this
+# working on a Mac without GNU coreutils and on an Ubuntu old enough to still
+# have utmp.
+u()
+{
+	# `local`, not the `typeset` used elsewhere in this file: dash has no
+	# typeset and prints "typeset: not found" on every call, and dash is
+	# /bin/sh here. local is a builtin in dash, bash and zsh alike.
+	local out
+	if command -v gnuusers >/dev/null 2>&1; then
+		gnuusers
+	elif command -v gusers >/dev/null 2>&1; then
+		gusers
+	else
+		out=`users 2>/dev/null`
+		if [ -n "$out" ]; then
+			echo "$out"
+		else
+			w -h 2>/dev/null | awk '{print $1}' | sort | tr '\n' ' '
+			echo
+		fi
 	fi
 }
 
