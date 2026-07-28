@@ -7,8 +7,6 @@
 [user]
 	name = Ben Fried
 	email = ben.fried@gmail.com
-[core]
-	editor = /Users/bf/bin/emacsclient
 [alias]
 	co = checkout
 	ci = commit
@@ -18,7 +16,12 @@
 	type = cat-file -t
 	dump = cat-file -p
 
-[includeIf "gitdir:/Users"]
+# The trailing slash is load-bearing: git appends ** only to patterns that end
+# in one, so "gitdir:/Users" matches a gitdir equal to /Users and nothing else,
+# which no real repository ever is. Without it this include silently never
+# fired. Check with `git config --get credential.helper` in a repo under
+# /Users -- it should say osxkeychain.
+[includeIf "gitdir:/Users/"]
 	path = ~/.gitconfig-macos
 
 [help]
@@ -39,5 +42,3 @@
 	helper = !gh auth git-credential
 [init]
 	defaultBranch = main
-[maintenance]
-	repo = /Users/bf/src/flutter

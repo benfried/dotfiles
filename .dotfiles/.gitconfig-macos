@@ -1,2 +1,16 @@
+# Included from .gitconfig via `includeIf "gitdir:/Users"` -- i.e. only for
+# repos under /Users, which stands in for "this is the Mac". Anything naming an
+# absolute /Users path or a macOS-only helper belongs here rather than in the
+# shared .gitconfig, or Linux inherits a path that does not exist.
+
 [credential]
 	helper = osxkeychain
+
+[core]
+	# Largely redundant with the EDITOR that .zprofile works out, and kept for
+	# git invoked outside a login shell -- GUI clients, launchd -- which never
+	# reads .zprofile and would otherwise fall back to vi.
+	editor = /Users/bf/bin/emacsclient
+
+[maintenance]
+	repo = /Users/bf/src/flutter
