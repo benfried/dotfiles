@@ -1,6 +1,6 @@
 ;;; ob-emacs-lisp.el --- Babel Functions for Emacs-lisp Code -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2009-2026 Free Software Foundation, Inc.
 
 ;; Author: Eric Schulte
 ;; Keywords: literate programming, reproducible research
@@ -27,12 +27,10 @@
 
 ;;; Code:
 
-(require 'ob-core)
+(require 'org-macs)
+(org-assert-version)
 
-(declare-function org-babel--get-vars "ob" (params))
-(declare-function org-babel-result-cond "ob" (result-params scalar-form &rest table-forms))
-(declare-function org-babel-reassemble-table "ob" (table colnames rownames))
-(declare-function org-babel-pick-name "ob" (names selector))
+(require 'ob-core)
 
 (defconst org-babel-header-args:emacs-lisp '((lexical . :any))
   "Emacs-lisp specific header arguments.")
@@ -50,18 +48,23 @@ by `org-edit-src-code'.")
   "Expand BODY according to PARAMS, return the expanded body."
   (let ((vars (org-babel--get-vars params))
 	(print-level nil)
-	(print-length nil))
-    (if (null vars) (concat body "\n")
-      (format "(let (%s)\n%s\n)"
+	(print-length nil)
+        (prologue (cdr (assq :prologue params)))
+        (epilogue (cdr (assq :epilogue params))))
+    (if (null vars) body
+      (format "(let (%s)\n%s%s%s\n)"
 	      (mapconcat
 	       (lambda (var)
-		 (format "%S" (print `(,(car var) ',(cdr var)))))
+		 (format "%S" `(,(car var) ',(cdr var))))
 	       vars "\n      ")
-	      body))))
+              (if prologue (concat prologue "\n      ") "")
+	      body
+              (if epilogue (concat "\n      " epilogue "\n") "")))))
 
 (defun org-babel-execute:emacs-lisp (body params)
-  "Execute a block of emacs-lisp code with Babel."
+  "Execute emacs-lisp code BODY according to PARAMS."
   (let* ((lexical (cdr (assq :lexical params)))
+         (session (cdr (assq :session params)))
 	 (result-params (cdr (assq :result-params params)))
 	 (body (format (if (member "output" result-params)
 			   "(with-output-to-string %s\n)"
@@ -69,9 +72,11 @@ by `org-edit-src-code'.")
 		       (org-babel-expand-body:emacs-lisp body params)))
 	 (result (eval (read (if (or (member "code" result-params)
 				     (member "pp" result-params))
-				 (concat "(pp " body ")")
+				 (concat "(pp-to-string " body ")")
 			       body))
 		       (org-babel-emacs-lisp-lexical lexical))))
+    (when (and session (not (equal session "none")))
+      (error "ob-emacs-lisp backend does not support sessions"))
     (org-babel-result-cond result-params
       (let ((print-level nil)
             (print-length nil))
@@ -92,16 +97,21 @@ Convert LEXICAL into the form appropriate for `lexical-binding'
 and the LEXICAL argument to `eval'."
   (if (listp lexical)
       lexical
-    (not (null (member lexical '("yes" "t"))))))
+    (not (null (member lexical '("yes" "t" t))))))
 
 (defun org-babel-edit-prep:emacs-lisp (info)
   "Set `lexical-binding' in Org edit buffer.
 Set `lexical-binding' in Org edit buffer according to the
-corresponding :lexical source block argument."
+corresponding :lexical source block argument provided in the INFO
+channel, as returned by `org-babel-get-src-block-info'."
   (setq lexical-binding
         (org-babel-emacs-lisp-lexical
          (org-babel-read
           (cdr (assq :lexical (nth 2 info)))))))
+
+(defun org-babel-prep-session:emacs-lisp (_session _params)
+  "Return an error because we do not support sessions."
+  (error "ob-emacs-lisp backend does not support sessions"))
 
 (org-babel-make-language-alias "elisp" "emacs-lisp")
 

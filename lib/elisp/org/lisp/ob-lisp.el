@@ -1,6 +1,6 @@
 ;;; ob-lisp.el --- Babel Functions for Common Lisp   -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2009-2026 Free Software Foundation, Inc.
 
 ;; Authors: Joel Boehland
 ;;	 Eric Schulte
@@ -36,6 +36,10 @@
 ;; - https://common-lisp.net/project/slime/
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 (require 'org-macs)
 
@@ -57,66 +61,77 @@ Valid values include `slime-eval' and `sly-eval'."
   :type 'symbol)
 
 (defcustom org-babel-lisp-dir-fmt
-  "(let ((*default-pathname-defaults* #P%S\n)) %%s\n)"
+  "(cl:let ((cl:*default-pathname-defaults* #P%S\n)) %%s\n)"
   "Format string used to wrap code bodies to set the current directory.
 For example a value of \"(progn ;; %s\\n   %%s)\" would ignore the
 current directory string."
   :group 'org-babel
-  :version "24.1"
-  :type 'string)
+  :package-version '(Org . "9.8")
+  :type 'string
+  :risky t)
 
 (defun org-babel-expand-body:lisp (body params)
   "Expand BODY according to PARAMS, return the expanded body."
   (let* ((vars (org-babel--get-vars params))
 	 (result-params (cdr (assq :result-params params)))
 	 (print-level nil) (print-length nil)
+         (prologue (cdr (assq :prologue params)))
+         (epilogue (cdr (assq :epilogue params)))
 	 (body (if (null vars) (org-trim body)
-		 (concat "(let ("
+		 (concat "(cl:let ("
 			 (mapconcat
 			  (lambda (var)
-			    (format "(%S (quote %S))" (car var) (cdr var)))
+			    (format "(%S (cl:quote %S))" (car var) (cdr var)))
 			  vars "\n      ")
-			 ")\n" body ")"))))
+			 ")\n"
+                         (and prologue (concat prologue "\n"))
+                         body
+                         (and epilogue (concat "\n" epilogue "\n"))
+                         ")"))))
     (if (or (member "code" result-params)
 	    (member "pp" result-params))
-	(format "(pprint %s)" body)
+	(format "(cl:pprint %s)" body)
       body)))
 
 (defun org-babel-execute:lisp (body params)
   "Execute a block of Common Lisp code with Babel.
 BODY is the contents of the block, as a string.  PARAMS is
 a property list containing the parameters of the block."
-  (require (pcase org-babel-lisp-eval-fn
-	     (`slime-eval 'slime)
-	     (`sly-eval 'sly)))
-  (org-babel-reassemble-table
-   (let ((result
-          (funcall (if (member "output" (cdr (assq :result-params params)))
-                       #'car #'cadr)
-                   (with-temp-buffer
-                     (insert (org-babel-expand-body:lisp body params))
-                     (funcall org-babel-lisp-eval-fn
-                              `(swank:eval-and-grab-output
-                                ,(let ((dir (if (assq :dir params)
-                                                (cdr (assq :dir params))
-                                              default-directory)))
-                                   (format
-                                    (if dir (format org-babel-lisp-dir-fmt dir)
-                                      "(progn %s\n)")
-                                    (buffer-substring-no-properties
-                                     (point-min) (point-max)))))
-                              (cdr (assq :package params)))))))
-     (org-babel-result-cond (cdr (assq :result-params params))
-       (org-strip-quotes result)
-       (condition-case nil
-           (read (org-babel-lisp-vector-to-list result))
-         (error result))))
-   (org-babel-pick-name (cdr (assq :colname-names params))
-			(cdr (assq :colnames params)))
-   (org-babel-pick-name (cdr (assq :rowname-names params))
-			(cdr (assq :rownames params)))))
+  (let (eval-and-grab-output)
+    (pcase org-babel-lisp-eval-fn
+      (`slime-eval (org-require-package 'slime "SLIME")
+                   (setq eval-and-grab-output 'swank:eval-and-grab-output))
+      (`sly-eval (org-require-package 'sly "SLY")
+                 (setq eval-and-grab-output 'slynk:eval-and-grab-output)))
+    (org-babel-reassemble-table
+     (let ((result
+            (funcall (if (member "output" (cdr (assq :result-params params)))
+                         #'car #'cadr)
+                     (with-temp-buffer
+                       (insert (org-babel-expand-body:lisp body params))
+                       (funcall org-babel-lisp-eval-fn
+                                `(,eval-and-grab-output
+                                  ,(let ((dir (if (assq :dir params)
+                                                  (cdr (assq :dir params))
+                                                default-directory)))
+                                     (format
+                                      (if dir (format org-babel-lisp-dir-fmt dir)
+                                        "(cl:progn %s\n)")
+                                      (buffer-substring-no-properties
+                                       (point-min) (point-max)))))
+                                (cdr (assq :package params)))))))
+       (org-babel-result-cond (cdr (assq :result-params params))
+         (org-strip-quotes result)
+         (condition-case nil
+             (read (org-babel-lisp-vector-to-list result))
+           (error result))))
+     (org-babel-pick-name (cdr (assq :colname-names params))
+			  (cdr (assq :colnames params)))
+     (org-babel-pick-name (cdr (assq :rowname-names params))
+			  (cdr (assq :rownames params))))))
 
 (defun org-babel-lisp-vector-to-list (results)
+  "Convert #(...) values in RESULTS string into a (...) list."
   ;; TODO: better would be to replace #(...) with [...]
   (replace-regexp-in-string "#(" "(" results))
 

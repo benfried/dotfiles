@@ -1,9 +1,9 @@
 ;;; org-num.el --- Dynamic Headlines Numbering  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2018-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2018-2026 Free Software Foundation, Inc.
 
 ;; Author: Nicolas Goaziou <mail@nicolasgoaziou.fr>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 
 ;; This file is part of GNU Emacs.
 
@@ -61,6 +61,9 @@
 
 ;;; Code:
 
+(require 'org-macs)
+(org-assert-version)
+
 (require 'cl-lib)
 (require 'org-macs)
 (require 'org) ;Otherwise `org-num--comment-re' burps on `org-comment-string'
@@ -73,13 +76,10 @@
 (defvar org-n-level-faces)
 (defvar org-odd-levels-only)
 
-(declare-function org-back-to-heading "org" (&optional invisible-ok))
-(declare-function org-entry-get "org" (pom property &optional inherit literal-nil))
-(declare-function org-reduced-level "org" (l))
-
 
 ;;; Customization
 
+;;;###autoload
 (defcustom org-num-face nil
   "Face to use for numbering.
 When nil, use the same face as the headline.  This value is
@@ -101,6 +101,7 @@ Any `face' text property on the returned string overrides
   :package-version '(Org . "9.3")
   :type 'function)
 
+;;;###autoload
 (defcustom org-num-max-level nil
   "Level below which headlines are not numbered.
 When set to nil, all headlines are numbered."
@@ -110,6 +111,7 @@ When set to nil, all headlines are numbered."
                  (integer :tag "Stop numbering at level"))
   :safe (lambda (val) (or (null val) (wholenump val))))
 
+;;;###autoload
 (defcustom org-num-skip-commented nil
   "Non-nil means commented sub-trees are not numbered."
   :group 'org-appearance
@@ -117,6 +119,7 @@ When set to nil, all headlines are numbered."
   :type 'boolean
   :safe #'booleanp)
 
+;;;###autoload
 (defcustom org-num-skip-footnotes nil
   "Non-nil means footnotes sections are not numbered."
   :group 'org-appearance
@@ -124,6 +127,7 @@ When set to nil, all headlines are numbered."
   :type 'boolean
   :safe #'booleanp)
 
+;;;###autoload
 (defcustom org-num-skip-tags nil
   "List of tags preventing the numbering of sub-trees.
 
@@ -136,8 +140,9 @@ control tag inheritance."
   :group 'org-appearance
   :package-version '(Org . "9.3")
   :type '(repeat (string :tag "Tag"))
-  :safe (lambda (val) (and (listp val) (cl-every #'stringp val))))
+  :safe #'org-list-of-strings-p)
 
+;;;###autoload
 (defcustom org-num-skip-unnumbered nil
   "Non-nil means numbering obeys to UNNUMBERED property."
   :group 'org-appearance
@@ -153,6 +158,7 @@ control tag inheritance."
 
 (defvar-local org-num--overlays nil
   "Ordered list of overlays used for numbering outlines.")
+(put 'org-num--overlays 'permanent-local t)
 
 (defvar-local org-num--skip-level nil
   "Level below which headlines from current tree are not numbered.
@@ -210,7 +216,7 @@ Assume point is at a headline."
   (let ((after-edit-functions
          (list (lambda (o &rest _) (org-num--invalidate-overlay o))))
         (o (save-excursion
-             (beginning-of-line)
+             (forward-line 0)
              (skip-chars-forward "*")
              (make-overlay (line-beginning-position) (1+ (point))))))
     (overlay-put o 'org-num t)
@@ -263,7 +269,7 @@ otherwise."
                       tags)
              t)
         (and org-num-skip-unnumbered
-             (org-entry-get (point) "UNNUMBERED")
+             (org-entry-get (point) "UNNUMBERED" 'selective)
              t))))
 
 (defun org-num--current-numbering (level skip)
@@ -458,6 +464,7 @@ NUMBERING is a list of numbers."
    (org-num-mode
     (unless (derived-mode-p 'org-mode)
       (user-error "Cannot activate headline numbering outside Org mode"))
+    (org-num--clear)
     (setq org-num--numbering nil)
     (setq org-num--overlays (nreverse (org-num--number-region nil nil)))
     (add-hook 'after-change-functions #'org-num--verify nil t)

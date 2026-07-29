@@ -1,8 +1,9 @@
 ;;; ob-shell.el --- Babel Functions for Shell Evaluation -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2009-2026 Free Software Foundation, Inc.
 
 ;; Author: Eric Schulte
+;; Maintainer: Matthew Trzcinski <matt@excalamus.com>
 ;; Keywords: literate programming, reproducible research
 ;; URL: https://orgmode.org
 
@@ -26,6 +27,10 @@
 ;; Org-Babel support for evaluating shell source code.
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 (require 'org-macs)
 (require 'shell)
@@ -40,7 +45,33 @@
 (declare-function orgtbl-to-generic "org-table" (table params))
 
 (defvar org-babel-default-header-args:shell '())
+
+(defconst org-babel-header-args:shell
+  '((async               . ((yes no))))
+  "Shell-specific header arguments.")
+
 (defvar org-babel-shell-names)
+
+(defconst org-babel-shell-set-prompt-commands
+  '(;; Fish has no PS2 equivalent.
+    ("fish" . "function fish_prompt\n\techo \"%s\"\nend")
+    ;; prompt2 is like PS2 in POSIX shells.
+    ("csh" . "set prompt=\"%s\"\nset prompt2=\"\"")
+    ;; Disable bracketed paste - it messes up out processing and,
+    ;; apparently, comint.el.  Also, unset "%   \r" prompts.
+    ("zsh" . "setopt nopromptcr;unset zle_bracketed_paste;PROMPT_COMMAND=;PS1=\"%s\";PS2=")
+    ;; PROMPT_COMMAND can override PS1 settings.  Disable it.
+    ;; Disable PS2 to avoid garbage in multi-line inputs.
+    (t . "PROMPT_COMMAND=;PS1=\"%s\";PS2="))
+  "Alist assigning shells with their prompt setting command.
+
+Each element of the alist associates a shell type from
+`org-babel-shell-names' with a template used to create a command to
+change the default prompt.  The template is an argument to `format'
+that will be called with a single additional argument: prompt string.
+
+The fallback association template is defined in (t . \"template\")
+alist element.")
 
 (defun org-babel-shell-initialize ()
   "Define execution functions associated to shell names.
@@ -48,17 +79,44 @@ This function has to be called whenever `org-babel-shell-names'
 is modified outside the Customize interface."
   (interactive)
   (dolist (name org-babel-shell-names)
-    (eval `(defun ,(intern (concat "org-babel-execute:" name))
-	       (body params)
-	     ,(format "Execute a block of %s commands with Babel." name)
-	     (let ((shell-file-name ,name))
-	       (org-babel-execute:shell body params))))
-    (eval `(defalias ',(intern (concat "org-babel-variable-assignments:" name))
-	     'org-babel-variable-assignments:shell
-	     ,(format "Return list of %s statements assigning to the block's \
+    (let ((fname (intern (concat "org-babel-execute:" name))))
+      (defalias fname
+        (lambda (body params)
+	  (:documentation
+           (format "Execute a block of %s commands with Babel." name))
+	  (let ((explicit-shell-file-name name)
+                (shell-file-name name))
+	    (org-babel-execute:shell body params))))
+      (put fname 'definition-name 'org-babel-shell-initialize))
+    (let ((fname (intern (concat "org-babel-prep-session:" name))))
+      (defalias fname
+        (lambda (session params)
+	  (:documentation
+           (format "Prepare %s SESSION according to the header arguments specified in PARAMS." name))
+	  (let ((explicit-shell-file-name name)
+                (shell-file-name name))
+	    (org-babel-prep-session:shell session params))))
+      (put fname 'definition-name 'org-babel-shell-initialize))
+    (let ((fname (intern (format "org-babel-%s-initiate-session" name))))
+      (defalias fname
+        (lambda (session _params)
+	  (:documentation
+           (format "Initiate %s session named SESSION." name))
+	  (let ((explicit-shell-file-name name)
+                (shell-file-name name))
+	    (org-babel-sh-initiate-session session))))
+      (put fname 'definition-name 'org-babel-shell-initialize))
+    (defalias (intern (concat "org-babel-variable-assignments:" name))
+      #'org-babel-variable-assignments:shell
+      (format "Return list of %s statements assigning to the block's \
 variables."
-		      name)))
-    (eval `(defvar ,(intern (concat "org-babel-default-header-args:" name)) '()))))
+	      name))
+    (funcall (if (fboundp 'defvar-1) #'defvar-1 #'set) ;Emacs-29
+             (intern (concat "org-babel-default-header-args:" name))
+             org-babel-default-header-args:shell)
+    (funcall (if (fboundp 'defvar-1) #'defvar-1 #'set) ;Emacs-29
+             (intern (concat "org-babel-header-args:" name))
+             org-babel-header-args:shell)))
 
 (defcustom org-babel-shell-names
   '("sh" "bash" "zsh" "fish" "csh" "ash" "dash" "ksh" "mksh" "posh")
@@ -85,7 +143,7 @@ a shell execution being its exit code."
   :package-version '(Org . "9.4"))
 
 (defun org-babel-execute:shell (body params)
-  "Execute a block of Shell commands with Babel.
+  "Execute Shell BODY according to PARAMS.
 This function is called by `org-babel-execute-src-block'."
   (let* ((session (org-babel-sh-initiate-session
 		   (cdr (assq :session params))))
@@ -137,6 +195,11 @@ This function is called by `org-babel-execute-src-block'."
   "Return a list of statements declaring the values as a generic variable."
   (format "%s=%s" varname (org-babel-sh-var-to-sh values sep hline)))
 
+(defun org-babel--variable-assignments:fish
+    (varname values &optional sep hline)
+  "Return a list of statements declaring the values as a fish variable."
+  (format "set %s %s" varname (org-babel-sh-var-to-sh values sep hline)))
+
 (defun org-babel--variable-assignments:bash_array
     (varname values &optional sep hline)
   "Return a list of statements declaring the values as a bash array."
@@ -182,8 +245,11 @@ This function is called by `org-babel-execute-src-block'."
        (if (string-suffix-p "bash" shell-file-name)
 	   (org-babel--variable-assignments:bash
             (car pair) (cdr pair) sep hline)
-         (org-babel--variable-assignments:sh-generic
-	  (car pair) (cdr pair) sep hline)))
+         (if (string-suffix-p "fish" shell-file-name)
+	     (org-babel--variable-assignments:fish
+              (car pair) (cdr pair) sep hline)
+           (org-babel--variable-assignments:sh-generic
+	    (car pair) (cdr pair) sep hline))))
      (org-babel--get-vars params))))
 
 (defun org-babel-sh-var-to-sh (var &optional sep hline)
@@ -200,29 +266,71 @@ var of the same value."
   (let ((echo-var (lambda (v) (if (stringp v) v (format "%S" v)))))
     (cond
      ((and (listp var) (or (listp (car var)) (eq (car var) 'hline)))
-      (orgtbl-to-generic var  (list :sep (or sep "\t") :fmt echo-var
-				    :hline hline)))
+      (orgtbl-to-generic
+       var
+       (list :sep (or sep "\t") :fmt echo-var
+	     :hline hline
+             :with-special-rows nil)))
      ((listp var)
       (mapconcat echo-var var "\n"))
      (t (funcall echo-var var)))))
 
+(defvar org-babel-sh-eoe-indicator "echo 'org_babel_sh_eoe'"
+  "String to indicate that evaluation has completed.")
+(defvar org-babel-sh-eoe-output "org_babel_sh_eoe"
+  "String to indicate that evaluation has completed.")
+(defvar org-babel-sh-prompt
+  ;; FIXME: Emacs 27 CI fails non-interactively.  Play it safe and
+  ;; keep the old prompt until we drop Emacs 27 support.
+  (if (version< emacs-version "28") "org_babel_sh_prompt> " "𒆸﻿ ")
+  "String to set prompt in session shell.")
+
+(defvar-local org-babel-sh--prompt-initialized nil
+  "When non-nil, ob-shell already initialized the prompt in current buffer.")
+
+(defalias 'org-babel-shell-initiate-session #'org-babel-sh-initiate-session)
 (defun org-babel-sh-initiate-session (&optional session _params)
   "Initiate a session named SESSION according to PARAMS."
   (when (and session (not (string= session "none")))
     (save-window-excursion
-      (or (org-babel-comint-buffer-livep session)
+      (or (and (org-babel-comint-buffer-livep session)
+               (buffer-local-value
+                'org-babel-sh--prompt-initialized
+                (get-buffer session))
+               session)
           (progn
-	    (shell session)
+            (if (org-babel-comint-buffer-livep session)
+                (set-buffer session)
+	      (shell session)
+              ;; Set unique prompt for easier analysis of the output.
+              (org-babel-comint-wait-for-output (current-buffer)))
+            (setq-local
+             org-babel-comint-prompt-regexp-fallback comint-prompt-regexp
+             comint-prompt-regexp
+             (concat "^" (regexp-quote org-babel-sh-prompt)
+                     " *"))
+            (org-babel-comint-input-command
+             (current-buffer)
+             (format
+              (or (cdr (assoc (file-name-nondirectory shell-file-name)
+                              org-babel-shell-set-prompt-commands))
+                  (alist-get t org-babel-shell-set-prompt-commands))
+              org-babel-sh-prompt))
+            (setq org-babel-sh--prompt-initialized t)
 	    ;; Needed for Emacs 23 since the marker is initially
 	    ;; undefined and the filter functions try to use it without
 	    ;; checking.
 	    (set-marker comint-last-output-start (point))
 	    (get-buffer (current-buffer)))))))
 
-(defvar org-babel-sh-eoe-indicator "echo 'org_babel_sh_eoe'"
-  "String to indicate that evaluation has completed.")
-(defvar org-babel-sh-eoe-output "org_babel_sh_eoe"
-  "String to indicate that evaluation has completed.")
+(defconst ob-shell-async-indicator "echo 'ob_comint_async_shell_%s_%s'"
+  "Session output delimiter template.
+See `org-babel-comint-async-indicator'.")
+
+(defun ob-shell-async-chunk-callback (string)
+  "Filter applied to results before insertion.
+See `org-babel-comint-async-chunk-callback'."
+  (replace-regexp-in-string comint-prompt-regexp "" string))
 
 (defun org-babel-sh-evaluate (session body &optional params stdin cmdline)
   "Pass BODY to the Shell process in BUFFER.
@@ -230,6 +338,7 @@ If RESULT-TYPE equals `output' then return a list of the outputs
 of the statements in BODY, if RESULT-TYPE equals `value' then
 return the value of the last statement in BODY."
   (let* ((shebang (cdr (assq :shebang params)))
+         (async (org-babel-comint-use-async params))
 	 (results-params (cdr (assq :result-params params)))
 	 (value-is-exit-status
 	  (or (and
@@ -243,39 +352,61 @@ return the value of the last statement in BODY."
 		  (stdin-file (org-babel-temp-file "sh-stdin-"))
 		  (padline (not (string= "no" (cdr (assq :padline params))))))
 	      (with-temp-file script-file
-		(when shebang (insert shebang "\n"))
+		(if shebang
+                    (insert shebang "\n")
+                  ;; Provide shell name explicitly.
+                  ;; This is necessary because running, for example,
+                  ;; dash script-for-dash.sh will use /bin/sh.
+                  (insert (format "#!/usr/bin/env %s" shell-file-name) "\n"))
 		(when padline (insert "\n"))
 		(insert body))
 	      (set-file-modes script-file #o755)
 	      (with-temp-file stdin-file (insert (or stdin "")))
 	      (with-temp-buffer
-		(call-process-shell-command
-		 (concat (if shebang script-file
-			   (format "%s %s" shell-file-name script-file))
-			 (and cmdline (concat " " cmdline)))
-		 stdin-file
-		 (current-buffer))
+                (with-connection-local-variables
+                 ;; `with-connection-local-variables' will override
+                 ;; `shell-file-name' and `shell-command-swtich' as
+                 ;; needed for the remote connection.
+                 (apply #'process-file
+                        shell-file-name
+		        stdin-file
+                        (current-buffer)
+                        nil
+                        (list shell-command-switch
+                              (concat (file-local-name script-file)  " " (format "%s" cmdline)))))
 		(buffer-string))))
 	   (session			; session evaluation
-	    (mapconcat
-	     #'org-babel-sh-strip-weird-long-prompt
-	     (mapcar
-	      #'org-trim
-	      (butlast
-	       (org-babel-comint-with-output
-		   (session org-babel-sh-eoe-output t body)
-		 (dolist (line (append (split-string (org-trim body) "\n")
-				       (list org-babel-sh-eoe-indicator)))
-		   (insert line)
-		   (comint-send-input nil t)
-		   (while (save-excursion
-			    (goto-char comint-last-input-end)
-			    (not (re-search-forward
-				  comint-prompt-regexp nil t)))
-		     (accept-process-output
-		      (get-buffer-process (current-buffer))))))
-	       2))
-	     "\n"))
+            (if async
+                (progn
+                  (let ((uuid (org-id-uuid)))
+                    (org-babel-comint-async-register
+                     session
+                     (current-buffer)
+                     "ob_comint_async_shell_\\(start\\|end\\|file\\)_\\(.+\\)"
+                     'ob-shell-async-chunk-callback
+                     nil)
+                    (org-babel-comint-async-delete-dangling-and-eval
+                        session
+                      (insert (format ob-shell-async-indicator "start" uuid))
+                      (comint-send-input nil t)
+                      (insert (org-trim body))
+                      (comint-send-input nil t)
+                      (insert (format ob-shell-async-indicator "end" uuid))
+                      (comint-send-input nil t))
+                    uuid))
+	      (mapconcat
+	       #'org-babel-sh-strip-weird-long-prompt
+	       (mapcar
+	        #'org-trim
+	        (butlast ; Remove eoe indicator
+	         (org-babel-comint-with-output
+		     (session org-babel-sh-eoe-output t body)
+                   (insert (org-trim body) "\n"
+                           org-babel-sh-eoe-indicator)
+		   (comint-send-input nil t))
+                 ;; Remove `org-babel-sh-eoe-indicator' output line.
+	         1))
+	       "\n")))
 	   ;; External shell script, with or without a predefined
 	   ;; shebang.
 	   ((org-string-nw-p shebang)
@@ -286,9 +417,15 @@ return the value of the last statement in BODY."
 		(when padline (insert "\n"))
 		(insert body))
 	      (set-file-modes script-file #o755)
-	      (org-babel-eval script-file "")))
+              (if (file-remote-p script-file)
+                  ;; Run remote script using its local path as COMMAND.
+                  ;; The remote execution is ensured by setting
+                  ;; correct `default-directory'.
+                  (let ((default-directory (file-name-directory script-file)))
+                    (org-babel-eval (file-local-name script-file) ""))
+	        (org-babel-eval script-file ""))))
 	   (t (org-babel-eval shell-file-name (org-trim body))))))
-    (when value-is-exit-status
+    (when (and results value-is-exit-status)
       (setq results (car (reverse (split-string results "\n" t)))))
     (when results
       (let ((result-params (cdr (assq :result-params params))))

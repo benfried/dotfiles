@@ -1,9 +1,9 @@
 ;;; org-refile.el --- Refile Org Subtrees             -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2010-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2010-2026 Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten.dominik@gmail.com>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 ;;
 ;; This file is part of GNU Emacs.
 
@@ -25,6 +25,8 @@
 ;; Org Refile allows you to refile subtrees to various locations.
 
 ;;; Code:
+(require 'org-macs)
+(org-assert-version)
 
 (require 'org)
 
@@ -70,9 +72,10 @@ This is a list of cons cells.  Each cell contains:
   or a symbol whose function or variable value will be used to retrieve
   a file name or a list of file names.  If you use `org-agenda-files' for
   that, all agenda files will be scanned for targets.  Nil means consider
-  headings in the current buffer.
+  headlines in the current buffer.
 - A specification of how to find candidate refile targets.  This may be
   any of:
+  - t to indicate that all headlines should be considered.
   - a cons cell (:tag . \"TAG\") to identify refile targets by a tag.
     This tag has to be present in all target headlines, inheritance will
     not be considered.
@@ -102,13 +105,15 @@ are used, equivalent to the value `((nil . (:level . 1)))'."
 	   (choice :value org-agenda-files
 		   (const :tag "All agenda files" org-agenda-files)
 		   (const :tag "Current buffer" nil)
-		   (function) (variable) (file))
-	   (choice :tag "Identify target headline by"
-		   (cons :tag "Specific tag" (const :value :tag) (string))
-		   (cons :tag "TODO keyword" (const :value :todo) (string))
-		   (cons :tag "Regular expression" (const :value :regexp) (regexp))
-		   (cons :tag "Level number" (const :value :level) (integer))
-		   (cons :tag "Max Level number" (const :value :maxlevel) (integer))))))
+		   (function) (variable) (file) (repeat (file)))
+	   (choice :tag "Target headlines"
+		   (const :tag "All" t)
+		   (cons :tag "Tagged with" (const :value :tag) (string))
+		   (cons :tag "With the TODO keyword" (const :value :todo) (string))
+		   (cons :tag "Matching the regexp" (const :value :regexp) (regexp))
+		   (cons :tag "At level" (const :value :level) (integer))
+		   (cons :tag "Up through level" (const :value :maxlevel) (integer)))))
+  :package-version '(Org . "9.8"))
 
 (defcustom org-refile-target-verify-function nil
   "Function to verify if the headline at point should be a refile target.
@@ -153,12 +158,14 @@ When `full-file-path', include the full file path.
 
 When `buffer-name', use the buffer name."
   :group 'org-refile
+  :package-version '(Org . "9.6")
   :type '(choice
 	  (const :tag "Not" nil)
 	  (const :tag "Yes" t)
 	  (const :tag "Start with file name" file)
 	  (const :tag "Start with full file path" full-file-path)
-	  (const :tag "Start with buffer name" buffer-name)))
+	  (const :tag "Start with buffer name" buffer-name)
+	  (const :tag "Start with document title" title)))
 
 (defcustom org-outline-path-complete-in-steps t
   "Non-nil means complete the outline path in hierarchical steps.
@@ -217,7 +224,8 @@ converted to a headline before refiling."
 	["Refile and copy Subtree" org-refile-copy (org-in-subtree-not-table-p)]))
 
 (defun org-refile-marker (pos)
-  "Get a new refile marker, but only if caching is in use."
+  "Return a new refile marker at POS, but only if caching is in use.
+When `org-refile-use-cache' is nil, just return POS."
   (if (not org-refile-use-cache)
       pos
     (let ((m (make-marker)))
@@ -269,8 +277,10 @@ converted to a headline before refiling."
 	(entries (or org-refile-targets '((nil . (:level . 1)))))
 	targets tgs files desc descre)
     (message "Getting targets...")
+    (cl-assert (listp entries) t "`org-refile-targets' must be a list of targets")
     (with-current-buffer (or default-buffer (current-buffer))
       (dolist (entry entries)
+        (cl-assert (consp entry) t "Refile target must be a cons cell (FILES . SPECIFICATION)")
 	(setq files (car entry) desc (cdr entry))
 	(cond
 	 ((null files) (setq files (list (current-buffer))))
@@ -281,28 +291,39 @@ converted to a headline before refiling."
 	 ((and (symbolp files) (boundp files))
 	  (setq files (symbol-value files))))
 	(when (stringp files) (setq files (list files)))
-	(cond
-	 ((eq (car desc) :tag)
-	  (setq descre (concat "^\\*+[ \t]+.*?:" (regexp-quote (cdr desc)) ":")))
-	 ((eq (car desc) :todo)
-	  (setq descre (concat "^\\*+[ \t]+" (regexp-quote (cdr desc)) "[ \t]")))
-	 ((eq (car desc) :regexp)
-	  (setq descre (cdr desc)))
-	 ((eq (car desc) :level)
-	  (setq descre (concat "^\\*\\{" (number-to-string
-					  (if org-odd-levels-only
-					      (1- (* 2 (cdr desc)))
-					    (cdr desc)))
-			       "\\}[ \t]")))
-	 ((eq (car desc) :maxlevel)
-	  (setq descre (concat "^\\*\\{1," (number-to-string
+        ;; Allow commonly used (FILE :maxlevel N) and similar values.
+        (when (and (listp desc) (listp (cdr desc)) (null (cddr desc)))
+          (setq desc (cons (car desc) (cadr desc))))
+        (condition-case err
+	    (cond
+             ((eq desc t)
+	      (setq descre (concat "^\\*+[ \t]")))
+	     ((eq (car desc) :tag)
+	      (setq descre (concat "^\\*+[ \t]+.*?:" (regexp-quote (cdr desc)) ":")))
+	     ((eq (car desc) :todo)
+	      (setq descre (concat "^\\*+[ \t]+" (regexp-quote (cdr desc)) "[ \t]")))
+	     ((eq (car desc) :regexp)
+	      (setq descre (cdr desc)))
+	     ((eq (car desc) :level)
+	      (setq descre (concat "^\\*\\{" (number-to-string
 					    (if org-odd-levels-only
-						(1- (* 2 (cdr desc)))
+					        (1- (* 2 (cdr desc)))
 					      (cdr desc)))
-			       "\\}[ \t]")))
-	 (t (error "Bad refiling target description %s" desc)))
+			           "\\}[ \t]")))
+	     ((eq (car desc) :maxlevel)
+	      (setq descre (concat "^\\*\\{1," (number-to-string
+					      (if org-odd-levels-only
+					          (1- (* 2 (cdr desc)))
+					        (cdr desc)))
+			           "\\}[ \t]")))
+	     (t (error "Bad refiling target description %s" desc)))
+          (error
+           (error "Error parsing refiling target description: %s"
+                  (error-message-string err))))
 	(dolist (f files)
 	  (with-current-buffer (if (bufferp f) f (org-get-agenda-file-buffer f))
+            (unless (derived-mode-p 'org-mode)
+              (error "Major mode in refile target buffer \"%s\" must be `org-mode'" f))
 	    (or
 	     (setq tgs (org-refile-cache-get (buffer-file-name) descre))
 	     (progn
@@ -317,48 +338,60 @@ converted to a headline before refiling."
 		 (push (list (and (buffer-file-name (buffer-base-buffer))
                                   (file-truename (buffer-file-name (buffer-base-buffer))))
                              f nil nil) tgs))
+               (when (eq org-refile-use-outline-path 'title)
+                 (push (list (or (org-get-title)
+                                 (and f (file-name-nondirectory f)))
+                             f nil nil)
+                       tgs))
 	       (org-with-wide-buffer
 		(goto-char (point-min))
 		(setq org-outline-path-cache nil)
-		(while (re-search-forward descre nil t)
-		  (beginning-of-line)
-		  (let ((case-fold-search nil))
-		    (looking-at org-complex-heading-regexp))
-		  (let ((begin (point))
-			(heading (match-string-no-properties 4)))
-		    (unless (or (and
-				 org-refile-target-verify-function
-				 (not
-				  (funcall org-refile-target-verify-function)))
-				(not heading))
-		      (let ((re (format org-complex-heading-regexp-format
-					(regexp-quote heading)))
-			    (target
-			     (if (not org-refile-use-outline-path) heading
-			       (mapconcat
-				#'identity
-				(append
-				 (pcase org-refile-use-outline-path
-				   (`file (list
+		(let ((base (pcase org-refile-use-outline-path
+			      (`file (list
+                                      (and (buffer-file-name (buffer-base-buffer))
+                                           (file-name-nondirectory
+                                            (buffer-file-name (buffer-base-buffer))))))
+                              (`title (list
+                                       (or (org-get-title)
                                            (and (buffer-file-name (buffer-base-buffer))
                                                 (file-name-nondirectory
-                                                 (buffer-file-name (buffer-base-buffer))))))
-				   (`full-file-path
-				    (list (buffer-file-name
-					   (buffer-base-buffer))))
-				   (`buffer-name
-				    (list (buffer-name
-					   (buffer-base-buffer))))
-				   (_ nil))
-				 (mapcar (lambda (s) (replace-regexp-in-string
-						      "/" "\\/" s nil t))
-					 (org-get-outline-path t t)))
-				"/"))))
-			(push (list target f re (org-refile-marker (point)))
-			      tgs)))
-		    (when (= (point) begin)
-		      ;; Verification function has not moved point.
-		      (end-of-line)))))))
+                                                 (buffer-file-name (buffer-base-buffer)))))))
+                              (`full-file-path
+			       (list (buffer-file-name
+				      (buffer-base-buffer))))
+			      (`buffer-name
+			       (list (buffer-name
+				      (buffer-base-buffer))))
+			      (_ nil))))
+		  (while (re-search-forward descre nil t)
+		    (forward-line 0)
+		    (let ((case-fold-search nil))
+		      (looking-at org-complex-heading-regexp))
+		    (let ((begin (point))
+			  (heading (match-string-no-properties 4)))
+		      (unless (or (and
+				   org-refile-target-verify-function
+				   (not
+				    (funcall org-refile-target-verify-function)))
+				  (not heading))
+		        (let ((re (format org-complex-heading-regexp-format
+					  (regexp-quote heading)))
+			      (target
+			       (if (not org-refile-use-outline-path)
+                                   (org-link-display-format heading)
+			         (mapconcat
+				  #'identity
+				  (append
+				   base
+				   (mapcar (lambda (s) (replace-regexp-in-string
+						        "/" "\\/" s nil t))
+					   (org-get-outline-path t t)))
+				  "/"))))
+			  (push (list target f re (org-refile-marker (point)))
+			        tgs)))
+		      (when (= (point) begin)
+		        ;; Verification function has not moved point.
+		        (end-of-line))))))))
 	    (when org-refile-use-cache
 	      (org-refile-cache-put tgs (buffer-file-name) descre))
 	    (setq targets (append tgs targets))))))
@@ -379,7 +412,7 @@ the *old* location.")
 ;;;###autoload
 (defun org-refile-copy ()
   "Like `org-refile', but preserve the refiled subtree."
-  (interactive)
+  (interactive nil org-mode)
   (let ((org-refile-keep t))
     (org-refile nil nil nil "Copy")))
 
@@ -389,7 +422,7 @@ the *old* location.")
 So if `org-refile' would append the entry as the last entry under
 the target heading, `org-refile-reverse' will prepend it as the
 first entry, and vice-versa."
-  (interactive "P")
+  (interactive "P" org-mode)
   (let ((org-reverse-note-order (not (org-notes-order-reversed-p))))
     (org-refile arg default-buffer rfloc msg)))
 
@@ -444,9 +477,9 @@ See also `org-refile-use-outline-path'.
 
 If you are using target caching (see `org-refile-use-cache'), you
 have to clear the target cache in order to find new targets.
-This can be done with a `0' prefix (`C-0 C-c C-w') or a triple
-prefix argument (`C-u C-u C-u C-c C-w')."
-  (interactive "P")
+This can be done with a `0' prefix (\\`C-0 C-c C-w') or a triple
+prefix argument (\\`C-u C-u C-u C-c C-w')."
+  (interactive "P" org-mode)
   (if (member arg '(0 (64)))
       (org-refile-cache-clear)
     (let* ((actionmsg (cond (msg msg)
@@ -456,18 +489,18 @@ prefix argument (`C-u C-u C-u C-c C-w')."
 	   (region-start (and regionp (region-beginning)))
 	   (region-end (and regionp (region-end)))
 	   (org-refile-keep (if (equal arg 3) t org-refile-keep))
-	   pos it nbuf file level reversed)
+	   pos it nbuf file level reversed tree)
       (setq last-command nil)
       (when regionp
 	(goto-char region-start)
-	(beginning-of-line)
+	(forward-line 0)
 	(setq region-start (point))
 	(unless (or (org-kill-is-subtree-p
 		     (buffer-substring region-start region-end))
 		    (prog1 org-refile-active-region-within-subtree
-		      (let ((s (point-at-eol)))
+                      (let ((s (line-end-position)))
 			(org-toggle-heading)
-			(setq region-end (+ (- (point-at-eol) s) region-end)))))
+                        (setq region-end (+ (- (line-end-position) s) region-end)))))
 	  (user-error "The region is not a (sequence of) subtree(s)")))
       (if (equal arg '(16))
 	  (org-refile-goto-last-stored)
@@ -509,14 +542,16 @@ prefix argument (`C-u C-u C-u C-c C-w')."
 		     (if regionp
 			 (and (>= pos region-start)
 			      (<= pos region-end))
-		       (and (>= pos (point))
+		       (and (>= pos (save-excursion
+                                      (org-back-to-heading t)
+                                      (point)))
 			    (< pos (save-excursion
 				     (org-end-of-subtree t t))))))
 	    (error "Cannot refile to position inside the tree or region"))
-	  (setq nbuf (or (find-buffer-visiting file)
-			 (find-file-noselect file)))
+	  (setq nbuf (find-file-noselect file 'nowarn))
 	  (if (and arg (not (equal arg 3)))
 	      (progn
+                (org-mark-ring-push)
 		(pop-to-buffer-same-window nbuf)
 		(goto-char (cond (pos)
 				 ((org-notes-order-reversed-p) (point-min))
@@ -524,61 +559,74 @@ prefix argument (`C-u C-u C-u C-c C-w')."
 		(org-fold-show-context 'org-goto))
 	    (if regionp
 		(progn
-		  (org-kill-new (buffer-substring region-start region-end))
+                  (setq tree (buffer-substring region-start region-end))
+		  (org-kill-new tree)
 		  (org-save-markers-in-region region-start region-end))
-	      (org-copy-subtree 1 nil t))
-	    (with-current-buffer (setq nbuf (or (find-buffer-visiting file)
-						(find-file-noselect file)))
-	      (setq reversed (org-notes-order-reversed-p))
-	      (org-with-wide-buffer
-	       (if pos
-		   (progn
-		     (goto-char pos)
-		     (setq level (org-get-valid-level (funcall outline-level) 1))
-		     (goto-char
-		      (if reversed
-			  (or (outline-next-heading) (point-max))
-			(or (save-excursion (org-get-next-sibling))
-			    (org-end-of-subtree t t)
-			    (point-max)))))
-		 (setq level 1)
-		 (if (not reversed)
-		     (goto-char (point-max))
-		   (goto-char (point-min))
-		   (or (outline-next-heading) (goto-char (point-max)))))
-	       (unless (bolp) (newline))
-	       (org-paste-subtree level nil nil t)
-	       ;; Record information, according to `org-log-refile'.
-	       ;; Do not prompt for a note when refiling multiple
-	       ;; headlines, however.  Simply add a time stamp.
-	       (cond
-		((not org-log-refile))
-		(regionp
-		 (org-map-region
-		  (lambda () (org-add-log-setup 'refile nil nil 'time))
-		  (point)
-		  (+ (point) (- region-end region-start))))
-		(t
-		 (org-add-log-setup 'refile nil nil org-log-refile)))
-	       (and org-auto-align-tags
-		    (let ((org-loop-over-headlines-in-active-region nil))
-		      (org-align-tags)))
-	       (let ((bookmark-name (plist-get org-bookmark-names-plist
-					       :last-refile)))
-		 (when bookmark-name
-		   (with-demoted-errors "Bookmark set error: %S"
-		     (bookmark-set bookmark-name))))
-	       ;; If we are refiling for capture, make sure that the
-	       ;; last-capture pointers point here
-	       (when (bound-and-true-p org-capture-is-refiling)
-		 (let ((bookmark-name (plist-get org-bookmark-names-plist
-						 :last-capture-marker)))
+	      (setq tree (org-copy-subtree 1 nil t)))
+            (let ((origin (point-marker)))
+              ;; Handle special case when we refile to exactly same
+              ;; location with tree promotion/demotion.  Point marker
+              ;; saved by `org-with-wide-buffer' (`save-excursion')
+              ;; will then remain before the inserted subtree in
+              ;; unexpected location.
+              (set-marker-insertion-type origin t)
+	      (with-current-buffer (setq nbuf (find-file-noselect file 'nowarn))
+	        (setq reversed (org-notes-order-reversed-p))
+	        (org-with-wide-buffer
+	         (if pos
+		     (progn
+		       (goto-char pos)
+		       (setq level (org-get-valid-level (funcall outline-level) 1))
+		       (goto-char
+		        (if reversed
+			    (or (outline-next-heading) (point-max))
+			  (or (save-excursion (org-get-next-sibling))
+			      (org-end-of-subtree t t)
+			      (point-max)))))
+		   (setq level 1)
+		   (if (not reversed)
+		       (goto-char (point-max))
+		     (goto-char (point-min))
+		     (or (outline-next-heading) (goto-char (point-max)))))
+	         (unless (bolp) (newline))
+	         (org-paste-subtree level tree nil t)
+	         ;; Record information, according to `org-log-refile'.
+	         ;; Do not prompt for a note when refiling multiple
+	         ;; headlines, however.  Simply add a time stamp.
+	         (cond
+		  ((not org-log-refile))
+		  (regionp
+		   (org-map-region
+		    (lambda () (org-add-log-setup 'refile nil nil 'time))
+		    (point)
+		    (+ (point) (- region-end region-start))))
+		  (t
+		   (org-add-log-setup 'refile nil nil org-log-refile)))
+	         (and org-auto-align-tags
+		      (let ((org-loop-over-headlines-in-active-region nil))
+		        (org-align-tags)))
+	         (let ((bookmark-name (plist-get org-bookmark-names-plist
+					         :last-refile)))
 		   (when bookmark-name
-		     (with-demoted-errors "Bookmark set error: %S"
-		       (bookmark-set bookmark-name))))
-		 (move-marker org-capture-last-stored-marker (point)))
-               (deactivate-mark)
-	       (run-hooks 'org-after-refile-insert-hook)))
+                     (condition-case err
+	                 (bookmark-set bookmark-name)
+                       (error
+                        (message (format "Bookmark set error: %S" err))))))
+	         ;; If we are refiling for capture, make sure that the
+	         ;; last-capture pointers point here
+	         (when (bound-and-true-p org-capture-is-refiling)
+		   (let ((bookmark-name (plist-get org-bookmark-names-plist
+						   :last-capture-marker)))
+		     (when bookmark-name
+                       (condition-case err
+	                   (bookmark-set bookmark-name)
+                         (error
+                          (message (format "Bookmark set error: %S" err))))))
+		   (move-marker org-capture-last-stored-marker (point)))
+                 (deactivate-mark)
+	         (run-hooks 'org-after-refile-insert-hook)))
+              ;; Go back to ORIGIN.
+              (goto-char origin))
 	    (unless org-refile-keep
 	      (if regionp
 		  (delete-region (point) (+ (point) (- region-end region-start)))
@@ -595,6 +643,7 @@ prefix argument (`C-u C-u C-u C-c C-w')."
 (defun org-refile-goto-last-stored ()
   "Go to the location where the last refile was stored."
   (interactive)
+  (org-mark-ring-push)
   (bookmark-jump (plist-get org-bookmark-names-plist :last-refile))
   (message "This is the location of the last refile"))
 
@@ -627,12 +676,12 @@ this function appends the default value from
 		  #'completing-read))
 	 (extra (if org-refile-use-outline-path "/" ""))
 	 (cbnex (concat (buffer-name) extra))
-	 (filename (and cfn (expand-file-name cfn)))
+	 (filename (and cfn (file-truename cfn)))
 	 (tbl (mapcar
 	       (lambda (x)
 		 (if (and (not (member org-refile-use-outline-path
-				       '(file full-file-path)))
-			  (not (equal filename (nth 1 x))))
+				       '(file full-file-path title)))
+			  (not (equal filename (file-truename (nth 1 x)))))
 		     (cons (concat (car x) extra " ("
 				   (file-name-nondirectory (nth 1 x)) ")")
 			   (cdr x))
@@ -640,11 +689,10 @@ this function appends the default value from
 	       org-refile-target-table))
 	 (completion-ignore-case t)
 	 cdef
-	 (prompt (concat prompt
-			 (or (and (car org-refile-history)
-				  (concat " (default " (car org-refile-history) ")"))
-			     (and (assoc cbnex tbl) (setq cdef cbnex)
-				  (concat " (default " cbnex ")"))) ": "))
+         (prompt (let ((default (or (car org-refile-history)
+                                    (and (assoc cbnex tbl) (setq cdef cbnex)
+                                         cbnex))))
+                   (org-format-prompt prompt default)))
 	 pa answ parent-target child parent old-hist)
     (setq old-hist org-refile-history)
     (setq answ (funcall cfunc prompt tbl nil (not new-nodes)
@@ -687,12 +735,11 @@ this function appends the default value from
       (when (org-string-nw-p re)
 	(setq buffer (if (markerp pos)
 			 (marker-buffer pos)
-		       (or (find-buffer-visiting file)
-			   (find-file-noselect file))))
+		       (find-file-noselect file 'nowarn)))
 	(with-current-buffer buffer
 	  (org-with-wide-buffer
 	   (goto-char pos)
-	   (beginning-of-line 1)
+	   (forward-line 0)
 	   (unless (looking-at-p re)
 	     (user-error "Invalid refile position, please clear the cache with `C-0 C-c C-w' before refiling"))))))))
 
@@ -703,8 +750,7 @@ this function appends the default value from
   (let ((file (nth 1 parent-target))
 	(pos (nth 3 parent-target))
 	level)
-    (with-current-buffer (or (find-buffer-visiting file)
-			     (find-file-noselect file))
+    (with-current-buffer (find-file-noselect file 'nowarn)
       (org-with-wide-buffer
        (if pos
 	   (goto-char pos)
@@ -717,7 +763,7 @@ this function appends the default value from
        (insert "\n" (make-string
 		     (if pos (org-get-valid-level level 1) 1) ?*)
 	       " " child "\n")
-       (beginning-of-line 0)
+       (forward-line -1)
        (list (concat (car parent-target) "/" child) file "" (point))))))
 
 (defun org-olpath-completing-read (prompt collection &rest args)
@@ -739,6 +785,12 @@ this function appends the default value from
 				 (concat string (substring r 0 (match-end 0)) f)
 			       x)))
 			 (all-completions string thetable predicate))))
+              ((eq (car-safe flag) 'boundaries)
+               ;; See `completion-file-name-table'.
+               (let ((start 0)
+                     (end (and (string-match "/" (cdr flag))
+                               (match-beginning 0))))
+                 `(boundaries ,start . ,end)))
 	      ;; Exact match?
 	      ((eq flag 'lambda) (assoc string thetable))))
 	   args)))

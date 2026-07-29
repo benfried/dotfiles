@@ -1,8 +1,9 @@
 ;;; ob-processing.el --- Babel functions for processing -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2015-2026 Free Software Foundation, Inc.
 
 ;; Author: Jarmo Hurri (adapted from ob-asymptote.el written by Eric Schulte)
+;; Maintainer: Jarmo Hurri <jarmo.hurri@iki.fi>
 ;; Keywords: literate programming, reproducible research
 ;; URL: https://orgmode.org
 
@@ -50,8 +51,11 @@
 ;; - Processing.js module :: https://processingjs.org/
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
-(require 'sha1)
 
 (declare-function processing-sketch-run "ext:processing-mode" ())
 
@@ -72,8 +76,8 @@
 
 (defun org-babel-processing-view-sketch ()
   "Show the sketch of the Processing block under point in an external viewer."
-  (interactive)
-  (require 'processing-mode)
+  (interactive nil org-mode)
+  (org-require-package 'processing-mode)
   (let ((info (org-babel-get-src-block-info)))
     (if (string= (nth 0 info) "processing")
 	(let* ((body (nth 1 info))
@@ -88,7 +92,7 @@
 	  ;; make-temp-file is repeated until no hyphen is in the
 	  ;; name; also sketch dir name must be the same as the
 	  ;; basename of the sketch file.
-	  (let* ((temporary-file-directory org-babel-temporary-directory)
+	  (let* ((temporary-file-directory (org-babel-temp-directory))
 		 (sketch-dir
 		  (let (sketch-dir-candidate)
 		    (while
@@ -113,7 +117,7 @@
       (message "Not inside a Processing source block."))))
 
 (defun org-babel-execute:processing (body params)
-  "Execute a block of Processing code.
+  "Execute Processing code BODY according to PARAMS.
 This function is called by `org-babel-execute-src-block'."
   (let ((sketch-code
 	 (org-babel-expand-body:generic
@@ -139,7 +143,8 @@ Processing does not support sessions."
   (error "Processing does not support sessions"))
 
 (defun org-babel-variable-assignments:processing (params)
-  "Return list of processing statements assigning the block's variables."
+  "Return list of processing statements assigning the block's variables.
+The variable assignments are defined in PARAMS."
   (mapcar #'org-babel-processing-var-to-processing
 	  (org-babel--get-vars params)))
 

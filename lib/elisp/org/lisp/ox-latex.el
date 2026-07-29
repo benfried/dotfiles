@@ -1,10 +1,10 @@
-;;; ox-latex.el --- LaTeX Back-End for Org Export Engine -*- lexical-binding: t; -*-
+;;; ox-latex.el --- LaTeX Backend for Org Export Engine -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2011-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2011-2026 Free Software Foundation, Inc.
 
 ;; Author: Nicolas Goaziou <n.goaziou at gmail dot com>
-;; Maintainer: Daniel Fleischer <danflscr@gmail.com>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Maintainer: Pedro A. Aranda<paaguti aT gmail DoT com>
+;; Keywords: outlines, hypermedia, calendar, text
 
 ;; This file is part of GNU Emacs.
 
@@ -27,6 +27,9 @@
 
 ;;; Code:
 
+(require 'org-macs)
+(org-assert-version)
+
 (require 'cl-lib)
 (require 'ox)
 (require 'ox-publish)
@@ -47,7 +50,7 @@
 (defvar engrave-faces-latex-mathescape)
 
 
-;;; Define Back-End
+;;; Define Backend
 
 (org-export-define-backend 'latex
   '((bold . org-latex-bold)
@@ -107,9 +110,9 @@
 	(?l "As LaTeX file" org-latex-export-to-latex)
 	(?p "As PDF file" org-latex-export-to-pdf)
 	(?o "As PDF file and open"
-	    (lambda (a s v b)
-	      (if a (org-latex-export-to-pdf t s v b)
-		(org-open-file (org-latex-export-to-pdf nil s v b)))))))
+	    #'(lambda (a s v b)
+	        (if a (org-latex-export-to-pdf t s v b)
+		  (org-open-file (org-latex-export-to-pdf nil s v b)))))))
   :filters-alist '((:filter-options . org-latex-math-block-options-filter)
 		   (:filter-paragraph . org-latex-clean-invalid-line-breaks)
 		   (:filter-parse-tree org-latex-math-block-tree-filter
@@ -121,6 +124,8 @@
     (:latex-class-options "LATEX_CLASS_OPTIONS" nil nil t)
     (:latex-header "LATEX_HEADER" nil nil newline)
     (:latex-header-extra "LATEX_HEADER_EXTRA" nil nil newline)
+    (:latex-class-pre "LATEX_CLASS_PRE" nil nil newline)
+    (:latex-doc-metadata "LATEX_DOC_METADATA" nil org-latex-doc-metadata newline)
     (:description "DESCRIPTION" nil nil parse)
     (:keywords "KEYWORDS" nil nil parse)
     (:subtitle "SUBTITLE" nil nil parse)
@@ -132,6 +137,7 @@
     (:latex-default-table-environment nil nil org-latex-default-table-environment)
     (:latex-default-quote-environment nil nil org-latex-default-quote-environment)
     (:latex-default-table-mode nil nil org-latex-default-table-mode)
+    (:latex-default-footnote-command "LATEX_FOOTNOTE_COMMAND" nil org-latex-default-footnote-command)
     (:latex-diary-timestamp-format nil nil org-latex-diary-timestamp-format)
     (:latex-engraved-options nil nil org-latex-engraved-options)
     (:latex-engraved-preamble nil nil org-latex-engraved-preamble)
@@ -153,6 +159,7 @@
     (:latex-src-block-backend nil nil org-latex-src-block-backend)
     (:latex-listings-langs nil nil org-latex-listings-langs)
     (:latex-listings-options nil nil org-latex-listings-options)
+    (:latex-listings-src-omit-language nil nil org-latex-listings-src-omit-language)
     (:latex-minted-langs nil nil org-latex-minted-langs)
     (:latex-minted-options nil nil org-latex-minted-options)
     (:latex-prefer-user-labels nil nil org-latex-prefer-user-labels)
@@ -165,6 +172,8 @@
     (:latex-title-command nil nil org-latex-title-command)
     (:latex-toc-command nil nil org-latex-toc-command)
     (:latex-compiler "LATEX_COMPILER" nil org-latex-compiler)
+    (:latex-descriptive-env "LATEX_DESCRIPTIVE_ENV" nil org-latex-descriptive-environment)
+    (:latex-use-sans nil "latex-use-sans" org-latex-use-sans)
     ;; Redefine regular options.
     (:date "DATE" nil "\\today" parse)))
 
@@ -173,110 +182,127 @@
 ;;; Internal Variables
 
 (defconst org-latex-language-alist
-  ;; TODO: replace this list with a property list (the actual
-  ;; implementation is not very robust).
-  '(("am" "amharic" "*")
-    ("ar" "arabic")
-    ("ast" "asturian" "*")
-    ("bg" "bulgarian")
-    ("bn" "bengali" "*")
-    ("bo" "tibetan" "*")
-    ("br" "breton")
-    ("ca" "catalan")
-    ("cop" "coptic" "*")
-    ("cs" "czech")
-    ("cy" "welsh")
-    ("da" "danish")
-    ("de" "ngerman" "german" "german")
-    ("de-at" "naustrian" "german" "austrian")
-    ("dsb" "lsorbian" "*")
-    ("dv" "divehi" "*")
-    ("el" "greek")
-    ("el-polyton" "polutonikogreek" "greek" "polytonic")
-    ("en" "american" "english" "usmax")
-    ("en-au" "australian" "english" "australian")
-    ("en-gb" "british" "english" "uk")
-    ("en-nz" "newzealand" "english" "newzealand")
-    ("en-us" "american" "english" "usmax")
-    ("eo" "esperanto")
-    ("es" "spanish")
-    ("es-mx" "spanishmx" "spanish" "mexican")
-    ("et" "estonian")
-    ("eu" "basque")
-    ("fa" "farsi")
-    ("fi" "finnish")
-    ("fr" "french")
-    ("fr-ca" "canadien" "french" "canadian")
-    ("fur" "friulan")
-    ("ga" "irish")
-    ("gd" "scottish")
-    ("gl" "galician")
-    ("he" "hebrew")
-    ("hi" "hindi")
-    ("hr" "croatian")
-    ("hsb" "uppersorbian" "sorbian" "upper")
-    ("hu" "magyar")
-    ("hy" "armenian" "*")
-    ("ia" "interlingua")
-    ("id" "bahasai" "*")
-    ("is" "icelandic")
-    ("it" "italian")
-    ("kn" "kannada" "*")
-    ("la" "latin")
-    ("la-classic" "classiclatin" "latin" "classic")
-    ("la-medieval" "medievallatin" "latin" "medieval")
-    ("la-ecclesiastic" "ecclesiasticlatin" "latin" "ecclesiastic")
-    ("lo" "lao" "*")
-    ("lt" "lithuanian")
-    ("lv" "latvian")
-    ("ml" "malayalam" "*")
-    ("mr" "maranthi" "*")
-    ("nb" "norsk" "norwegian" "bokmal")
-    ("nl" "dutch")
-    ("nn" "nynorsk" "norwegian" "nynorsk")
-    ("no" "norsk")
-    ("oc" "occitan")
-    ("pl" "polish")
-    ("pms" "piedmontese")
-    ("pt" "portuges")
-    ("pt-br" "brazilian")
-    ("rm" "romansh" "*")
-    ("ro" "romanian")
-    ("ru" "russian")
-    ("sa" "sanskrit" "*")
-    ("sk" "slovak")
-    ("sl" "slovene")
-    ("sq" "albanian")
-    ("sr" "serbian")
-    ("sv" "swedish")
-    ("syr" "syriac" "*")
-    ("ta" "tamil" "*")
-    ("te" "telugu" "*")
-    ("th" "thai")
-    ("tk" "turkmen")
-    ("tr" "turkish")
-    ("uk" "ukrainian")
-    ("ur" "urdu" "*")
-    ("vi" "vietnamese"))
-  "Alist between language code and corresponding Babel/Polyglossia option.
+  (let ((de-default-plist '(:babel "ngerman" :babel-ini-alt "german" :polyglossia "german" :polyglossia-variant "german" :lang-name "German" :script "latin" :script-tag "latn"))
+        (zh-default-plist '(:babel-ini-only "chinese" :polyglossia "chinese" :polyglossia-variant "simplified" :lang-name "Chinese Simplified" :script "hans" :script-tag "hans")))
+    `(("af" :babel "afrikaans" :polyglossia "afrikaans" :lang-name "Afrikaans" :script "latin" :script-tag "latn")
+      ("am" :babel-ini-only "amharic" :polyglossia "amharic" :lang-name "Amharic" :script "ethiopic" :script-tag "ethi")
+      ("ar" :babel-ini-only "arabic" :polyglossia "arabic" :lang-name "Arabic" :script "arabic" :script-tag "arab")
+      ("ast" :babel-ini-only "asturian" :polyglossia "asturian" :lang-name "Asturian" :script "latin" :script-tag "latn")
+      ("bg"  :babel "bulgarian" :polyglossia "bulgarian" :lang-name "Bulgarian" :script "cyrillic" :script-tag "cyrl")
+      ("bn"  :babel-ini-only "bengali" :polyglossia "bengali" :lang-name "Bengali" :script "bengali" :script-tag: "beng")
+      ("bo"  :babel-ini-only "tibetan" :polyglossia "tibetan" :lang-name "Tibetan" :script "tibetan" :script-tag "tib")
+      ("br"  :babel "breton" :polyglossia "breton" :lang-name "Breton" :script "latin" :script-tag "latn")
+      ("ca"  :babel "catalan" :polyglossia "catalan" :lang-name "Catalan" :script "latin" :script-tag "latn")
+      ("cop"  :babel-ini-only "coptic" :polyglossia "coptic" :lang-name "Coptic" :script "coptic" :script-tag "copt")
+      ("cs"  :babel "czech" :polyglossia "czech" :lang-name "Czech" :script "latin" :script-tag "latn")
+      ("cy"  :babel "welsh" :polyglossia "welsh" :lang-name "Welsh" :script "latin" :script-tag "latn")
+      ("da"  :babel "danish" :polyglossia "danish" :lang-name "Danish" :script "latin" :script-tag "latn")
+      ("de" ,@de-default-plist)
+      ("de-de" ,@de-default-plist)
+      ("de-at" :babel "naustrian" :babel-ini-alt "german-austria" :polyglossia "german" :polyglossia-variant "austrian" :lang-name "German" :script "latin" :script-tag "latn")
+      ("dsb" :babel "lowersorbian" :babel-ini-alt "lsorbian" :polyglossia "sorbian" :polyglossia-variant "lower" :lang-name "Lower Sorbian" :script "latin" :script-tag "latn")
+      ("dv" :polyglossia "divehi" :lang-name "Dhivehi" :script "latin" :script-tag "latn")
+      ("el" :babel "greek" :polyglossia "greek" :lang-name "Greek" :script "greek" :script-tag "grek")
+      ("el-polyton"  :babel "polutonikogreek" :babel-ini-alt "polytonicgreek" :polyglossia "greek" :polyglossia-variant "polytonic" :lang-name "Polytonic Greek" :script "greek" :script-tag "grek")
+      ("grc" :babel "greek.ancient" :babel-ini-alt "ancientgreek" :polyglossia "greek" :polyglossia-variant "ancient" :lang-name "Ancient Greek" :script "greek" :script-tag "grek")
+      ("en" :babel "english" :polyglossia "english" :polyglossia-variant "usmax" :lang-name "English" :script "latin" :script-tag "latn")
+      ("en-au" :babel "australian" :polyglossia "english" :polyglossia-variant "australian" :lang-name "English" :script "latin" :script-tag "latn")
+      ("en-ca" :babel "canadian" :polyglossia "english" :polyglossia-variant "canadian" :lang-name "English" :script "latin" :script-tag "latn")
+      ("en-gb" :babel "british" :polyglossia "english" :polyglossia-variant "uk" :lang-name "English" :script "latin" :script-tag "latn")
+      ("en-nz" :babel "newzealand" :polyglossia "english" :polyglossia-variant "newzealand" :lang-name "English" :script "latin" :script-tag "latn")
+      ("en-us" :babel "american" :polyglossia "english" :polyglossia-variant "usmax" :lang-name "English" :script "latin" :script-tag "latn")
+      ("eo" :babel "esperanto" :polyglossia "esperanto" :lang-name "Esperanto" :script "latin" :script-tag "latn")
+      ("es" :babel "spanish" :polyglossia "spanish" :lang-name "Spanish" :script "latin" :script-tag "latn")
+      ("es-mx" :babel "spanishmx" :polyglossia "spanish" :polyglossia-variant "mexican" :lang-name "Spanish" :script "latin" :script-tag "latn")
+      ("et" :babel "estonian" :polyglossia "estonian" :lang-name "Estonian" :script "latin" :script-tag "latn")
+      ("eu" :babel "basque" :polyglossia "basque" :lang-name "Basque" :script "latin" :script-tag "latn")
+      ("fa" :babel "persian" :polyglossia "persian" :lang-name "Persian" :script "arabic" :script-tag "arab")
+      ("fi" :babel "finnish" :polyglossia "finnish" :lang-name "Finnish" :script "latin" :script-tag "latn")
+      ("fr" :babel "french" :polyglossia "french" :lang-name "French" :script "latin" :script-tag "latn")
+      ("fr-ca" :babel "canadien" :babel-ini-alt "canadian" :polyglossia "french" :polyglossia-variant "canadian" :lang-name "French" :script "latin" :script-tag "latn")
+      ("fur" :babel "friulian" :polyglossia "friulian" :lang-name "Friulian" :script "latin" :script-tag "latn")
+      ("ga" :babel "irish" :polyglossia "gaelic" :polyglossia-variant "irish" :lang-name "Irish Gaelic" :script "latin" :script-tag "latn")
+      ("gd" :babel "scottish" :polyglossia "gaelic" :polyglossia-variant "scottish" :lang-name "Scottish Gaelic" :script "latin" :script-tag "latn")
+      ("gl" :babel "galician" :polyglossia "galician" :lang-name "Galician" :script "latin" :script-tag "latn")
+      ("he" :babel "hebrew" :polyglossia "hebrew" :lang-name "Hebrew" :script "hebrew" :script-tag "hebr")
+      ("hi" :babel "hindi" :polyglossia "hindi" :lang-name "Hindi" :script "devanagari" :script-tag "deva")
+      ("hr" :babel "croatian" :polyglossia "croatian" :lang-name "Croatian" :script "latin" :script-tag "latn")
+      ("hsb" :babel "uppersorbian" :polyglossia "sorbian" :polyglossia-variant "upper" :lang-name "Upper Sorbian" :script "latin" :script-tag "latn")
+      ("hu" :babel "magyar" :polyglossia "magyar" :lang-name "Magyar" :script "latin" :script-tag "latn")
+      ("hy" :babel-ini-only "armenian" :polyglossia "armenian" :lang-name "Armenian" :script "armenian" :script-tag "armn")
+      ("ia" :babel "interlingua" :polyglossia "interlingua" :lang-name "Interlingua" :script "latin" :script-tag "latn")
+      ("id" :babel "indonesian" :polyglossia "malay" :polyglossia-variant "indonesian" :lang-name "Indonesian" :script "latin" :script-tag "latn")
+      ("is" :babel "icelandic" :polyglossia "icelandic" :lang-name "Icelandic" :script "latin" :script-tag "latn")
+      ("it" :babel "italian" :polyglossia "italian" :lang-name "Italian" :script "latin" :script-tag "latn")
+      ("kn" :babel-ini-only "kannada" :polyglossia "kannada" :lang-name "Kannada" :script "kannada" :script-tag "knda")
+      ("la" :babel "latin" :polyglossia "latin" :lang-name "Latin" :script "latin" :script-tag "latn")
+      ("la-classic"  :babel "classiclatin" :polyglossia "latin" :polyglossia-variant "classic" :lang-name "Classic Latin" :script "latin" :script-tag "latn")
+      ("la-medieval"  :babel "medievallatin" :polyglossia "latin" :polyglossia-variant "medieval" :lang-name "Medieval Latin" :script "latin" :script-tag "latn")
+      ("la-ecclesiastic"  :babel "ecclesiasticlatin" :polyglossia "latin" :polyglossia-variant "ecclesiastic" :lang-name "Ecclesiastic Latin" :script "latin" :script-tag "latn")
+      ("lo" :babel-ini-only "lao" :polyglossia "lao" :lang-name "Lao" :script "lao" :script-tag "lao")
+      ("lt" :babel "lithuanian" :polyglossia "lithuanian" :lang-name "Lithuanian" :script "latin" :script-tag "latn")
+      ("lv" :babel "latvian" :polyglossia "latvian" :lang-name "Latvian" :script "latin" :script-tag "latn")
+      ("ml" :babel-ini-only "malayalam" :polyglossia "malayalam" :lang-name "Malayalam" :script "malayalam" :script-tag "mlym")
+      ("mr" :babel-ini-only "marathi" :polyglossia "marathi" :lang-name "Marathi" :script "devanagari" :script-tag "deva")
+      ("ms" :babel "malay" :polyglossia "malay" :polyglossia-variant "malaysian" :lang-name "Malay" :script "latin" :script-tag "latn")
+      ("nb" :babel "norsk" :polyglossia "norwegian" :polyglossia-variant "bokmal" :lang-name "Norwegian Bokmål" :script "latin" :script-tag "latn")
+      ("nl" :babel "dutch" :polyglossia "dutch" :lang-name "Dutch" :script "latin" :script-tag "latn")
+      ("nn" :babel "nynorsk" :polyglossia "norwegian" :polyglossia-variant "nynorsk" :lang-name "Norwegian Nynorsk" :script "latin" :script-tag "latn")
+      ("no" :babel "norsk" :polyglossia "norsk" :lang-name "Norwegian" :script "latin" :script-tag "latn")
+      ("oc" :babel "occitan" :polyglossia "occitan" :lang-name "Occitan" :script "latin" :script-tag "latn")
+      ("pl" :babel "polish" :polyglossia "polish" :lang-name "Polish" :script "latin" :script-tag "latn")
+      ("pms" :babel "piedmontese" :polyglossia "piedmontese" :lang-name "Piedmontese" :script "latin" :script-tag "latn")
+      ("pt"  :babel "portuges" :polyglossia "portuges" :lang-name "Portuges" :script "latin" :script-tag "latn")
+      ("pt-br" :babel "brazilian" :polyglossia "brazilian" :lang-name "Portuges" :script "latin" :script-tag "latn")
+      ("rm" :babel-ini-only "romansh" :polyglossia "romansh" :lang-name "Romansh" :script "latin" :script-tag "latn")
+      ("ro" :babel "romanian" :polyglossia "romanian" :lang-name "Romanian" :script "latin" :script-tag "latn")
+      ("ru" :babel "russian" :polyglossia "russian" :lang-name "Russian" :script "cyrillic" :script-tag "cyrl")
+      ("sa" :babel-ini-only "sanskrit" :polyglossia "sanskrit" :lang-name "Sanskrit" :script "devanagari" :script-tag "deva")
+      ("sk" :babel "slovak" :polyglossia "slovak" :lang-name "Slovak" :script "latin" :script-tag "latn")
+      ("sl" :babel "slovene" :polyglossia "slovene" :lang-name "Slovene" :script "latin" :script-tag "latn")
+      ("sq" :babel "albanian" :polyglossia "albanian" :lang-name "Albanian" :script "latin" :script-tag "latn")
+      ("sr" :babel "serbian" :polyglossia "serbian" :lang-name "Serbian" :script "latin" :script-tag "latn")
+      ("sr-cyrl" :babel-ini-only "serbian-cyrl" :polyglossia "serbian" :lang-name "Serbian" :script "cyrillic" :script-tag "cyrl")
+      ("sr-latn" :babel-ini-only "serbian-latin" :polyglossia "serbian" :lang-name "Serbian" :script "latin" :script-tag "latn")
+      ("sv"  :babel "swedish" :polyglossia "swedish" :lang-name "Swedish" :script "latin" :script-tag "latn")
+      ("syr" :babel-ini-only "syriac" :polyglossia "syriac" :lang-name "Syriac" :script "syriac" :script-tag "syrc")
+      ("ta" :babel-ini-only "tamil" :polyglossia "tamil" :lang-name "Tamil" :script "tamil" :script-tag "taml")
+      ("te" :babel-ini-only "telugu" :polyglossia "telugu" :lang-name "Telugu" :script "telugu" :script-tag "telu")
+      ("th" :babel "thai" :polyglossia "thai" :lang-name "Thai" :script "thai" :script-tag "thai")
+      ("tk" :babel "turkmen" :polyglossia "turkmen" :lang-name "Turkmen" :script "latin" :script-tag "latn")
+      ("tr" :babel "turkish" :polyglossia "turkish" :lang-name "Turkish" :script "latin" :script-tag "latn")
+      ("uk" :babel "ukrainian" :polyglossia "ukrainian" :lang-name "Ukrainian" :script "cyrillic" :script-tag "cyrl")
+      ("ur" :babel-ini-only "urdu" :polyglossia "urdu" :lang-name "Urdu" :script "arabic" :script-tag "arab")
+      ("vi" :babel "vietnamese" :polyglossia "vietnamese" :lang-name "Vietnamese" :script "latin" :script-tag "latn")
+      ("zh" ,@zh-default-plist)
+      ("zh-cn" ,@zh-default-plist)
+      ("zh-tw" :babel-ini-only "chinese-traditional" :polyglossia "chinese" :polyglossia-variant "traditional" :lang-name "Chinese Traditional" :script "hant" :script-tag "hant")))
+  "Alist between language code and its properties for LaTeX export.
 
-For the names of the languages, the Babel nomenclature is
-preferred to that of Polyglossia, in those cases where both
-coincide.
+In each element of the list car is always the language code and
+cdr is a property list.  Valid keywords for this list can be:
 
-The alist supports three types of members:
+- `:babel' the name of the language loaded by the Babel LaTeX package
 
-- Members with two elements: CODE BABEL/POLYGLOSSIA OPTION.
+- `:polyglossia' the name of the language loaded by the Polyglossia
+  LaTeX package
 
-- Members with three elements: CODE BABEL/POLYGLOSSIA OPTION
-ASTERISK (the presence of the asterisk indicates that this
-language is not loaded in Babel using the old method of ldf
-files but using ini files.  If Babel is loaded in an Org
-document with these languages, the \"AUTO \" argument is just
-removed, to avoid compilation errors).
+- `:babel-ini-only' the name of the language loaded by Babel
+ exclusively through the new ini files method.  See
+ `http://mirrors.ctan.org/macros/latex/required/babel/base/babel.pdf'
 
-- Members with four elements (for variants of languages): CODE
-BABEL-OPTION POLYGLOSSIA-OPTION POLYGLOSSIA-VARIANT")
+- `:babel-ini-alt' an alternative language name when it is loaded
+  using ini files
+
+- `:polyglossia-variant' the language variant loaded by Polyglossia
+
+- `:lang-name' the actual name of the language
+
+- `:script' the script name
+
+- `:script-tag' the script otf tag.")
+
+
 
 (defconst org-latex-table-matrix-macros '(("bordermatrix" . "\\cr")
 					  ("qbordermatrix" . "\\cr")
@@ -380,7 +406,8 @@ references."
   :group 'org-export-latex
   :type 'boolean
   :version "26.1"
-  :package-version '(Org . "8.3"))
+  :package-version '(Org . "8.3")
+  :safe #'booleanp)
 
 (defcustom org-latex-reference-command "\\ref{%s}"
   "Format string that takes a reference to produce a LaTeX reference command.
@@ -391,8 +418,7 @@ use of a package such as hyperref or cleveref and then change the format string
 to \"\\autoref{%s}\" or \"\\cref{%s}\" for example."
   :group 'org-export-latex
   :type 'string
-  :package-version '(Org . "9.5")
-  :safe #'stringp)
+  :package-version '(Org . "9.5"))
 
 ;;;; Preamble
 
@@ -566,6 +592,7 @@ like that: \"%%\".
 Setting :latex-title-command in publishing projects will take
 precedence over this variable."
   :group 'org-export-latex
+  :safe #'stringp
   :type '(string :tag "Format string"))
 
 (defcustom org-latex-subtitle-format "\\\\\\medskip\n\\large %s"
@@ -575,6 +602,7 @@ which is replaced with the subtitle."
   :group 'org-export-latex
   :version "26.1"
   :package-version '(Org . "8.3")
+  :safe #'stringp
   :type '(string :tag "Format string"))
 
 (defcustom org-latex-subtitle-separate nil
@@ -582,18 +610,20 @@ which is replaced with the subtitle."
   :group 'org-export-latex
   :version "26.1"
   :package-version '(Org . "8.3")
+  :safe #'booleanp
   :type 'boolean)
 
 (defcustom org-latex-toc-command "\\tableofcontents\n\n"
   "LaTeX command to set the table of contents, list of figures, etc.
-This command only applies to the table of contents generated with
-the toc:nil option, not to those generated with #+TOC keyword."
+This command only applies to the table of contents generated with the
+toc:t, toc:1, toc:2, toc:3, ... options, not to those generated with
+the #+TOC keyword."
   :group 'org-export-latex
   :type 'string)
 
 (defcustom org-latex-hyperref-template
   "\\hypersetup{\n pdfauthor={%a},\n pdftitle={%t},\n pdfkeywords={%k},
- pdfsubject={%d},\n pdfcreator={%c}, \n pdflang={%L}}\n"
+ pdfsubject={%d},\n pdfcreator={%c},\n pdflang={%L}}\n"
   "Template for hyperref package options.
 
 This format string may contain these elements:
@@ -620,7 +650,21 @@ precedence over this variable."
   :version "26.1"
   :package-version '(Org . "8.3")
   :type '(choice (const :tag "No template" nil)
-		 (string :tag "Format string")))
+		 (string :tag "Format string"))
+  :safe #'string-or-null-p)
+
+(defcustom org-latex-doc-metadata nil
+  "A string with the document metadata.
+
+These metadata add accesibility information to the PDF
+to make it usable by screen readers and similar applications.
+They will be inserted as \"\\DocumentMetadata{<metadata>}\"
+at the beginning of the generated LaTeX preamble."
+
+  :package-version '(Org . "10")
+  :type '(choice (const :tag "No metadata" nil)
+		 (string :tag "Metadata for the PDF output"))
+  :safe #'string-or-null-p)
 
 ;;;; Headline
 
@@ -645,6 +689,18 @@ The function result will be used in the section format string."
 
 ;;;; Footnotes
 
+(defcustom org-latex-default-footnote-command "\\footnote{%s%s}"
+  "Default command used to insert footnotes.
+Customize this command if the LaTeX class provides a different
+command like \"\\sidenote{%s%s}\" that you want to use.
+The value will be passed as an argument to `format' as the following
+  (format org-latex-default-footnote-command
+     footnote-description footnote-label)"
+
+  :group 'org-export-latex
+  :package-version '(Org . "9.7")
+  :type 'string)
+
 (defcustom org-latex-footnote-separator "\\textsuperscript{,}\\,"
   "Text used to separate footnotes."
   :group 'org-export-latex
@@ -664,17 +720,17 @@ The function result will be used in the section format string."
 ;;;; Timestamps
 
 (defcustom org-latex-active-timestamp-format "\\textit{%s}"
-  "A printf format string to be applied to active timestamps."
+  "A `format' string to be applied to active timestamps."
   :group 'org-export-latex
   :type 'string)
 
 (defcustom org-latex-inactive-timestamp-format "\\textit{%s}"
-  "A printf format string to be applied to inactive timestamps."
+  "A `format' string to be applied to inactive timestamps."
   :group 'org-export-latex
   :type 'string)
 
 (defcustom org-latex-diary-timestamp-format "\\textit{%s}"
-  "A printf format string to be applied to diary timestamps."
+  "A `format' string to be applied to diary timestamps."
   :group 'org-export-latex
   :type 'string)
 
@@ -711,8 +767,7 @@ or if the image is wrapped within a \"wrapfigure\" environment.
 Scale overrides width and height."
   :group 'org-export-latex
   :package-version '(Org . "9.3")
-  :type 'string
-  :safe #'stringp)
+  :type 'string)
 
 (defcustom org-latex-image-default-height ""
   "Default height for images.
@@ -729,8 +784,7 @@ environment."
   :group 'org-export-latex
   :type 'string
   :version "26.1"
-  :package-version '(Org . "9.0")
-  :safe #'stringp)
+  :package-version '(Org . "9.0"))
 
 (defcustom org-latex-inline-image-rules
   `(("file" . ,(rx "."
@@ -751,7 +805,7 @@ pdflatex, pdf, jpg and png images are OK.  When processing
 through dvi to Postscript, only ps and eps are allowed.  The
 default we use here encompasses both."
   :group 'org-export-latex
-  :package-version '(Org . "9.4")
+  :package-version '(Org . "9.6")
   :type '(alist :key-type (string :tag "Type")
 		:value-type (regexp :tag "Path")))
 
@@ -760,6 +814,21 @@ default we use here encompasses both."
   :group 'org-export-latex
   :type 'string)
 
+(defcustom org-latex-default-example-environment "verbatim"
+  "Default environment used in example blocks."
+  :group 'org-export-latex
+  :package-version '(Org . "10.0")
+  :type 'string
+  :safe #'stringp)
+
+(defcustom org-latex-default-example-options nil
+  "Default options for the environment used in example blocks."
+  :group 'org-export-latex
+  :package-version '(Org . "10.0")
+  :type '(choice
+	  (string :tag "Example options")
+	  (const  :tag "No options" nil))
+  :safe #'string-or-null-p)
 
 ;;;; Tables
 
@@ -774,8 +843,7 @@ default we use here encompasses both."
   "Default environment used to `quote' blocks."
   :group 'org-export-latex
   :package-version '(Org . "9.5")
-  :type 'string
-  :safe #'stringp)
+  :type 'string)
 
 (defcustom org-latex-default-table-mode 'table
   "Default mode for tables.
@@ -806,7 +874,7 @@ When modifying this variable, it may be useful to change
 		 (const :tag "Matrix" math)
 		 (const :tag "Inline matrix" inline-math)
 		 (const :tag "Verbatim" verbatim))
-  :safe (lambda (s) (memq s '(table math inline-math verbatim))))
+  :safe #'(lambda (s) (memq s '(table math inline-math verbatim))))
 
 (defcustom org-latex-tables-centered t
   "When non-nil, tables are exported in a center environment."
@@ -840,6 +908,24 @@ When nil, no transformation is made."
 	  (string :tag "Format string")
 	  (const :tag "No formatting" nil)))
 
+;;;; Lists
+
+(defcustom org-latex-descriptive-environment "description"
+  "The environment to use for lists tagged as descriptive.
+
+Set this variable if using
+ - tag ::
+upsets the typesetting of a list."
+  :group 'org-export-latex
+  :package-version '(Org . "10.0")
+  :type '(choice
+          (const :tag "description (default)" "description")
+          (const :tag "itemize" "itemize")
+          (const :tag "enumerate" "enumerate")
+          (string :tag "User defined"))
+  :safe #'stringp)
+
+
 ;;;; Text markup
 
 (defcustom org-latex-text-markup-alist '((bold . "\\textbf{%s}")
@@ -871,7 +957,7 @@ returned as-is."
 
 ;;;; Drawers
 
-(defcustom org-latex-format-drawer-function (lambda (_ contents) contents)
+(defcustom org-latex-format-drawer-function #'(lambda (_ contents) contents)
   "Function called to format a drawer in LaTeX code.
 
 The function must accept two parameters:
@@ -914,7 +1000,7 @@ The function should return the string to be exported."
 (defcustom org-latex-src-block-backend 'verbatim
   "Backend used to generate source code listings.
 
-This sets the behaviour for fontifying source code, possibly even with
+This sets the behavior for fontifying source code, possibly even with
 color.  There are four implementations of this functionality you may
 choose from (ordered from least to most capable):
 1. Verbatim
@@ -926,16 +1012,16 @@ The first two options provide basic syntax
 highlighting (listings), or none at all (verbatim).
 
 When using listings, you also need to make use of LaTeX package
-\"listings\"e. The \"color\" LaTeX package is also needed if you
-would like color too.  These can simply be added to
-`org-latex-packages-alist', using customise or something like:
+\"listings\".  The \"xcolor\" LaTeX package is also needed for
+color management.  These can simply be added to
+`org-latex-packages-alist', using customize or something like:
 
   (require \\='ox-latex)
   (add-to-list \\='org-latex-packages-alist \\='(\"\" \"listings\"))
-  (add-to-list \\='org-latex-packages-alist \\='(\"\" \"color\"))
+  (add-to-list \\='org-latex-packages-alist \\='(\"\" \"xcolor\"))
 
 There are two further options for more comprehensive
-fontification. The first can be set with,
+fontification.  The first can be set with,
 
   (setq org-latex-src-block-backend \\='minted)
 
@@ -953,7 +1039,7 @@ In addition, it is necessary to install pygments
 passed to pdflatex.
 
 The minted choice has possible repercussions on the preview of
-latex fragments (see `org-preview-latex-fragment').  If you run
+latex fragments (see `org-latex-preview').  If you run
 into previewing problems, please consult
 URL `https://orgmode.org/worg/org-tutorials/org-latex-preview.html'.
 
@@ -963,21 +1049,22 @@ The most comprehensive option can be set with,
 
 which causes source code to be run through
 `engrave-faces-latex-buffer', which generates colorings using
-Emacs' font-lock information.  This requires the Emacs package
-engrave-faces (available from ELPA), and the LaTeX package
+Emacs's font-lock information.  This requires the Emacs package
+engrave-faces (available from GNU ELPA), and the LaTeX package
 fvextra be installed.
 
-The styling of the engraved result can customised with
+The styling of the engraved result can be customized with
 `org-latex-engraved-preamble' and `org-latex-engraved-options'.
 The default preamble also uses the LaTeX package tcolorbox in
 addition to fvextra."
   :group 'org-export-latex
+  :package-version '(Org . "9.6")
   :type '(choice
 	  (const :tag "Use listings" listings)
 	  (const :tag "Use minted" minted)
 	  (const :tag "Use engrave-faces-latex" engraved)
 	  (const :tag "Export verbatim" verbatim))
-  :safe (lambda (s) (memq s '(listings minted engraved verbatim))))
+  :safe #'(lambda (s) (memq s '(listings minted engraved verbatim))))
 
 (defcustom org-latex-listings-langs
   '((emacs-lisp "Lisp") (lisp "Lisp") (clojure "Lisp")
@@ -1006,11 +1093,28 @@ in this list - but it does not hurt if it is present."
 	   (symbol :tag "Major mode       ")
 	   (string :tag "Listings language"))))
 
+(defcustom org-latex-listings-src-omit-language nil
+  "Discard src block language parameter in listings.
+
+Set this option to t to omit the \"language=\" in the parameters to
+\"lstlisting\" environments when exporting an src block.
+
+This is necessary, for example, when the \"fancyvrb\" package is used
+instead of \"listings\":
+
+#+LATEX_HEADER: \\RequirePackage{fancyvrb}
+#+LATEX_HEADER: \\DefineVerbatimEnvironment{verbatim}{Verbatim}{...}
+#+LATEX_HEADER: \\DefineVerbatimEnvironment{lstlisting}{Verbatim}{...}"
+  :group 'org-export-latex
+  :package-version '(Org . "9.7")
+  :type 'boolean
+  :safe #'booleanp)
+
 (defcustom org-latex-listings-options nil
   "Association list of options for the latex listings package.
 
 These options are supplied as a comma-separated list to the
-\\lstset command.  Each element of the association list should be
+\\lstlisting command.  Each element of the association list should be
 a list or cons cell containing two strings: the name of the
 option, and the value.  For example,
 
@@ -1037,7 +1141,8 @@ following syntax:
   :type '(repeat
 	  (list
 	   (string :tag "Listings option name ")
-	   (string :tag "Listings option value"))))
+	   (string :tag "Listings option value")))
+  :safe #'listp)
 
 (defcustom org-latex-minted-langs
   '((emacs-lisp "common-lisp")
@@ -1187,11 +1292,11 @@ as long as it:
   \"Verbatim\" environments (provided by fvextra) will be wrapped with.
 
 In the default value the colors \"EFD\" and \"EfD\" are provided
-as they are respectively the foreground and background colours,
+as they are respectively the foreground and background colors,
 just in case they aren't provided by the generated preamble, so
 we can assume they are always set.
 
-Within this preamble there are two recognised macro-like placeholders:
+Within this preamble there are two recognized macro-like placeholders:
 
   [FVEXTRA-SETUP]
 
@@ -1241,47 +1346,54 @@ block-specific options, you may use the following syntax:
   ...
   #+END_SRC"
   :group 'org-export-latex
+  :package-version '(Org . "9.6")
   :type '(alist :key-type (string :tag "option")
                 :value-type (string :tag "value")))
 
 (defcustom org-latex-engraved-theme nil
   "The theme that should be used for engraved code, when non-nil.
-This can be set to any theme defined in `engrave-faces-themes' or
-loadable by Emacs.  When set to t, the current Emacs theme is
-used.  When nil, no theme is applied."
+This can be set to any theme defined in `engrave-faces-themes'
+(from the engrave-faces package) or loadable by Emacs.  When set
+to t, the current Emacs theme is used.  When nil, no theme is
+applied."
   :group 'org-export-latex
+  :package-version '(Org . "9.6")
   :type 'symbol)
 
-(defun org-latex-generate-engraved-preamble (info syntax-colours-p)
+(defun org-latex-generate-engraved-preamble (info)
   "Generate the preamble to setup engraved code.
 The result is constructed from the :latex-engraved-preamble and
-:latex-engraved-optionsn export options, the default values of
-which are given by `org-latex-engraved-preamble' and
+:latex-engraved-options export options (passed via INFO plist), the
+default values of which are given by `org-latex-engraved-preamble' and
 `org-latex-engraved-options' respectively."
   (let* ((engraved-options
           (plist-get info :latex-engraved-options))
          (engraved-preamble (plist-get info :latex-engraved-preamble))
          (engraved-theme (plist-get info :latex-engraved-theme))
          (engraved-themes
-          (cl-delete-duplicates
-           (org-element-map
-               (plist-get info :parse-tree)
-               '(src-block inline-src-block)
-             (lambda (src)
-               (plist-get
-                (org-export-read-attribute :attr_latex src)
-                :engraved-theme))
-             info)))
+          (mapcar
+           #'intern
+           (cl-delete-duplicates
+            (org-element-map
+                (plist-get info :parse-tree)
+                '(src-block inline-src-block)
+              #'(lambda (src)
+                  (plist-get
+                   (org-export-read-attribute :attr_latex src)
+                   :engraved-theme))
+              info))))
          (gen-theme-spec
-          (lambda (theme)
-            (if (eq engrave-faces-latex-output-style 'preset)
-                (engrave-faces-latex-gen-preamble (when theme (intern theme)))
-              (engrave-faces-latex-gen-preamble-line
-               'default
-               (alist-get 'default
-                          (if theme
-                              (engrave-faces-get-theme (intern theme))
-                            engrave-faces-current-preset-style)))))))
+          #'(lambda (theme)
+              (if (eq engrave-faces-latex-output-style 'preset)
+                  (engrave-faces-latex-gen-preamble theme)
+                (engrave-faces-latex-gen-preamble-line
+                 'default
+                 (alist-get 'default
+                            (if theme
+                                (engrave-faces-get-theme (intern theme))
+                              engrave-faces-current-preset-style)))))))
+    (when (stringp engraved-theme)
+      (setq engraved-theme (intern engraved-theme)))
     (when (string-match "^[ \t]*\\[FVEXTRA-SETUP\\][ \t]*\n?" engraved-preamble)
       (setq engraved-preamble
             (replace-match
@@ -1303,46 +1415,42 @@ which are given by `org-latex-engraved-preamble' and
 \\floatname{listing}{\\listingsname}
 \\newcommand{\\listoflistingsname}{List of Listings}
 \\providecommand{\\listoflistings}{\\listof{listing}{\\listoflistingsname}}\n"
-              (if (memq 'src-block org-latex-caption-above)
+              (if (org-latex--caption-above-p
+                   (org-element-create 'src-block) info)
                   "plaintop" "plain"))
              t t
              engraved-preamble)))
-    (if syntax-colours-p
-        (concat
-         "\n% Setup for code blocks [1/2]\n\n"
-         engraved-preamble
-         "\n\n% Setup for code blocks [2/2]: syntax highlighting colors\n\n"
-         (if (require 'engrave-faces-latex nil t)
-             (if engraved-themes
-                 (concat
-                  (mapconcat
-                   (lambda (theme)
-                     (format
-                      "\n\\newcommand{\\engravedtheme%s}{%%\n%s\n}"
-                      (replace-regexp-in-string "[^A-Za-z]" "" theme)
-                      (replace-regexp-in-string
-                       "newcommand" "renewcommand"
-                       (replace-regexp-in-string
-                        "#" "##"
-                        (funcall gen-theme-spec theme)))))
-                   engraved-themes
-                   "\n")
-                  "\n\n"
-                  (cond
-                   ((memq engraved-theme engraved-themes)
-                    (concat "\\engravedtheme"
-                            (replace-regexp-in-string
-                             "[^A-Za-z]" "" engraved-theme)
-                            "\n"))
-                   (t (funcall gen-theme-spec engraved-theme))))
-               (funcall gen-theme-spec engraved-theme))
-           (message "Cannot engrave source blocks. Consider installing `engrave-faces'.")
-           "% WARNING syntax highlighting unavailable as engrave-faces-latex was missing.\n")
-         "\n")
-      (concat
-       "\n% Setup for code blocks\n\n"
-       engraved-preamble
-       "\n"))))
+    (concat
+     "\n% Setup for code blocks [1/2]\n\n"
+     engraved-preamble
+     "\n\n% Setup for code blocks [2/2]: syntax highlighting colors\n\n"
+     (if (require 'engrave-faces-latex nil t)
+         (if engraved-themes
+             (concat
+              (mapconcat
+               #'(lambda (theme)
+                   (format
+                    "\n\\newcommand{\\engravedtheme%s}{%%\n%s\n}"
+                    (replace-regexp-in-string "[^A-Za-z]" "" (symbol-name theme))
+                    (replace-regexp-in-string
+                     "newcommand" "renewcommand"
+                     (string-replace
+                      "#" "##"
+                      (funcall gen-theme-spec theme)))))
+               engraved-themes
+               "\n")
+              "\n\n"
+              (cond
+               ((memq engraved-theme engraved-themes)
+                (concat "\\engravedtheme"
+                        (replace-regexp-in-string
+                         "[^A-Za-z]" "" engraved-theme)
+                        "\n"))
+               (t (funcall gen-theme-spec engraved-theme))))
+           (funcall gen-theme-spec engraved-theme))
+       (warn "Cannot engrave source blocks.  Consider installing `engrave-faces'.")
+       "% WARNING syntax highlighting unavailable as engrave-faces-latex was missing.\n")
+     "\n")))
 
 ;;;; Compilation
 
@@ -1358,6 +1466,10 @@ See also `org-latex-compiler'."
   :version "26.1"
   :package-version '(Org . "9.0"))
 
+(defconst org-latex-compilers '("pdflatex" "xelatex" "lualatex")
+  "Known LaTeX compilers.
+See also `org-latex-compiler'.")
+
 (defcustom org-latex-compiler "pdflatex"
   "LaTeX compiler to use.
 
@@ -1371,11 +1483,12 @@ Can also be set in buffers via #+LATEX_COMPILER.  See also
 	  (const :tag "LuaLaTeX" "lualatex")
 	  (const :tag "Unset" ""))
   :version "26.1"
-  :package-version '(Org . "9.0"))
-
-(defconst org-latex-compilers '("pdflatex" "xelatex" "lualatex")
-  "Known LaTeX compilers.
-See also `org-latex-compiler'.")
+  :package-version '(Org . "9.0")
+  :safe #'(lambda (s)
+            (and (stringp s)              ; must be a string
+                 ;; either an empty string or one of the supported compilers
+                 (or (length= s 0)
+                     (member s org-latex-compilers)))))
 
 (defcustom org-latex-bib-compiler "bibtex"
   "Command to process a LaTeX file's bibliography.
@@ -1392,7 +1505,7 @@ A better approach is to use a compiler suit such as `latexmk'."
   :package-version '(Org . "9.0"))
 
 (defcustom org-latex-pdf-process
-  (if (executable-find "latexmk")
+  (if (and (executable-find "latexmk") (executable-find "perl"))
       '("latexmk -f -pdf -%latex -interaction=nonstopmode -output-directory=%o %f")
     '("%latex -interaction nonstopmode -output-directory %o %f"
       "%latex -interaction nonstopmode -output-directory %o %f"
@@ -1424,7 +1537,7 @@ Alternatively, this may be a Lisp function that does the
 processing, so you could use this to apply the machinery of
 AUCTeX or the Emacs LaTeX mode.  This function should accept the
 file name as its single argument."
-  :group 'org-export-pdf
+  :group 'org-export-latex
   :type '(choice
 	  (repeat :tag "Shell command sequence"
 		  (string :tag "Shell command"))
@@ -1471,19 +1584,32 @@ logfiles to remove, set `org-latex-logfiles-extensions'."
     ("Underfull \\hbox" . "[underfull hbox]")
     ("Overfull \\hbox" . "[overfull hbox]")
     ("Citation.*?undefined" . "[undefined citation]")
+    ("^!.+Unicode character" . "[unicode character(s) not supported by pdflatex. Set org-latex-compiler to lualatex or xelatex instead]")
+    ("Missing character: There is no" . "[Missing character(s): please load an appropriate font with the fontspec package]")
     ("Undefined control sequence" . "[undefined control sequence]"))
   "Alist of regular expressions and associated messages for the user.
 The regular expressions are used to find possible warnings in the
 log of a LaTeX-run.  These warnings will be reported after
 calling `org-latex-compile'."
   :group 'org-export-latex
-  :version "26.1"
-  :package-version '(Org . "8.3")
+  :package-version '(Org . "9.7")
   :type '(repeat
 	  (cons
 	   (regexp :tag "Regexp")
 	   (string :tag "Message"))))
 
+
+(defcustom org-latex-toc-include-unnumbered nil
+  "Whether to include unnumbered headings in the table of contents.
+
+The default behaviour is to include numbered headings only, as it is
+usually the case in LaTeX (but different from other Org exporters).
+To include an unnumbered heading, set the `:UNNUMBERED:'
+property to `toc'"
+  :group 'org-export-latex
+  :package-version '(Org . "9.8")
+  :type 'boolean
+  :safe #'booleanp)
 
 
 ;;; Internal Functions
@@ -1508,12 +1634,11 @@ this case always return a unique label.
 Eventually, if FULL is non-nil, wrap label within \"\\label{}\"."
   (let* ((type (org-element-type datum))
 	 (user-label
-	  (org-element-property
-	   (cl-case type
-	     ((headline inlinetask) :CUSTOM_ID)
-	     (target :value)
-	     (otherwise :name))
-	   datum))
+          (cl-case type
+	    ((headline inlinetask) (org-element-property :CUSTOM_ID datum))
+	    (target (org-element-property :value datum))
+	    (otherwise (or (org-element-property :name datum)
+                           (car (org-element-property :results datum))))))
 	 (label
 	  (and (or user-label force)
 	       (if (and user-label (plist-get info :latex-prefer-user-labels))
@@ -1571,6 +1696,11 @@ For non-floats, see `org-latex--wrap-label'."
 	      (let ((type* (if (eq type 'latex-environment)
 			       (org-latex--environment-type element)
 			     type)))
+                ;; \captionof{%s}
+                ;; %s must be a registered LaTeX environment.
+                ;; figure is always there, while listing is defined by
+                ;; additional packages.
+                ;; See https://list.orgmode.org/orgmode/87twtovkjh.fsf@gmx.us/
 		(if nonfloat
 		    (cl-case type*
 		      (paragraph "figure")
@@ -1615,19 +1745,24 @@ explicitly been loaded.  Then it is added to the rest of
 package's options.
 
 The optional argument to Babel or the mandatory argument to
-`\babelprovide' command may be \"AUTO\" which is then replaced
+`\\babelprovide' command may be \"AUTO\" which is then replaced
 with the language of the document or
 `org-export-default-language' unless language in question is
 already loaded.
 
 Return the new header."
   (let* ((language-code (plist-get info :language))
-	 (language (nth 1 (assoc language-code
-				 org-latex-language-alist)))
-	 ;; If no language is set or Babel package is not loaded, return
- 	 ;; HEADER as-is.
-	 (header (if (or (not (stringp language-code))
-			 (not (string-match "\\\\usepackage\\[\\(.*\\)\\]{babel}" header)))
+	 (plist (cdr
+		 (assoc language-code org-latex-language-alist)))
+	 (language (plist-get plist :babel))
+	 (language-ini-only (plist-get plist :babel-ini-only))
+         (language-ini-alt (plist-get plist :babel-ini-alt))
+	 ;; If no language is set, or Babel package is not loaded, or
+	 ;; LANGUAGE keyword value is a language served by Babel
+	 ;; exclusively through ini files, return HEADER as-is.
+	 (header (if (or language-ini-only
+			 (not (stringp language-code))
+			 (not (string-match "\\\\usepackage\\[\\([^]]*\\)\\]{babel}" header)))
 		     header
 		   (let ((options (save-match-data
 				    (org-split-string (match-string 1 header) ",[ \t]*"))))
@@ -1637,31 +1772,26 @@ Return the new header."
 		     ;; served in Babel exclusively through ini files are not added
 		     ;; to the babel argument, and must be loaded using
 		     ;; `\babelprovide'.
-		     (let ((l (assoc language-code org-latex-language-alist)))
-                       ;; Three elements imply that LANGUAGE is served
-                       ;; in Babel only by means of an ini file.
-                       ;; Therefore it will not be added to the Babel
-                       ;; argument.  TODO: this should be improved
-                       ;; when `org-latex-language-alist' is replaced
-                       ;; by a more robust list.
-		       (if (and (consp l) (= (length l) 3))
-                           header
-			 (replace-match
-			  (mapconcat (lambda (option) (if (equal "AUTO" option) language option))
-				     (cond ((member language options) (delete "AUTO" options))
-					   ((member "AUTO" options) options)
-					   (t (append options (list language))))
-				     ", ")
-			  t nil header 1)))))))
+		     (replace-match
+		      (mapconcat #'(lambda (option) (if (equal "AUTO" option) language option))
+				 (cond ((member language options) (delete "AUTO" options))
+				       ((member "AUTO" options) options)
+				       (t (append options (list language))))
+				 ", ")
+		      t nil header 1)))))
     ;; If `\babelprovide[args]{AUTO}' is present, AUTO is
     ;; replaced by LANGUAGE.
     (if (not (string-match "\\\\babelprovide\\[.*\\]{\\(.+\\)}" header))
 	header
       (let ((prov (match-string 1 header)))
-	(when (equal "AUTO" prov)
-	  (replace-regexp-in-string (format
-				     "\\(\\\\babelprovide\\[.*\\]\\)\\({\\)%s}" prov)
-				    (format "\\1\\2%s}" language) header t))))))
+	(if (equal "AUTO" prov)
+	    (replace-regexp-in-string (format
+				       "\\(\\\\babelprovide\\[.*\\]\\)\\({\\)%s}" prov)
+				      (format "\\1\\2%s}"
+					      (if language-ini-alt language-ini-alt
+                                                (or language language-ini-only)))
+				      header t)
+	  header)))))
 
 (defun org-latex-guess-polyglossia-language (header info)
   "Set the Polyglossia language according to the LANGUAGE keyword.
@@ -1678,13 +1808,13 @@ replaced with the language of the document or
 using \setdefaultlanguage and not as an option to the package.
 
 Return the new header."
-  (let ((language (plist-get info :language)))
+  (let* ((language (plist-get info :language)))
     ;; If no language is set or Polyglossia is not loaded, return
     ;; HEADER as-is.
     (if (or (not (stringp language))
 	    (not (string-match
-		"\\\\usepackage\\(?:\\[\\([^]]+?\\)\\]\\){polyglossia}\n"
-		header)))
+		  "\\\\usepackage\\(?:\\[\\([^]]+?\\)\\]\\){polyglossia}\n"
+		  header)))
 	header
       (let* ((options (org-string-nw-p (match-string 1 header)))
 	     (languages (and options
@@ -1702,24 +1832,21 @@ Return the new header."
 	(replace-match
 	 (concat "\\usepackage{polyglossia}\n"
 		 (mapconcat
-		  (lambda (l)
-		    (let ((l (or (assoc l org-latex-language-alist)
-				 l)))
-		      (format (if main-language-set "\\setotherlanguage%s{%s}\n"
-				(setq main-language-set t)
-				"\\setmainlanguage%s{%s}\n")
-                              ;; Four elements implies that there is a
-                              ;; variant (4) for LANGUAGE when
-                              ;; declared by Polyglossia (3).
-                              ;; FIXME: This should be improved when
-                              ;; `org-latex-language-alist' is
-                              ;; replaced by a more robust list.
-                              (if (and (consp l) (= (length l) 4))
-				  (format "[variant=%s]" (nth 3 l))
-				"")
-			      (if (and (consp l) (= (length l) 4))
-				  (nth 2 l)
-				(nth 1 l)))))
+		  #'(lambda (l)
+		      (let* ((plist (cdr
+				     (assoc language org-latex-language-alist)))
+			     (polyglossia-variant (plist-get plist :polyglossia-variant))
+			     (polyglossia-lang (plist-get plist :polyglossia))
+			     (l (if (equal l language)
+				    polyglossia-lang
+				  l)))
+		        (format (if main-language-set (format "\\setotherlanguage{%s}\n" l)
+				  (setq main-language-set t)
+				  "\\setmainlanguage%s{%s}\n")
+			        (if polyglossia-variant
+				    (format "[variant=%s]" polyglossia-variant)
+				  "")
+			        l)))
 		  languages
 		  ""))
 	 t t header 0)))))
@@ -1732,15 +1859,17 @@ and `org-latex-default-packages-alist'.  If the fourth argument
 of a package is neither nil nor a member of the LaTeX compiler
 associated to the document, the package is removed.
 
+LaTeX compiler is defined in :latex-compiler INFO plist entry.
+
 Return new list of packages."
   (let ((compiler (or (plist-get info :latex-compiler) "")))
     (if (not (member-ignore-case compiler org-latex-compilers)) pkg-alist
       (cl-remove-if-not
-       (lambda (package)
-	 (pcase package
-	   (`(,_ ,_ ,_ nil) t)
-	   (`(,_ ,_ ,_ ,compilers) (member-ignore-case compiler compilers))
-	   (_ t)))
+       #'(lambda (package)
+	   (pcase package
+	     (`(,_ ,_ ,_ nil) t)
+	     (`(,_ ,_ ,_ ,compilers) (member-ignore-case compiler compilers))
+	     (_ t)))
        pkg-alist))))
 
 (defun org-latex--find-verb-separator (s)
@@ -1752,21 +1881,21 @@ This is used to choose a separator for constructs like \\verb."
 	     return (char-to-string c))))
 
 (defun org-latex--make-option-string (options &optional separator)
-  "Return a comma separated string of keywords and values.
+  "Return a comma or SEPARATOR separated string of keywords and values.
 OPTIONS is an alist where the key is the options keyword as
 a string, and the value a list containing the keyword value, or
 nil."
-  (mapconcat (lambda (pair)
-               (let ((keyword (car pair))
-                     (value (pcase (cdr pair)
-                              ((pred stringp) (cdr pair))
-                              ((pred consp) (cadr pair)))))
-                 (concat keyword
-                         (when value
-                           (concat "="
-                                   (if (string-match-p (rx (any "[]")) value)
-                                       (format "{%s}" value)
-                                     value))))))
+  (mapconcat #'(lambda (pair)
+                 (let ((keyword (car pair))
+                       (value (pcase (cdr pair)
+                                ((pred stringp) (cdr pair))
+                                ((pred consp) (cadr pair)))))
+                   (concat keyword
+                           (when value
+                             (concat "="
+                                     (if (string-match-p (rx (any "[]")) value)
+                                         (format "{%s}" value)
+                                       value))))))
              options
              (or separator ",")))
 
@@ -1775,11 +1904,11 @@ nil."
 INFO is the current export state, as a plist.  This function
 should not be used for floats.  See
 `org-latex--caption/label-string'."
-  (if (not (and (org-string-nw-p output) (org-element-property :name element)))
-      output
-    (concat (format "\\phantomsection\n\\label{%s}\n"
-		    (org-latex--label element info))
-	    output)))
+  (let ((label (org-latex--label element info)))
+    (if (not (and (org-string-nw-p output) label))
+        output
+      (concat (format "\\phantomsection\n\\label{%s}\n" label)
+	      output))))
 
 (defun org-latex--protect-text (text)
   "Protect special characters in string TEXT and return it."
@@ -1799,7 +1928,7 @@ INFO is a plist used as a communication channel.  See
        (let ((separator (org-latex--find-verb-separator text)))
 	 (concat "\\verb"
 		 separator
-		 (replace-regexp-in-string "\n" " " text)
+		 (string-replace "\n" " " text)
 		 separator)))
       (protectedtexttt (org-latex--protect-texttt text))
       ;; Else use format string.
@@ -1809,13 +1938,15 @@ INFO is a plist used as a communication channel.  See
   "Protect special chars, then wrap TEXT in \"\\texttt{}\"."
   (format "\\texttt{%s}"
           (replace-regexp-in-string
-           "--\\|[\\{}$%&_#~^]"
-           (lambda (m)
-             (cond ((equal m "--") "-{}-")
-                   ((equal m "\\") "\\textbackslash{}")
-                   ((equal m "~") "\\textasciitilde{}")
-                   ((equal m "^") "\\textasciicircum{}")
-                   (t (org-latex--protect-text m))))
+           "--\\|<<\\|>>\\|[\\{}$%&_#~^]"
+           #'(lambda (m)
+               (cond ((equal m "--") "-{}-{}")
+                     ((equal m "<<") "<{}<{}")
+                     ((equal m ">>") ">{}>{}")
+                     ((equal m "\\") "\\textbackslash{}")
+                     ((equal m "~") "\\textasciitilde{}")
+                     ((equal m "^") "\\textasciicircum{}")
+                     (t (org-latex--protect-text m))))
            text nil t)))
 
 (defun org-latex--delayed-footnotes-definitions (element info)
@@ -1831,27 +1962,27 @@ This function is used within constructs that don't support
 \"\\footnotemark\" is used within the construct and the function
 just outside of it."
   (mapconcat
-   (lambda (ref)
-     (let ((def (org-export-get-footnote-definition ref info)))
-       (format "\\footnotetext[%d]{%s%s}"
-	       (org-export-get-footnote-number ref info)
-	       (org-trim (org-latex--label def info t t))
-	       (org-trim (org-export-data def info)))))
+   #'(lambda (ref)
+       (let ((def (org-export-get-footnote-definition ref info)))
+         (format "\\footnotetext[%d]{%s%s}"
+	         (org-export-get-footnote-number ref info)
+	         (org-trim (org-latex--label def info t t))
+	         (org-trim (org-export-data def info)))))
    ;; Find every footnote reference in ELEMENT.
    (letrec ((all-refs nil)
 	    (search-refs
-	     (lambda (data)
-	       ;; Return a list of all footnote references never seen
-	       ;; before in DATA.
-	       (org-element-map data 'footnote-reference
-		 (lambda (ref)
-		   (when (org-export-footnote-first-reference-p ref info)
-		     (push ref all-refs)
-		     (when (eq (org-element-property :type ref) 'standard)
-		       (funcall search-refs
-				(org-export-get-footnote-definition ref info)))))
-		 info)
-	       (reverse all-refs))))
+	     #'(lambda (data)
+	         ;; Return a list of all footnote references never seen
+	         ;; before in DATA.
+	         (org-element-map data 'footnote-reference
+		   #'(lambda (ref)
+		       (when (org-export-footnote-first-reference-p ref info)
+		         (push ref all-refs)
+		         (when (eq (org-element-property :type ref) 'standard)
+		           (funcall search-refs
+				    (org-export-get-footnote-definition ref info)))))
+		   info)
+	         (reverse all-refs))))
      (funcall search-refs element))
    ""))
 
@@ -1861,28 +1992,35 @@ INFO is a plist used as a communication channel."
   (org-export-translate s :latex info))
 
 (defun org-latex--format-spec (info)
-  "Create a format-spec for document meta-data.
+  "Create a format spec for document meta-data.
 INFO is a plist used as a communication channel."
-  (let ((language (let ((lang (plist-get info :language)))
-                    ;; The second element in
-                    ;; `org-latex-language-alist' is always the
-                    ;; language name, regardless of the type of the
-                    ;; alist entry.
-                    (or (nth 1 (assoc-string lang org-latex-language-alist t))
-			lang))))
-    `((?a . ,(org-export-data (plist-get info :author) info))
-      (?t . ,(org-export-data (plist-get info :title) info))
-      (?s . ,(org-export-data (plist-get info :subtitle) info))
+  (let ((language (let* ((lang (plist-get info :language))
+		         (plist (cdr
+			         (assoc lang org-latex-language-alist))))
+                    ;; Here the actual name of the LANGUAGE or LANG is used.
+		    (or (plist-get plist :lang-name)
+		        lang))))
+    `((?a . ,(if (plist-get info :with-author)
+                 (org-export-data (plist-get info :author) info)
+               ""))
+      (?t . ,(if (plist-get info :with-title)
+                 (org-export-data (plist-get info :title) info)
+               ""))
+      (?s . ,(if (plist-get info :with-title)
+                 (org-export-data (plist-get info :subtitle) info)
+               ""))
       (?k . ,(org-export-data (org-latex--wrap-latex-math-block
 			       (plist-get info :keywords) info)
 			      info))
       (?d . ,(org-export-data (org-latex--wrap-latex-math-block
 			       (plist-get info :description) info)
 			      info))
-      (?c . ,(plist-get info :creator))
+      (?c . ,(if (plist-get info :with-creator)
+                 (plist-get info :creator)
+               ""))
       (?l . ,language)
       (?L . ,(capitalize language))
-      (?D . ,(org-export-get-date info)))))
+      (?D . ,(org-export-data (org-export-get-date info) info)))))
 
 (defun org-latex--insert-compiler (info)
   "Insert LaTeX_compiler info into the document.
@@ -1891,6 +2029,15 @@ INFO is a plist used as a communication channel."
     (and (org-string-nw-p org-latex-compiler-file-string)
 	 (member (or compiler "") org-latex-compilers)
 	 (format org-latex-compiler-file-string compiler))))
+
+(defcustom org-latex-use-sans nil
+  "Whether to typeset the document with the Sans font family.
+
+The default behaviour is to typeset with the Roman font family."
+  :group 'org-export-latex
+  :package-version '(Org . "9.8")
+  :type 'boolean
+  :safe #'booleanp)
 
 
 ;;; Filters
@@ -1913,6 +2060,19 @@ INFO is a plist used as a communication channel."
 
 
 ;;; Template
+(defun org-latex--mk-options (str)
+  "Make STR be enclosed in [ ] or return an empty string if nil or empty.
+
+If STR is nil or an empty string, return STR.
+If STR is a traditional LATEX_CLASS_OPTIONS enclosed in [ ], return it as is.
+If the square brackets are missing, return STR enclosed in square brackets."
+  (if (or (not str) (length= str 0)) str
+    (save-match-data  ; just in case it is used in a search/replace context
+      (let ((str (concat "[" str "]"))) ; make sure it is enclosed in []
+        (replace-regexp-in-string  ; remove excess [ at the beginning
+         "\\`\\[+" "["
+         (replace-regexp-in-string ; remove excess ] at the end
+          "]+\\'" "]" str))))))
 
 ;;;###autoload
 (defun org-latex-make-preamble (info &optional template snippet?)
@@ -1924,15 +2084,24 @@ non-nil, only includes packages relevant to image generation, as
 specified in `org-latex-default-packages-alist' or
 `org-latex-packages-alist'."
   (let* ((class (plist-get info :latex-class))
+         (doc-metadata (plist-get info :latex-doc-metadata))
 	 (class-template
 	  (or template
-	      (let* ((class-options (plist-get info :latex-class-options))
+	      (let* ((class-options (org-latex--mk-options (plist-get info :latex-class-options)))
 		     (header (nth 1 (assoc class (plist-get info :latex-classes)))))
 		(and (stringp header)
-		     (if (not class-options) header
-		       (replace-regexp-in-string
-			"^[ \t]*\\\\documentclass\\(\\(\\[[^]]*\\]\\)?\\)"
-			class-options header t nil 1))))
+	             (mapconcat #'org-element-normalize-string
+		                (list
+                                 (and (not snippet?)
+                                      doc-metadata
+                                      (format "\\DocumentMetadata{%s}" doc-metadata))
+                                 (and (not snippet?)
+                                      (plist-get info :latex-class-pre))
+		                 (if (not class-options) header
+		                   (replace-regexp-in-string
+			            "^[ \t]*\\\\documentclass\\(\\(\\[[^]]*\\]\\)?\\)"
+			            class-options header t nil 1)))
+                                nil)))
 	      (user-error "Unknown LaTeX class `%s'" class))))
     (org-latex-guess-polyglossia-language
      (org-latex-guess-babel-language
@@ -1946,7 +2115,11 @@ specified in `org-latex-default-packages-alist' or
 	 (mapconcat #'org-element-normalize-string
 		    (list (plist-get info :latex-header)
 			  (and (not snippet?)
-			       (plist-get info :latex-header-extra)))
+			       (plist-get info :latex-header-extra))
+                          (and (not snippet?)
+                               (plist-get info :latex-use-sans)
+                               "\\renewcommand*\\familydefault{\\sfdefault}"))
+
 		    ""))))
       info)
      info)))
@@ -1958,7 +2131,7 @@ holding export options."
   (let ((title (org-export-data (plist-get info :title) info))
 	(spec (org-latex--format-spec info)))
     (concat
-     ;; Time-stamp.
+     ;; Timestamp.
      (and (plist-get info :time-stamp-file)
 	  (format-time-string "%% Created %Y-%m-%d %a %H:%M\n"))
      ;; LaTeX compiler.
@@ -1981,7 +2154,7 @@ holding export options."
      ;; Date.
      ;; LaTeX displays today's date by default. One can override this by
      ;; inserting \date{} for no date, or \date{string} with any other
-     ;; string to be displayed as the date. 
+     ;; string to be displayed as the date.
      (let ((date (and (plist-get info :with-date) (org-export-get-date info))))
        (format "\\date{%s}\n" (org-export-data date info)))
      ;; Title and subtitle.
@@ -2001,11 +2174,11 @@ holding export options."
        (and (stringp template)
             (format-spec template spec)))
      ;; engrave-faces-latex preamble
-     (when (and (eq org-latex-src-block-backend 'engraved)
+     (when (and (eq (plist-get info :latex-src-block-backend) 'engraved)
                 (org-element-map (plist-get info :parse-tree)
                     '(src-block inline-src-block) #'identity
                     info t))
-       (org-latex-generate-engraved-preamble info t))
+       (org-latex-generate-engraved-preamble info))
      ;; Document start.
      "\\begin{document}\n\n"
      ;; Title command.
@@ -2120,11 +2293,16 @@ information."
   (when (org-string-nw-p (org-element-property :value example-block))
     (let ((environment (or (org-export-read-attribute
 			    :attr_latex example-block :environment)
-			   "verbatim")))
+                           org-latex-default-example-environment))
+          (options (org-latex--mk-options
+                    (or (org-export-read-attribute
+                         :attr_latex example-block :options)
+                        org-latex-default-example-options
+                        ""))))
       (org-latex--wrap-label
        example-block
-       (format "\\begin{%s}\n%s\\end{%s}"
-	       environment
+       (format "\\begin{%s}%s\n%s\\end{%s}"
+	       environment options
 	       (org-export-format-code-default example-block info)
 	       environment)
        info))))
@@ -2170,7 +2348,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     (concat
      ;; Insert separator between two footnotes in a row.
      (let ((prev (org-export-get-previous-element footnote-reference info)))
-       (when (eq (org-element-type prev) 'footnote-reference)
+       (when (org-element-type-p prev 'footnote-reference)
 	 (plist-get info :latex-footnote-separator)))
      (cond
       ;; Use `:latex-footnote-defined-format' if the footnote has
@@ -2181,28 +2359,27 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
 		(org-export-get-footnote-definition footnote-reference info)
 		info t)))
       ;; Use \footnotemark if reference is within another footnote
-      ;; reference, footnote definition, table cell, verse block, or
-      ;; item's tag.
+      ;; reference, footnote definition, table cell, or item's tag.
       ((or (org-element-lineage footnote-reference
-				'(footnote-reference footnote-definition
-						     table-cell verse-block))
-	   (eq 'item (org-element-type
-		      (org-export-get-parent-element footnote-reference))))
+				'( footnote-reference footnote-definition
+				   table-cell))
+	   (org-element-type-p
+	    (org-element-parent-element footnote-reference) 'item))
        "\\footnotemark")
       ;; Otherwise, define it with \footnote command.
       (t
        (let ((def (org-export-get-footnote-definition footnote-reference info)))
 	 (concat
-	  (format "\\footnote{%s%s}" (org-trim (org-export-data def info))
+	  (format (plist-get info :latex-default-footnote-command) (org-trim (org-export-data def info))
 		  ;; Only insert a \label if there exist another
 		  ;; reference to def.
 		  (cond ((not label) "")
 			((org-element-map (plist-get info :parse-tree)
 			     'footnote-reference
-			   (lambda (f)
-			     (and (not (eq f footnote-reference))
-				  (equal (org-element-property :label f) label)
-				  (org-trim (org-latex--label def info t t))))
+			   #'(lambda (f)
+			       (and (not (eq f footnote-reference))
+				    (equal (org-element-property :label f) label)
+				    (org-trim (org-latex--label def info t t))))
 			   info t))
 			(t "")))
 	  ;; Retrieve all footnote references within the footnote and
@@ -2213,53 +2390,82 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
 
 ;;;; Headline
 
+(defun org-latex--get-section-format (headline info)
+  "Get section format for HEADLINE.
+INFO is the communication plist."
+  (let* ((class (plist-get info :latex-class))
+	 (level (org-export-get-relative-level headline info))
+         (numberedp (org-export-numbered-headline-p headline info))
+         (class-sectioning (assoc class (plist-get info :latex-classes))))
+    (let ((sec (if (functionp (nth 2 class-sectioning))
+		   (funcall (nth 2 class-sectioning) level numberedp)
+		 (nth (1+ level) class-sectioning))))
+      (cond
+       ;; No section available for that LEVEL.
+       ((not sec) nil)
+       ;; Section format directly returned by a function.  Add
+       ;; placeholder for contents.
+       ((stringp sec) (concat sec "\n%s"))
+       ;; (numbered-section . unnumbered-section)
+       ((not (consp (cdr sec)))
+	(concat (funcall (if numberedp #'car #'cdr) sec) "\n%s"))
+       ;; (numbered-open numbered-close)
+       ((= (length sec) 2)
+	(when numberedp (concat (car sec) "\n%s" (nth 1 sec))))
+       ;; (num-in num-out no-num-in no-num-out)
+       ((= (length sec) 4)
+	(if numberedp (concat (car sec) "\n%s" (nth 1 sec))
+	  (concat (nth 2 sec) "\n%s" (nth 3 sec))))))))
+
+(defconst org-latex--section-backend
+  (org-export-create-backend
+   :parent 'latex
+   :transcoders
+   '((underline . #'(lambda (o c i) (format "\\underline{%s}" c)))
+     ;; LaTeX isn't happy when you try to use \verb inside the argument of other
+     ;; commands (like \section, etc.), and this causes compilation to fail.
+     ;; So, within headings it's a good idea to replace any instances of \verb
+     ;; with \texttt.
+     (code . #'(lambda (o _ _) (org-latex--protect-texttt (org-element-property :value o))))
+     (verbatim . #'(lambda (o _ _) (org-latex--protect-texttt (org-element-property :value o))))))
+  "Export backend that hard-codes \\underline within \\section and alike.")
+
+(defconst org-latex--section-no-footnote-backend
+  (org-export-create-backend
+   :parent org-latex--section-backend
+   :transcoders
+   `((footnote-reference . ignore)))
+  "Export backend that strips footnotes from title.
+
+Footnotes are not allowed in \\section and similar commands that
+contribute to TOC and footers.
+See https://orgmode.org/list/691643eb-49d0-45c3-ab7f-a1edbd093bef@gmail.com
+https://texfaq.org/FAQ-ftnsect")
+
 (defun org-latex-headline (headline contents info)
   "Transcode a HEADLINE element from Org to LaTeX.
 CONTENTS holds the contents of the headline.  INFO is a plist
 holding contextual information."
   (unless (org-element-property :footnote-section-p headline)
-    (let* ((class (plist-get info :latex-class))
-	   (level (org-export-get-relative-level headline info))
+    (let* ((level (org-export-get-relative-level headline info))
+           ;; "LaTeX TOC handling"
+           ;; :unnumbered: toc will add the heading to the ToC
+           ;; "Org TOC handling"
+           ;; :unnumbered: notoc to suppress heading from the ToC
+           ;; else include all headings (including unnumbered) like other modes
+           (unnumbered-type (org-export-get-node-property :UNNUMBERED headline t))
 	   (numberedp (org-export-numbered-headline-p headline info))
-	   (class-sectioning (assoc class (plist-get info :latex-classes)))
 	   ;; Section formatting will set two placeholders: one for
 	   ;; the title and the other for the contents.
-	   (section-fmt
-	    (let ((sec (if (functionp (nth 2 class-sectioning))
-			   (funcall (nth 2 class-sectioning) level numberedp)
-			 (nth (1+ level) class-sectioning))))
-	      (cond
-	       ;; No section available for that LEVEL.
-	       ((not sec) nil)
-	       ;; Section format directly returned by a function.  Add
-	       ;; placeholder for contents.
-	       ((stringp sec) (concat sec "\n%s"))
-	       ;; (numbered-section . unnumbered-section)
-	       ((not (consp (cdr sec)))
-		(concat (funcall (if numberedp #'car #'cdr) sec) "\n%s"))
-	       ;; (numbered-open numbered-close)
-	       ((= (length sec) 2)
-		(when numberedp (concat (car sec) "\n%s" (nth 1 sec))))
-	       ;; (num-in num-out no-num-in no-num-out)
-	       ((= (length sec) 4)
-		(if numberedp (concat (car sec) "\n%s" (nth 1 sec))
-		  (concat (nth 2 sec) "\n%s" (nth 3 sec)))))))
-	   ;; Create a temporary export back-end that hard-codes
-	   ;; "\underline" within "\section" and alike.
-	   (section-back-end
-            (org-export-create-backend
-             :parent 'latex
-             :transcoders
-             '((underline . (lambda (o c i) (format "\\underline{%s}" c)))
-               ;; LaTeX isn't happy when you try to use \verb inside the argument of other
-               ;; commands (like \section, etc.), and this causes compilation to fail.
-               ;; So, within headings it's a good idea to replace any instances of \verb
-               ;; with \texttt.
-               (code . (lambda (o _ _) (org-latex--protect-texttt (org-element-property :value o))))
-               (verbatim . (lambda (o _ _) (org-latex--protect-texttt (org-element-property :value o)))))))
+	   (section-fmt (org-latex--get-section-format headline info))
 	   (text
 	    (org-export-data-with-backend
-	     (org-element-property :title headline) section-back-end info))
+	     (org-element-property :title headline)
+             org-latex--section-backend info))
+           (text-no-footnote
+            (org-export-data-with-backend
+	     (org-element-property :title headline)
+             org-latex--section-no-footnote-backend info))
 	   (todo
 	    (and (plist-get info :with-todo-keywords)
 		 (let ((todo (org-element-property :todo-keyword headline)))
@@ -2273,6 +2479,9 @@ holding contextual information."
 	   ;; The latter is required to remove tags from toc.
 	   (full-text (funcall (plist-get info :latex-format-headline-function)
 			       todo todo-type priority text tags info))
+           (full-text-no-footnote
+            (funcall (plist-get info :latex-format-headline-function)
+		     todo todo-type priority text-no-footnote tags info))
 	   ;; Associate \label to the headline for internal links.
 	   (headline-label (org-latex--label headline info t t))
 	   (pre-blanks
@@ -2310,8 +2519,10 @@ holding contextual information."
 	       (funcall (plist-get info :latex-format-headline-function)
 			todo todo-type priority
 			(org-export-data-with-backend
+                         ;; Returns alternative title when provided or
+                         ;; title itself.
 			 (org-export-get-alt-title headline info)
-			 section-back-end info)
+			 org-latex--section-backend info)
 			(and (eq (plist-get info :with-tags) t) tags)
 			info))
 	      ;; Maybe end local TOC (see `org-latex-keyword').
@@ -2321,30 +2532,89 @@ holding contextual information."
 		(let ((case-fold-search t)
 		      (section
 		       (let ((first (car (org-element-contents headline))))
-			 (and (eq (org-element-type first) 'section) first))))
+			 (and (org-element-type-p first 'section) first))))
 		  (org-element-map section 'keyword
-		    (lambda (k)
-		      (and (equal (org-element-property :key k) "TOC")
-			   (let ((v (org-element-property :value k)))
-			     (and (string-match-p "\\<headlines\\>" v)
-				  (string-match-p "\\<local\\>" v)
-				  (format "\\stopcontents[level-%d]" level)))))
+		    #'(lambda (k)
+		        (and (equal (org-element-property :key k) "TOC")
+			     (let ((v (org-element-property :value k)))
+			       (and (string-match-p "\\<headlines\\>" v)
+				    (string-match-p "\\<local\\>" v)
+				    (format "\\stopcontents[level-%d]" level)))))
 		    info t)))))
-	  (if (and opt-title
-		   (not (equal opt-title full-text))
-		   (string-match "\\`\\\\\\(.+?\\){" section-fmt))
-	      (format (replace-match "\\1[%s]" nil nil section-fmt 1)
-		      ;; Replace square brackets with parenthesis
-		      ;; since square brackets are not supported in
-		      ;; optional arguments.
-		      (replace-regexp-in-string
-		       "\\[" "(" (replace-regexp-in-string "\\]" ")" opt-title))
-		      full-text
-		      (concat headline-label pre-blanks contents))
-	    ;; Impossible to add an alternative heading.  Fallback to
-	    ;; regular sectioning format string.
-	    (format section-fmt full-text
-		    (concat headline-label pre-blanks contents))))))))
+          ;; When do we need to explicitly specify a heading for TOC?
+          ;; 1. On numbered section with footnotes in title or alt_title
+          ;; 2. On an unnumbered section if :UNNUMBERED: allows it regardless of footnotes
+          ;; This applies to anything that may go into the ToC.
+          ;; Specifically for paragraphs, see first answer of
+          ;; https://tex.stackexchange.com/questions/288072/footnotes-within-paragraph
+          (let ((section-kw
+                 (and (string-match "\\`\\\\\\(.+?\\){" section-fmt)
+                      (match-string 1 section-fmt)))
+                need-alternative-toc-title)
+            (if (not section-kw)
+                ;; We only know how to add \SECTION-KW{...} to TOC.
+                (setq need-alternative-toc-title nil)
+              (if (string-suffix-p "*" section-kw)
+                  ;; FIXME: In theory, user may customize section-fmt
+                  ;; to use, e.g. \section{...} for unnumbered headings
+                  ;; We do not handle such scenario.
+                  (progn ;; unnumbered sections (ending with *)
+                    ;; Then we need to obey what the :UNNUMBERED: property says
+                    (if org-latex-toc-include-unnumbered
+                        ;; Treat the ToC closer to what other exporters do
+                        ;; Include unnumbered section into TOC unless
+                        ;; explicitly requested not to.
+                        (if (string= unnumbered-type "notoc")
+                            (setq need-alternative-toc-title nil)
+                          (setq need-alternative-toc-title t))
+                      ;; Ignore unnumbered headings in ToC - as in LaTeX
+                      ;; unless explicitly requested to include.
+                      (if (string= unnumbered-type "toc")
+                          (setq need-alternative-toc-title t)
+                        (setq need-alternative-toc-title nil))))
+                ;; Numbered sections
+                ;; Specify special TOC title only when there is
+                ;; opt-title or when title contains footnotes.
+                (if (and (string= full-text full-text-no-footnote)  ;; no footnotes
+                         ;; opt-title is either ALT_TITLE or title itself
+                         ;; as returned by `org-export-get-alt-title'
+                         (string= full-text opt-title)) ;; same alternative title
+                    (setq need-alternative-toc-title nil)
+                  (setq need-alternative-toc-title t))))
+            ;; In all cases
+            ;; Get rid of the footnotes in opt-title
+            (when (and (not (string= full-text-no-footnote full-text)) ;; when we have footnotess
+                       (string= full-text opt-title))      ;; And we do not impose an alternative title
+              (setq opt-title full-text-no-footnote))
+	    (if need-alternative-toc-title
+                (let ((new-format section-fmt)
+                      (new-extra  "")) ;; put the addcontentsline here
+                  (if (string-suffix-p "*" section-kw)
+                      ;; Subsection that needs alternative title:
+                      ;; Keep section format, use \\addcontentsline
+                      (setq new-extra
+                            (format "\\addcontentsline{toc}{%s}{%s}\n"
+                                    (string-remove-suffix "*" section-kw)
+                                    opt-title))
+                    ;; section... we need the brackets
+                    (let*
+		        ;; Replace square brackets with parenthesis
+		        ;; since square brackets are not supported in
+		        ;; optional arguments.
+                        ((un-bracketed-alt (replace-regexp-in-string
+                                            "\\[" "(" (replace-regexp-in-string "\\]" ")" opt-title)))
+                         (replacement-re (concat
+                                          "\\1["
+                                          (replace-regexp-in-string (rx "\\") "\\\\" un-bracketed-alt nil t)
+                                          "]")))
+                      (setq new-format (replace-match replacement-re nil nil section-fmt 1))))
+                  (format new-format
+                          full-text
+		          (concat headline-label new-extra pre-blanks contents)))
+	      ;; Don't need or cannot have alternative heading.
+	      ;; Use regular sectioning format string.
+	      (format section-fmt full-text
+		      (concat headline-label pre-blanks contents)))))))))
 
 (defun org-latex-format-headline-default-function
     (todo _todo-type priority text tags _info)
@@ -2352,7 +2622,7 @@ holding contextual information."
 See `org-latex-format-headline-function' for details."
   (concat
    (and todo (format "{\\bfseries\\sffamily %s} " todo))
-   (and priority (format "\\framebox{\\#%c} " priority))
+   (and priority (format "\\framebox{\\#%s} " (org-priority-to-string priority)))
    text
    (and tags
 	(format "\\hfill{}\\textsc{%s}"
@@ -2390,13 +2660,13 @@ contextual information."
   (let ((code (org-element-property :value inline-src-block))
         (lang (org-element-property :language inline-src-block)))
     (pcase (plist-get info :latex-src-block-backend)
-      (`verbatim (org-latex--text-markup code 'code info))
+      ((or `verbatim (guard (not lang))) (org-latex--text-markup code 'code info))
       (`minted (org-latex-inline-src-block--minted info code lang))
       (`engraved (org-latex-inline-src-block--engraved info code lang))
       (`listings (org-latex-inline-src-block--listings info code lang))
       (oldval
-       (message "Please update the LaTeX src-block-backend to %s"
-                (if oldval "listings" "verbatim"))
+       (warn "Please update `org-latex-src-block-backend' to %s"
+             (if oldval "listings" "verbatim"))
        (if oldval
            (org-latex-inline-src-block--listings info code lang)
          (org-latex--text-markup code 'code info))))))
@@ -2458,7 +2728,7 @@ holding contextual information."
 See `org-latex-format-inlinetask-function' for details."
   (let ((full-title
 	 (concat (when todo (format "\\textbf{\\textsf{\\textsc{%s}}} " todo))
-		 (when priority (format "\\framebox{\\#%c} " priority))
+		 (when priority (format "\\framebox{\\#%s} " (org-priority-to-string priority)))
 		 title
 		 (when tags
 		   (format "\\hfill{}\\textsc{%s}"
@@ -2491,16 +2761,16 @@ contextual information."
 CONTENTS holds the contents of the item.  INFO is a plist holding
 contextual information."
   (let* ((orderedp (eq (org-element-property
-			:type (org-export-get-parent item))
+			:type (org-element-parent item))
 		       'ordered))
 	 (level
 	  ;; Determine level of current item to determine the
 	  ;; correct LaTeX counter to use (enumi, enumii...).
 	  (let ((parent item) (level 0))
-	    (while (memq (org-element-type
-			  (setq parent (org-export-get-parent parent)))
-			 '(plain-list item))
-	      (when (and (eq (org-element-type parent) 'plain-list)
+	    (while (org-element-type-p
+		    (setq parent (org-element-parent parent))
+		    '(plain-list item))
+	      (when (and (org-element-type-p parent 'plain-list)
 			 (eq (org-element-property :type parent)
 			     'ordered))
 		(cl-incf level)))
@@ -2541,13 +2811,24 @@ contextual information."
 	     ((and contents
 		   (string-match-p "\\`[ \t]*\\[" contents)
 		   (not (let ((e (car (org-element-contents item))))
-			  (and (eq (org-element-type e) 'paragraph)
+			  (and (org-element-type-p e 'paragraph)
 			       (let ((o (car (org-element-contents e))))
-				 (and (eq (org-element-type o) 'export-snippet)
+			         (and (org-element-type-p o 'export-snippet)
 				      (eq (org-export-snippet-backend o)
 					  'latex)))))))
 	      "\\relax ")
 	     (t " "))
+            ;; In lists like
+            ;; - tag ::
+            ;;   1. foo
+            ;;   2. bar
+            ;; the inner list will go right after "tag", on the same line.
+            ;; Avoid such scenario, except when the very first child is
+            ;; paragraph.
+            (unless (org-element-type-p
+                     (car (org-element-contents item))
+                     'paragraph)
+              "\\leavevmode\\par")
 	    (and contents (org-trim contents)))))
 
 
@@ -2566,7 +2847,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
 	(cond
 	 ((string-match-p "\\<headlines\\>" value)
 	  (let* ((localp (string-match-p "\\<local\\>" value))
-		 (parent (org-element-lineage keyword '(headline)))
+		 (parent (org-element-lineage keyword 'headline))
 		 (level (if (not (and localp parent)) 0
 			  (org-export-get-relative-level parent info)))
 		 (depth
@@ -2590,7 +2871,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
 	    (otherwise "\\lstlistoflistings")))))))))
 
 
-;;;; Latex Environment
+;;;; LaTeX Environment
 
 (defun org-latex--environment-type (latex-environment)
   "Return the TYPE of LATEX-ENVIRONMENT.
@@ -2629,7 +2910,8 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
 			(org-latex--label latex-environment info nil t)
 		      (org-latex--caption/label-string latex-environment info)))
 	   (caption-above-p
-	    (memq type (append (plist-get info :latex-caption-above) '(math)))))
+            (or (eq type 'math)
+                (org-latex--caption-above-p latex-environment info))))
       (if (not (or (org-element-property :name latex-environment)
 		   (org-element-property :caption latex-environment)))
 	  value
@@ -2648,7 +2930,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
 	  (insert caption)
 	  (buffer-string))))))
 
-;;;; Latex Fragment
+;;;; LaTeX Fragment
 
 (defun org-latex-latex-fragment (latex-fragment _contents _info)
   "Transcode a LATEX-FRAGMENT object from Org to LaTeX.
@@ -2678,7 +2960,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
   "Return LaTeX code for an inline image.
 LINK is the link pointing to the inline image.  INFO is a plist
 used as a communication channel."
-  (let* ((parent (org-export-get-parent-element link))
+  (let* ((parent (org-element-parent-element link))
 	 (path (let ((raw-path (org-element-property :path link)))
 		 (if (not (file-name-absolute-p raw-path)) raw-path
 		   (expand-file-name raw-path))))
@@ -2688,16 +2970,33 @@ used as a communication channel."
 	 ;; Retrieve latex attributes from the element around.
 	 (attr (org-export-read-attribute :attr_latex parent))
 	 (float (let ((float (plist-get attr :float)))
-		  (cond ((string= float "wrap") 'wrap)
-			((string= float "sideways") 'sideways)
-			((string= float "multicolumn") 'multicolumn)
-                        ((string= float "t") 'figure)
-			((and (plist-member attr :float) (not float)) 'nonfloat)
-                        (float float)
-			((or (org-element-property :caption parent)
-			     (org-string-nw-p (plist-get attr :caption)))
-			 'figure)
-			(t 'nonfloat))))
+		  (cond
+                   ((org-element-map (org-element-contents parent) t
+                      #'(lambda (node)
+                          (cond
+                           ((and (org-element-type-p node 'plain-text)
+                                 (not (org-string-nw-p node)))
+                            nil)
+                           ((eq link node)
+                            ;; Objects inside link description are
+                            ;; allowed.
+                            (throw :org-element-skip nil))
+                           (t 'not-a-float)))
+                      info 'first-match)
+                    ;; Not a single link inside paragraph (spaces
+                    ;; ignored).  Cannot use float environment.  It
+                    ;; would be inside paragraph.
+                    nil)
+                   ((string= float "wrap") 'wrap)
+		   ((string= float "sideways") 'sideways)
+		   ((string= float "multicolumn") 'multicolumn)
+                   ((string= float "t") 'figure)
+		   ((and (plist-member attr :float) (not float)) 'nonfloat)
+                   (float float)
+		   ((or (org-element-property :caption parent)
+			(org-string-nw-p (plist-get attr :caption)))
+		    'figure)
+		   (t 'nonfloat))))
 	 (placement
 	  (let ((place (plist-get attr :placement)))
 	    (cond
@@ -2709,7 +3008,7 @@ used as a communication channel."
 	 (center
 	  (cond
 	   ;; If link is an image link, do not center.
-	   ((eq 'link (org-element-type (org-export-get-parent link))) nil)
+	   ((org-element-type-p (org-element-parent link) 'link) nil)
 	   ((plist-member attr :center) (plist-get attr :center))
 	   (t (plist-get info :latex-images-centered))))
 	 (comment-include (if (plist-get attr :comment-include) "%" ""))
@@ -2785,10 +3084,7 @@ used as a communication channel."
 						   "\\includesvg"
 						   image-code
 						   nil t))
-	(setq image-code (replace-regexp-in-string "\\.svg}"
-						   "}"
-						   image-code
-						   nil t))))
+	(setq image-code (string-replace ".svg}" "}" image-code))))
     ;; Return proper string, depending on FLOAT.
     (pcase float
       ((and (pred stringp) env-string)
@@ -2864,12 +3160,10 @@ INFO is a plist holding contextual information.  See
 		  link (plist-get info :latex-inline-image-rules)))
 	 (path (org-latex--protect-text
 		(pcase type
-		  ((or "http" "https" "ftp" "mailto" "doi")
-		   (concat type ":" raw-path))
 		  ("file"
 		   (org-export-file-uri raw-path))
 		  (_
-		   raw-path)))))
+		   (concat type ":" raw-path))))))
     (cond
      ;; Link type is handled by a special function.
      ((org-export-custom-protocol-maybe link desc 'latex info))
@@ -2952,7 +3246,12 @@ information."
   "Transcode a PARAGRAPH element from Org to LaTeX.
 CONTENTS is the contents of the paragraph, as a string.  INFO is
 the plist used as a communication channel."
-  contents)
+  ;; Ensure that we do not create multiple paragraphs, when a single
+  ;; paragraph is expected.
+  ;; Multiple newlines may appear in CONTENTS, for example, when
+  ;; certain objects are stripped from export, leaving single newlines
+  ;; before and after.
+  (org-remove-blank-lines contents))
 
 
 ;;;; Plain List
@@ -2966,7 +3265,7 @@ contextual information."
 	 (latex-type (let ((env (plist-get attr :environment)))
 		       (cond (env (format "%s" env))
 			     ((eq type 'ordered) "enumerate")
-			     ((eq type 'descriptive) "description")
+			     ((eq type 'descriptive) (plist-get info :latex-descriptive-env))
 			     (t "itemize")))))
     (org-latex--wrap-label
      plain-list
@@ -2995,12 +3294,12 @@ contextual information."
 	     ;; to protect "\" in "\-" constructs.
 	     (replace-regexp-in-string
 	      (concat "[%$#&{}_~^]\\|\\\\" (and specialp "\\([^-]\\|$\\)"))
-	      (lambda (m)
-		(cl-case (string-to-char m)
-		  (?\\ "$\\\\backslash$\\1")
-		  (?~ "\\\\textasciitilde{}")
-		  (?^ "\\\\^{}")
-		  (t "\\\\\\&")))
+	      #'(lambda (m)
+		  (cl-case (string-to-char m)
+		    (?\\ "$\\\\backslash$\\1")
+		    (?~ "\\\\textasciitilde{}")
+		    (?^ "\\\\^{}")
+		    (t "\\\\\\&")))
 	      text)))))
     ;; Activate smart quotes.  Be sure to provide original TEXT string
     ;; since OUTPUT may have been modified.
@@ -3008,11 +3307,22 @@ contextual information."
       (setq output (org-export-activate-smart-quotes output :latex info text)))
     ;; Convert special strings.
     (when specialp
-      (setq output (replace-regexp-in-string "\\.\\.\\." "\\\\ldots{}" output)))
+      (setq output (string-replace "..." "\\ldots{}" output)))
     ;; Handle break preservation if required.
     (when (plist-get info :preserve-breaks)
       (setq output (replace-regexp-in-string
 		    "\\(?:[ \t]*\\\\\\\\\\)?[ \t]*\n" "\\\\\n" output nil t)))
+    ;; Protect [foo] at the beginning of lines / beginning of the
+    ;; plain-text object.  This prevents LaTeX from unexpectedly
+    ;; interpreting @@latex:\pagebreak@@ [foo] as a command with
+    ;; optional argument.
+    (setq output (replace-regexp-in-string
+                  (rx bol (0+ space) (group "["))
+                  "{[}"
+                  output
+                  nil nil 1))
+    ;; When inside verse block, use special rules.
+    (setq output (org-latex--plain-text-verse-block output text))
     ;; Return value.
     output))
 
@@ -3073,58 +3383,57 @@ DATA is a parse tree or a secondary string.  INFO is a plist
 containing export options.  Modify DATA by side-effect and return
 it."
   (org-element-map data 'table
-    (lambda (table)
-      (when (eq (org-element-property :type table) 'org)
-	(let ((mode (or (org-export-read-attribute :attr_latex table :mode)
-			(plist-get info :latex-default-table-mode))))
-	  (when (and (member mode '("inline-math" "math"))
-		     ;; Do not wrap twice the same table.
-		     (not (eq (org-element-type
-			       (org-element-property :parent table))
-			      'latex-matrices)))
-	    (let* ((caption (and (not (string= mode "inline-math"))
-				 (org-element-property :caption table)))
-		   (name (and (not (string= mode "inline-math"))
-			      (org-element-property :name table)))
-		   (matrices
-		    (list 'latex-matrices
-			  ;; Inherit name from the first table.
-			  (list :name name
-				;; FIXME: what syntax for captions?
-				;;
-				;; :caption caption
-				:markup
-				(cond ((string= mode "inline-math") 'inline)
-				      ((or caption name) 'equation)
-				      (t 'math)))))
-		   (previous table)
-		   (next (org-export-get-next-element table info)))
-	      (org-element-insert-before matrices table)
-	      ;; Swallow all contiguous tables sharing the same mode.
-	      (while (and
-		      (zerop (or (org-element-property :post-blank previous) 0))
-		      (setq next (org-export-get-next-element previous info))
-		      (eq (org-element-type next) 'table)
-		      (eq (org-element-property :type next) 'org)
-		      (string= (or (org-export-read-attribute
-				    :attr_latex next :mode)
-				   (plist-get info :latex-default-table-mode))
-			       mode))
-		(org-element-put-property table :name nil)
-		(org-element-put-property table :caption nil)
-		(org-element-extract-element previous)
-		(org-element-adopt-elements matrices previous)
-		(setq previous next))
-	      ;; Inherit `:post-blank' from the value of the last
-	      ;; swallowed table.  Set the latter's `:post-blank'
-	      ;; value to 0 so as to not duplicate empty lines.
-	      (org-element-put-property
-	       matrices :post-blank (org-element-property :post-blank previous))
-	      (org-element-put-property previous :post-blank 0)
-	      (org-element-put-property table :name nil)
-	      (org-element-put-property table :caption nil)
-	      (org-element-extract-element previous)
-	      (org-element-adopt-elements matrices previous))))))
+    #'(lambda (table)
+        (when (eq (org-element-property :type table) 'org)
+	  (let ((mode (or (org-export-read-attribute :attr_latex table :mode)
+			  (plist-get info :latex-default-table-mode))))
+	    (when (and (member mode '("inline-math" "math"))
+		       ;; Do not wrap twice the same table.
+		       (not (org-element-type-p
+			     (org-element-parent table) 'latex-matrices)))
+	      (let* ((caption (and (not (string= mode "inline-math"))
+				   (org-element-property :caption table)))
+		     (name (and (not (string= mode "inline-math"))
+			        (org-element-property :name table)))
+		     (matrices
+		      (list 'latex-matrices
+			    ;; Inherit name from the first table.
+			    (list :name name
+				  ;; FIXME: what syntax for captions?
+				  ;;
+				  ;; :caption caption
+				  :markup
+				  (cond ((string= mode "inline-math") 'inline)
+				        ((or caption name) 'equation)
+				        (t 'math)))))
+		     (previous table)
+		     (next (org-export-get-next-element table info)))
+	        (org-element-insert-before matrices table)
+	        ;; Swallow all contiguous tables sharing the same mode.
+	        (while (and
+		        (zerop (or (org-element-property :post-blank previous) 0))
+		        (setq next (org-export-get-next-element previous info))
+		        (org-element-type-p next 'table)
+		        (eq (org-element-property :type next) 'org)
+		        (string= (or (org-export-read-attribute
+				      :attr_latex next :mode)
+				     (plist-get info :latex-default-table-mode))
+			         mode))
+		  (org-element-put-property table :name nil)
+		  (org-element-put-property table :caption nil)
+		  (org-element-extract previous)
+		  (org-element-adopt matrices previous)
+		  (setq previous next))
+	        ;; Inherit `:post-blank' from the value of the last
+	        ;; swallowed table.  Set the latter's `:post-blank'
+	        ;; value to 0 so as to not duplicate empty lines.
+	        (org-element-put-property
+	         matrices :post-blank (org-element-property :post-blank previous))
+	        (org-element-put-property previous :post-blank 0)
+	        (org-element-put-property table :name nil)
+	        (org-element-put-property table :caption nil)
+	        (org-element-extract previous)
+	        (org-element-adopt matrices previous))))))
     info)
   data)
 
@@ -3157,41 +3466,40 @@ DATA is a parse tree or a secondary string.  INFO is a plist
 containing export options.  Modify DATA by side-effect and return it."
   (let ((valid-object-p
 	 ;; Non-nil when OBJECT can be added to a latex math block.
-	 (lambda (object)
-	   (pcase (org-element-type object)
-	     (`entity (org-element-property :latex-math-p object))
-	     (`latex-fragment
-	      (let ((value (org-element-property :value object)))
-		(or (string-prefix-p "\\(" value)
-		    (string-match-p "\\`\\$[^$]" value))))))))
+	 #'(lambda (object)
+	     (pcase (org-element-type object)
+	       (`entity (org-element-property :latex-math-p object))
+	       (`latex-fragment
+	        (let ((value (org-element-property :value object)))
+		  (or (string-prefix-p "\\(" value)
+		      (string-match-p "\\`\\$[^$]" value))))))))
     (org-element-map data '(entity latex-fragment)
-      (lambda (object)
-	;; Skip objects already wrapped.
-	(when (and (not (eq (org-element-type
-			     (org-element-property :parent object))
-			    'latex-math-block))
-		   (funcall valid-object-p object))
-	  (let ((math-block (list 'latex-math-block nil))
-		(next-elements (org-export-get-next-element object info t))
-		(last object))
-	    ;; Wrap MATH-BLOCK around OBJECT in DATA.
-	    (org-element-insert-before math-block object)
-	    (org-element-extract-element object)
-	    (org-element-adopt-elements math-block object)
-	    (when (zerop (or (org-element-property :post-blank object) 0))
-	      ;; MATH-BLOCK swallows consecutive math objects.
-	      (catch 'exit
-		(dolist (next next-elements)
-		  (unless (funcall valid-object-p next) (throw 'exit nil))
-		  (org-element-extract-element next)
-		  (org-element-adopt-elements math-block next)
-		  ;; Eschew the case: \beta$x$ -> \(\betax\).
-		  (org-element-put-property last :post-blank 1)
-		  (setq last next)
-		  (when (> (or (org-element-property :post-blank next) 0) 0)
-		    (throw 'exit nil)))))
-	    (org-element-put-property
-	     math-block :post-blank (org-element-property :post-blank last)))))
+      #'(lambda (object)
+	  ;; Skip objects already wrapped.
+	  (when (and (not (org-element-type-p
+		           (org-element-parent object) 'latex-math-block))
+		     (funcall valid-object-p object))
+	    (let ((math-block (list 'latex-math-block nil))
+		  (next-elements (org-export-get-next-element object info t))
+		  (last object))
+	      ;; Wrap MATH-BLOCK around OBJECT in DATA.
+	      (org-element-insert-before math-block object)
+	      (org-element-extract object)
+	      (org-element-adopt math-block object)
+	      (when (zerop (or (org-element-property :post-blank object) 0))
+	        ;; MATH-BLOCK swallows consecutive math objects.
+	        (catch 'exit
+		  (dolist (next next-elements)
+		    (unless (funcall valid-object-p next) (throw 'exit nil))
+		    (org-element-extract next)
+		    (org-element-adopt math-block next)
+		    ;; Eschew the case: \beta$x$ -> \(\betax\).
+		    (org-element-put-property last :post-blank 1)
+		    (setq last next)
+		    (when (> (or (org-element-property :post-blank next) 0) 0)
+		      (throw 'exit nil)))))
+	      (org-element-put-property
+	       math-block :post-blank (org-element-property :post-blank last)))))
       info nil '(latex-math-block) t)
     ;; Return updated DATA.
     data))
@@ -3284,8 +3592,8 @@ contextual information."
          (`listings #'org-latex-src-block--listings)
          ((guard custom-env) #'org-latex-src-block--custom)
          (oldval
-          (message "Please update the LaTeX src-block-backend to %s"
-                   (if oldval "listings" "verbatim"))
+          (warn "Please update `org-latex-src-block-backend' to %s"
+                (if oldval "listings" "verbatim"))
           (if oldval
               #'org-latex-src-block--listings
             #'org-latex-src-block--verbatim)))
@@ -3392,16 +3700,16 @@ and FLOAT are extracted from SRC-BLOCK and INFO in `org-latex-src-block'."
                                                     "\n")))))
              (org-export-format-code
               (car code-info)
-              (lambda (loc _num ref)
-                (concat
-                 loc
-                 (when ref
-                   ;; Ensure references are flushed to the right,
-                   ;; separated with 6 spaces from the widest line
-                   ;; of code.
-                   (concat (make-string (+ (- max-width (length loc)) 6)
-                                        ?\s)
-                           (format "(%s)" ref)))))
+              #'(lambda (loc _num ref)
+                  (concat
+                   loc
+                   (when ref
+                     ;; Ensure references are flushed to the right,
+                     ;; separated with 6 spaces from the widest line
+                     ;; of code.
+                     (concat (make-string (+ (- max-width (length loc)) 6)
+                                          ?\s)
+                             (format "(%s)" ref)))))
               nil (and retain-labels (cdr code-info)))))))
     (concat (car float-env) body (cdr float-env))))
 
@@ -3409,31 +3717,31 @@ and FLOAT are extracted from SRC-BLOCK and INFO in `org-latex-src-block'."
   "From the export INFO plist, and the per-block OPTIONS, determine mathescape."
   (let ((default-options (plist-get info :latex-engraved-options))
         (mathescape-status
-         (lambda (opts)
-           (cl-some
-            (lambda (opt)
-              (or (and
-                   (null (cdr opt))
-                   (cond
-                    ((string-match-p
-                      "\\(?:^\\|,\\)mathescape=false\\(?:,\\|$\\)"
-                      (car opt))
-                     'no)
-                    ((or (string-match-p
-                          "\\(?:^\\|,\\)mathescape\\(?:=true\\)?\\(?:,\\|$\\)"
+         #'(lambda (opts)
+             (cl-some
+              #'(lambda (opt)
+                  (or (and
+                       (null (cdr opt))
+                       (cond
+                        ((string-match-p
+                          "\\(?:^\\|,\\)mathescape=false\\(?:,\\|$\\)"
                           (car opt))
-                         (string= "mathescape" (car opt)))
-                     'yes)))
-                  (and
-                   (string= (car opt) "mathescape")
-                   (cond
-                    ((or (and (stringp (cdr opt)) (string= (cdr opt) "true"))
-                         (equal '("true") (cdr opt)))
-                     'yes)
-                    ((or (and (stringp (cdr opt)) (string= "false" (cdr opt)))
-                         (equal '("false") (cdr opt)))
-                     'no)))))
-            opts))))
+                         'no)
+                        ((or (string-match-p
+                              "\\(?:^\\|,\\)mathescape\\(?:=true\\)?\\(?:,\\|$\\)"
+                              (car opt))
+                             (string= "mathescape" (car opt)))
+                         'yes)))
+                      (and
+                       (string= (car opt) "mathescape")
+                       (cond
+                        ((or (and (stringp (cdr opt)) (string= (cdr opt) "true"))
+                             (equal '("true") (cdr opt)))
+                         'yes)
+                        ((or (and (stringp (cdr opt)) (string= "false" (cdr opt)))
+                             (equal '("false") (cdr opt)))
+                         'no)))))
+              opts))))
     (let ((mathescape (or (funcall mathescape-status default-options)
                           (funcall mathescape-status options))))
       (when (eq mathescape 'yes)
@@ -3444,7 +3752,7 @@ and FLOAT are extracted from SRC-BLOCK and INFO in `org-latex-src-block'."
 When the THEME symbol is non-nil, that theme will be used.
 
 When INLINE is nil, a Verbatim environment wrapped in a Code
-environment will be used. When t, a Verb command will be used.
+environment will be used.  When t, a Verb command will be used.
 
 When OPTIONS is provided, as either a string or list of key-value
 pairs accepted by `org-latex--make-option-string', it is passed
@@ -3461,8 +3769,8 @@ to the Verbatim environment or Verb command."
                 (when lang-mode
                   (if (functionp lang-mode)
                       (funcall lang-mode)
-                    (message "Cannot engrave code as %s. %s is undefined."
-                             lang lang-mode)))
+                    (warn "Cannot engrave code as %s. %s is undefined."
+                          lang lang-mode)))
                 (engrave-faces-latex-buffer)))
              (engraved-code
               (with-current-buffer engraved-buffer
@@ -3487,7 +3795,7 @@ to the Verbatim environment or Verb command."
                     engraved-wrapped
                     "}")
           engraved-wrapped))
-    (user-error "Cannot engrave code as `engrave-faces-latex' is unavailable.")))
+    (user-error "Cannot engrave code as `engrave-faces-latex' is unavailable")))
 
 (cl-defun org-latex-src-block--engraved
     (&key src-block info lang caption caption-above-p num-start retain-labels attributes float &allow-other-keys)
@@ -3529,16 +3837,16 @@ and FLOAT are extracted from SRC-BLOCK and INFO in `org-latex-src-block'."
                                                    "\n")))))
             (org-export-format-code
              (car code-info)
-             (lambda (loc _num ref)
-               (concat
-                loc
-                (when ref
-                  ;; Ensure references are flushed to the right,
-                  ;; separated with 6 spaces from the widest line
-                  ;; of code.
-                  (concat (make-string (+ (- max-width (length loc)) 6)
-                                       ?\s)
-                          (format "(%s)" ref)))))
+             #'(lambda (loc _num ref)
+                 (concat
+                  loc
+                  (when ref
+                    ;; Ensure references are flushed to the right,
+                    ;; separated with 6 spaces from the widest line
+                    ;; of code.
+                    (concat (make-string (+ (- max-width (length loc)) 6)
+                                         ?\s)
+                            (format "(%s)" ref)))))
              nil (and retain-labels (cdr code-info)))))
          (body
           (let ((engrave-faces-latex-mathescape
@@ -3569,9 +3877,9 @@ and FLOAT are extracted from SRC-BLOCK and INFO in `org-latex-src-block'."
                        (org-export-data main info))))))
         (lst-opt (plist-get info :latex-listings-options)))
     (concat
-     ;; Options.
      (format
-      "\\lstset{%s}\n"
+      "\\begin{lstlisting}[%s]\n%s\\end{lstlisting}"
+      ;; Options.
       (concat
        (org-latex--make-option-string
         (append
@@ -3581,21 +3889,23 @@ and FLOAT are extracted from SRC-BLOCK and INFO in `org-latex-src-block'."
           ((string= "multicolumn" float) '(("float" "*")))
           ((and float (not (assoc "float" lst-opt)))
            `(("float" ,(plist-get info :latex-default-figure-position)))))
-         `(("language" ,lst-lang))
-         (if label
-             `(("label" ,(org-latex--label src-block info)))
-           '(("label" " ")))
-         (if caption-str `(("caption" ,caption-str)) '(("caption" " ")))
-         `(("captionpos" ,(if caption-above-p "t" "b")))
+         (unless (plist-get info :latex-listings-src-omit-language)
+           `(("language" ,lst-lang)))
+         (when label
+           `(("label" ,(org-latex--label src-block info))))
+         (when caption-str
+           `(("caption" ,caption-str)))
+         (when caption-str
+           ;; caption-above-p means captionpos is t(op)
+           ;; else b(ottom)
+           `(("captionpos" ,(if caption-above-p "t" "b"))))
          (cond ((assoc "numbers" lst-opt) nil)
                ((not num-start) '(("numbers" "none")))
                (t `(("firstnumber" ,(number-to-string (1+ num-start)))
                     ("numbers" "left"))))))
        (let ((local-options (plist-get attributes :options)))
-         (and local-options (concat "," local-options)))))
-     ;; Source code.
-     (format
-      "\\begin{lstlisting}\n%s\\end{lstlisting}"
+         (and local-options (concat "," local-options))))
+      ;; Source code.
       (let* ((code-info (org-export-unravel-code src-block))
              (max-width
               (apply 'max
@@ -3603,15 +3913,15 @@ and FLOAT are extracted from SRC-BLOCK and INFO in `org-latex-src-block'."
                              (org-split-string (car code-info) "\n")))))
         (org-export-format-code
          (car code-info)
-         (lambda (loc _num ref)
-           (concat
-            loc
-            (when ref
-              ;; Ensure references are flushed to the right,
-              ;; separated with 6 spaces from the widest line of
-              ;; code
-              (concat (make-string (+ (- max-width (length loc)) 6) ?\s)
-                      (format "(%s)" ref)))))
+         #'(lambda (loc _num ref)
+             (concat
+              loc
+              (when ref
+                ;; Ensure references are flushed to the right,
+                ;; separated with 6 spaces from the widest line of
+                ;; code
+                (concat (make-string (+ (- max-width (length loc)) 6) ?\s)
+                        (format "(%s)" ref)))))
          nil (and retain-labels (cdr code-info))))))))
 
 ;;;; Statistics Cookie
@@ -3654,7 +3964,7 @@ CONTENTS is the contents of the object."
 ;; takes care of tables with a "verbatim" mode.  Otherwise, it
 ;; delegates the job to either `org-latex--table.el-table',
 ;; `org-latex--org-table', `org-latex--math-table' or
-;; `org-latex--org-tabbing' functions,
+;; `org-table--org-tabbing' functions,
 ;; depending of the type of the table and the mode requested.
 ;;
 ;; `org-latex--align-string' is a subroutine used to build alignment
@@ -3700,22 +4010,22 @@ centered."
 	;; row.
 	(org-element-map
 	    (org-element-map table 'table-row
-	      (lambda (row)
-		(and (eq (org-element-property :type row) 'standard) row))
+	      #'(lambda (row)
+		  (and (eq (org-element-property :type row) 'standard) row))
 	      info 'first-match)
 	    'table-cell
-	  (lambda (cell)
-	    (let ((borders (org-export-table-cell-borders cell info)))
-	      ;; Check left border for the first cell only.
-	      (when (and (memq 'left borders) (not align))
-		(push "|" align))
-	      (push (if math? "c"	;center cells in matrices
-		      (cl-case (org-export-table-cell-alignment cell info)
-			(left "l")
-			(right "r")
-			(center "c")))
-		    align)
-	      (when (memq 'right borders) (push "|" align))))
+	  #'(lambda (cell)
+	      (let ((borders (org-export-table-cell-borders cell info)))
+	        ;; Check left border for the first cell only.
+	        (when (and (memq 'left borders) (not align))
+		  (push "|" align))
+	        (push (if math? "c"	;center cells in matrices
+		        (cl-case (org-export-table-cell-alignment cell info)
+			  (left "l")
+			  (right "r")
+			  (center "c")))
+		      align)
+	        (when (memq 'right borders) (push "|" align))))
 	  info)
 	(apply 'concat (nreverse align)))))
 
@@ -3729,10 +4039,10 @@ a communication channel."
               (length
                (org-element-map
                    (org-element-map table 'table-row
-                     (lambda (row)
-                       (and (eq (org-element-property :type row)
-                                'standard)
-                            row))
+                     #'(lambda (row)
+                         (and (eq (org-element-property :type row)
+                                  'standard)
+                              row))
                      info 'first-match)
                    'table-cell #'identity)))
              ;; Calculate the column width, using a proportion of
@@ -3890,10 +4200,12 @@ property."
 	;; When the "rmlines" attribute is provided, remove all hlines
 	;; but the one separating heading from the table body.
 	(let ((n 0) (pos 0))
-	  (while (and (< (length output) pos)
+	  (while (and (> (length output) pos)
 		      (setq pos (string-match "^\\\\hline\n?" output pos)))
 	    (cl-incf n)
-	    (unless (= n 2) (setq output (replace-match "" nil nil output))))))
+	    (if (= n 2)
+                (cl-incf pos)
+              (setq output (replace-match "" nil nil output))))))
       (org-latex--decorate-table output attr caption above? info))))
 
 (defun org-latex--math-table (table info)
@@ -3909,16 +4221,16 @@ This function assumes TABLE has `org' as its `:type' property and
 		  (plist-get info :latex-default-table-environment)))
 	 (contents
 	  (mapconcat
-	   (lambda (row)
-	     (if (eq (org-element-property :type row) 'rule) "\\hline"
-	       ;; Return each cell unmodified.
-	       (concat
-		(mapconcat
-		 (lambda (cell)
-		   (substring (org-element-interpret-data cell) 0 -1))
-		 (org-element-map row 'table-cell #'identity info) "&")
-		(or (cdr (assoc env org-latex-table-matrix-macros)) "\\\\")
-		"\n")))
+	   #'(lambda (row)
+	       (if (eq (org-element-property :type row) 'rule) "\\hline"
+	         ;; Return each cell unmodified.
+	         (concat
+		  (mapconcat
+		   #'(lambda (cell)
+		       (substring (org-element-interpret-data cell) 0 -1))
+		   (org-element-map row 'table-cell #'identity info) "&")
+		  (or (cdr (assoc env org-latex-table-matrix-macros)) "\\\\")
+		  "\n")))
 	   (org-element-map table 'table-row #'identity info) "")))
     (concat
      ;; Prefix.
@@ -3944,7 +4256,7 @@ This function assumes TABLE has `org' as its `:type' property and
 CONTENTS is the cell contents.  INFO is a plist used as
 a communication channel."
   (let ((type (org-export-read-attribute
-               :attr_latex (org-export-get-parent-table table-cell) :mode))
+               :attr_latex (org-element-lineage table-cell 'table) :mode))
         (scientific-format (plist-get info :latex-table-scientific-notation)))
     (concat
      (if (and contents
@@ -3967,7 +4279,7 @@ a communication channel."
 CONTENTS is the contents of the row.  INFO is a plist used as
 a communication channel."
   (let* ((attr (org-export-read-attribute :attr_latex
-					  (org-export-get-parent table-row)))
+					  (org-element-parent table-row)))
 	 (booktabsp (if (plist-member attr :booktabs) (plist-get attr :booktabs)
 		      (plist-get info :latex-tables-booktabs)))
 	 (longtablep
@@ -3984,6 +4296,18 @@ a communication channel."
 		(org-export-get-previous-element table-row info) info))
 	  "")
 	 (t "\\midrule"))
+      ;; Memorize table header in case it is multiline. We need this
+      ;; information to define contents before "\\endhead" in longtable environments.
+      (when (org-export-table-row-in-header-p table-row info)
+        (let ((table-head-cache (plist-get info :org-latex-table-head-cache)))
+          (unless (hash-table-p table-head-cache)
+            (setq table-head-cache (make-hash-table :test #'eq))
+            (plist-put info :org-latex-table-head-cache table-head-cache))
+          (if-let* ((head-contents (gethash (org-element-parent table-row) table-head-cache)))
+              (puthash (org-element-parent table-row) (concat head-contents "\\\\\n" contents)
+                       table-head-cache)
+            (puthash (org-element-parent table-row) contents table-head-cache))))
+      ;; Return LaTeX string as the transcoder.
       (concat
        ;; When BOOKTABS are activated enforce top-rule even when no
        ;; hline was specifically marked.
@@ -3994,7 +4318,7 @@ a communication channel."
 	;; Special case for long tables.  Define header and footers.
 	((and longtablep (org-export-table-row-ends-header-p table-row info))
 	 (let ((columns (cdr (org-export-table-dimensions
-			      (org-export-get-parent-table table-row) info))))
+			      (org-element-lineage table-row 'table) info))))
 	   (format "%s
 \\endfirsthead
 \\multicolumn{%d}{l}{%s} \\\\
@@ -4013,7 +4337,7 @@ a communication channel."
 		     "")
 		    (booktabsp "\\toprule\n")
 		    (t "\\hline\n"))
-		   contents
+		   (gethash (org-element-parent table-row) (plist-get info :org-latex-table-head-cache))
 		   (if booktabsp "\\midrule" "\\hline")
 		   (if booktabsp "\\midrule" "\\hline")
 		   columns
@@ -4070,6 +4394,48 @@ channel."
 
 ;;;; Verse Block
 
+(defun org-latex--plain-text-verse-block (contents plain-text)
+  "Format CONTENTS if PLAIN-TEXT is inside verse environment.
+INFO is the communication plist.
+Return CONTENTS unchanged when TEXT is not inside verse environment or
+when TEXT is a part of footnote reference.
+
+In a verse environment, add a line break to each newline character and
+change each white space at beginning of a line into a normal space,
+calculated with `\\fontdimen2\\font'.  One or more blank lines between
+lines are exported as a single blank line.  If the `:lines' attribute
+is used, the last verse of each stanza ends with the string `\\!',
+according to the syntax of the `verse' package.  The separation between
+stanzas can be controlled with the length `\\stanzaskip', of the
+aforementioned package.  If the `:literal' attribute is used, all
+blank lines are preserved and exported as `\\vspace*{\\baselineskip}',
+including the blank lines before or after CONTENTS."
+  (if-let* ((verse-block (org-element-lineage plain-text 'verse-block))
+            ;; VALUEFORM
+            ((not (org-element-lineage plain-text 'footnote-reference))))
+      (let* ((lin (org-export-read-attribute :attr_latex verse-block :lines))
+             (lit (org-export-read-attribute :attr_latex verse-block :literal)))
+	(replace-regexp-in-string
+	 "^[ \t]+" #'(lambda (m) (format "\\hspace*{%d\\fontdimen2\\font}" (length m)))
+	 (replace-regexp-in-string
+          (if (not lit)
+	      (rx-to-string
+               `(seq (group "\\\\\n")
+		     (1+ (group line-start (0+ space) "\\\\\n"))))
+	    "^[ \t]*\\\\$")
+	  (if (not lit)
+	      (if lin "\\\\!\n\n" "\n\n")
+	    "\\vspace*{\\baselineskip}")
+	  (replace-regexp-in-string
+	   "\\([ \t]*\\\\\\\\\\)?[ \t]*\n"
+           "\\\\\n"
+	   contents
+           nil t)
+          nil t)
+         nil t))
+    ;; Not in verse block, return CONTENTS unchanged.
+    contents))
+
 (defun org-latex-verse-block (verse-block contents info)
   "Transcode a VERSE-BLOCK element from Org to LaTeX.
 CONTENTS is verse block contents.  INFO is a plist holding
@@ -4081,30 +4447,23 @@ contextual information."
 	        (if cent "[\\versewidth]" "")
 	        (if lin (format "\n\\poemlines{%s}" lin) "")
 	        (if latcode (format "\n%s" latcode) "")))
+         (lit (org-export-read-attribute :attr_latex verse-block :literal))
          (versewidth (org-export-read-attribute :attr_latex verse-block :versewidth))
          (vwidth (if versewidth (format "\\settowidth{\\versewidth}{%s}\n" versewidth) ""))
          (linreset (if lin "\n\\poemlines{0}" "")))
-    (concat
-     (org-latex--wrap-label
-      verse-block
-      ;; In a verse environment, add a line break to each newline
-      ;; character and change each white space at beginning of a line
-      ;; into a space of 1 em.  Also change each blank line with
-      ;; a vertical space of 1 em.
-      (format "%s\\begin{verse}%s\n%s\\end{verse}%s"
-	      vwidth
-	      attr
-	      (replace-regexp-in-string
-	       "^[ \t]+" (lambda (m) (format "\\hspace*{%dem}" (length m)))
-	       (replace-regexp-in-string
-	        "^[ \t]*\\\\\\\\$" "\\vspace*{1em}"
-	        (replace-regexp-in-string
-	         "\\([ \t]*\\\\\\\\\\)?[ \t]*\n" "\\\\\n"
-	         contents nil t) nil t) nil t) linreset)
-      info)
-     ;; Insert footnote definitions, if any, after the environment, so
-     ;; the special formatting above is not applied to them.
-     (org-latex--delayed-footnotes-definitions verse-block info))))
+    (org-latex--wrap-label
+     verse-block
+     (format "%s\\begin{verse}%s\n%s\\end{verse}%s"
+             vwidth attr
+             ;; If the `:literal' attribute is used, all blank lines
+             ;; are preserved and exported as
+             ;; `\\vspace*{\\baselineskip}', including the blank lines
+             ;; before or after CONTENTS.
+             (if (not lit)
+	         (concat (org-trim contents t) "\n")
+	       contents)
+             linreset)
+     info)))
 
 
 ;;; End-user functions
@@ -4140,9 +4499,17 @@ file-local settings.
 Export is done in a buffer named \"*Org LATEX Export*\", which
 will be displayed when `org-export-show-temporary-export-buffer'
 is non-nil."
-  (interactive)
-  (org-export-to-buffer 'latex "*Org LATEX Export*"
-    async subtreep visible-only body-only ext-plist (lambda () (LaTeX-mode))))
+  (interactive nil org-mode)
+  (defvar TeX-parse-self) ;; defined in tex.el
+  (let (;; FIXME: Working around LaTeX-mode being broken in non-file buffers.
+        ;; To be removed once we drop Emacs 30 and earlier, where the problem
+        ;; is not yet fixed.
+        (TeX-parse-self nil))
+    (org-export-to-buffer 'latex "*Org LATEX Export*"
+      async subtreep visible-only body-only ext-plist
+      (if (fboundp 'major-mode-remap)
+          (major-mode-remap 'latex-mode)
+        #'LaTeX-mode))))
 
 ;;;###autoload
 (defun org-latex-convert-region-to-latex ()
@@ -4152,6 +4519,8 @@ itemized list in Org syntax in an LaTeX buffer and use this
 command to convert it."
   (interactive)
   (org-export-replace-region-by 'latex))
+
+(defalias 'org-export-region-to-latex #'org-latex-convert-region-to-latex)
 
 ;;;###autoload
 (defun org-latex-export-to-latex
@@ -4180,7 +4549,7 @@ between \"\\begin{document}\" and \"\\end{document}\".
 EXT-PLIST, when provided, is a property list with external
 parameters overriding Org default settings, but still inferior to
 file-local settings."
-  (interactive)
+  (interactive nil org-mode)
   (let ((outfile (org-export-output-file-name ".tex" subtreep)))
     (org-export-to-file 'latex outfile
       async subtreep visible-only body-only ext-plist)))
@@ -4214,7 +4583,7 @@ parameters overriding Org default settings, but still inferior to
 file-local settings.
 
 Return PDF file's name."
-  (interactive)
+  (interactive nil org-mode)
   (let ((outfile (org-export-output-file-name ".tex" subtreep)))
     (org-export-to-file 'latex outfile
       async subtreep visible-only body-only ext-plist
@@ -4241,47 +4610,66 @@ produced."
 		(and (search-forward-regexp (regexp-opt org-latex-compilers)
 					    (line-end-position 2)
 					    t)
-		     (progn (beginning-of-line) (looking-at-p "%"))
+		     (progn (forward-line 0) (eq (char-after) ?%))
 		     (match-string 0)))
               ;; Cannot find the compiler inserted by
               ;; `org-latex-template' -> `org-latex--insert-compiler'.
               ;; Use a fallback.
-	      "pdflatex"))
+              org-latex-compiler))
 	 (process (if (functionp org-latex-pdf-process) org-latex-pdf-process
 		    ;; Replace "%latex" with "%L" and "%bib" and
 		    ;; "%bibtex" with "%B" to adhere to `format-spec'
 		    ;; specifications.
-		    (mapcar (lambda (command)
-			      (replace-regexp-in-string
-                               "%\\(?:\\(?:bib\\|la\\)tex\\|bib\\)\\>"
-			       (lambda (m) (upcase (substring m 0 2)))
-			       command))
+		    (mapcar #'(lambda (command)
+			        (replace-regexp-in-string
+                                 "%\\(?:\\(?:bib\\|la\\)tex\\|bib\\)\\>"
+			         #'(lambda (m) (upcase (substring m 0 2)))
+			         command))
 			    org-latex-pdf-process)))
          (spec `((?B . ,(shell-quote-argument org-latex-bib-compiler))
                  (?L . ,(shell-quote-argument compiler))))
 	 (log-buf-name "*Org PDF LaTeX Output*")
          (log-buf (and (not snippet) (get-buffer-create log-buf-name)))
-         (outfile (org-compile-file texfile process "pdf"
-				    (format "See %S for details" log-buf-name)
-				    log-buf spec)))
-    (unless snippet
-      (when org-latex-remove-logfiles
-	(mapc #'delete-file
-	      (directory-files
-	       (file-name-directory outfile)
-	       t
-	       (concat (regexp-quote (file-name-base outfile))
-		       "\\(?:\\.[0-9]+\\)?\\."
-		       (regexp-opt org-latex-logfiles-extensions))
-	       t)))
-      (let ((warnings (org-latex--collect-warnings log-buf)))
-	(message (concat "PDF file produced"
-			 (cond
-			  ((eq warnings 'error) " with errors.")
-			  (warnings (concat " with warnings: " warnings))
-			  (t "."))))))
+         outfile)
+    ;; Erase compile buffer at the start.
+    (with-current-buffer log-buf
+      (erase-buffer))
+    (setq outfile
+          (org-compile-file
+           texfile process "pdf"
+	   (format "See %S for details" log-buf-name)
+	   log-buf spec))
+    (org-latex-compile--postprocess outfile log-buf snippet)
     ;; Return output file name.
     outfile))
+
+(defun org-latex-compile--postprocess (outfile log-buf &optional snippet)
+  "Process the results of creating OUTFILE via LaTeX compilation.
+Warnings and errors are collected from LOG-BUF.
+When SNIPPET is nil and `org-latex-remove-logfiles' non-nil,
+log files (as specified by `org-latex-logfiles-extensions') are deleted."
+  (unless snippet
+    (when org-latex-remove-logfiles
+      (mapc #'delete-file
+            (directory-files
+             (or (file-name-directory outfile) default-directory)
+             t
+             (concat (regexp-quote (file-name-base outfile))
+                     "\\(?:\\.[0-9]+\\)?\\."
+                     (regexp-opt org-latex-logfiles-extensions))
+             t)))
+    (let ((warnings (org-latex--collect-warnings log-buf)))
+      (funcall
+       (if warnings
+           (apply-partially
+            #'display-warning
+            '(ox-latex))
+         #'message)
+       (concat "PDF file produced"
+               (cond
+                ((eq warnings 'error) " with errors.")
+                (warnings (concat " with warnings: " warnings))
+                (t ".")))))))
 
 (defun org-latex--collect-warnings (buffer)
   "Collect some warnings from \"pdflatex\" command output.
@@ -4292,7 +4680,11 @@ encountered or nil if there was none."
     (save-excursion
       (goto-char (point-max))
       (when (re-search-backward "^[ \t]*This is .*?TeX.*?Version" nil t)
-	(if (re-search-forward "^!" nil t) 'error
+	(if (and
+	     (re-search-forward "^!\\(.+\\)" nil t)
+             ;; This error is passed as missing character warning
+             (not (string-match-p "Unicode character" (match-string 1))))
+            'error
 	  (let ((case-fold-search t)
 		(warnings ""))
 	    (dolist (warning org-latex-known-warnings)

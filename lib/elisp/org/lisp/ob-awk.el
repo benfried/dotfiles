@@ -1,6 +1,6 @@
 ;;; ob-awk.el --- Babel Functions for Awk            -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2011-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2011-2026 Free Software Foundation, Inc.
 
 ;; Author: Eric Schulte
 ;; Maintainer: Tyler Smith <tyler@plantarum.ca>
@@ -32,6 +32,10 @@
 ;;          which will be passed to the awk process through STDIN
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 (require 'org-compat)
 
@@ -44,14 +48,19 @@
 (defvar org-babel-awk-command "awk"
   "Name of the awk executable command.")
 
-(defun org-babel-expand-body:awk (body _params)
+(defun org-babel-expand-body:awk (body params)
   "Expand BODY according to PARAMS, return the expanded body."
-  body)
+  (let ((prologue (cdr (assq :prologue params)))
+        (epilogue (cdr (assq :epilogue params))))
+    (concat
+     (and prologue (concat prologue "\n"))
+     body
+     (and epilogue (concat "\n" epilogue "\n")))))
 
 (defun org-babel-execute:awk (body params)
-  "Execute a block of Awk code with org-babel.
+  "Execute a block of Awk code BODY with org-babel.
+PARAMS is a plist of src block parameters .
 This function is called by `org-babel-execute-src-block'."
-  (message "executing Awk source code block")
   (let* ((result-params (cdr (assq :result-params params)))
          (cmd-line (cdr (assq :cmd-line params)))
          (in-file (cdr (assq :in-file params)))
@@ -67,15 +76,15 @@ This function is called by `org-babel-execute-src-block'."
 		      tmp))))
          (cmd (mapconcat #'identity
 			 (append
-			  (list org-babel-awk-command
-				"-f" code-file cmd-line)
+                          (list org-babel-awk-command cmd-line
+                                "-f" (org-babel-process-file-name code-file))
 			  (mapcar (lambda (pair)
 				    (format "-v %s='%s'"
 					    (car pair)
 					    (org-babel-awk-var-to-awk
 					     (cdr pair))))
 				  (org-babel--get-vars params))
-			  (list in-file))
+			  (list (and in-file (org-babel-process-file-name in-file))))
 			 " ")))
     (org-babel-reassemble-table
      (let ((results
@@ -96,11 +105,17 @@ This function is called by `org-babel-execute-src-block'."
       (cdr (assq :rowname-names params)) (cdr (assq :rownames params))))))
 
 (defun org-babel-awk-var-to-awk (var &optional sep)
-  "Return a printed value of VAR suitable for parsing with awk."
+  "Return a printed value of VAR suitable for parsing with awk.
+SEP, when non-nil is a separator used when converting list values to awk
+table."
   (let ((echo-var (lambda (v) (if (stringp v) v (format "%S" v)))))
     (cond
      ((and (listp var) (listp (car var)))
-      (orgtbl-to-generic var  (list :sep (or sep "\t") :fmt echo-var)))
+      (orgtbl-to-generic
+       var
+       (list :sep (or sep "\t")
+             :fmt echo-var
+             :with-special-rows nil)))
      ((listp var)
       (mapconcat echo-var var "\n"))
      (t (funcall echo-var var)))))

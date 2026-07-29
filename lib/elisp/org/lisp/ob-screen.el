@@ -1,6 +1,6 @@
 ;;; ob-screen.el --- Babel Support for Interactive Terminal -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2009-2026 Free Software Foundation, Inc.
 
 ;; Author: Benjamin Andresen
 ;; Maintainer: Ken Mankoff <mankoff@gmail.com>
@@ -34,6 +34,10 @@
 ;; M-x org-babel-screen-test RET
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 
 (defvar org-babel-screen-location "screen"
@@ -46,9 +50,8 @@ In case you want to use a different screen than one selected by your $PATH")
   "Default arguments to use when running screen source blocks.")
 
 (defun org-babel-execute:screen (body params)
-  "Send a block of code via screen to a terminal using Babel.
-\"default\" session is used when none is specified."
-  (message "Sending source code block to interactive terminal session...")
+  "Send BODY via screen to a terminal using Babel, according to PARAMS.
+\"default\" session is used when none is specified in the PARAMS."
   (save-window-excursion
     (let* ((session (cdr (assq :session params)))
            (socket (org-babel-screen-session-socketname session)))

@@ -1,9 +1,9 @@
 ;;; org-id.el --- Global identifiers for Org entries -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2008-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2008-2026 Free Software Foundation, Inc.
 ;;
 ;; Author: Carsten Dominik <carsten.dominik@gmail.com>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 ;; URL: https://orgmode.org
 ;;
 ;; This file is part of GNU Emacs.
@@ -29,13 +29,13 @@
 ;; are provided that create and retrieve such identifiers, and that find
 ;; entries based on the identifier.
 
-;; Identifiers consist of a prefix (default "Org" given by the variable
+;; Identifiers consist of a prefix (given by the variable
 ;; `org-id-prefix') and a unique part that can be created by a number
-;; of different methods, see the variable `org-id-method'.
-;; Org has a builtin method that uses a compact encoding of the creation
-;; time of the ID, with microsecond accuracy.  This virtually
-;; guarantees globally unique identifiers, even if several people are
-;; creating IDs at the same time in files that will eventually be used
+;; of different methods, see the variable `org-id-method'.  Org has a
+;; builtin method that uses a compact encoding of the creation time of
+;; the ID, with microsecond accuracy.  This virtually guarantees
+;; globally unique identifiers, even if several people are creating
+;; IDs at the same time in files that will eventually be used
 ;; together.
 ;;
 ;; By default Org uses UUIDs as global unique identifiers.
@@ -70,14 +70,16 @@
 
 ;;; Code:
 
+(require 'org-macs)
+(org-assert-version)
+
 (require 'org)
+(require 'org-element-ast)
 (require 'org-refile)
 (require 'ol)
 
 (declare-function message-make-fqdn "message" ())
 (declare-function org-goto-location "org-goto" (&optional _buf help))
-;; Declared inside `org-element-with-disabled-cache' macro.
-(declare-function org-element--cache-active-p "org-element.el" (&optional called-from-cache-change-func-p))
 
 ;;; Customization
 
@@ -124,6 +126,46 @@ nil   Never use an ID to make a link, instead link using a text search for
 		 create-if-interactive-and-no-custom-id)
 	  (const :tag "Only use existing" use-existing)
 	  (const :tag "Do not use ID to create link" nil)))
+
+(defcustom org-id-link-consider-parent-id nil
+  "Non-nil means storing a link to an Org entry considers inherited IDs.
+
+When this option is non-nil and `org-id-link-use-context' is
+enabled, ID properties inherited from parent entries will be
+considered when storing an ID link.  If no ID is found in this
+way, a new one may be created as normal (see
+`org-id-link-to-org-use-id').
+
+For example, given this org file:
+
+* Parent
+:PROPERTIES:
+:ID: abc
+:END:
+** Child 1
+** Child 2
+
+With `org-id-link-consider-parent-id' and
+`org-id-link-use-context' both enabled, storing a link with point
+at \"Child 1\" will produce a link \"<id:abc::*Child 1>\".  This
+allows linking to uniquely-named sub-entries within a parent
+entry with an ID, without requiring every sub-entry to have its
+own ID."
+  :group 'org-link-store
+  :group 'org-id
+  :package-version '(Org . "9.7")
+  :type 'boolean)
+
+(defcustom org-id-link-use-context t
+  "Non-nil means enables search string context in org-id links.
+
+Search strings are added by `org-id-store-link' when both the
+general option `org-link-context-for-files' and the org-id option
+`org-id-link-use-context' are non-nil."
+  :group 'org-link-store
+  :group 'org-id
+  :package-version '(Org . "9.7")
+  :type 'boolean)
 
 (defcustom org-id-uuid-program "uuidgen"
   "The uuidgen program."
@@ -187,7 +229,7 @@ people to make this necessary."
 
 (defcustom org-id-track-globally t
   "Non-nil means track IDs through files, so that links work globally.
-This work by maintaining a hash table for IDs and writing this table
+This works by maintaining a hash table for IDs and writing this table
 to disk when exiting Emacs.  Because of this, it works best if you use
 a single Emacs process, not many.
 
@@ -198,8 +240,7 @@ the link."
   :group 'org-id
   :type 'boolean)
 
-(defcustom org-id-locations-file (convert-standard-filename
-				  (concat user-emacs-directory ".org-id-locations"))
+(defcustom org-id-locations-file (locate-user-emacs-file ".org-id-locations")
   "The file for remembering in which file an ID was defined.
 This variable is only relevant when `org-id-track-globally' is set."
   :group 'org-id
@@ -223,6 +264,8 @@ systems."
 
 (defvar org-id-locations nil
   "List of files with IDs in those files.")
+(defvar org-id--locations-checksum nil
+  "Last checksum corresponding to ID files and their modifications.")
 
 (defvar org-id-files nil
   "List of files that contain IDs.")
@@ -250,6 +293,16 @@ This variable is only relevant when `org-id-track-globally' is set."
   :group 'org-id
   :type 'boolean)
 
+(defcustom org-id-completion-targets
+  '((nil . t)
+    (org-id-files . t))
+  "Candidate headings for completing \"id:\" links in `\\[org-insert-link]'.
+This variable has the same form as `org-refile-targets', which see."
+  :group 'org-id
+  :type (get 'org-refile-targets 'custom-type)
+  :package-version '(Org . "9.8")
+  :risky t)
+
 ;;; The API functions
 
 ;;;###autoload
@@ -257,7 +310,7 @@ This variable is only relevant when `org-id-track-globally' is set."
   "Create an ID for the current entry and return it.
 If the entry already has an ID, just return it.
 With optional argument FORCE, force the creation of a new ID."
-  (interactive "P")
+  (interactive "P" org-mode)
   (when force
     (org-entry-put (point) "ID" nil))
   (org-id-get (point) 'create))
@@ -266,7 +319,7 @@ With optional argument FORCE, force the creation of a new ID."
 (defun org-id-copy ()
   "Copy the ID of the entry at point to the kill ring.
 Create an ID if necessary."
-  (interactive)
+  (interactive nil org-mode)
   (org-kill-new (org-id-get nil 'create)))
 
 (defvar org-id-overriding-file-name nil
@@ -275,25 +328,32 @@ This is useful when working with contents in a temporary buffer
 that will be copied back to the original.")
 
 ;;;###autoload
-(defun org-id-get (&optional pom create prefix)
-  "Get the ID property of the entry at point-or-marker POM.
-If POM is nil, refer to the entry at point.
-If the entry does not have an ID, the function returns nil.
-However, when CREATE is non-nil, create an ID if none is present already.
-PREFIX will be passed through to `org-id-new'.
-In any case, the ID of the entry is returned."
-  (org-with-point-at pom
-    (let ((id (org-entry-get nil "ID")))
-      (cond
-       ((and id (stringp id) (string-match "\\S-" id))
-	id)
-       (create
-	(setq id (org-id-new prefix))
-	(org-entry-put pom "ID" id)
-	(org-id-add-location id
+(defun org-id-get (&optional epom create prefix inherit)
+  "Get the ID of the entry at EPOM.
+
+EPOM is an element, marker, or buffer position.  If EPOM is nil,
+refer to the entry at point.
+
+If INHERIT is non-nil, ID properties inherited from parent
+entries are considered.  Otherwise, only ID properties on the
+entry itself are considered.
+
+When CREATE is nil, return the ID of the entry if found,
+otherwise nil.  When CREATE is non-nil, create an ID if none has
+been found, and return the new ID.  PREFIX will be passed through
+to `org-id-new'."
+  (let ((id (org-entry-get epom "ID" (and inherit t))))
+    (cond
+     ((and id (stringp id) (string-match "\\S-" id))
+      id)
+     (create
+      (setq id (org-id-new prefix))
+      (org-entry-put epom "ID" id)
+      (org-with-point-at epom
+        (org-id-add-location id
 			     (or org-id-overriding-file-name
-				 (buffer-file-name (buffer-base-buffer))))
-	id)))))
+			         (buffer-file-name (buffer-base-buffer)))))
+      id))))
 
 ;;;###autoload
 (defun org-id-get-with-outline-path-completion (&optional targets)
@@ -302,7 +362,7 @@ TARGETS may be a setting for `org-refile-targets' to define
 eligible headlines.  When omitted, all headlines in the current
 file are eligible.  This function returns the ID of the entry.
 If necessary, the ID is created."
-  (let* ((org-refile-targets (or targets '((nil . (:maxlevel . 10)))))
+  (let* ((org-refile-targets (or targets '((nil . t))))
 	 (org-refile-use-outline-path
 	  (if (caar org-refile-targets) 'file t))
 	 (org-refile-target-verify-function nil)
@@ -397,30 +457,6 @@ So a typical ID could look like \"Org:4nd91V40HI\"."
      (t (error "Invalid `org-id-method'")))
     (concat prefix unique)))
 
-(defun org-id-uuid ()
-  "Return string with random (version 4) UUID."
-  (let ((rnd (md5 (format "%s%s%s%s%s%s%s"
-			  (random)
-			  (org-time-convert-to-list nil)
-			  (user-uid)
-			  (emacs-pid)
-			  (user-full-name)
-			  user-mail-address
-			  (recent-keys)))))
-    (format "%s-%s-4%s-%s%s-%s"
-	    (substring rnd 0 8)
-	    (substring rnd 8 12)
-	    (substring rnd 13 16)
-	    (format "%x"
-		    (logior
-		     #b10000000
-		     (logand
-		      #b10111111
-		      (string-to-number
-		       (substring rnd 16 18) 16))))
-	    (substring rnd 18 20)
-	    (substring rnd 20 32))))
-
 (defun org-id-int-to-b36-one-digit (integer)
   "Convert INTEGER between 0 and 61 into a single character 0..9, A..Z, a..z."
   (cond
@@ -498,7 +534,6 @@ If SILENT is non-nil, messages are suppressed."
   (interactive)
   (unless org-id-track-globally
     (error "Please turn on `org-id-track-globally' if you want to track IDs"))
-  (setq org-id-locations nil)
   (let* ((files
           (delete-dups
            (mapcar #'file-truename
@@ -522,11 +557,18 @@ If SILENT is non-nil, messages are suppressed."
          (nfiles (length files))
          (id-regexp
 	  (rx (seq bol (0+ (any "\t ")) ":ID:" (1+ " ") (not (any " ")))))
-         (seen-ids nil)
+         (seen-ids (make-hash-table :test #'equal))
          (ndup 0)
-         (i 0))
-    (with-temp-buffer
-      (org-element-with-disabled-cache
+         (i 0)
+         (checksum
+          (mapcar
+           (lambda (f)
+             (when (file-exists-p f)
+               (list f (file-attribute-modification-time (file-attributes f)))))
+           (sort (copy-sequence files) #'string<))))
+    (unless (equal checksum org-id--locations-checksum) ; Files have changed since the last update.
+      (setq org-id-locations nil)
+      (with-temp-buffer
         (delay-mode-hooks
 	  (org-mode)
 	  (dolist (file files)
@@ -534,31 +576,36 @@ If SILENT is non-nil, messages are suppressed."
               (unless silent
                 (cl-incf i)
                 (message "Finding ID locations (%d/%d files): %s" i nfiles file))
-	      (insert-file-contents file nil nil nil 'replace)
-              (let ((ids nil)
-		    (case-fold-search t))
-                (org-with-point-at 1
-		  (while (re-search-forward id-regexp nil t)
-		    (when (org-at-property-p)
-                      (push (org-entry-get (point) "ID") ids)))
-		  (when ids
-		    (push (cons (abbreviate-file-name file) ids)
-			  org-id-locations)
-		    (dolist (id ids)
-                      (cond
-                       ((not (member id seen-ids)) (push id seen-ids))
-                       (silent nil)
-                       (t
-                        (message "Duplicate ID %S" id)
-                        (cl-incf ndup))))))))))))
-    (setq org-id-files (mapcar #'car org-id-locations))
-    (org-id-locations-save)
-    ;; Now convert to a hash table.
-    (setq org-id-locations (org-id-alist-to-hash org-id-locations))
-    (when (and (not silent) (> ndup 0))
-      (warn "WARNING: %d duplicate IDs found, check *Messages* buffer" ndup))
-    (message "%d files scanned, %d files contains IDs, and %d IDs found."
-             nfiles (length org-id-files) (hash-table-count org-id-locations))
+              (let ((buf (or (get-file-buffer file) nil)))
+                (with-current-buffer (or buf (current-buffer))
+                  (unless buf (insert-file-contents file nil nil nil 'replace))
+                  (let ((ids nil)
+                        node
+		        (case-fold-search t))
+                    (org-with-point-at 1
+		      (while (re-search-forward id-regexp nil t)
+                        (setq node (org-element-at-point))
+		        (when (org-element-type-p node 'node-property)
+                          (push (org-element-property :value node) ids)))
+		      (when ids
+		        (push (cons (abbreviate-file-name file) ids)
+			      org-id-locations)
+		        (dolist (id ids)
+                          (cond
+                           ((not (gethash id seen-ids)) (puthash id t seen-ids))
+                           (silent nil)
+                           (t
+                            (message "Duplicate ID %S" id)
+                            (cl-incf ndup)))))))))))))
+      (setq org-id-files (mapcar #'car org-id-locations))
+      (org-id-locations-save)
+      ;; Now convert to a hash table.
+      (setq org-id-locations (org-id-alist-to-hash org-id-locations))
+      (setq org-id--locations-checksum checksum)
+      (when (and (not silent) (> ndup 0))
+        (warn "WARNING: %d duplicate IDs found, check *Messages* buffer" ndup))
+      (message "%d files scanned, %d files contains IDs, and %d IDs found."
+               nfiles (length org-id-files) (hash-table-count org-id-locations)))
     org-id-locations))
 
 (defun org-id-locations-save ()
@@ -594,10 +641,13 @@ If SILENT is non-nil, messages are suppressed."
 	    (let ((loc (file-name-directory org-id-locations-file)))
 	      (mapc (lambda (item)
 		      (unless (file-name-absolute-p (car item))
-			(setf (car item) (expand-file-name (car item) loc))))
+			(setf (car item)
+                              ;; Abbreviate as `org-id-add-location' does.
+                              (abbreviate-file-name
+                               (expand-file-name (car item) loc)))))
 		    org-id-locations)))
 	(error
-	 (message "Could not read `org-id-locations' from %s, setting it to nil"
+         (message "Could not read `org-id-locations' from %s, setting it to nil"
 		  org-id-locations-file))))
     (setq org-id-files (mapcar 'car org-id-locations))
     (setq org-id-locations (org-id-alist-to-hash org-id-locations))))
@@ -668,8 +718,9 @@ This is to be able to write it to a file."
 	   (hash-table-p org-id-locations)
 	   (gethash id org-id-locations))
       ;; Fall back on current buffer
-      (buffer-file-name (or (buffer-base-buffer (current-buffer))
-			    (current-buffer)))))
+      (when (derived-mode-p 'org-mode)
+        (buffer-file-name (or (buffer-base-buffer (current-buffer))
+			      (current-buffer))))))
 
 (defun org-id-find-id-in-file (id file &optional markerp)
   "Return the position of the entry ID in FILE.
@@ -684,34 +735,81 @@ optional argument MARKERP, return the position as a new marker."
    ((not (file-exists-p file)) nil)
    (t
     (let* ((visiting (find-buffer-visiting file))
-	   (buffer (or visiting (find-file-noselect file))))
+	   (buffer (or visiting
+                       (if markerp (find-file-noselect file)
+                         (org-get-buffer-create " *Org ID temp*" t)))))
       (unwind-protect
 	  (with-current-buffer buffer
+            (unless (derived-mode-p 'org-mode) (org-mode))
+            (unless (or visiting markerp)
+              (buffer-disable-undo)
+              ;; FIXME: In Emacs 27, `insert-file-contents' seemingly
+              ;; does not trigger modification hooks in some
+              ;; scenarios.  This is manifested in test failures due
+              ;; to element cache losing track of the modifications.
+              (org-element-cache-reset)
+              (insert-file-contents file nil nil nil 'replace))
 	    (let ((pos (org-find-entry-with-id id)))
 	      (cond
 	       ((null pos) nil)
 	       (markerp (move-marker (make-marker) pos buffer))
 	       (t (cons file pos)))))
-	;; Remove opened buffer in the process.
-	(unless (or visiting markerp) (kill-buffer buffer)))))))
+	;; Clean temporarily buffer if we don't need to keep it.
+	(unless (or visiting markerp)
+          (with-current-buffer buffer (erase-buffer))))))))
 
 ;; id link type
 
-;; Calling the following function is hard-coded into `org-store-link',
-;; so we do have to add it to `org-store-link-functions'.
+(defun org-id--get-id-to-store-link (&optional create)
+  "Get or create the relevant ID for storing a link.
+
+Optional argument CREATE is passed to `org-id-get'.
+
+Inherited IDs are only considered when
+`org-id-link-consider-parent-id', `org-id-link-use-context' and
+`org-link-context-for-files' are all enabled, since inherited IDs
+are confusing without the additional search string context.
+
+Note that this function resets the
+`org-entry-property-inherited-from' marker: it will either point
+to nil (if the id was not inherited) or to the point it was
+inherited from."
+  (let* ((inherit-id (and org-id-link-consider-parent-id
+                          org-id-link-use-context
+                          org-link-context-for-files)))
+    (move-marker org-entry-property-inherited-from nil)
+    (org-id-get nil create nil inherit-id)))
 
 ;;;###autoload
 (defun org-id-store-link ()
   "Store a link to the current entry, using its ID.
 
-If before first heading store first title-keyword as description
-or filename if no title."
-  (interactive)
-  (when (and (buffer-file-name (buffer-base-buffer)) (derived-mode-p 'org-mode))
-    (let* ((link (concat "id:" (org-id-get-create)))
+The link description is based on the heading, or if before the
+first heading, the title keyword if available, or else the
+filename.
+
+When `org-link-context-for-files' and `org-id-link-use-context'
+are non-nil, add a search string to the link.  The link
+description is then based on the search string target.
+
+When in addition `org-id-link-consider-parent-id' is non-nil, the
+ID can be inherited from a parent entry, with the search string
+used to still link to the current location."
+  (interactive nil org-mode)
+  (when (and (buffer-file-name (buffer-base-buffer))
+             (derived-mode-p 'org-mode))
+    ;; Get the precise target first, in case looking for an id causes
+    ;; a properties drawer to be added at the current location.
+    (let* ((precise-target (and org-link-context-for-files
+                                org-id-link-use-context
+                                (org-link-precise-link-target)))
+           (link (concat "id:" (org-id--get-id-to-store-link 'create)))
+           (id-location (or (and org-entry-property-inherited-from
+                                 (marker-position org-entry-property-inherited-from))
+                            (save-excursion (org-back-to-heading-or-point-min t) (point))))
 	   (case-fold-search nil)
 	   (desc (save-excursion
-		   (org-back-to-heading-or-point-min t)
+                   (goto-char id-location)
                    (cond ((org-before-first-heading-p)
                           (let ((keywords (org-collect-keywords '("TITLE"))))
                             (if keywords
@@ -723,14 +821,59 @@ or filename if no title."
 			      (match-string 4)
 			    (match-string 0)))
                          (t link)))))
+      ;; Precise targets should be after id-location to avoid
+      ;; duplicating the current headline as a search string
+      (when (and precise-target
+                 (> (nth 2 precise-target) id-location))
+         (setq link (concat link "::" (nth 0 precise-target)))
+         (setq desc (nth 1 precise-target)))
       (org-link-store-props :link link :description desc :type "id")
       link)))
 
-(defun org-id-open (id _)
-  "Go to the entry with id ID."
-  (org-mark-ring-push)
-  (let ((m (org-id-find id 'marker))
-	cmd)
+;;;###autoload
+(defun org-id-store-link-maybe (&optional interactive?)
+  "Store a link to the current entry using its ID if enabled.
+
+The value of `org-id-link-to-org-use-id' determines whether an ID
+link should be stored, using `org-id-store-link'.
+
+Assume the function is called interactively if INTERACTIVE? is
+non-nil."
+  (when (and (buffer-file-name (buffer-base-buffer))
+             (derived-mode-p 'org-mode)
+             (or (eq org-id-link-to-org-use-id t)
+                 (and interactive?
+                      (or (eq org-id-link-to-org-use-id 'create-if-interactive)
+                          (and (eq org-id-link-to-org-use-id
+                                   'create-if-interactive-and-no-custom-id)
+                               (not (org-entry-get nil "CUSTOM_ID")))))
+                 ;; 'use-existing
+                 (and org-id-link-to-org-use-id
+                      (org-id--get-id-to-store-link))))
+    (org-id-store-link)))
+
+(defun org-id-open (link _)
+  "Go to the entry indicated by id link LINK.
+
+The link can include a search string after \"::\", which is
+passed to `org-link-search'.
+
+For backwards compatibility with IDs that contain \"::\", if no
+match is found for the ID, the full link string including \"::\"
+will be tried as an ID."
+  (let* ((option (and (string-match "::\\(.*\\)\\'" link)
+		      (match-string 1 link)))
+	 (id (if (not option) link
+               (substring link 0 (match-beginning 0))))
+         m cmd)
+    (org-mark-ring-push)
+    (setq m (org-id-find id 'marker))
+    (when (and (not m) option)
+      ;; Backwards compatibility: if id is not found, try treating
+      ;; whole link as an id.
+      (setq m (org-id-find link 'marker))
+      (when m
+        (setq option nil)))
     (unless m
       (error "Cannot find entry with ID \"%s\"" id))
     ;; Use a buffer-switching command in analogy to finding files
@@ -747,9 +890,55 @@ or filename if no title."
 	(funcall cmd (marker-buffer m)))
     (goto-char m)
     (move-marker m nil)
+    (when option
+      (save-restriction
+        (unless (org-before-first-heading-p)
+          (org-narrow-to-subtree))
+        (org-link-search option nil nil
+                         (org-element-lineage (org-element-at-point) 'headline t))))
     (org-fold-show-context)))
 
-(org-link-set-parameters "id" :follow #'org-id-open)
+(defun org-id-complete (&optional _arg)
+  "Complete IDs for `org-insert-link'.
+
+If a headline without an ID is selected, one will automatically be
+created."
+  (unless org-id-locations (org-id-locations-load))
+  (or (ignore-errors ; Catch the error if we have no refile targets.
+        (when-let* ((id (org-id-get-with-outline-path-completion
+                         (if (buffer-file-name) org-id-completion-targets
+                           ;; If the current buffer isn't associated
+                           ;; with a file, we can't include it so we
+                           ;; exclude all "targets" where the car is
+                           ;; nil.
+                           (seq-filter #'car org-id-completion-targets)))))
+          (concat "id:" id)))
+      (read-string "Link: " "id:")))
+
+(defun org-id-description (link desc)
+  "Return a description for an ID link, derived from the linked headline.
+
+Calling convention is similar to `org-link-make-description-function'.
+DESC has higher priority and is returned if it is both non-nil and
+non-empty.  Otherwise, if the passed LINK is an ID link and can be
+resolved to an existing headline, the target headline is returned.  If
+all else fails, DESC is returned as-is.
+
+TODO keywords, tags, and priorities are stripped from the description."
+  (or (org-string-nw-p desc)
+      (when-let* ((loc (org-id-find (string-remove-prefix "id:" link))))
+        (org-with-file-buffer (car loc)
+          (org-with-wide-buffer
+           (goto-char (cdr loc))
+           (org-link-display-format
+            (org-get-heading t t t t)))))
+      desc))
+
+(org-link-set-parameters "id"
+  :follow #'org-id-open
+  :store #'org-id-store-link-maybe
+  :complete #'org-id-complete
+  :insert-description #'org-id-description)
 
 (provide 'org-id)
 

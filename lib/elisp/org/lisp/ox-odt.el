@@ -1,9 +1,9 @@
 ;;; ox-odt.el --- OpenDocument Text Exporter for Org Mode -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2010-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2010-2026 Free Software Foundation, Inc.
 
 ;; Author: Jambunathan K <kjambunathan at gmail dot com>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 ;; URL: https://orgmode.org
 
 ;; This file is part of GNU Emacs.
@@ -25,6 +25,9 @@
 
 ;;; Code:
 
+(require 'org-macs)
+(org-assert-version)
+
 (require 'cl-lib)
 (require 'format-spec)
 (require 'org-compat)
@@ -32,11 +35,7 @@
 (require 'ox)
 (require 'table nil 'noerror)
 
-(declare-function org-at-heading-p "org" (&optional _))
-(declare-function org-back-to-heading "org" (&optional invisible-ok))
-(declare-function org-next-visible-heading "org" (arg))
-
-;;; Define Back-End
+;;; Define Backend
 
 (org-export-define-backend 'odt
   '((bold . org-odt-bold)
@@ -88,10 +87,12 @@
     (verbatim . org-odt-verbatim)
     (verse-block . org-odt-verse-block))
   :filters-alist '((:filter-parse-tree
-		    . (org-odt--translate-latex-fragments
+		    . (org-odt--strip-trailing-newlines
+                       org-odt--translate-latex-fragments
 		       org-odt--translate-description-lists
 		       org-odt--translate-list-tables
-		       org-odt--translate-image-links)))
+		       org-odt--translate-image-links))
+                   (:filter-final-output . org-odt--remove-forbidden))
   :menu-entry
   '(?o "Export to ODT"
        ((?o "As ODT file" org-odt-export-to-odt)
@@ -105,6 +106,7 @@
     (:keywords "KEYWORDS" nil nil space)
     (:subtitle "SUBTITLE" nil nil parse)
     ;; Other variables.
+    (:odt-with-forbidden-chars nil nil org-odt-with-forbidden-chars)
     (:odt-content-template-file nil nil org-odt-content-template-file)
     (:odt-display-outline-level nil nil org-odt-display-outline-level)
     (:odt-fontify-srcblocks nil nil org-odt-fontify-srcblocks)
@@ -145,6 +147,10 @@
 
 ;;; Internal Variables
 
+(defvar org-odt--id-attr-prefix "ID-"
+  "Prefix to use in ID attributes.
+This affects IDs that are determined from the ID property.")
+
 (defconst org-odt-lib-dir
   (file-name-directory (or load-file-name (buffer-file-name)))
   "Location of ODT exporter.
@@ -162,6 +168,14 @@ Use this to infer values of `org-odt-styles-dir' and
     ("--\\([^-]\\)" . "&#x2013;\\1")	; ndash
     ("\\.\\.\\." . "&#x2026;"))		; hellip
   "Regular expressions for special string conversion.")
+
+(defconst org-odt-forbidden-char-re
+  (rx (not (in ?\N{U+9} ?\N{U+A} ?\N{U+D}
+               (?\N{U+20} . ?\N{U+D7FF})
+               (?\N{U+E000} . ?\N{U+FFFD})
+               (?\N{U+10000} . ?\N{U+10FFFF}))))
+  "Regexp matching forbidden XML1.0 characters.
+https://www.w3.org/TR/REC-xml/#charsets")
 
 (defconst org-odt-schema-dir-list
   (list (expand-file-name "./schema/" org-odt-data-dir))
@@ -357,6 +371,20 @@ the entity.  See `org-odt--enumerate'.")
   :tag "Org Export ODT"
   :group 'org-export)
 
+(defcustom org-odt-with-forbidden-chars ""
+  "String to replace forbidden XML characters.
+When set to t, forbidden characters are left as-is.
+When set to nil, an error is thrown.
+See `org-odt-forbidden-char-re' for the list of forbidden characters
+that cannot occur inside ODT documents.
+
+You may also consider export filters to perform more fine-grained
+replacements.  See info node `(org)Advanced Export Configuration'."
+  :package-version '(Org . "9.8")
+  :type '(choice (const :tag "Leave forbidden characters as-is" t)
+                 (const :tag "Err when forbidden characters encountered" nil)
+                 (string :tag "Replacement string"))
+  :safe #'always)
 
 ;;;; Debugging
 
@@ -692,26 +720,31 @@ When set, the exporter will process LaTeX environments and
 fragments.
 
 This option can also be set with the +OPTIONS line,
-e.g. \"tex:mathjax\".  Allowed values are:
+e.g. \"tex:dvipng\".  Allowed values are:
 
 nil            Ignore math snippets.
-`verbatim'     Keep everything in verbatim
-`dvipng'       Process the LaTeX fragments to images.  This will also
-               include processing of non-math environments.
-`imagemagick'  Convert the LaTeX fragments to pdf files and use
-               imagemagick to convert pdf files to png files.
-`mathjax'      Do MathJax preprocessing and arrange for MathJax.js to
-               be loaded.
+t, `mathml'    Convert the LaTeX fragments to MathML if the
+               `org-latex-to-mathml-convert-command' is usable.
+SYMBOL         Convert the LaTeX fragments to images using any symbol
+               defined in `org-preview-latex-process-alist', e.g.,
+               `dvipng'.
+`verbatim'     Keep everything in verbatim.
 
-Any other symbol is a synonym for `mathjax'."
-  :version "24.4"
-  :package-version '(Org . "8.0")
-  :type '(choice
-	  (const :tag "Do not process math in any way" nil)
-	  (const :tag "Leave math verbatim" verbatim)
-	  (const :tag "Use dvipng to make images" dvipng)
-	  (const :tag "Use imagemagick to make images" imagemagick)
-	  (other :tag "Use MathJax to display math" mathjax)))
+If the desired converter is not available or any other symbol is
+provided, process as `verbatim'."
+  :package-version '(Org . "9.8")
+  :type `(choice
+          (const :tag "Do not process math in any way" nil)
+          (choice :tag "Convert fragments to MathML" :value t
+                  (const t)
+                  (const mathml))
+          (restricted-sexp :tag "Convert fragments to images"
+                           :value ,(caar org-preview-latex-process-alist)
+                           :match-alternatives
+                           (,(lambda (v)
+                               (assq v org-preview-latex-process-alist))))
+          (const :tag "Leave math verbatim" verbatim))
+  :safe #'always)
 
 
 ;;;; Links
@@ -882,7 +915,7 @@ style from the list."
 
 When nil, export timestamps as plain text.
 
-When non-nil, map `org-time-stamp-custom-formats' to a pair of
+When non-nil, map `org-timestamp-custom-formats' to a pair of
 OpenDocument date-styles with names \"OrgDate1\" and \"OrgDate2\"
 respectively.  A timestamp with no time component is formatted
 with style \"OrgDate1\" while one with explicit hour and minutes
@@ -917,7 +950,7 @@ See `org-odt--build-date-styles' for implementation details."
   (let* ((format-timestamp
 	  (lambda (timestamp format &optional end utc)
 	    (if timestamp
-		(org-timestamp-format timestamp format end utc)
+		(org-format-timestamp timestamp format end utc)
 	      (format-time-string format nil utc))))
 	 (has-time-p (or (not timestamp)
 			 (org-timestamp-has-time-p timestamp)))
@@ -933,14 +966,8 @@ See `org-odt--build-date-styles' for implementation details."
 	     ;; don't bother about formatting the date contents to be
 	     ;; compatible with "OrgDate1" and "OrgDateTime" styles.  A
 	     ;; simple Org-style date should suffice.
-	     (date (let* ((formats
-			   (if org-display-custom-times
-			       (cons (substring
-				      (car org-time-stamp-custom-formats) 1 -1)
-				     (substring
-				      (cdr org-time-stamp-custom-formats) 1 -1))
-			     '("%Y-%m-%d %a" . "%Y-%m-%d %a %H:%M")))
-			  (format (if has-time-p (cdr formats) (car formats))))
+	     (date (let ((format (org-time-stamp-format
+                                  has-time-p 'no-brackets 'custom)))
 		     (funcall format-timestamp timestamp format end)))
 	     (repeater (let ((repeater-type (org-element-property
 					     :repeater-type timestamp))
@@ -1012,7 +1039,7 @@ See `org-odt--build-date-styles' for implementation details."
 	      (setq exit-code (archive-zip-extract archive member))
 	      (buffer-string)))
       (unless (zerop exit-code)
-	(message command-output)
+	(warn command-output)
 	(error "Extraction failed")))))
 
 ;;;; Target
@@ -1096,8 +1123,9 @@ specifying the depth of the table."
 	       (format "<text:span text:style-name=\"%s\">%s</text:span> "
 		       style todo)))
 	   (when priority
-	     (let* ((style (format "OrgPriority-%s" priority))
-		    (priority (format "[#%c]" priority)))
+	     (let* ((priority-string (org-priority-to-string priority))
+                    (style (format "OrgPriority-%s" priority-string))
+		    (priority (format "[#%s]" priority-string)))
 	       (format "<text:span text:style-name=\"%s\">%s</text:span> "
 		       style priority)))
 	   ;; Title.
@@ -1306,7 +1334,7 @@ original parsed data.  INFO is a plist holding export options."
 	;; today's date.
 	(let* ((date (let ((date (plist-get info :date)))
 		       (and (not (cdr date))
-			    (eq (org-element-type (car date)) 'timestamp)
+			    (org-element-type-p (car date) 'timestamp)
 			    (car date)))))
 	  (let ((iso-date (org-odt--format-timestamp date nil 'iso-date)))
 	    (concat
@@ -1368,50 +1396,54 @@ original parsed data.  INFO is a plist holding export options."
     ;; Ensure we have write permissions to this file.
     (set-file-modes (concat org-odt-zip-dir "styles.xml") #o600)
 
-    ;; FIXME: Who is opening an empty styles.xml before this point?
-    (with-current-buffer
-	(find-file-noselect (concat org-odt-zip-dir "styles.xml") t)
-      (revert-buffer t t)
+    (let ((styles-xml (concat org-odt-zip-dir "styles.xml"))
+          ;; Capture the current (possibly buffer-local) values for priorities
+          ;; because these get reset to global values when we use `with-temp-buffer'
+          (priority-high org-priority-highest)
+          (priority-low org-priority-lowest))
+      (with-temp-buffer
+        (when (file-exists-p styles-xml)
+          (insert-file-contents styles-xml))
 
-      ;; Write custom styles for source blocks
-      ;; Save STYLES used for colorizing of source blocks.
-      ;; Update styles.xml with styles that were collected as part of
-      ;; `org-odt-hfy-face-to-css' callbacks.
-      (let ((styles (mapconcat (lambda (style) (format " %s\n" (cddr style)))
-			       hfy-user-sheet-assoc "")))
-	(when styles
-	  (goto-char (point-min))
-	  (when (re-search-forward "</office:styles>" nil t)
-	    (goto-char (match-beginning 0))
-	    (insert "\n<!-- Org Htmlfontify Styles -->\n" styles "\n"))))
+        ;; Write custom styles for source blocks
+        ;; Save STYLES used for colorizing of source blocks.
+        ;; Update styles.xml with styles that were collected as part of
+        ;; `org-odt-hfy-face-to-css' callbacks.
+        (let ((styles (mapconcat (lambda (style) (format " %s\n" (cddr style)))
+			         hfy-user-sheet-assoc "")))
+          (when styles
+	    (goto-char (point-min))
+	    (when (re-search-forward "</office:styles>" nil t)
+	      (goto-char (match-beginning 0))
+	      (insert "\n<!-- Org Htmlfontify Styles -->\n" styles "\n"))))
 
-      ;; Update styles.xml - take care of outline numbering
+        ;; Update styles.xml - take care of outline numbering
+        ;; Outline numbering is retained only up to LEVEL.
+        ;; To disable outline numbering pass a LEVEL of 0.
 
-      ;; Don't make automatic backup of styles.xml file. This setting
-      ;; prevents the backed-up styles.xml file from being zipped in to
-      ;; odt file. This is more of a hackish fix. Better alternative
-      ;; would be to fix the zip command so that the output odt file
-      ;; includes only the needed files and excludes any auto-generated
-      ;; extra files like backups and auto-saves etc etc. Note that
-      ;; currently the zip command zips up the entire temp directory so
-      ;; that any auto-generated files created under the hood ends up in
-      ;; the resulting odt file.
-      (setq-local backup-inhibited t)
+        (let ((regex
+	       "<text:outline-level-style\\([^>]*\\)text:level=\"\\([^\"]*\\)\"\\([^>]*\\)>")
+	      (replacement
+	       "<text:outline-level-style\\1text:level=\"\\2\" style:num-format=\"\">"))
+          (goto-char (point-min))
+          (while (re-search-forward regex nil t)
+	    (unless (let ((sec-num (plist-get info :section-numbers))
+		          (level (string-to-number (match-string 2))))
+		      (if (wholenump sec-num) (<= level sec-num) sec-num))
+	      (replace-match replacement t nil))))
 
-      ;; Outline numbering is retained only up to LEVEL.
-      ;; To disable outline numbering pass a LEVEL of 0.
+        ;; Update styles.xml with priority styles for the current valid priority range
+        (when (plist-get info :with-priority)
+          (goto-char (point-min))
+          (when (re-search-forward "<style:style style:name=\"OrgPriority\" style:family=\"text\"/>" nil t)
+            (goto-char (match-end 0))
+            (insert "\n  <!-- Org Priority Styles -->\n")
+            (dolist (priority (number-sequence priority-high priority-low))
+              (insert (format "  <style:style style:name=\"OrgPriority-%s\" style:family=\"text\" style:parent-style-name=\"OrgPriority\"/>\n"
+                              (org-priority-to-string priority))))))
 
-      (goto-char (point-min))
-      (let ((regex
-	     "<text:outline-level-style\\([^>]*\\)text:level=\"\\([^\"]*\\)\"\\([^>]*\\)>")
-	    (replacement
-	     "<text:outline-level-style\\1text:level=\"\\2\" style:num-format=\"\">"))
-	(while (re-search-forward regex nil t)
-	  (unless (let ((sec-num (plist-get info :section-numbers))
-			(level (string-to-number (match-string 2))))
-		    (if (wholenump sec-num) (<= level sec-num) sec-num))
-	    (replace-match replacement t nil))))
-      (save-buffer 0)))
+        ;; Write back the new contents.
+        (write-region nil nil styles-xml))))
   ;; Update content.xml.
 
   (let* ( ;; `org-display-custom-times' should be accessed right
@@ -1419,8 +1451,10 @@ original parsed data.  INFO is a plist holding export options."
 	 ;; value before moving on to temp-buffer context down below.
 	 (custom-time-fmts
 	  (if org-display-custom-times
-	      (cons (substring (car org-time-stamp-custom-formats) 1 -1)
-		    (substring (cdr org-time-stamp-custom-formats) 1 -1))
+              (cons (org-time-stamp-format
+                     nil 'no-brackets 'custom)
+                    (org-time-stamp-format
+                     'with-time 'no-brackets 'custom))
 	    '("%Y-%M-%d %a" . "%Y-%M-%d %a %H:%M"))))
     (with-temp-buffer
       (insert-file-contents
@@ -1522,7 +1556,7 @@ original parsed data.  INFO is a plist holding export options."
 	    (let* ((date (plist-get info :date))
 		   ;; Check if DATE is specified as a timestamp.
 		   (timestamp (and (not (cdr date))
-				   (eq (org-element-type (car date)) 'timestamp)
+				   (org-element-type-p (car date) 'timestamp)
 				   (car date))))
 	      (when date
 		(concat
@@ -1576,8 +1610,9 @@ channel."
   (let ((timestamp (org-element-property :value clock))
 	(duration (org-element-property :duration clock)))
     (format "\n<text:p text:style-name=\"%s\">%s</text:p>"
-	    (if (eq (org-element-type (org-export-get-next-element clock info))
-		    'clock) "OrgClock" "OrgClockLastLine")
+	    (if (org-element-type-p
+                 (org-export-get-next-element clock info) 'clock)
+                "OrgClock" "OrgClockLastLine")
 	    (concat
 	     (format "<text:span text:style-name=\"%s\">%s</text:span>"
 		     "OrgClockKeyword" org-clock-string)
@@ -1695,7 +1730,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     (concat
      ;; Insert separator between two footnotes in a row.
      (let ((prev (org-export-get-previous-element footnote-reference info)))
-       (and (eq (org-element-type prev) 'footnote-reference)
+       (and (org-element-type-p prev 'footnote-reference)
 	    (format "<text:span text:style-name=\"%s\">%s</text:span>"
 		    "OrgSuperscript" ",")))
      ;; Transcode footnote reference.
@@ -1786,7 +1821,7 @@ holding contextual information."
 	   ;; Extra targets.
 	   (extra-targets
 	    (let ((id (org-element-property :ID headline)))
-	      (if id (org-odt--target "" (concat "ID-" id)) "")))
+	      (if id (org-odt--target "" (concat org-odt--id-attr-prefix id)) "")))
 	   ;; Title.
 	   (anchored-title (org-odt--target full-text id)))
       (cond
@@ -1803,8 +1838,8 @@ holding contextual information."
 		      ;; If top-level list, re-start numbering.  Otherwise,
 		      ;; continue numbering.
 		      (format "text:continue-numbering=\"%s\""
-			      (let* ((parent (org-export-get-parent-headline
-					      headline)))
+			      (let* ((parent (org-element-lineage
+					      headline 'headline)))
 				(if (and parent
 					 (org-export-low-level-p parent info))
 				    "true" "false")))))
@@ -1844,8 +1879,9 @@ See `org-odt-format-headline-function' for details."
      (let ((style (if (eq todo-type 'done) "OrgDone" "OrgTodo")))
        (format "<text:span text:style-name=\"%s\">%s</text:span> " style todo)))
    (when priority
-     (let* ((style (format "OrgPriority-%c" priority))
-	    (priority (format "[#%c]" priority)))
+     (let* ((priority-string (org-priority-to-string priority))
+            (style (format "OrgPriority-%s" priority-string))
+	    (priority (format "[#%s]" priority-string)))
        (format "<text:span text:style-name=\"%s\">%s</text:span> "
 	       style priority)))
    ;; Title.
@@ -1943,7 +1979,7 @@ contextual information."
   "Transcode an ITEM element from Org to ODT.
 CONTENTS holds the contents of the item.  INFO is a plist holding
 contextual information."
-  (let* ((plain-list (org-export-get-parent item))
+  (let* ((plain-list (org-element-parent item))
 	 (count (org-element-property :counter item))
 	 (type (org-element-property :type plain-list)))
     (unless (memq type '(ordered unordered descriptive-1 descriptive-2))
@@ -1951,7 +1987,16 @@ contextual information."
     (format "\n<text:list-item%s>\n%s\n%s"
 	    (if count (format " text:start-value=\"%s\"" count) "")
 	    contents
-	    (if (org-element-map item 'table #'identity info 'first-match)
+	    (if (org-element-map item
+                    'table #'identity info 'first-match
+                    ;; Ignore tables inside sub-lists.
+                    '(plain-list))
+                ;; `org-odt-table' will splice forced list ending (all
+                ;; the way up to the topmost list parent), table, and
+                ;; forced list re-opening in the middle of the item,
+                ;; marking text after table with <text:list-header>
+                ;; So, we must match close </text:list-header> instead
+                ;; of the original </text:list-item>.
 		"</text:list-header>"
 	      "</text:list-item>"))))
 
@@ -1987,7 +2032,7 @@ information."
 	  (ignore))))))))
 
 
-;;;; Latex Environment
+;;;; LaTeX Environment
 
 ;; (eval-after-load 'ox-odt '(ad-deactivate 'org-format-latex-as-mathml))
 ;; (advice-add 'org-format-latex-as-mathml	; FIXME
@@ -2008,7 +2053,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
     (org-odt-do-format-code latex-frag info)))
 
 
-;;;; Latex Fragment
+;;;; LaTeX Fragment
 
 ;; (when latex-frag			; FIXME
 ;; 	(setq href (propertize href :title "LaTeX Fragment"
@@ -2041,7 +2086,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
   (let* ((--numbered-parent-headline-at-<=-n
 	  (lambda (element n info)
 	    (cl-loop for x in (org-element-lineage element)
-		     thereis (and (eq (org-element-type x) 'headline)
+		     thereis (and (org-element-type-p x 'headline)
 				  (<= (org-export-get-relative-level x info) n)
 				  (org-export-numbered-headline-p x info)
 				  x))))
@@ -2084,10 +2129,10 @@ the generated string.
 Return value is a string if OP is set to `reference' or a cons
 cell like CAPTION . SHORT-CAPTION) where CAPTION and
 SHORT-CAPTION are strings."
-  (cl-assert (memq (org-element-type element) '(link table src-block paragraph)))
+  (cl-assert (org-element-type-p element '(link table src-block paragraph)))
   (let* ((element-or-parent
 	  (cl-case (org-element-type element)
-	    (link (org-export-get-parent-element element))
+	    (link (org-element-parent-element element))
 	    (t element)))
 	 ;; Get label and caption.
 	 (label (and (or (org-element-property :name element)
@@ -2206,9 +2251,10 @@ SHORT-CAPTION are strings."
 	    ;; Use Imagemagick.
 	    (and (executable-find "identify")
 		 (let ((size-in-pixels
-			(let ((dim (shell-command-to-string
-				    (format "identify -format \"%%w:%%h\" \"%s\""
-					    file))))
+			(let ((dim (with-temp-buffer
+                                     (call-process "identify" nil `(,(current-buffer) nil) nil
+                                                   "-format" "%w:%h" (format "%s" file))
+                                     (buffer-string))))
 			  (when (string-match "\\([0-9]+\\):\\([0-9]+\\)" dim)
 			    (cons (string-to-number (match-string 1 dim))
 				  (string-to-number (match-string 2 dim)))))))
@@ -2249,12 +2295,10 @@ SHORT-CAPTION are strings."
   "Return ODT code for an inline image.
 LINK is the link pointing to the inline image.  INFO is a plist
 used as a communication channel."
-  (cl-assert (eq (org-element-type element) 'link))
-  (let* ((src (let* ((type (org-element-property :type element))
-		     (raw-path (org-element-property :path element)))
-		(cond ((member type '("http" "https"))
-		       (concat type ":" raw-path))
-		      ((file-name-absolute-p raw-path)
+  (cl-assert (org-element-type-p element 'link))
+  (cl-assert (equal "file" (org-element-property :type element)))
+  (let* ((src (let ((raw-path (org-element-property :path element)))
+		(cond ((file-name-absolute-p raw-path)
 		       (expand-file-name raw-path))
 		      (t raw-path))))
 	 (src-expanded (if (file-name-absolute-p src) src
@@ -2265,7 +2309,7 @@ used as a communication channel."
 		(org-odt--copy-image-file src-expanded)))
 	 ;; Extract attributes from #+ATTR_ODT line.
 	 (attr-from (cl-case (org-element-type element)
-		      (link (org-export-get-parent-element element))
+		      (link (org-element-parent-element element))
 		      (t element)))
 	 ;; Convert attributes to a plist.
 	 (attr-plist (org-export-read-attribute :attr_odt attr-from))
@@ -2303,7 +2347,7 @@ used as a communication channel."
 	 ;; Check if this link was created by LaTeX-to-PNG converter.
 	 (replaces (org-element-property
 		    :replaces (if (not standalone-link-p) element
-				(org-export-get-parent-element element))))
+				(org-element-parent-element element))))
 	 ;; If yes, note down the type of the element - LaTeX Fragment
 	 ;; or LaTeX environment.  It will go in to frame title.
 	 (title (and replaces (capitalize
@@ -2339,7 +2383,7 @@ used as a communication channel."
 	 ;; converter.
 	 (replaces (org-element-property
 		    :replaces (if (not standalone-link-p) element
-				(org-export-get-parent-element element))))
+				(org-element-parent-element element))))
 	 ;; If yes, note down the type of the element - LaTeX Fragment
 	 ;; or LaTeX environment.  It will go in to frame title.
 	 (title (and replaces (capitalize
@@ -2511,7 +2555,7 @@ used as a communication channel."
 	      (org-element-property :name p))))
    ;; Link should point to an image file.
    (lambda (l)
-     (cl-assert (eq (org-element-type l) 'link))
+     (cl-assert (org-element-type-p l 'link))
      (org-export-inline-image-p l (plist-get info :odt-inline-image-rules)))))
 
 (defun org-odt--enumerable-latex-image-p (element info)
@@ -2526,7 +2570,7 @@ used as a communication channel."
 	      (org-element-property :name p))))
    ;; Link should point to an image file.
    (lambda (l)
-     (cl-assert (eq (org-element-type l) 'link))
+     (cl-assert (org-element-type-p l 'link))
      (org-export-inline-image-p l (plist-get info :odt-inline-image-rules)))))
 
 (defun org-odt--enumerable-formula-p (element info)
@@ -2538,7 +2582,7 @@ used as a communication channel."
 	 (org-element-property :name p)))
    ;; Link should point to a MathML or ODF file.
    (lambda (l)
-     (cl-assert (eq (org-element-type l) 'link))
+     (cl-assert (org-element-type-p l 'link))
      (org-export-inline-image-p l (plist-get info :odt-inline-formula-rules)))))
 
 (defun org-odt--standalone-link-p (element _info &optional
@@ -2561,9 +2605,9 @@ Return nil, otherwise."
 	     (paragraph element)
 	     (link (and (or (not link-predicate)
 			    (funcall link-predicate element))
-			(org-export-get-parent element)))
+			(org-element-parent element)))
 	     (t nil))))
-    (when (and p (eq (org-element-type p) 'paragraph))
+    (when (and p (org-element-type-p p 'paragraph))
       (when (or (not paragraph-predicate)
 		(funcall paragraph-predicate p))
 	(let ((contents (org-element-contents p)))
@@ -2594,20 +2638,19 @@ Return nil, otherwise."
   ;; FIXME: Handle footnote-definition footnote-reference?
   (let* ((genealogy (org-element-lineage destination))
 	 (data (reverse genealogy))
-	 (label (let ((type (org-element-type destination)))
-		  (if (memq type '(headline target))
-		      (org-export-get-reference destination info)
-		    (error "FIXME: Unable to resolve %S" destination)))))
+	 (label (if (org-element-type-p destination '(headline target))
+	            (org-export-get-reference destination info)
+	          (error "FIXME: Unable to resolve %S" destination))))
     (or
      (let* ( ;; Locate top-level list.
 	    (top-level-list
 	     (cl-loop for x on data
-		      when (eq (org-element-type (car x)) 'plain-list)
+		      when (org-element-type-p (car x) 'plain-list)
 		      return x))
 	    ;; Get list item nos.
 	    (item-numbers
 	     (cl-loop for (plain-list item . rest) on top-level-list by #'cddr
-		      until (not (eq (org-element-type plain-list) 'plain-list))
+		      until (not (org-element-type-p plain-list 'plain-list))
 		      collect (when (eq (org-element-property :type
 							      plain-list)
 					'ordered)
@@ -2616,13 +2659,13 @@ Return nil, otherwise."
 	    ;; Locate top-most listified headline.
 	    (listified-headlines
 	     (cl-loop for x on data
-		      when (and (eq (org-element-type (car x)) 'headline)
+		      when (and (org-element-type-p (car x) 'headline)
 				(org-export-low-level-p (car x) info))
 		      return x))
 	    ;; Get listified headline numbers.
 	    (listified-headline-nos
 	     (cl-loop for el in listified-headlines
-		      when (eq (org-element-type el) 'headline)
+		      when (org-element-type-p el 'headline)
 		      collect (when (org-export-numbered-headline-p el info)
 				(1+ (length (org-export-get-previous-element
 					     el info t)))))))
@@ -2645,7 +2688,7 @@ Return nil, otherwise."
 	     ;; Test if destination is a numbered headline.
 	     (org-export-numbered-headline-p destination info)
 	     (cl-loop for el in (cons destination genealogy)
-		      when (and (eq (org-element-type el) 'headline)
+		      when (and (org-element-type-p el 'headline)
 				(not (org-export-low-level-p el info))
 				(org-export-numbered-headline-p el info))
 		      return el))))
@@ -2658,7 +2701,7 @@ Return nil, otherwise."
      ;; Case 4: Locate a regular headline in the hierarchy.  Display
      ;; its title.
      (let ((headline (cl-loop for el in (cons destination genealogy)
-			      when (and (eq (org-element-type el) 'headline)
+			      when (and (org-element-type-p el 'headline)
 					(not (org-export-low-level-p el info)))
 			      return el)))
        ;; We found one.
@@ -2682,13 +2725,19 @@ INFO is a plist holding contextual information.  See
 	 (imagep (org-export-inline-image-p
 		  link (plist-get info :odt-inline-image-rules)))
 	 (path (cond
-		((member type '("http" "https" "ftp" "mailto"))
-		 (concat type ":" raw-path))
 		((string= type "file")
-		 (org-export-file-uri raw-path))
-		(t raw-path)))
+                 (let ((path-uri (org-export-file-uri raw-path)))
+                   (if (string-prefix-p "file://" path-uri)
+                       path-uri
+                     ;; Otherwise, it is a relative path.
+                     ;; OpenOffice treats base directory inside the odt
+                     ;; archive.  The directory containing the odt file
+                     ;; is "../".
+                     (concat "../" path-uri))))
+		(t (concat type ":" raw-path))))
 	 ;; Convert & to &amp; for correct XML representation
-	 (path (replace-regexp-in-string "&" "&amp;" path)))
+	 (path (replace-regexp-in-string "&" "&amp;" path))
+         (raw-path (replace-regexp-in-string "&" "&amp;" raw-path)))
     (cond
      ;; Link type is handled by a special function.
      ((org-export-custom-protocol-maybe link desc 'odt info))
@@ -2734,6 +2783,16 @@ INFO is a plist holding contextual information.  See
 	   (format "<text:a xlink:type=\"simple\" xlink:href=\"#%s\">%s</text:a>"
 		   (org-export-get-reference destination info)
 		   (or desc (org-export-get-ordinal destination info))))
+          ;; Link to a file, corresponding to string return value of
+          ;; `org-export-resolve-id-link'.  Export it is file link.
+          (plain-text
+           (let ((file-link (org-element-copy link)))
+             (org-element-put-property file-link :type "file")
+             (org-element-put-property file-link :path destination)
+             (org-element-put-property
+              file-link
+              :raw-link (format "file:%s" destination))
+             (org-odt-link file-link desc info)))
 	  ;; Fuzzy link points to some element (e.g., an inline image,
 	  ;; a math formula or a table).
 	  (otherwise
@@ -2757,10 +2816,10 @@ INFO is a plist holding contextual information.  See
      ;; Coderef: replace link with the reference name or the
      ;; equivalent line number.
      ((string= type "coderef")
-      (let* ((line-no (format "%d" (org-export-resolve-coderef path info)))
-	     (href (concat "coderef-" path)))
+      (let* ((line-no (format "%d" (org-export-resolve-coderef raw-path info)))
+	     (href (concat "coderef-" raw-path)))
 	(format
-	 (org-export-get-coderef-format path desc)
+	 (org-export-get-coderef-format raw-path desc)
 	 (format
 	  "<text:bookmark-ref text:reference-format=\"number\" text:ref-name=\"OrgXref.%s\">%s</text:bookmark-ref>"
 	  href line-no))))
@@ -2770,7 +2829,7 @@ INFO is a plist holding contextual information.  See
 	;; Check if description is a link to an inline image.
 	(if (and (not (cdr link-contents))
 		 (let ((desc-element (car link-contents)))
-		   (and (eq (org-element-type desc-element) 'link)
+		   (and (org-element-type-p desc-element 'link)
 			(org-export-inline-image-p
 			 desc-element
 			 (plist-get info :odt-inline-image-rules)))))
@@ -2806,13 +2865,12 @@ information."
 (defun org-odt--paragraph-style (paragraph)
   "Return style of PARAGRAPH.
 Style is a symbol among `quoted', `centered' and nil."
-  (let ((up paragraph))
-    (while (and (setq up (org-element-property :parent up))
-		(not (memq (org-element-type up)
-			   '(center-block quote-block section)))))
-    (cl-case (org-element-type up)
-      (center-block 'centered)
-      (quote-block 'quoted))))
+  (cl-case (org-element-type
+            (org-element-lineage
+             paragraph
+             '(center-block quote-block section)))
+    (center-block 'centered)
+    (quote-block 'quoted)))
 
 (defun org-odt--format-paragraph (paragraph contents info default center quote)
   "Format paragraph according to given styles.
@@ -2829,8 +2887,8 @@ no special environment, a center block, or a quote block."
 	  ;; If PARAGRAPH is a leading paragraph in an item that has
 	  ;; a checkbox, splice checkbox and paragraph contents
 	  ;; together.
-	  (concat (let ((parent (org-element-property :parent paragraph)))
-		    (and (eq (org-element-type parent) 'item)
+	  (concat (let ((parent (org-element-parent paragraph)))
+		    (and (org-element-type-p parent 'item)
 			 (not (org-export-get-previous-element paragraph info))
 			 (org-odt--checkbox parent)))
 		  contents)))
@@ -2862,8 +2920,8 @@ contextual information."
 	  ;; If top-level list, re-start numbering.  Otherwise,
 	  ;; continue numbering.
 	  (format "text:continue-numbering=\"%s\""
-		  (let* ((parent (org-export-get-parent plain-list)))
-		    (if (and parent (eq (org-element-type parent) 'item))
+		  (let* ((parent (org-element-parent plain-list)))
+		    (if (and parent (org-element-type-p parent 'item))
 			"true" "false")))
 	  contents))
 
@@ -2876,6 +2934,32 @@ contextual information."
      (if (string= s "\t") "<text:tab/>"
        (format " <text:s text:c=\"%d\"/>" (1- (length s)))))
    line))
+
+(defun org-odt--remove-forbidden (text _backend info)
+  "Remove forbidden and discouraged characters from TEXT.
+INFO is the communication plist"
+  (pcase-exhaustive (plist-get info :odt-with-forbidden-chars)
+    ((and (pred stringp) rep)
+     (let ((replacements (make-hash-table :test 'equal)))
+       (with-temp-buffer
+         (insert text)
+         (goto-char (point-min))
+         (while (re-search-forward org-odt-forbidden-char-re nil t)
+           (cl-incf (gethash (match-string 0) replacements 0))
+           (replace-match rep))
+         (cl-loop for forbidden being the hash-keys of replacements
+                  using (hash-values count)
+                  do (display-warning
+                      '(ox-odt ox-odt-with-forbidden-chars)
+                      (format "Replaced forbidden character '%s' with '%s' %d times"
+                              forbidden rep count)))
+         (buffer-string))))
+    (`nil
+     (if (string-match org-odt-forbidden-char-re text)
+         (error "Forbidden character '%s' found.  See `org-odt-with-forbidden-chars'"
+                (match-string 0 text))
+       text))
+    ('t text)))
 
 (defun org-odt--encode-plain-text (text &optional no-whitespace-filling)
   (dolist (pair '(("&" . "&amp;") ("<" . "&lt;") (">" . "&gt;")))
@@ -2900,9 +2984,39 @@ contextual information."
 	(setq output
 	      (replace-regexp-in-string (car pair) (cdr pair) output t nil))))
     ;; Handle break preservation if required.
-    (when (plist-get info :preserve-breaks)
-      (setq output (replace-regexp-in-string
-		    "\\(\\\\\\\\\\)?[ \t]*\n" "<text:line-break/>" output t)))
+    (if (plist-get info :preserve-breaks)
+        (setq output (replace-regexp-in-string
+		      "\\(\\\\\\\\\\)?[ \t]*\n" "<text:line-break/>" output t))
+      ;; OpenDocument schema recognizes newlines as spaces, which may
+      ;; not be desired in scripts that do not separate words with
+      ;; spaces (for example, Han script).  `fill-region' is able to
+      ;; handle such situations.
+      ;; FIXME: The unnecessary spacing may still remain when a newline
+      ;; is at a boundary between Org objects (e.g. italics markup
+      ;; followed by newline).
+      (when (and (org-string-nw-p output) ; blank string needs not to be re-filled
+                 ;; Plain text inside verse blocks gotta preserve newlines
+                 ;; and spaces.
+                 (not (org-element-lineage text '(verse-block)))
+                 )
+        (setq output
+              (with-temp-buffer
+                (save-match-data
+                  (let ((leading (and (string-match (rx bos (1+ blank)) output)
+                                      (match-string 0 output)))
+                        (trailing (and (string-match (rx (1+ blank) eos) output)
+                                       (match-string 0 output))))
+                    (insert
+                     (substring
+                      output
+                      (length leading)
+                      (pcase (length trailing)
+                        (0 nil)
+                        (n (- n)))))
+                    ;; Unfill, retaining leading/trailing space.
+                    (let ((fill-column most-positive-fixnum))
+                      (fill-region (point-min) (point-max)))
+                    (concat leading (buffer-string) trailing)))))))
     ;; Return value.
     output))
 
@@ -3075,8 +3189,7 @@ and prefix with \"OrgSrc\".  For example,
 
 (defun org-odt-do-format-code
     (code info &optional lang refs retain-labels num-start)
-  (let* ((lang (or (assoc-default lang org-src-lang-modes) lang))
-	 (lang-mode (and lang (intern (format "%s-mode" lang))))
+  (let* ((lang-mode (if lang (org-src-get-lang-mode lang) #'ignore))
 	 (code-lines (org-split-string code "\n"))
 	 (code-length (length code-lines))
 	 (use-htmlfontify-p (and (functionp lang-mode)
@@ -3196,7 +3309,8 @@ contextual information."
 ;;;; Table Cell
 
 (defun org-odt-table-style-spec (element info)
-  (let* ((table (org-export-get-parent-table element))
+  "Get table style from `:odt-table-styles' INFO property."
+  (let* ((table (org-element-lineage element 'table))
 	 (table-attributes (org-export-read-attribute :attr_odt table))
 	 (table-style (plist-get table-attributes :style)))
     (assoc table-style (plist-get info :odt-table-styles))))
@@ -3212,9 +3326,9 @@ Return a cons of (TABLE-CELL-STYLE-NAME . PARAGRAPH-STYLE-NAME).
 
 When STYLE-SPEC is nil, style the table cell the conventional way
 - choose cell borders based on row and column groupings and
-choose paragraph alignment based on `org-col-cookies' text
-property.  See also
-`org-odt-get-paragraph-style-cookie-for-table-cell'.
+choose paragraph alignment based on table alignment cookies (see info
+node `(org)Column Width and Alignment').  See also
+`org-odt-table-style-spec'.
 
 When STYLE-SPEC is non-nil, ignore the above cookie and return
 styles congruent with the ODF-1.2 specification."
@@ -3222,7 +3336,7 @@ styles congruent with the ODF-1.2 specification."
 	 (r (car table-cell-address)) (c (cdr table-cell-address))
 	 (style-spec (org-odt-table-style-spec table-cell info))
 	 (table-dimensions (org-export-table-dimensions
-			    (org-export-get-parent-table table-cell)
+			    (org-element-lineage table-cell 'table)
 			    info)))
     (when style-spec
       ;; LibreOffice - particularly the Writer - honors neither table
@@ -3251,13 +3365,13 @@ styles congruent with the ODF-1.2 specification."
 		     (= (1+ r) (car table-dimensions)))
 		"LastRow")
 	       ((and (cdr (assq 'use-banding-rows-styles cell-style-selectors))
-		     (= (% r 2) 1)) "EvenRow")
+		     (cl-oddp r)) "EvenRow")
 	       ((and (cdr (assq 'use-banding-rows-styles cell-style-selectors))
-		     (= (% r 2) 0)) "OddRow")
+		     (cl-evenp r)) "OddRow")
 	       ((and (cdr (assq 'use-banding-columns-styles cell-style-selectors))
-		     (= (% c 2) 1)) "EvenColumn")
+		     (cl-oddp c)) "EvenColumn")
 	       ((and (cdr (assq 'use-banding-columns-styles cell-style-selectors))
-		     (= (% c 2) 0)) "OddColumn")
+		     (cl-evenp c)) "OddColumn")
 	       (t ""))))
 	(concat template-name cell-type)))))
 
@@ -3269,7 +3383,7 @@ channel."
 	 (r (car table-cell-address))
 	 (c (cdr table-cell-address))
 	 (horiz-span (or (org-export-table-cell-width table-cell info) 0))
-	 (table-row (org-export-get-parent table-cell))
+	 (table-row (org-element-parent table-cell))
 	 (custom-style-prefix (org-odt-get-table-cell-styles
 			       table-cell info))
 	 (paragraph-style
@@ -3280,9 +3394,9 @@ channel."
 	    (cond
 	     ((and (= 1 (org-export-table-row-group table-row info))
 		   (org-export-table-has-header-p
-		    (org-export-get-parent-table table-row) info))
+		    (org-element-lineage table-row 'table) info))
 	      "OrgTableHeading")
-	     ((let* ((table (org-export-get-parent-table table-cell))
+	     ((let* ((table (org-element-lineage table-cell 'table))
 		     (table-attrs (org-export-read-attribute :attr_odt table))
 		     (table-header-columns
 		      (let ((cols (plist-get table-attrs :header-columns)))
@@ -3340,7 +3454,7 @@ communication channel."
     (let* ((rowgroup-tags
 	    (if (and (= 1 (org-export-table-row-group table-row info))
 		     (org-export-table-has-header-p
-		      (org-export-get-parent-table table-row) info))
+		      (org-element-lineage table-row 'table) info))
 		;; If the row belongs to the first rowgroup and the
 		;; table has more than one row groups, then this row
 		;; belongs to the header row group.
@@ -3379,7 +3493,7 @@ contextual information."
     ;; such tables from export.
     (table.el
      (prog1 nil
-       (message
+       (warn
 	(concat
 	 "(ox-odt): Found table.el-type table in the source Org file."
 	 "  table.el doesn't support export to ODT format."
@@ -3434,27 +3548,36 @@ pertaining to indentation here."
   (let* ((--element-preceded-by-table-p
 	  (lambda (element info)
 	    (cl-loop for el in (org-export-get-previous-element element info t)
-		     thereis (eq (org-element-type el) 'table))))
+		     thereis (org-element-type-p el 'table))))
 	 (--walk-list-genealogy-and-collect-tags
 	  (lambda (table info)
 	    (let* ((genealogy (org-element-lineage table))
+                   ;; FIXME: This will fail when the table is buried
+                   ;; inside non-list parent greater element, like
+                   ;; special block.  The parent block will not be
+                   ;; closed properly.
+                   ;; Example:
+                   ;; 1. List item
+                   ;;    - Sub-item
+                   ;;      #+begin_textbox
+                   ;;      | Table |
+                   ;;      #+end_textbox
 		   (list-genealogy
-		    (when (eq (org-element-type (car genealogy)) 'item)
+		    (when (org-element-type-p (car genealogy) 'item)
 		      (cl-loop for el in genealogy
-			       when (memq (org-element-type el)
-					  '(item plain-list))
+			       when (org-element-type-p el '(item plain-list))
 			       collect el)))
 		   (llh-genealogy
 		    (apply #'nconc
 			   (cl-loop
 			    for el in genealogy
-			    when (and (eq (org-element-type el) 'headline)
+			    when (and (org-element-type-p el 'headline)
 				      (org-export-low-level-p el info))
 			    collect
 			    (list el
 				  (assq 'headline
 					(org-element-contents
-					 (org-export-get-parent el)))))))
+					 (org-element-parent el)))))))
 		   parent-list)
 	      (nconc
 	       ;; Handle list genealogy.
@@ -3505,7 +3628,7 @@ pertaining to indentation here."
 			    ((let ((section? (org-export-get-previous-element
 					      parent-list info)))
 			       (and section?
-				    (eq (org-element-type section?) 'section)
+				    (org-element-type-p section? 'section)
 				    (assq 'table (org-element-contents section?))))
 			     '("</text:list-header>" . "<text:list-header>"))
 			    (t
@@ -3559,8 +3682,7 @@ pertaining to indentation here."
     ;;   item, but also within description lists and low-level
     ;;   headlines.
 
-    ;; See `org-odt-translate-description-lists' and
-    ;; `org-odt-translate-low-level-headlines' for how this is
+    ;; See `org-odt--translate-description-lists' for how this is
     ;; tackled.
 
     (concat "\n"
@@ -3658,16 +3780,43 @@ channel."
 CONTENTS is verse block contents.  INFO is a plist holding
 contextual information."
   (format "\n<text:p text:style-name=\"OrgVerse\">%s</text:p>"
-	  (replace-regexp-in-string
-	   ;; Replace leading tabs and spaces.
-	   "^[ \t]+" #'org-odt--encode-tabs-and-spaces
-	   ;; Add line breaks to each line of verse.
-	   (replace-regexp-in-string
-	    "\\(<text:line-break/>\\)?[ \t]*$" "<text:line-break/>" contents))))
+          (thread-last
+            contents
+            ;; Replace tabs with equivalent number of spaces as displayed in Emacs
+            ;; Tabs in LibreOffice will have different meaning (tab stops), but in the verse blocks
+            ;; we are specifically looking for appropiate alignment.
+            (replace-regexp-in-string "\t" (make-string tab-width ?\s))
+            ;; Add line breaks to each line of verse.
+            (replace-regexp-in-string "\\(<text:line-break/>\\)?[ \t]*$" "<text:line-break/>")
+            ;; Replace leading tabs and spaces.
+            (replace-regexp-in-string "^[ \t]+" #'org-odt--encode-tabs-and-spaces)
+            ;; Remove newlines after line breaks.
+            (replace-regexp-in-string "<text:line-break/>[\n]" "<text:line-break/>"))))
 
 
 
 ;;; Filters
+
+;;; Plain text
+
+;; Trailing newlines appear as spaces in ODT.
+;; We do not want that in, for example, in paragraphs where
+;; end of paragraph is already signaled by ODT tag.
+(defun org-odt--strip-trailing-newlines (data _backend info)
+  "Strip trailing newlines in DATA at the end of contents.
+INFO is the communication channel."
+  (org-element-map data org-element-all-elements
+    (lambda (el)
+      (when-let* ((last-child (car (last (org-element-contents el)))))
+        (when (and (org-element-type-p last-child 'plain-text)
+                   (string-suffix-p "\n" last-child))
+          (when (length> last-child 1)
+            (org-element-insert-before
+             (substring last-child 0 (1- (length last-child)))
+             last-child))
+          (org-element-extract last-child))))
+    info nil nil t)
+  data)
 
 ;;; Images
 
@@ -3678,26 +3827,44 @@ contextual information."
 
 (defun org-odt--translate-latex-fragments (tree _backend info)
   (let ((processing-type (plist-get info :with-latex))
-	(count 0))
-    ;; Normalize processing-type to one of dvipng, mathml or verbatim.
-    ;; If the desired converter is not available, force verbatim
-    ;; processing.
-    (cl-case processing-type
-      ((t mathml)
+	(preview-symbols (mapcar #'car org-preview-latex-process-alist))
+	(count 0)
+        (warning nil))
+    ;; Normalize processing-type to one of mathml, verbatim, or a
+    ;; symbol in org-preview-latex-process-alist.  If the desired
+    ;; converter is not available, force verbatim processing.
+    (pcase processing-type
+      ((or 't 'mathml)
        (if (and (fboundp 'org-format-latex-mathml-available-p)
 		(org-format-latex-mathml-available-p))
 	   (setq processing-type 'mathml)
-	 (message "LaTeX to MathML converter not available.")
+         (setq warning "`org-odt-with-latex': LaTeX to MathML converter not available.  Falling back to verbatim.")
 	 (setq processing-type 'verbatim)))
-      ((dvipng imagemagick)
-       (unless (and (org-check-external-command "latex" "" t)
-		    (org-check-external-command
-		     (if (eq processing-type 'dvipng) "dvipng" "convert") "" t))
-	 (message "LaTeX to PNG converter not available.")
-	 (setq processing-type 'verbatim)))
-      (otherwise
-       (message "Unknown LaTeX option.  Forcing verbatim.")
+      ((and s (guard (memq s preview-symbols)))
+       (let* ((ext-commands (plist-get
+                             (cdr (assq s org-preview-latex-process-alist))
+                             :programs))
+              (ext-commands-available
+               (seq-reduce (lambda (result cmd)
+                             (and result
+                                  (not
+                                   (null
+                                    (org-check-external-command cmd "" t)))))
+                           ext-commands t)))
+         (unless ext-commands-available
+           (setq warning "`org-odt-with-latex': LaTeX to image converter not available.  Falling back to verbatim.")
+           (setq processing-type 'verbatim))))
+      ('verbatim) ;; nothing to do
+      (_
+       (setq warning "`org-odt-with-latex': Unknown LaTeX option.  Forcing verbatim.")
        (setq processing-type 'verbatim)))
+
+    ;; Display warning if the selected PROCESSING-TYPE is not
+    ;; available, but there are fragments to be converted.
+    (when warning
+      (org-element-map tree '(latex-fragment latex-environment)
+        (lambda (_) (warn warning))
+        info 'first-match nil t))
 
     ;; Store normalized value for later use.
     (when (plist-get info :with-latex)
@@ -3705,33 +3872,32 @@ contextual information."
     (message "Formatting LaTeX using %s" processing-type)
 
     ;; Convert `latex-fragment's and `latex-environment's.
-    (when (memq processing-type '(mathml dvipng imagemagick))
+    (when (memq processing-type (append '(mathml) preview-symbols))
       (org-element-map tree '(latex-fragment latex-environment)
 	(lambda (latex-*)
 	  (cl-incf count)
 	  (let* ((latex-frag (org-element-property :value latex-*))
 		 (input-file (plist-get info :input-file))
+                 (is-image (memq processing-type preview-symbols))
 		 (cache-dir (file-name-directory input-file))
 		 (cache-subdir (concat
-				(cl-case processing-type
-				  ((dvipng imagemagick)
-				   org-preview-latex-image-directory)
-				  (mathml "ltxmathml/"))
+				(if is-image
+				    org-preview-latex-image-directory
+				  org-latex-mathml-directory)
 				(file-name-sans-extension
 				 (file-name-nondirectory input-file))))
 		 (display-msg
-		  (cl-case processing-type
-		    ((dvipng imagemagick)
-		     (format "Creating LaTeX Image %d..." count))
-		    (mathml (format "Creating MathML snippet %d..." count))))
-		 ;; Get an Org-style link to PNG image or the MathML
-		 ;; file.
+		  (if is-image
+		      (format "Creating LaTeX image %d..." count)
+		    (format "Creating MathML snippet %d..." count)))
+		 ;; Get an Org-style link to image or the MathML file.
 		 (link
 		  (with-temp-buffer
 		    (insert latex-frag)
-		    ;; When converting to a PNG image, make sure to
-		    ;; copy all LaTeX header specifications from the
-		    ;; Org source.
+                    (delay-mode-hooks (let ((org-inhibit-startup t)) (org-mode)))
+		    ;; When converting to an image, make sure to copy
+		    ;; all LaTeX header specifications from the Org
+		    ;; source.
 		    (unless (eq processing-type 'mathml)
 		      (let ((h (plist-get info :latex-header)))
 			(when h
@@ -3744,7 +3910,7 @@ contextual information."
 		    (goto-char (point-min))
 		    (skip-chars-forward " \t\n")
 		    (org-element-link-parser))))
-	    (if (not (eq 'link (org-element-type link)))
+	    (if (not (org-element-type-p link 'link))
 		(message "LaTeX Conversion failed.")
 	      ;; Conversion succeeded.  Parse above Org-style link to
 	      ;; a `link' object.
@@ -3756,7 +3922,7 @@ contextual information."
 		       ;; attributes, captions to the enclosing
 		       ;; paragraph.
 		       (latex-environment
-			(org-element-adopt-elements
+			(org-element-adopt
 			    (list 'paragraph
 			          (list :style "OrgFormula"
 				        :name
@@ -3775,7 +3941,7 @@ contextual information."
 		 replacement :post-blank
 		 (org-element-property :post-blank latex-*))
 		;; Replace now.
-		(org-element-set-element latex-* replacement)))))
+		(org-element-set latex-* replacement)))))
 	info nil nil t)))
   tree)
 
@@ -3819,20 +3985,20 @@ contextual information."
   (org-element-map tree 'plain-list
     (lambda (el)
       (when (eq (org-element-property :type el) 'descriptive)
-	(org-element-set-element
+	(org-element-set
 	 el
-	 (apply 'org-element-adopt-elements
+	 (apply 'org-element-adopt
 		(list 'plain-list (list :type 'descriptive-1))
 		(mapcar
 		 (lambda (item)
-		   (org-element-adopt-elements
+		   (org-element-adopt
 		       (list 'item (list :checkbox (org-element-property
 						    :checkbox item)))
 		     (list 'paragraph (list :style "Text_20_body_20_bold")
 			   (or (org-element-property :tag item) "(no term)"))
-		     (org-element-adopt-elements
+		     (org-element-adopt
 		         (list 'plain-list (list :type 'descriptive-2))
-		       (apply 'org-element-adopt-elements
+		       (apply 'org-element-adopt
 			      (list 'item nil)
 			      (org-element-contents item)))))
 		 (org-element-contents el)))))
@@ -3886,10 +4052,10 @@ contextual information."
     (lambda (l1-list)
       (when (org-export-read-attribute :attr_odt l1-list :list-table)
 	;; Replace list with table.
-	(org-element-set-element
+	(org-element-set
 	 l1-list
 	 ;; Build replacement table.
-	 (apply 'org-element-adopt-elements
+	 (apply 'org-element-adopt
 		(list 'table '(:type org :attr_odt (":style \"GriddedTable\"")))
 		(org-element-map l1-list 'item
 		  (lambda (l1-item)
@@ -3898,8 +4064,8 @@ contextual information."
 		      ;; Remove Level-2 list from the Level-item.  It
 		      ;; will be subsequently attached as table-cells.
 		      (let ((cur l1-item-contents) prev)
-			(while (and cur (not (eq (org-element-type (car cur))
-						 'plain-list)))
+			(while (and cur (not (org-element-type-p
+                                            (car cur) 'plain-list)))
 			  (setq prev cur)
 			  (setq cur (cdr cur)))
 			(when prev
@@ -3907,18 +4073,18 @@ contextual information."
 			  (setq l2-list (car cur)))
 			(setq l1-item-leading-text l1-item-contents))
 		      ;; Level-1 items start a table row.
-		      (apply 'org-element-adopt-elements
+		      (apply 'org-element-adopt
 			     (list 'table-row (list :type 'standard))
 			     ;;  Leading text of level-1 item define
 			     ;;  the first table-cell.
-			     (apply 'org-element-adopt-elements
+			     (apply 'org-element-adopt
 				    (list 'table-cell nil)
 				    l1-item-leading-text)
 			     ;; Level-2 items define subsequent
 			     ;; table-cells of the row.
 			     (org-element-map l2-list 'item
 			       (lambda (l2-item)
-				 (apply 'org-element-adopt-elements
+				 (apply 'org-element-adopt
 					(list 'table-cell nil)
 					(org-element-contents l2-item)))
 			       info nil 'item))))
@@ -3973,8 +4139,12 @@ contextual information."
 		     (kill-buffer buf)))))
 	     ;; Delete temporary directory and also other embedded
 	     ;; files that get copied there.
-	     (delete-directory org-odt-zip-dir t))))
-     (condition-case err
+	     (delete-directory org-odt-zip-dir t)))
+          ;; We specify UTF-8 in `org-odt-template'.  Enforce it even
+          ;; when the buffer text has different encoding.
+          (coding-system-for-write 'utf-8)
+	  (save-buffer-coding-system 'utf-8))
+     (condition-case-unless-debug err
 	 (progn
 	   (unless (executable-find "zip")
 	     ;; Not at all OSes ship with zip by default
@@ -4039,9 +4209,6 @@ contextual information."
 	     (message "Created %s" (expand-file-name target))
 	     ;; Cleanup work directory and work files.
 	     (funcall --cleanup-xml-buffers)
-	     ;; Open the OpenDocument file in archive-mode for
-	     ;; examination.
-	     (find-file-noselect target t)
 	     ;; Return exported file.
 	     (cond
 	      ;; Case 1: Conversion desired on exported file.  Run the
@@ -4056,8 +4223,8 @@ contextual information."
        (error
 	;; Cleanup work directory and work files.
 	(funcall --cleanup-xml-buffers)
-	(message "OpenDocument export failed: %s"
-		 (error-message-string err))))))
+	(error "OpenDocument export failed: %s"
+	       (error-message-string err))))))
 
 
 ;;;; Export to OpenDocument formula
@@ -4149,7 +4316,7 @@ parameters overriding Org default settings, but still inferior to
 file-local settings.
 
 Return output file's name."
-  (interactive)
+  (interactive nil org-mode)
   (let ((outfile (org-export-output-file-name ".odt" subtreep)))
     (if async
 	(org-export-async-start (lambda (f) (org-export-add-to-stack f 'odt))
@@ -4282,15 +4449,15 @@ The list of the form (OUTPUT-FMT-1 OUTPUT-FMT-2 ...)."
 (defun org-odt-convert-read-params ()
   "Return IN-FILE and OUT-FMT params for `org-odt-do-convert'.
 This is a helper routine for interactive use."
-  (let* ((input (if (featurep 'ido) 'ido-completing-read 'completing-read))
-	 (in-file (read-file-name "File to be converted: "
+  (let* ((in-file (read-file-name "File to be converted: "
 				  nil buffer-file-name t))
 	 (in-fmt (file-name-extension in-file))
 	 (out-fmt-choices (org-odt-reachable-formats in-fmt))
 	 (out-fmt
 	  (or (and out-fmt-choices
-		   (funcall input "Output format: "
-			    out-fmt-choices nil nil nil))
+		   (completing-read
+                    "Output format: "
+		    out-fmt-choices nil nil nil))
 	      (error
 	       "No known converter or no known output formats for %s files"
 	       in-fmt))))
@@ -4309,11 +4476,6 @@ is non-nil then the newly converted file is opened using
   (org-odt-do-convert in-file out-fmt open))
 
 ;;; Library Initializations
-
-(dolist (desc org-odt-file-extensions)
-  ;; Let Emacs open all OpenDocument files in archive mode.
-  (add-to-list 'auto-mode-alist
-	       (cons (concat  "\\." (car desc) "\\'") 'archive-mode)))
 
 (provide 'ox-odt)
 

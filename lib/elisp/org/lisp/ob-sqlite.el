@@ -1,6 +1,6 @@
 ;;; ob-sqlite.el --- Babel Functions for SQLite Databases -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2010-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2010-2026 Free Software Foundation, Inc.
 
 ;; Author: Eric Schulte
 ;; Maintainer: Nick Savage <nick@nicksavage.ca>
@@ -27,12 +27,15 @@
 ;; Org-Babel support for evaluating sqlite source code.
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 (require 'ob-sql)
 
 (declare-function org-table-convert-region "org-table"
 		  (beg0 end0 &optional separator))
-(declare-function orgtbl-to-csv "org-table" (table params))
 (declare-function org-table-to-lisp "org-table" (&optional txt))
 
 (defvar org-babel-default-header-args:sqlite '())
@@ -48,34 +51,41 @@
     (line      . :any)
     (list      . :any)
     (separator . :any)
-    (nullvalue . :any))
+    (nullvalue . :any)
+    (readonly-p . ((yes no))))
   "Sqlite specific header args.")
 
 (defun org-babel-expand-body:sqlite (body params)
   "Expand BODY according to the values of PARAMS."
-  (org-babel-sql-expand-vars
-   body (org-babel--get-vars params) t))
+  (let ((prologue (cdr (assq :prologue params)))
+	(epilogue (cdr (assq :epilogue params))))
+    (mapconcat 'identity
+               (delq nil (list prologue
+                               (org-babel-sql-expand-vars
+                                body (org-babel--get-vars params) t)
+                               epilogue))
+               "\n")))
 
 (defvar org-babel-sqlite3-command "sqlite3")
 
 (defun org-babel-execute:sqlite (body params)
-  "Execute a block of Sqlite code with Babel.
+  "Execute Sqlite BODY according to PARAMS.
 This function is called by `org-babel-execute-src-block'."
   (let ((result-params (split-string (or (cdr (assq :results params)) "")))
 	(db (cdr (assq :db params)))
 	(separator (cdr (assq :separator params)))
 	(nullvalue (cdr (assq :nullvalue params)))
-	(headers-p (equal "yes" (cdr (assq :colnames params))))
+        (headers-p (equal "yes" (cdr (assq :colnames params))))
+        (readonly-p (equal "yes" (cdr (assq :readonly params))))
 	(others (delq nil (mapcar
 			   (lambda (arg) (car (assq arg params)))
 			   (list :header :echo :bail :column
 				 :csv :html :line :list)))))
-    (unless db (error "ob-sqlite: can't evaluate without a database"))
     (with-temp-buffer
       (insert
        (org-babel-eval
 	(org-fill-template
-	 "%cmd %header %separator %nullvalue %others %csv %db "
+	 "%cmd %header %separator %nullvalue %others %csv %readonly %db "
 	 (list
 	  (cons "cmd" org-babel-sqlite3-command)
 	  (cons "header" (if headers-p "-header" "-noheader"))
@@ -93,7 +103,9 @@ This function is called by `org-babel-execute-src-block'."
 			      (member :html others) separator)
 			  ""
 			"-csv"))
-	  (cons "db " db)))
+	  (cons "readonly"
+		(if readonly-p "-readonly" ""))
+          (cons "db" (or db ""))))
 	;; body of the code block
 	(org-babel-expand-body:sqlite body params)))
       (org-babel-result-cond result-params
@@ -118,7 +130,8 @@ This function is called by `org-babel-execute-src-block'."
   (org-babel-sql-expand-vars body vars t))
 
 (defun org-babel-sqlite-table-or-scalar (result)
-  "If RESULT looks like a trivial table, then unwrap it."
+  "Cleanup cells in the RESULT table.
+If RESULT is a trivial 1x1 table, then unwrap it."
   (if (and (equal 1 (length result))
 	   (equal 1 (length (car result))))
       (org-babel-read (caar result) t)
@@ -129,7 +142,7 @@ This function is called by `org-babel-execute-src-block'."
 	    result)))
 
 (defun org-babel-sqlite-offset-colnames (table headers-p)
-  "If HEADERS-P is non-nil then offset the first row as column names."
+  "If HEADERS-P is non-nil then offset the first row as column names in TABLE."
   (if headers-p
       (cons (car table) (cons 'hline (cdr table)))
     table))

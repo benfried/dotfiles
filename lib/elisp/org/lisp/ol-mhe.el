@@ -1,9 +1,9 @@
 ;;; ol-mhe.el --- Links to MH-E Messages             -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2004-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2004-2026 Free Software Foundation, Inc.
 
 ;; Author: Thomas Baumann <thomas dot baumann at ch dot tum dot de>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 ;; URL: https://orgmode.org
 ;;
 ;; This file is part of GNU Emacs.
@@ -29,6 +29,9 @@
 ;; configure the variable `org-modules'.
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
 
 (require 'org-macs)
 (require 'ol)
@@ -77,7 +80,7 @@ supported by MH-E."
 (org-link-set-parameters "mhe" :follow #'org-mhe-open :store #'org-mhe-store-link)
 
 ;; Implementation
-(defun org-mhe-store-link ()
+(defun org-mhe-store-link (&optional _interactive?)
   "Store a link to an MH-E folder or message."
   (when (or (eq major-mode 'mh-folder-mode)
 	    (eq major-mode 'mh-show-mode))

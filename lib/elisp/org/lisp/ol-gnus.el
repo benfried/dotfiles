@@ -1,10 +1,10 @@
 ;;; ol-gnus.el --- Links to Gnus Groups and Messages -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2004-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2004-2026 Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten.dominik@gmail.com>
 ;;         Tassilo Horn <tassilo at member dot fsf dot org>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 ;; URL: https://orgmode.org
 ;;
 ;; This file is part of GNU Emacs.
@@ -31,6 +31,9 @@
 
 ;;; Code:
 
+(require 'org-macs)
+(org-assert-version)
+
 (require 'gnus-sum)
 (require 'gnus-util)
 (require 'nnheader)
@@ -43,7 +46,6 @@
 
 (declare-function gnus-activate-group "gnus-start" (group &optional scan dont-check method dont-sub-check))
 (declare-function gnus-find-method-for-group "gnus" (group &optional info))
-(declare-function gnus-article-show-summary "gnus-art" ())
 (declare-function gnus-group-group-name "gnus-group")
 (declare-function gnus-group-jump-to-group "gnus-group" (group &optional prompt))
 (declare-function gnus-group-read-group "gnus-group" (&optional all no-article group select-articles))
@@ -71,7 +73,7 @@ negates this setting for the duration of the command."
 
 (defcustom org-gnus-no-server nil
   "Should Gnus be started using `gnus-no-server'?"
-  :group 'org-gnus
+  :group 'org-link-follow
   :version "24.4"
   :package-version '(Org . "8.0")
   :type 'boolean)
@@ -120,7 +122,7 @@ If `org-store-link' was called with a prefix arg the meaning of
 	      (url-encode-url message-id))
     (concat "gnus:" group "#" message-id)))
 
-(defun org-gnus-store-link ()
+(defun org-gnus-store-link (&optional _interactive?)
   "Store a link to a Gnus folder or message."
   (pcase major-mode
     (`gnus-group-mode
@@ -134,27 +136,23 @@ If `org-store-link' was called with a prefix arg the meaning of
      (let* ((group
 	     (pcase (gnus-find-method-for-group gnus-newsgroup-name)
 	       (`(nnvirtual . ,_)
-		(save-excursion
-		  (car (nnvirtual-map-article (gnus-summary-article-number)))))
+		(with-current-buffer gnus-summary-buffer
+		  (save-excursion
+		    (car (nnvirtual-map-article (gnus-summary-article-number))))))
 	       (`(,(or `nnselect `nnir) . ,_)  ; nnir is for Emacs < 28.
-		(save-excursion
-		  (cond
-		   ((fboundp 'nnselect-article-group)
-		    (nnselect-article-group (gnus-summary-article-number)))
-		   ((fboundp 'nnir-article-group)
-		    (nnir-article-group (gnus-summary-article-number)))
-		   (t
-		    (error "No article-group variant bound")))))
+		(with-current-buffer gnus-summary-buffer
+		  (save-excursion
+		    (cond
+		     ((fboundp 'nnselect-article-group)
+		      (nnselect-article-group (gnus-summary-article-number)))
+		     ((fboundp 'nnir-article-group)
+		      (nnir-article-group (gnus-summary-article-number)))
+		     (t
+		      (error "No article-group variant bound"))))))
 	       (_ gnus-newsgroup-name)))
-	    (header (if (eq major-mode 'gnus-article-mode)
-			;; When in an article, first move to summary
-			;; buffer, with point on the summary of the
-			;; current article before extracting headers.
-			(save-window-excursion
-			  (save-excursion
-			    (gnus-article-show-summary)
-			    (gnus-summary-article-header)))
-		      (gnus-summary-article-header)))
+	    (header (with-current-buffer gnus-summary-buffer
+		      (save-excursion
+			(gnus-summary-article-header))))
 	    (from (mail-header-from header))
 	    (message-id (org-unbracket-string "<" ">" (mail-header-id header)))
 	    (date (org-trim (mail-header-date header)))
@@ -228,8 +226,13 @@ If `org-store-link' was called with a prefix arg the meaning of
 (defun org-gnus-follow-link (&optional group article)
   "Follow a Gnus link to GROUP and ARTICLE."
   (require 'gnus)
-  (funcall (cdr (assq 'gnus org-link-frame-setup)))
-  (when gnus-other-frame-object (select-frame gnus-other-frame-object))
+  (funcall (org-link-frame-setup-function 'gnus))
+  (when gnus-other-frame-object
+    (if (not (frame-live-p gnus-other-frame-object))
+        ;; Error out in case org-link-frame-setup did not take care of setting up
+        ;; the gnus frame if was activate previously.
+        (error "Couldn't select \'gnus-other-frame-object\', make sure it is active"))
+    (select-frame gnus-other-frame-object))
   (let ((group (org-no-properties group))
 	(article (org-no-properties article)))
     (cond
@@ -261,11 +264,24 @@ If `org-store-link' was called with a prefix arg the meaning of
 	 (message "Couldn't follow Gnus link.  The linked group is empty."))))
      (group (gnus-group-jump-to-group group)))))
 
-(defun org-gnus-no-new-news ()
-  "Like `\\[gnus]' but doesn't check for new news."
-  (cond ((gnus-alive-p) nil)
-	(org-gnus-no-server (gnus-no-server))
-	(t (gnus))))
+(defun org-gnus-no-new-news (&optional other-frame)
+  "Like `\\[gnus]' but doesn't check for new news.
+In case of OTHER-FRAME or `gnus-other-frame-object' call `gnus-other-frame'.
+
+Ensures that `gnus-other-frame' is activated correctly if dead."
+  (let ((action (cond  (org-gnus-no-server #'gnus-no-server)
+	               (t #'gnus))))
+    (cond ((or other-frame gnus-other-frame-object)
+           (let ((gnus-other-frame-function action)
+                 (gnus-other-frame-resume-function action))
+             (gnus-other-frame)))
+          (t (if (not (gnus-alive-p))
+                 (funcall action))))))
+
+(defun org-gnus-no-new-news-other-frame ()
+  "Like `org-gnus-no-new-news' but always in another frame."
+    (org-gnus-no-new-news t))
+
 
 (provide 'ol-gnus)
 

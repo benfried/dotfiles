@@ -1,10 +1,11 @@
 ;;; org-entities.el --- Support for Special Entities -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2010-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2010-2026 Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten.dominik@gmail.com>,
 ;;         Ulf Stegemann <ulf at zeitform dot de>
-;; Keywords: outlines, calendar, wp
+;; Maintainer: Ihor Radchenko <yantar92 at posteo dot net>
+;; Keywords: outlines, calendar, text
 ;; URL: https://orgmode.org
 ;;
 ;; This file is part of GNU Emacs.
@@ -27,6 +28,10 @@
 
 ;;; Code:
 
+(require 'org-macs)
+(org-assert-version)
+(require 'seq) ; Emacs 27 does not preload seq.el; for `seq-every-p'.
+
 (declare-function org-mode "org" ())
 (declare-function org-toggle-pretty-entities "org"       ())
 (declare-function org-table-align            "org-table" ())
@@ -38,14 +43,19 @@
 
 (defun org-entities--user-safe-p (v)
   "Non-nil if V is a safe value for `org-entities-user'."
-  (pcase v
-    (`nil t)
-    (`(,(and (pred stringp)
-	     (pred (string-match-p "\\`[a-zA-Z][a-zA-Z0-9]*\\'")))
-       ,(pred stringp) ,(pred booleanp) ,(pred stringp)
-       ,(pred stringp) ,(pred stringp) ,(pred stringp))
-     t)
-    (_ nil)))
+  (cond
+   ((not v) t)
+   ((listp v)
+    (seq-every-p
+     (lambda (e)
+       (pcase e
+         (`(,(and (pred stringp)
+	              (pred (string-match-p "\\`[a-zA-Z][a-zA-Z0-9]*\\'")))
+            ,(pred stringp) ,(pred booleanp) ,(pred stringp)
+            ,(pred stringp) ,(pred stringp) ,(pred stringp))
+          t)
+         (_ nil)))
+     v))))
 
 (defcustom org-entities-user nil
   "User-defined entities used in Org to produce special characters.
@@ -269,8 +279,10 @@ packages to be loaded, add these packages to `org-latex-packages-alist'."
      ("vert" "\\vert{}" t "&vert;" "|" "|" "|")
      ("vbar" "|" nil "|" "|" "|" "|")
      ("brvbar" "\\textbrokenbar{}" nil "&brvbar;" "|" "¦" "¦")
-     ("S" "\\S" nil "&sect;" "paragraph" "§" "§")
-     ("sect" "\\S" nil "&sect;" "paragraph" "§" "§")
+     ("S" "\\S" nil "&sect;" "section" "§" "§")
+     ("sect" "\\S" nil "&sect;" "section" "§" "§")
+     ("P" "\\P{}" nil "&para;" "paragraph" "¶" "¶")
+     ("para" "\\P{}" nil "&para;" "paragraph" "¶" "¶")
      ("amp" "\\&" nil "&amp;" "&" "&" "&")
      ("lt" "\\textless{}" nil "&lt;" "<" "<" "<")
      ("gt" "\\textgreater{}" nil "&gt;" ">" ">" ">")
@@ -486,7 +498,6 @@ packages to be loaded, add these packages to `org-latex-packages-alist'."
      ("checkmark" "\\checkmark" t "&check;" "[checkmark]" "[checkmark]" "✓")
 
      "** Miscellaneous (seldom used)"
-     ("para" "\\P{}" nil "&para;" "[pilcrow]" "¶" "¶")
      ("ordf" "\\textordfeminine{}" nil "&ordf;" "_a_" "ª" "ª")
      ("ordm" "\\textordmasculine{}" nil "&ordm;" "_o_" "º" "º")
      ("cedil" "\\c{}" nil "&cedil;" "[cedilla]" "¸" "¸")
@@ -540,7 +551,7 @@ This first checks the user list, then the built-in list."
 
 (defun org-entities-create-table ()
   "Create an Org mode table with all entities."
-  (interactive)
+  (interactive nil org-mode)
   (let ((pos (point)))
     (insert "|Name|LaTeX code|LaTeX|HTML code |HTML|ASCII|Latin1|UTF-8\n|-\n")
     (dolist (e org-entities)

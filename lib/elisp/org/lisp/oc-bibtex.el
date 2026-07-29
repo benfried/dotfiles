@@ -1,23 +1,23 @@
 ;;; oc-bibtex.el --- Vanilla citation processor for LaTeX -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2021-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2021-2026 Free Software Foundation, Inc.
 
 ;; Author: Nicolas Goaziou <mail@nicolasgoaziou.fr>
 
 ;; This file is part of GNU Emacs.
 
-;; This program is free software; you can redistribute it and/or modify
+;; GNU Emacs is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
 ;; (at your option) any later version.
 
-;; This program is distributed in the hope that it will be useful,
+;; GNU Emacs is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -35,11 +35,43 @@
 ;; Bibliography should consist of ".bib" files only.
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'oc)
 
-(declare-function org-element-property "org-element" (property element))
+(declare-function org-element-property "org-element-ast" (property node))
 
-(declare-function org-export-data "org-export" (data info))
+(declare-function org-export-data "ox" (data info))
+
+(defcustom org-cite-bibtex-bibliography-style "plain"
+  "Default BibTeX bibliography style.
+
+BibTeX provides the following default styles:
+
+  \"plain\"   Sorted numbered entries
+  \"abbrv\"   Sorted numbered entries with abbreviated author name
+  \"unsrt\"   Unsorted numbered entries
+  \"alpha\"   Alphabetized entries with unique short id
+  \"acm\"     ACM Transactions
+  \"apalike\" APA-like
+  \"ieeetr\"  IEEE Transactions
+  \"siam\"    SIAM"
+  :group 'org-cite
+  :package-version '(Org . "9.8")
+  :type
+  '(choice
+    (const :tag "Plain" "plain")
+    (const :tag "Abbreviated" "abbrv")
+    (const :tag "Unsorted" "unsrt")
+    (const :tag "Alphabetic" "alpha")
+    (const :tag "ACM" "acm")
+    (const :tag "APA-like" "apalike")
+    (const :tag "IEEE" "ieeetr")
+    (const :tag "SIAM" "siam")
+    (string :tag "Other"))
+  :safe #'stringp)
 
 
 ;;; Export capability
@@ -47,7 +79,8 @@
   "Print references from bibliography FILES.
 FILES is a list of absolute file names.  STYLE is the bibliography style, as
 a string or nil."
-  (concat (and style (format "\\bibliographystyle{%s}\n" style))
+  (concat (format "\\bibliographystyle{%s}\n"
+                  (or style org-cite-bibtex-bibliography-style))
           (format "\\bibliography{%s}"
                   (mapconcat #'file-name-sans-extension
                              files

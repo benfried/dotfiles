@@ -1,11 +1,11 @@
 ;;; ol-bibtex.el --- Links to BibTeX entries        -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2007-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2007-2026 Free Software Foundation, Inc.
 ;;
 ;; Authors: Bastien Guerry <bzg@gnu.org>
 ;;       Carsten Dominik <carsten dot dominik at gmail dot com>
 ;;       Eric Schulte <schulte dot eric at gmail dot com>
-;; Keywords: org, wp, capture
+;; Keywords: org, text, capture
 ;;
 ;; This file is part of GNU Emacs.
 ;;
@@ -86,8 +86,8 @@
 ;;   the active region, then call `org-bibtex-write' in a .org file to
 ;;   insert a heading for the read bibtex entry
 ;;
-;; - All Bibtex information is taken from the document compiled by
-;;   Andrew Roberts from the Bibtex manual, available at
+;; - All BibTeX information is taken from the document compiled by
+;;   Andrew Roberts from the BibTeX manual, available at
 ;;   https://www.andy-roberts.net/res/writing/latex/bibentries.pdf
 ;;
 ;;; History:
@@ -99,13 +99,16 @@
 ;; and then implemented by Bastien Guerry.
 ;;
 ;; Eric Schulte eventually added the functions for translating between
-;; Org headlines and Bibtex entries, and for fleshing out the Bibtex
+;; Org headlines and BibTeX entries, and for fleshing out the BibTeX
 ;; fields of existing Org headlines.
 ;;
 ;; Org mode loads this module by default - if this is not what you want,
 ;; configure the variable `org-modules'.
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
 
 (require 'bibtex)
 (require 'cl-lib)
@@ -120,11 +123,7 @@
 (defvar org-property-end-re)
 (defvar org-special-properties)
 (defvar org-window-config-before-follow-link)
-
-(declare-function bibtex-beginning-of-entry "bibtex" ())
-(declare-function bibtex-generate-autokey "bibtex" ())
-(declare-function bibtex-parse-entry "bibtex" (&optional content))
-(declare-function bibtex-url "bibtex" (&optional pos no-browse))
+(defvar org-tag--invalid-char-re)
 
 (declare-function org-back-to-heading "org" (&optional invisible-ok))
 (declare-function org-entry-get "org" (pom property &optional inherit literal-nil))
@@ -136,11 +135,12 @@
 (declare-function org-narrow-to-subtree "org" (&optional element))
 (declare-function org-set-property "org" (property value))
 (declare-function org-toggle-tag "org" (tag &optional onoff))
+(declare-function org-indent-region "org" (start end))
 
 (declare-function org-search-view "org-agenda" (&optional todo-only string edit-at))
 
 
-;;; Bibtex data
+;;; BibTeX data
 (defvar org-bibtex-types
   '((:article
      (:description . "An article from a journal or magazine")
@@ -198,7 +198,7 @@
      (:description . "A document having an author and title, but not formally published.")
      (:required :author :title :note)
      (:optional :month :year :doi :url)))
-  "Bibtex entry types with required and optional parameters.")
+  "BibTeX entry types with required and optional parameters.")
 
 (defvar org-bibtex-fields
   '((:address      . "Usually the address of the publisher or other type of institution.  For major publishing houses, van Leunen recommends omitting the information entirely.  For small publishers, on the other hand, you can help the reader by giving the complete address.")
@@ -227,10 +227,15 @@
     (:url          . "Uniform resource locator.")
     (:volume       . "The volume of a journal or multi-volume book.")
     (:year         . "The year of publication or, for an unpublished work, the year it was written.  Generally it should consist of four numerals, such as 1984, although the standard styles can handle any year whose last four nonpunctuation characters are numerals, such as '(about 1984)'"))
-  "Bibtex fields with descriptions.")
+  "BibTeX fields with descriptions.")
 
 (defvar org-bibtex-entries nil
   "List to hold parsed bibtex entries.")
+
+(defgroup org-bibtex nil
+  "Options for translating between Org headlines and BibTeX entries."
+  :tag "Org BibTeX"
+  :group 'org)
 
 (defcustom org-bibtex-autogen-keys nil
   "Set to a truth value to use `bibtex-generate-autokey' to generate keys."
@@ -257,7 +262,7 @@ a missing title field."
   :type 'boolean)
 
 (defcustom org-bibtex-headline-format-function
-  (lambda (entry) (cdr (assq :title entry)))
+  #'org-bibtex-headline-format-default
   "Function returning the headline text for `org-bibtex-write'.
 It should take a single argument, the bibtex entry (an alist as
 returned by `org-bibtex-read').  The default value simply returns
@@ -344,14 +349,20 @@ and `org-tags-exclude-from-inheritance'."
                                               (upcase property)))))))
     (when it (org-trim it))))
 
-(defun org-bibtex-put (property value)
-  (let ((prop (upcase (if (keywordp property)
-                          (substring (symbol-name property) 1)
-                        property))))
-    (org-set-property
-     (concat (unless (string= org-bibtex-key-property prop) org-bibtex-prefix)
-	     prop)
-     value)))
+(defun org-bibtex-put (property value &optional insert-raw)
+  "Set PROPERTY of headline at point to VALUE.
+The PROPERTY will be prefixed with `org-bibtex-prefix' when necessary.
+With non-nil optional argument INSERT-RAW, insert node property string
+at point."
+  (let* ((prop (upcase (if (keywordp property)
+                           (substring (symbol-name property) 1)
+                         property)))
+         (prop (concat (unless (string= org-bibtex-key-property prop)
+                         org-bibtex-prefix)
+	               prop)))
+    (if insert-raw
+        (insert (format ":%s: %s\n" prop value))
+      (org-set-property prop value))))
 
 (defun org-bibtex-headline ()
   "Return a bibtex entry of the given headline as a string."
@@ -424,7 +435,7 @@ and `org-tags-exclude-from-inheritance'."
     (error "Field:%s is not known" field))
   (save-window-excursion
     (let* ((name (substring (symbol-name field) 1))
-	   (buf-name (format "*Bibtex Help %s*" name)))
+	   (buf-name (format "*BibTeX Help %s*" name)))
       (with-output-to-temp-buffer buf-name
 	(princ (cdr (assoc field org-bibtex-fields))))
       (with-current-buffer buf-name (visual-line-mode 1))
@@ -481,7 +492,7 @@ With optional argument OPTIONAL, also prompt for optional fields."
     (org-bibtex-autokey)))
 
 
-;;; Bibtex link functions
+;;; BibTeX link functions
 (org-link-set-parameters "bibtex"
 			 :follow #'org-bibtex-open
 			 :store #'org-bibtex-store-link)
@@ -492,7 +503,7 @@ ARG, when non-nil, is a universal prefix argument.  See
 `org-open-file' for details."
   (org-link-open-as-file path arg))
 
-(defun org-bibtex-store-link ()
+(defun org-bibtex-store-link (&optional _interactive?)
   "Store a link to a BibTeX entry."
   (when (eq major-mode 'bibtex-mode)
     (let* ((search (org-create-file-search-in-bibtex))
@@ -578,13 +589,13 @@ ARG, when non-nil, is a universal prefix argument.  See
 (add-hook 'org-execute-file-search-functions 'org-execute-file-search-in-bibtex)
 
 
-;;; Bibtex <-> Org headline translation functions
+;;; BibTeX <-> Org headline translation functions
 (defun org-bibtex (filename)
   "Export each headline in the current file to a bibtex entry.
 Headlines are exported using `org-bibtex-headline'."
   (interactive
    (list (read-file-name
-	  "Bibtex file: " nil nil nil
+	  "BibTeX file: " nil nil nil
 	  (let ((file (buffer-file-name (buffer-base-buffer))))
 	    (and file
 		 (file-name-nondirectory
@@ -604,12 +615,12 @@ Headlines are exported using `org-bibtex-headline'."
 	     nil))))
     (when error-point
       (goto-char error-point)
-      (message "Bibtex error at %S" (nth 4 (org-heading-components))))))
+      (message "BibTeX error at %S" (nth 4 (org-heading-components))))))
 
 (defun org-bibtex-check (&optional optional)
   "Check the current headline for required fields.
 With prefix argument OPTIONAL also prompt for optional fields."
-  (interactive "P")
+  (interactive "P" org-mode)
   (save-restriction
     (org-narrow-to-subtree)
     (let ((type (let ((name (org-bibtex-get org-bibtex-type-property-name)))
@@ -619,24 +630,30 @@ With prefix argument OPTIONAL also prompt for optional fields."
 (defun org-bibtex-check-all (&optional optional)
   "Check all headlines in the current file.
 With prefix argument OPTIONAL also prompt for optional fields."
-  (interactive) (org-map-entries (lambda () (org-bibtex-check optional))))
+  (interactive nil org-mode)
+  (org-map-entries (lambda () (org-bibtex-check optional))))
 
-(defun org-bibtex-create (&optional arg nonew)
+(defun org-bibtex-headline-format-default (entry)
+  "Return headline text according to ENTRY title."
+  (cdr (assq :title entry)))
+
+(defun org-bibtex-create (&optional arg update-heading)
   "Create a new entry at the given level.
-With a prefix arg, query for optional fields as well.
-If nonew is t, add data to the headline of the entry at point."
-  (interactive "P")
+With a prefix ARG, query for optional fields as well.
+If UPDATE-HEADING is non-nil, add data to the headline of the entry at
+point."
+  (interactive "P" org-mode)
   (let* ((type (completing-read
 		"Type: " (mapcar (lambda (type)
 				   (substring (symbol-name (car type)) 1))
 				 org-bibtex-types)
-		nil nil (when nonew
-			  (org-bibtex-get org-bibtex-type-property-name))))
+		nil nil (when update-heading
+		      (org-bibtex-get org-bibtex-type-property-name))))
 	 (type (if (keywordp type) type (intern (concat ":" type))))
-	 (org-bibtex-treat-headline-as-title (if nonew nil t)))
+	 (org-bibtex-treat-headline-as-title (if update-heading nil t)))
     (unless (assoc type org-bibtex-types)
       (error "Type:%s is not known" type))
-    (if nonew
+    (if update-heading
 	(org-back-to-heading)
       (org-insert-heading)
       (let ((title (org-bibtex-ask :title)))
@@ -650,7 +667,7 @@ If nonew is t, add data to the headline of the entry at point."
 (defun org-bibtex-create-in-current-entry (&optional arg)
   "Add bibliographical data to the current entry.
 With a prefix arg, query for optional fields."
-  (interactive "P")
+  (interactive "P" org-mode)
   (org-bibtex-create arg t))
 
 (defun org-bibtex-read ()
@@ -703,56 +720,76 @@ Return the number of saved entries."
   (interactive "fFile: ")
   (org-bibtex-read-buffer (find-file-noselect file 'nowarn 'rawfile)))
 
-(defun org-bibtex-write ()
-  "Insert a heading built from the first element of `org-bibtex-entries'."
-  (interactive)
-  (when (= (length org-bibtex-entries) 0)
+(defun org-bibtex-write (&optional noindent update-heading)
+  "Insert a heading built from the first element of `org-bibtex-entries'.
+When optional argument NOINDENT is non-nil, do not indent the properties
+drawer.  If UPDATE-HEADING is non-nil, add data to the headline of the
+entry at point."
+  (interactive nil org-mode)
+  (unless org-bibtex-entries
     (error "No entries in `org-bibtex-entries'"))
   (let* ((entry (pop org-bibtex-entries))
 	 (org-special-properties nil) ; avoids errors with `org-entry-put'
 	 (val (lambda (field) (cdr (assoc field entry))))
-	 (togtag (lambda (tag) (org-toggle-tag tag 'on))))
-    (org-insert-heading)
-    (insert (funcall org-bibtex-headline-format-function entry))
-    (org-bibtex-put "TITLE" (funcall val :title))
+	 (togtag (lambda (tag) (org-toggle-tag tag 'on)))
+         (insert-raw (not update-heading)))
+    (unless update-heading
+      (org-insert-heading)
+      (insert (funcall org-bibtex-headline-format-function entry))
+      (insert "\n:PROPERTIES:\n"))
+    (org-bibtex-put "TITLE" (funcall val :title) insert-raw)
     (org-bibtex-put org-bibtex-type-property-name
-		    (downcase (funcall val :type)))
+		    (downcase (funcall val :type))
+                    insert-raw)
     (dolist (pair entry)
       (pcase (car pair)
 	(:title    nil)
 	(:type     nil)
-	(:key      (org-bibtex-put org-bibtex-key-property (cdr pair)))
+	(:key      (org-bibtex-put org-bibtex-key-property (cdr pair) insert-raw))
 	(:keywords (if org-bibtex-tags-are-keywords
 		       (dolist (kw (split-string (cdr pair) ", *"))
 			 (funcall
 			  togtag
 			  (replace-regexp-in-string
-			   "[^[:alnum:]_@#%]" ""
+			   org-tag--invalid-char-re ""
 			   (replace-regexp-in-string "[ \t]+" "_" kw))))
-		     (org-bibtex-put (car pair) (cdr pair))))
-	(_ (org-bibtex-put (car pair) (cdr pair)))))
-    (mapc togtag org-bibtex-tags)))
+		     (org-bibtex-put (car pair) (cdr pair) insert-raw)))
+	(_ (org-bibtex-put (car pair) (cdr pair) insert-raw))))
+    (unless update-heading
+      (insert ":END:\n"))
+    (mapc togtag org-bibtex-tags)
+    (unless noindent
+      (org-indent-region
+       (save-excursion (org-back-to-heading t) (point))
+       (point)))))
 
-(defun org-bibtex-yank ()
-  "If kill ring holds a bibtex entry yank it as an Org headline."
-  (interactive)
+(defun org-bibtex-yank (&optional update-heading)
+  "If kill ring holds a bibtex entry yank it as an Org headline.
+When called with non-nil prefix argument UPDATE-HEADING, add data to the
+headline of the entry at point."
+  (interactive "P" org-mode)
   (let (entry)
-    (with-temp-buffer (yank 1) (setf entry (org-bibtex-read)))
+    (with-temp-buffer
+      (yank 1)
+      (bibtex-mode)
+      (setf entry (org-bibtex-read)))
     (if entry
-	(org-bibtex-write)
+	(org-bibtex-write nil update-heading)
       (error "Yanked text does not appear to contain a BibTeX entry"))))
 
 (defun org-bibtex-import-from-file (file)
   "Read bibtex entries from FILE and insert as Org headlines after point."
-  (interactive "fFile: ")
-  (dotimes (_ (org-bibtex-read-file file))
-    (save-excursion (org-bibtex-write))
-    (re-search-forward org-property-end-re)
-    (open-line 1) (forward-char 1)))
+  (interactive "fFile: " org-mode)
+  (let ((pos (point)))
+    (dotimes (_ (org-bibtex-read-file file))
+      (save-excursion (org-bibtex-write 'noindent))
+      (re-search-forward org-property-end-re)
+      (insert "\n"))
+    (org-indent-region pos (point))))
 
 (defun org-bibtex-export-to-kill-ring ()
   "Export current headline to kill ring as bibtex entry."
-  (interactive)
+  (interactive nil org-mode)
   (let ((result (org-bibtex-headline)))
     (kill-new result) result))
 

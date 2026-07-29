@@ -1,6 +1,6 @@
 ;;; ob-makefile.el --- Babel Functions for Makefile  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2009-2026 Free Software Foundation, Inc.
 
 ;; Author: Eric Schulte
 ;; 	   Thomas S. Dye
@@ -27,12 +27,17 @@
 ;; This file exists solely for tangling a Makefile from Org files.
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 
 (defvar org-babel-default-header-args:makefile '())
 
 (defun org-babel-execute:makefile (body _params)
-  "Execute a block of makefile code.
+  "Execute makefile BODY.
+Second function argument is ignored.
 This function is called by `org-babel-execute-src-block'."
   body)
 

@@ -1,9 +1,9 @@
 ;;; org-indent.el --- Dynamic indentation for Org    -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2009-2026 Free Software Foundation, Inc.
 ;;
 ;; Author: Carsten Dominik <carsten.dominik@gmail.com>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 ;; URL: https://orgmode.org
 ;;
 ;; This file is part of GNU Emacs.
@@ -37,13 +37,14 @@
 ;;; Code:
 
 (require 'org-macs)
+(org-assert-version)
+
+(require 'org-macs)
 (require 'org-compat)
 (require 'org)
 
 (require 'cl-lib)
 
-(declare-function org-inlinetask-get-task-level "org-inlinetask" ())
-(declare-function org-inlinetask-in-task-p "org-inlinetask" ())
 (declare-function org-list-item-body-column "org-list" (item))
 (defvar org-inlinetask-show-first-star)
 
@@ -99,6 +100,14 @@ For details see the variable `org-adapt-indentation'."
   "Indentation per level in number of characters."
   :group 'org-indent
   :type 'integer)
+
+(defcustom org-indent-post-buffer-init-functions nil
+  "Hook run after org-indent finishes initializing a buffer.
+The function(s) in this hook must accept a single argument representing
+the initialized buffer."
+  :group 'org-indent
+  :package-version '(Org . "9.7")
+  :type 'hook)
 
 (defface org-indent '((t (:inherit org-hide)))
   "Face for outline indentation.
@@ -182,15 +191,8 @@ during idle time."
     (when org-indent-mode-turns-on-hiding-stars
       (setq-local org-hide-leading-stars t))
     (org-indent--compute-prefixes)
-    (if (boundp 'filter-buffer-substring-functions)
-	(add-hook 'filter-buffer-substring-functions
-		  (lambda (fun start end delete)
-		    (org-indent-remove-properties-from-string
-		     (funcall fun start end delete)))
-		  nil t)
-      ;; Emacs >= 24.4.
-      (add-function :filter-return (local 'filter-buffer-substring-function)
-		    #'org-indent-remove-properties-from-string))
+    (add-function :filter-return (local 'filter-buffer-substring-function)
+                  #'org-indent-remove-properties-from-string)
     (add-hook 'after-change-functions 'org-indent-refresh-maybe nil 'local)
     (add-hook 'before-change-functions
 	      'org-indent-notify-modified-headline nil 'local)
@@ -213,13 +215,8 @@ during idle time."
       (set-marker org-indent--initial-marker nil))
     (when (local-variable-p 'org-hide-leading-stars)
       (kill-local-variable 'org-hide-leading-stars))
-    (if (boundp 'filter-buffer-substring-functions)
-	(remove-hook 'filter-buffer-substring-functions
-		     (lambda (fun start end delete)
-		       (org-indent-remove-properties-from-string
-			(funcall fun start end delete))))
-      (remove-function (local 'filter-buffer-substring-function)
-		       #'org-indent-remove-properties-from-string))
+    (remove-function (local 'filter-buffer-substring-function)
+                     #'org-indent-remove-properties-from-string)
     (remove-hook 'after-change-functions 'org-indent-refresh-maybe 'local)
     (remove-hook 'before-change-functions
 		 'org-indent-notify-modified-headline 'local)
@@ -230,7 +227,7 @@ during idle time."
 
 (defun org-indent-indent-buffer ()
   "Add indentation properties to the accessible part of the buffer."
-  (interactive)
+  (interactive nil org-mode)
   (if (not (derived-mode-p 'org-mode))
       (error "Not in Org mode")
     (message "Setting buffer indentation.  It may take a few seconds...")
@@ -287,7 +284,8 @@ a time value."
 	 ;; Job is complete: un-agentize buffer.
 	 (unless interruptp
 	   (setq org-indent-agentized-buffers
-		 (delq buffer org-indent-agentized-buffers))))))))
+		 (delq buffer org-indent-agentized-buffers))
+           (run-hook-with-args 'org-indent-post-buffer-init-functions buffer)))))))
 
 (defun org-indent-set-line-properties (level indentation &optional heading)
   "Set prefix properties on current line an move to next one.
@@ -325,7 +323,7 @@ stopped."
   (save-match-data
     (org-with-wide-buffer
      (goto-char beg)
-     (beginning-of-line)
+     (forward-line 0)
      ;; Initialize prefix at BEG, according to current entry's level.
      (let* ((case-fold-search t)
 	    (limited-re (org-get-limited-outline-regexp))
@@ -407,7 +405,7 @@ This function is meant to be called by `after-change-functions'."
        (if (or org-indent-modified-headline-flag
 	       (save-excursion
 		 (goto-char beg)
-		 (beginning-of-line)
+		 (forward-line 0)
 		 (re-search-forward
 		  (org-with-limited-levels org-outline-regexp-bol)
                   (save-excursion

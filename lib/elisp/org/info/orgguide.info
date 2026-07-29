@@ -1,19 +1,19 @@
-This is orgguide.info, produced by makeinfo version 6.8 from
+This is orgguide.info, produced by makeinfo version 7.3 from
 orgguide.texi.
 
-Copyright © 2004–2022 Free Software Foundation, Inc.
+Copyright © 2004-2026 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
      Version 1.3 or any later version published by the Free Software
      Foundation; with no Invariant Sections, with the Front-Cover Texts
-     being “A GNU Manual,” and with the Back-Cover Texts as in (a)
+     being "A GNU Manual," and with the Back-Cover Texts as in (a)
      below.  A copy of the license is included in the section entitled
-     “GNU Free Documentation License.” in the full Org manual, which is
+     "GNU Free Documentation License."  in the full Org manual, which is
      distributed together with this compact guide.
 
-     (a) The FSF’s Back-Cover Text is: “You have the freedom to copy and
-     modify this GNU manual.”
+     (a) The FSF's Back-Cover Text is: "You have the freedom to copy and
+     modify this GNU manual."
 
 INFO-DIR-SECTION Emacs editing modes
 START-INFO-DIR-ENTRY
@@ -26,19 +26,19 @@ File: orgguide.info,  Node: Top,  Next: Introduction,  Up: (dir)
 Org Mode Compact Guide
 **********************
 
-Copyright © 2004–2022 Free Software Foundation, Inc.
+Copyright © 2004-2026 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
      Version 1.3 or any later version published by the Free Software
      Foundation; with no Invariant Sections, with the Front-Cover Texts
-     being “A GNU Manual,” and with the Back-Cover Texts as in (a)
+     being "A GNU Manual," and with the Back-Cover Texts as in (a)
      below.  A copy of the license is included in the section entitled
-     “GNU Free Documentation License.” in the full Org manual, which is
+     "GNU Free Documentation License."  in the full Org manual, which is
      distributed together with this compact guide.
 
-     (a) The FSF’s Back-Cover Text is: “You have the freedom to copy and
-     modify this GNU manual.”
+     (a) The FSF's Back-Cover Text is: "You have the freedom to copy and
+     modify this GNU manual."
 
 * Menu:
 
@@ -58,7 +58,7 @@ Copyright © 2004–2022 Free Software Foundation, Inc.
 * Working with Source Code::     Export, evaluate, and tangle code blocks.
 * Miscellaneous::                All the rest which did not fit elsewhere.
 
-— The Detailed Node Listing —
+-- The Detailed Node Listing --
 
 Document Structure
 
@@ -123,7 +123,6 @@ Exporting
 * LaTeX Export::              Exporting to LaTeX and processing to PDF.
 * iCalendar Export::             Exporting to iCalendar.
 
-
 
 File: orgguide.info,  Node: Introduction,  Next: Document Structure,  Prev: Top,  Up: Top
 
@@ -133,7 +132,7 @@ File: orgguide.info,  Node: Introduction,  Next: Document Structure,  Prev: Top,
 Org is a mode for keeping notes, maintaining TODO lists, and doing
 project planning with a fast and effective plain-text system.  It is
 also an authoring and publishing system, and it supports working with
-source code for literal programming and reproducible research.
+source code for literate programming and reproducible research.
 
    This document is a much compressed derivative of the *note
 comprehensive Org mode manual: (org)Top.  It contains all basic features
@@ -179,8 +178,8 @@ Feedback
 
 If you find problems with Org, or if you have questions, remarks, or
 ideas about it, please mail to the Org mailing list
-<emacs-orgmode@gnu.org>.  For information on how to submit bug reports,
-see the main manual.
+<mailto:emacs-orgmode@gnu.org>.  For information on how to submit bug
+reports, see the *note main manual: (org)Top.
 
 
 File: orgguide.info,  Node: Document Structure,  Next: Tables,  Prev: Introduction,  Up: Top
@@ -189,13 +188,13 @@ File: orgguide.info,  Node: Document Structure,  Next: Tables,  Prev: Introducti
 ********************
 
 Org is an outliner.  Outlines allow a document to be organized in a
-hierarchical structure, which, least for me, is the best representation
-of notes and thoughts.  An overview of this structure is achieved by
-folding, i.e., hiding large parts of the document to show only the
-general document structure and the parts currently being worked on.  Org
-greatly simplifies the use of outlines by compressing the entire show
-and hide functionalities into a single command, ‘org-cycle’, which is
-bound to the ‘<TAB>’ key.
+hierarchical structure, which, at least for me, is the best
+representation of notes and thoughts.  An overview of this structure is
+achieved by folding, i.e., hiding large parts of the document to show
+only the general document structure and the parts currently being worked
+on.  Org greatly simplifies the use of outlines by compressing the
+entire show and hide functionalities into a single command, ‘org-cycle’,
+which is bound to the ‘<TAB>’ key.
 
 * Menu:
 
@@ -216,13 +215,13 @@ Headlines define the structure of an outline tree.  The headlines in Org
 start on the left margin(1) with one or more stars followed by a space.
 For example:
 
-     * Top level headline
+     * First (top) level headline
      ** Second level
      *** Third level
          some text
      *** Third level
          more text
-     * Another top level headline
+     * Another first (top) level headline
 
    Note that a headline named after ‘org-footnote-section’, which
 defaults to ‘Footnotes’, is considered as special.  A subtree with this
@@ -244,10 +243,10 @@ File: orgguide.info,  Node: Visibility Cycling,  Next: Motion,  Prev: Headlines,
 ======================
 
 Outlines make it possible to hide parts of the text in the buffer.  Org
-uses just two commands, bound to ‘<TAB>’ and {{{kbd{S-TAB)}}} to change
-the visibility in the buffer.
+uses just two commands, bound to ‘<TAB>’ and ‘S-<TAB>’ (‘org-cycle’ and
+‘org-shifttab’) to change the visibility in the buffer.
 
-‘<TAB>’
+‘<TAB>’ (‘org-cycle’)
      _Subtree cycling_: Rotate current subtree among the states
 
           ,-> FOLDED -> CHILDREN -> SUBTREE --.
@@ -256,18 +255,17 @@ the visibility in the buffer.
      When called with a prefix argument (‘C-u <TAB>’), or with the Shift
      key, global cycling is invoked.
 
-‘S-<TAB>’
-‘C-u <TAB>’
+‘S-<TAB>’ (‘org-global-cycle’), ‘C-u <TAB>’ (‘org-cycle’)
      _Global cycling_: Rotate the entire buffer among the states
 
           ,-> OVERVIEW -> CONTENTS -> SHOW ALL --.
           '--------------------------------------'
 
-‘C-u C-u C-u <TAB>’
+‘C-u C-u C-u <TAB>’ (‘org-fold-show-all’)
      Show all, including drawers.
 
    When Emacs first visits an Org file, the global state is set to
-OVERVIEW, i.e., only the top level headlines are visible.  This can be
+‘showeverything’, i.e., all file content is visible.  This can be
 configured through the variable ‘org-startup-folded’, or on a per-file
 basis by adding a ‘STARTUP’ keyword to ‘overview’, ‘content’, ‘showall’,
 ‘showeverything’ or ‘show<n>levels’ (n = 2..5) like this:
@@ -282,19 +280,18 @@ File: orgguide.info,  Node: Motion,  Next: Structure Editing,  Prev: Visibility 
 
 The following commands jump to other headlines in the buffer.
 
-‘C-c C-n’
+‘C-c C-n’ (‘org-next-visible-heading’)
      Next heading.
-
-‘C-c C-p’
+‘C-c C-p’ (‘org-previous-visible-heading’)
      Previous heading.
 
-‘C-c C-f’
+‘C-c C-f’ (‘org-backward-heading-same-level’)
      Next heading same level.
 
-‘C-c C-b’
+‘C-c C-b’ (‘outline-backward-same-level’)
      Previous heading same level.
 
-‘C-c C-u’
+‘C-c C-u’ (‘outline-up-heading’)
      Backward to higher level heading.
 
 
@@ -303,35 +300,31 @@ File: orgguide.info,  Node: Structure Editing,  Next: Sparse Trees,  Prev: Motio
 2.4 Structure Editing
 =====================
 
-‘M-<RET>’
+‘M-<RET>’ (‘org-meta-return’)
      Insert new heading with same level as current.  If point is in a
      plain list item, a new item is created (see *note Plain Lists::).
      When this command is used in the middle of a line, the line is
      split and the rest of the line becomes the new headline(1).
 
-‘M-S-<RET>’
+‘M-S-<RET>’ (‘org-insert-todo-heading’)
      Insert new TODO entry with same level as current heading.
 
-‘<TAB>’ in new
-empty entry
+‘<TAB>’ (‘org-cycle’) in new, empty entry
      In a new entry with no text yet, ‘<TAB>’ cycles through reasonable
      levels.
 
-‘M-<LEFT>’
-‘M-<RIGHT>’
+‘M-<LEFT>’ (‘org-metaleft’), ‘M-<RIGHT>’ (‘org-metaright’)
      Promote or demote current heading by one level.
 
-‘M-<UP>’
-‘M-<DOWN>’
+‘M-<UP>’ (‘org-move-subtree-up’), ‘M-<DOWN>’ (‘org-move-subtree-down’)
      Move subtree up or down, i.e., swap with previous or next subtree
      of same level.
 
-‘C-c C-w’
+‘C-c C-w’ (‘org-refile’)
      Refile entry or region to a different location.  See *note Refile
      and Copy::.
 
-‘C-x n s’
-‘C-x n w’
+‘C-x n s’ (‘org-narrow-to-subtree’), ‘C-x n w’ (‘widen’)
      Narrow buffer to current subtree and widen it again.
 
    When there is an active region (Transient Mark mode), promotion and
@@ -357,11 +350,11 @@ out and you will see immediately how it works.
    Org mode contains several commands creating such trees, all these
 commands can be accessed through a dispatcher:
 
-‘C-c /’
+‘C-c /’ (‘org-sparse-tree’)
      This prompts for an extra key to select a sparse-tree creating
      command.
 
-‘C-c / r’
+‘C-c / r’ (‘org-occur’)
      Occur.  Prompts for a regexp and shows a sparse tree with all
      matches.  Each match is also highlighted; the highlights disappear
      by pressing ‘C-c C-c’.
@@ -372,8 +365,8 @@ commands can be accessed through a dispatcher:
 
    ---------- Footnotes ----------
 
-   (1) See also the variable ‘org-show-context-detail’ to decide how
-much context is shown around each match.
+   (1) See also the variable ‘org-fold-show-context-detail’ to decide
+how much context is shown around each match.
 
 
 File: orgguide.info,  Node: Plain Lists,  Prev: Sparse Trees,  Up: Document Structure
@@ -413,37 +406,34 @@ before two blank lines.  An example:
    The following commands act on items when point is in the first line
 of an item (the line with the bullet or number).
 
-‘<TAB>’
+‘<TAB>’ (‘org-cycle’)
      Items can be folded just like headline levels.
 
-‘M-<RET>’
+‘M-<RET>’ (‘org-insert-heading’)
      Insert new item at current level.  With a prefix argument, force a
      new heading (see *note Structure Editing::).
 
-‘M-S-<RET>’
+‘M-S-<RET>’ (‘org-insert-todo-heading’)
      Insert a new item with a checkbox (see *note Checkboxes::).
 
-‘M-S-<UP>’
-‘M-S-<DOWN>’
+‘M-<UP>’ (‘org-move-item-up’), ‘M-<DOWN>’ (‘org-move-item-down’)
      Move the item including subitems up/down (swap with previous/next
      item of same indentation).  If the list is ordered, renumbering is
      automatic.
 
-‘M-<LEFT>’
-‘M-<RIGHT>’
+‘M-<LEFT>’ (‘org-do-promote’), ‘M-<RIGHT>’ (‘org-do-demote’)
      Decrease/increase the indentation of an item, leaving children
      alone.
 
-‘M-S-<LEFT>’
-‘M-S-<RIGHT>’
+‘M-S-<LEFT>’ (‘org-promote-subtree’), ‘M-S-<RIGHT>’ (‘org-demote-subtree’)
      Decrease/increase the indentation of the item, including subitems.
 
-‘C-c C-c’
+‘C-c C-c’ (‘org-toggle-checkbox’)
      If there is a checkbox (see *note Checkboxes::) in the item line,
      toggle the state of the checkbox.  Also verify bullets and
      indentation consistency in the whole list.
 
-‘C-c -’
+‘C-c -’ (‘org-cycle-list-bullet’)
      Cycle the entire list level through the different itemize/enumerate
      bullets (‘-’, ‘+’, ‘*’, ‘1.’, ‘1)’).
 
@@ -490,7 +480,7 @@ the field is automatically made blank.
 Creation and conversion
 =======================
 
-‘C-c |’
+‘C-c |’ (‘org-table-create-or-convert-from-region’)
      Convert the active region to table.  If every line contains at
      least one ‘<TAB>’ character, the function assumes that the material
      is tab separated.  If every line contains a comma, comma-separated
@@ -504,58 +494,55 @@ Creation and conversion
 Re-aligning and field motion
 ============================
 
-‘C-c C-c’
+‘C-c C-c’ (‘org-table-align’)
      Re-align the table without moving point.
 
-‘<TAB>’
+‘<TAB>’ (‘org-table-next-field’)
      Re-align the table, move to the next field.  Creates a new row if
      necessary.
 
-‘S-<TAB>’
+‘S-<TAB>’ (‘org-table-previous-field’)
      Re-align, move to previous field.
 
-‘<RET>’
+‘<RET>’ (‘org-table-next-row’)
      Re-align the table and move down to next row.  Creates a new row if
      necessary.
 
-‘S-<UP>’
-‘S-<DOWN>’
-‘S-<LEFT>’
-‘S-<RIGHT>’
+‘S-<UP>’ (‘org-table-move-cell-up’), ‘S-<DOWN>’ (‘org-table-move-cell-down’), ‘S-<LEFT>’ (‘org-table-move-cell-left’), ‘S-<RIGHT>’ (‘org-table-move-cell-right’)
      Move a cell up, down, left, and right by swapping with adjacent
      cell.
 
 Column and row editing
 ======================
 
-‘M-<LEFT>’, ‘M-<RIGHT>’
+‘M-<LEFT>’ (‘org-table-move-column-left’), ‘M-<RIGHT>’ (‘org-table-move-column-right’)
      Move the current column left/right.
 
-‘M-S-<LEFT>’
+‘M-S-<LEFT>’ (‘org-table-delete-column’)
      Kill the current column.
 
-‘M-S-<RIGHT>’
+‘M-S-<RIGHT>’ (‘org-table-insert-column’)
      Insert a new column to the left of point position.
 
-‘M-<UP>’, ‘M-<DOWN>’
+‘M-<UP>’ (‘org-table-move-row-up’), ‘M-<DOWN>’ (‘org-table-move-row-down’)
      Move the current row up/down.
 
-‘M-S-<UP>’
+‘M-S-<UP>’ (‘org-table-kill-row’)
      Kill the current row or horizontal line.
 
-‘M-S-<DOWN>’
+‘M-S-<DOWN>’ (‘org-table-insert-row’)
      Insert a new row above the current row.  With a prefix argument,
      the line is created below the current one.
 
-‘C-c -’
+‘C-c -’ (‘org-table-insert-hline’)
      Insert a horizontal line below current row.  With a prefix
      argument, the line is created above the current line.
 
-‘C-c <RET>’
+‘C-c <RET>’ (‘org-table-hline-and-move’)
      Insert a horizontal line below current row, and move the point into
      the row below that line.
 
-‘C-c ^’
+‘C-c ^’ (‘org-table-sort-lines’)
      Sort the table lines in the region.  The position of point
      indicates the column to be used for sorting, and the range of lines
      is the range between the nearest horizontal separator lines, or the
@@ -627,7 +614,7 @@ colon.  Here are some examples:
    File links can contain additional information to make Emacs jump to a
 particular location in the file when following a link.  This can be a
 line number or a search option after a double colon.  Here are a few
-examples,, together with an explanation:
+examples, together with an explanation:
 
 ‘file:~/code/main.c::255’            Find line 255
 ‘file:~/xx.org::My Target’           Find ‘<<My Target>>’
@@ -643,12 +630,12 @@ it into an Org file, and to follow the link.
 org-store-link’.  Because of its importance, we suggest to bind it to a
 widely available key (see *note Activation::).  It stores a link to the
 current location.  The link is stored for later insertion into an Org
-buffer—see below.
+buffer--see below.
 
    From an Org buffer, the following commands create, navigate or, more
 generally, act on links.
 
-‘C-c C-l’
+‘C-c C-l’ (‘org-insert-link’)
      Insert a link.  This prompts for a link to be inserted into the
      buffer.  You can just type a link, or use history keys ‘<UP>’ and
      ‘<DOWN>’ to access stored links.  You will be prompted for the
@@ -657,14 +644,14 @@ generally, act on links.
      When called with a ‘C-u’ prefix argument, file name completion is
      used to link to a file.
 
-‘C-c C-l’ (with point on existing link)
+‘C-c C-l’ (with point on existing link) (‘org-insert-link’)
      When point is on an existing link, ‘C-c C-l’ allows you to edit the
      link and description parts of the link.
 
-‘C-c C-o’
+‘C-c C-o’ (‘open-link-at-point’)
      Open link at point.
 
-‘C-c &’
+‘C-c &’ (‘org-mark-ring-goto’)
      Jump back to a recorded position.  A position is recorded by the
      commands following internal links, and by ‘C-c %’.  Using this
      command several times in direct succession moves through a ring of
@@ -707,30 +694,29 @@ for example:
 
    The most important commands to work with TODO entries are:
 
-‘C-c C-t’
+‘C-c C-t’ (‘org-todo’)
      Rotate the TODO state of the current item among
 
           ,-> (unmarked) -> TODO -> DONE --.
           '--------------------------------'
 
-     The same rotation can also be done “remotely” from the agenda
+     The same rotation can also be done "remotely" from the agenda
      buffer with the ‘t’ command key (see *note Agenda Commands::).
 
-‘S-<RIGHT>’
-‘S-<LEFT>’
+‘S-<RIGHT>’ (‘org-shiftright’), ‘S-<LEFT>’ (‘org-shiftleft’)
      Select the following/preceding TODO state, similar to cycling.
 
-‘C-c / t’
+‘C-c / t’ (‘org-show-todo-tree’)
      View TODO items in a _sparse tree_ (see *note Sparse Trees::).
-     Folds the entire buffer, but shows all TODO items—with not-DONE
-     state—and the headings hierarchy above them.
+     Folds the entire buffer, but shows all TODO items--with not-DONE
+     state--and the headings hierarchy above them.
 
-‘M-x org-agenda t’
+‘M-x org-agenda t’ (‘org-todo-list’)
      Show the global TODO list.  Collects the TODO items (with not-DONE
      states) from all agenda files (see *note Agenda Views::) into a
      single buffer.  See *note Global TODO List::, for more information.
 
-‘S-M-<RET>’
+‘S-M-<RET>’ (‘org-insert-todo-heading’)
      Insert a new TODO entry below the current one.
 
    Changing a TODO state can also trigger tag changes.  See the
@@ -742,7 +728,7 @@ File: orgguide.info,  Node: Multi-state Workflow,  Next: Progress Logging,  Prev
 5.2 Multi-state Workflow
 ========================
 
-You can use TODO keywords to indicate @emph{sequential} working progress
+You can use TODO keywords to indicate _sequential_ working progress
 states:
 
      (setq org-todo-keywords
@@ -767,7 +753,7 @@ this:
 The keywords should all be different, this helps Org mode to keep track
 of which subsequence should be used for a given entry.  The example also
 shows how to define keys for fast access of a particular state, by
-adding a letter in parenthesis after each keyword—you will be prompted
+adding a letter in parenthesis after each keyword--you will be prompted
 for the key after ‘C-c C-t’.
 
    To define TODO keywords that are valid only in a single file, use the
@@ -789,8 +775,8 @@ File: orgguide.info,  Node: Progress Logging,  Next: Priorities,  Prev: Multi-st
 To record a timestamp and a note when changing a TODO state, call the
 command ‘org-todo’ with a prefix argument.
 
-‘C-u C-c C-t’
-     Prompt for a note and record a the time of the TODO state change.
+‘C-u C-c C-t’ (‘org-todo’)
+     Prompt for a note and record the time of the TODO state change.
 
    Org mode can also automatically record a timestamp and optionally a
 note when you mark a TODO item as DONE, or even each time you change the
@@ -862,7 +848,7 @@ like this
 highest, ‘B’ the default if none is given.  Priorities make a difference
 only in the agenda.
 
-‘C-c ,’
+‘C-c ,’ (‘org-priority’)
      Set the priority of the current headline.  Press ‘A’, ‘B’ or ‘C’ to
      select a priority, or ‘<SPC>’ to remove the cookie.
 
@@ -917,11 +903,11 @@ checked.
 
    The following commands work with checkboxes:
 
-‘C-c C-c’
-     Toggle checkbox status or—with prefix argument—checkbox presence at
-     point.
+‘C-c C-c’, ‘C-u C-c C-c’ (‘org-toggle-checkbox’)
+     Toggle checkbox status or--with prefix argument--checkbox presence
+     at point.
 
-‘M-S-<RET>’
+‘M-S-<RET>’ (‘org-insert-todo-heading’)
      Insert a new item with a checkbox.  This works only if point is
      already in a plain list item (see *note Plain Lists::).
 
@@ -937,9 +923,10 @@ support for tags.
 
    Every headline can contain a list of tags; they occur at the end of
 the headline.  Tags are normal words containing letters, numbers, ‘_’,
-and ‘@’.  Tags must be preceded and followed by a single colon, e.g.,
-‘:work:’.  Several tags can be specified, as in ‘:work:urgent:’.  Tags
-by default are in bold face with the same color as the headline.
+‘@’, ‘#’, and ‘%’.  Tags must be preceded and followed by a single
+colon, e.g., ‘:work:’.  Several tags can be specified, as in
+‘:work:urgent:’.  Tags by default are in bold face with the same color
+as the headline.
 
 Tag inheritance
 ===============
@@ -968,12 +955,12 @@ Tags can simply be typed into the buffer at the end of a headline.
 After a colon, ‘M-<TAB>’ offers completion on tags.  There is also a
 special command for inserting tags:
 
-‘C-c C-q’
+‘C-c C-q’ (‘org-set-tags-command’)
      Enter new tags for the current headline.  Org mode either offers
      completion or a special single-key interface for setting tags, see
      below.
 
-‘C-c C-c’
+‘C-c C-c’ (‘org-set-tags-command’)
      When point is in a headline, this does the same as ‘C-c C-q’.
 
    Org supports tag insertion based on a _list of tags_.  By default
@@ -1006,7 +993,7 @@ Tag groups
 ==========
 
 A tag can be defined as a _group tag_ for a set of other tags.  The
-group tag can be seen as the “broader term” for its set of tags.
+group tag can be seen as the "broader term" for its set of tags.
 
    You can set group tags by using brackets and inserting a colon
 between the group tag and its related tags:
@@ -1017,9 +1004,9 @@ or, if tags in the group should be mutually exclusive:
 
      #+TAGS: { Context : @Home @Work }
 
-   When you search for a group tag, it return matches for all members in
-the group and its subgroups.  In an agenda view, filtering by a group
-tag displays or hide headlines tagged with at least one of the members
+   When you search for a group tag, it returns matches for all members
+in the group and its subgroups.  In an agenda view, filtering by a group
+tag displays or hides headlines tagged with at least one of the members
 of the group or any of its subgroups.
 
    If you want to ignore group tags temporarily, toggle group tags
@@ -1028,19 +1015,18 @@ support with ‘org-toggle-tags-groups’, bound to ‘C-c C-x q’.
 Tag searches
 ============
 
-‘C-c / m’ or ‘C-c \’
+‘C-c / m’ or ‘C-c \’ (‘org-match-sparse-tree’)
      Create a sparse tree with all headlines matching a tags search.
      With a ‘C-u’ prefix argument, ignore headlines that are not a TODO
      line.
 
-‘M-x org-agenda m’
+‘M-x org-agenda m’ (‘org-tags-view’)
      Create a global list of tag matches from all agenda files.  See
      *note Matching Tags and Properties::.
 
-‘M-x org-agenda M’
+‘M-x org-agenda M’ (‘org-tags-view’)
      Create a global list of tag matches from all agenda files, but
-     check only TODO items and force checking subitems (see the option
-     ‘org-tags-match-list-sublevels’).
+     check only TODO items.
 
    These commands all prompt for a match string which allows basic
 Boolean logic like ‘+boss+urgent-project1’, to find entries with tags
@@ -1097,10 +1083,10 @@ file, use a line like:
 
    The following commands help to work with properties:
 
-‘C-c C-x p’
+‘C-c C-x p’ (‘org-set-property’)
      Set a property.  This prompts for a property name and a value.
 
-‘C-c C-c d’
+‘C-c C-c d’ (‘org-delete-property’)
      Remove a property from the current entry.
 
    To create sparse trees and special lists with selection based on
@@ -1116,7 +1102,15 @@ File: orgguide.info,  Node: Dates and Times,  Next: Capture Refile Archive,  Pre
 
 To assist project planning, TODO items can be labeled with a date and/or
 a time.  The specially formatted string carrying the date and time
-information is called a _timestamp_ in Org mode.
+information is called a _timestamp_ in Org mode.  This may be a little
+confusing because timestamp is often used as indicating when something
+was created or last changed.  However, in Org mode this term is used in
+a much wider sense.
+
+   Timestamps can be used to plan appointments, schedule tasks, set
+deadlines, track time, and more.  The following sections describe the
+timestamp format and tooling that Org mode provides for common use cases
+dealing with time and time intervals.
 
 * Menu:
 
@@ -1131,27 +1125,32 @@ File: orgguide.info,  Node: Timestamps,  Next: Creating Timestamps,  Up: Dates a
 8.1 Timestamps
 ==============
 
-A timestamp is a specification of a date—possibly with a time or a range
-of times—in a special format, either ‘<2003-09-16 Tue>’ or ‘<2003-09-16
-Tue 09:39>’ or ‘<2003-09-16 Tue 12:00-12:30>’.  A timestamp can appear
-anywhere in the headline or body of an Org tree entry.  Its presence
-causes entries to be shown on specific dates in the agenda (see [BROKEN
-LINK: *The Weekly/daily Agenda]).  We distinguish:
+A timestamp is a specification of a date--possibly with a time or a
+range of times--in a special format, either ‘<2003-09-16 Tue>’ or
+‘<2003-09-16 Tue 09:39>’ or ‘<2003-09-16 Tue 12:00-12:30>’.  A timestamp
+can appear anywhere in the headline or body of an Org tree entry.  Its
+presence causes entries to be shown on specific dates in the agenda (see
+*note Built-in Agenda Views::).  We distinguish:
 
 Plain timestamp; Event; Appointment
      A simple timestamp just assigns a date/time to an item.  This is
      just like writing down an appointment or event in a paper agenda.
+     There can be multiple timestamps in an item.
 
           * Meet Peter at the movies
             <2006-11-01 Wed 19:15>
           * Discussion on climate change
             <2006-11-02 Thu 20:00-22:00>
+          * My days off
+            <2006-11-03 Fri>
+            <2006-11-06 Mon>
 
 Timestamp with repeater interval
      A timestamp may contain a _repeater interval_, indicating that it
      applies not only on the given date, but again and again after a
-     certain interval of N days (d), weeks (w), months (m), or years
-     (y).  The following shows up in the agenda every Wednesday:
+     certain interval of N hours (h), days (d), weeks (w), months (m),
+     or years (y).  The following shows up in the agenda every
+     Wednesday:
 
           * Pick up Sam at school
             <2007-05-16 Wed 12:30 +1w>
@@ -1164,11 +1163,23 @@ Diary-style expression entries
           * 22:00-23:00 The nerd meeting on every 2nd Thursday of the month
             <%%(diary-float t 4 2)>
 
+Time range
+     Time range is a timestamp having two time units connected by ‘-’
+
+          * Discussion on climate change
+            <2006-11-02 Thu 10:00-12:00>
+
 Time/Date range
-     Two timestamps connected by ‘--’ denote a range.
+     Two timestamps connected by ‘--’ denote a range.  In the agenda,
+     the headline is shown on the first and last day of the range, and
+     on any dates that are displayed and fall in the range.  The first
+     example specifies just the dates of the range while the second
+     example specifies a time range for each date.
 
           ** Meeting in Amsterdam
              <2004-08-23 Mon>--<2004-08-26 Thu>
+          ** This weeks committee meetings
+             <2004-08-23 Mon 10:00-11:00>--<2004-08-26 Thu 10:00-11:00>
 
 Inactive timestamp
      Just like a plain timestamp, but with square brackets instead of
@@ -1188,23 +1199,21 @@ For Org mode to recognize timestamps, they need to be in the specific
 format.  All commands listed below produce timestamps in the correct
 format.
 
-‘C-c .’
+‘C-c .’ (‘org-timestamp’)
      Prompt for a date and insert a corresponding timestamp.  When point
      is at an existing timestamp in the buffer, the command is used to
      modify this timestamp instead of inserting a new one.  When this
      command is used twice in succession, a time range is inserted.
      With a prefix argument, it also adds the current time.
 
-‘C-c !’
+‘C-c !’ (‘org-timestamp-inactive’)
      Like ‘C-c .’, but insert an inactive timestamp that does not cause
      an agenda entry.
 
-‘S-<LEFT>’
-‘S-<RIGHT>’
+‘S-<LEFT>’ (‘org-timestamp-down-day’), ‘S-<RIGHT>’ (‘org-timestamp-up-day’)
      Change date at point by one day.
 
-‘S-<UP>’
-‘S-<DOWN>’
+‘S-<UP>’ (‘org-timestamp-up’), ‘S-<DOWN>’ (‘org-timestamp-down’)
      On the beginning or enclosing bracket of a timestamp, change its
      type.  Within a timestamp, change the item under point.  Point can
      be on a year, month, day, hour or minute.  When the timestamp
@@ -1216,8 +1225,8 @@ format.
 containing some date and/or time information, and intelligently
 interprets the string, deriving defaults for unspecified information
 from the current date and time.  You can also select a date in the
-pop-up calendar.  See the manual for more information on how exactly the
-date/time prompt works.
+pop-up calendar.  See the *note manual: (org)Top. for more information
+on how exactly the date/time prompt works.
 
 
 File: orgguide.info,  Node: Deadlines and Scheduling,  Next: Clocking Work Time,  Prev: Creating Timestamps,  Up: Dates and Times
@@ -1227,12 +1236,12 @@ File: orgguide.info,  Node: Deadlines and Scheduling,  Next: Clocking Work Time,
 
 A timestamp may be preceded by special keywords to facilitate planning:
 
-‘C-c C-d’
+‘C-c C-d’ (‘org-deadline’)
      Insert ‘DEADLINE’ keyword along with a time stamp, in the line
      following the headline.
 
-     Meaning: the task—most likely a TODO item, though not
-     necessarily—is supposed to be finished on that date.
+     Meaning: the task--most likely a TODO item, though not
+     necessarily--is supposed to be finished on that date.
 
      On the deadline date, the task is listed in the agenda.  In
      addition, the agenda for _today_ carries a warning about the
@@ -1244,7 +1253,7 @@ A timestamp may be preceded by special keywords to facilitate planning:
               DEADLINE: <2004-02-29 Sun>
               The editor in charge is [[bbdb:Ford Prefect]]
 
-‘C-c C-s’
+‘C-c C-s’ (‘org-schedule’)
      Insert ‘SCHEDULED’ keyword along with a stamp, in the line
      following the headline.
 
@@ -1289,33 +1298,32 @@ File: orgguide.info,  Node: Clocking Work Time,  Prev: Deadlines and Scheduling,
 Org mode allows you to clock the time you spend on specific tasks in a
 project.
 
-‘C-c C-x C-i’
+‘C-c C-x C-i’ (‘org-clock-in’)
      Start the clock on the current item (clock-in).  This inserts the
      ‘CLOCK’ keyword together with a timestamp.  When called with a
      ‘C-u’ prefix argument, select the task from a list of recently
      clocked tasks.
 
-‘C-c C-x C-o’
+‘C-c C-x C-o’ (‘org-clock-out’)
      Stop the clock (clock-out).  This inserts another timestamp at the
      same location where the clock was last started.  It also directly
-     computes the resulting time in inserts it after the time range as
+     computes the resulting time and inserts it after the time range as
      ‘=>HH:MM’.
 
-‘C-c C-x C-e’
+‘C-c C-x C-e’ (‘org-clock-modify-effort-estimate’)
      Update the effort estimate for the current clock task.
 
-‘C-c C-x C-q’
+‘C-c C-x C-q’ (‘org-clock-cancel’)
      Cancel the current clock.  This is useful if a clock was started by
      mistake, or if you ended up working on something else.
 
-‘C-c C-x C-j’
+‘C-c C-x C-j’ (‘org-clock-goto’)
      Jump to the headline of the currently clocked in task.  With a
      ‘C-u’ prefix argument, select the target task from a list of
      recently clocked tasks.
 
-   The ‘l’ key may be used in the agenda (see [BROKEN LINK: *The
-Weekly/daily Agenda]) to show which tasks have been worked on or closed
-during a day.
+   The ‘l’ key may be used in the agenda (see *note Built-in Agenda
+Views::) to show which tasks have been worked on or closed during a day.
 
 
 File: orgguide.info,  Node: Capture Refile Archive,  Next: Agenda Views,  Prev: Dates and Times,  Up: Top
@@ -1360,21 +1368,21 @@ The following customization sets a default target(1) file for notes.
 Using capture
 -------------
 
-‘M-x org-capture’
+‘M-x org-capture’ (‘org-capture’)
      Start a capture process, placing you into a narrowed indirect
      buffer to edit.
 
-‘C-c C-c’
+‘C-c C-c’ (‘org-capture-finalize’)
      Once you have finished entering information into the capture
      buffer, ‘C-c C-c’ returns you to the window configuration before
      the capture process, so that you can resume your work without
      further distraction.
 
-‘C-c C-w’
+‘C-c C-w’ (‘org-capture-refile’)
      Finalize the capture process by refiling the note to a different
      place (see *note Refile and Copy::).
 
-‘C-c C-k’
+‘C-c C-k’ (‘org-capture-kill’)
      Abort the capture process and return to the previous state.
 
 Capture templates
@@ -1401,7 +1409,7 @@ template for you like this:
 
 During expansion of the template, special %-escapes(2) allow dynamic
 insertion of content.  Here is a small selection of the possibilities,
-consult the manual for more.
+consult the *note manual: (org)Top. for more.
 
 ‘%a’         annotation, normally the link created with ‘org-store-link’
 ‘%i’         initial content, the region when capture is called with ‘C-u’
@@ -1429,7 +1437,7 @@ Cutting, finding the right location, and then pasting the note is
 cumbersome.  To simplify this process, you can use the following special
 command:
 
-‘C-c C-w’
+‘C-c C-w’ (‘org-agenda-refile’)
      Refile the entry or region at point.  This command offers possible
      locations for refiling the entry and lets you select one with
      completion.  The item (or all items in the region) is filed below
@@ -1440,13 +1448,13 @@ command:
      across a number of files.  See the variable ‘org-refile-targets’
      for details.
 
-‘C-u C-c C-w’
+‘C-u C-c C-w’ (‘org-agenda-refile’)
      Use the refile interface to jump to a heading.
 
-‘C-u C-u C-c C-w’
+‘C-u C-u C-c C-w’ (‘org-refile-goto-last-stored’)
      Jump to the location where ‘org-refile’ last moved a tree to.
 
-‘C-c M-w’
+‘C-c M-w’ (‘org-refile-copy’)
      Copying works like refiling, except that the original note is not
      deleted.
 
@@ -1464,11 +1472,11 @@ global searches like the construction of agenda views fast.
    The most common archiving action is to move a project tree to another
 file, the archive file.
 
-‘C-c C-x C-a’
+‘C-c C-x C-a’ (‘org-archive-subtree-default’)
      Archive the current entry using the command specified in the
      variable ‘org-archive-default-command’.
 
-‘C-c C-x C-s’ or short ‘C-c $’
+‘C-c C-x C-s’ or short ‘C-c $’ (‘org-archive-subtree’)
      Archive the subtree starting at point position to the location
      given by ‘org-archive-location’.
 
@@ -1524,17 +1532,17 @@ File: orgguide.info,  Node: Agenda Files,  Next: Agenda Dispatcher,  Up: Agenda 
 The information to be shown is normally collected from all _agenda
 files_, the files listed in the variable ‘org-agenda-files’.
 
-‘C-c [’
+‘C-c [’ (‘org-agenda-file-to-front’)
      Add current file to the list of agenda files.  The file is added to
      the front of the list.  If it was already in the list, it is moved
      to the front.  With a prefix argument, file is added/moved to the
      end.
 
-‘C-c ]’
+‘C-c ]’ (‘org-remove-file’)
      Remove current file from the list of agenda files.
 
 ‘C-'’
-‘C-,’
+‘C-,’ (‘org-cycle-agenda-files’)
      Cycle through agenda file list, visiting one file after the other.
 
 
@@ -1550,15 +1558,13 @@ execute a command.  The dispatcher offers the following default
 commands:
 
 ‘a’
-     Create the calendar-like agenda (see [BROKEN LINK: *The
-     Weekly/daily Agenda]).
+     Create the calendar-like agenda (see *note Built-in Agenda
+     Views::).
 
-‘t’
-‘T’
+‘t’, ‘T’
      Create a list of all TODO items (see *note Global TODO List::).
 
-‘m’
-‘M’
+‘m’, ‘M’
      Create a list of headlines matching a given expression (see *note
      Matching Tags and Properties::).
 
@@ -1576,7 +1582,7 @@ File: orgguide.info,  Node: Built-in Agenda Views,  Next: Global TODO List,  Pre
 The purpose of the weekly/daily _agenda_ is to act like a page of a
 paper agenda, showing all the tasks for the current week or day.
 
-‘M-x org-agenda a’
+‘M-x org-agenda a’ (‘org-agenda-list’)
      Compile an agenda for the current week from a list of Org files.
      The agenda shows the entries for each day.
 
@@ -1611,11 +1617,11 @@ collected into a single place.  Remote editing of TODO items lets you
 can change the state of a TODO entry with a single key press.  For
 commands available in the TODO list, see *note Agenda Commands::.
 
-‘M-x org-agenda t’
+‘M-x org-agenda t’ (‘org-todo-list’)
      Show the global TODO list.  This collects the TODO items from all
      agenda files (see *note Agenda Views::) into a single buffer.
 
-‘M-x org-agenda T’
+‘M-x org-agenda T’ (‘org-todo-list’)
      Like the above, but allows selection of a specific TODO keyword.
 
 
@@ -1630,7 +1636,7 @@ headlines based on this metadata and collect them into an agenda buffer.
 The match syntax described here also applies when creating sparse trees
 with ‘C-c / m’.
 
-‘M-x org-agenda m’
+‘M-x org-agenda m’ (‘org-tags-view’)
      Produce a list of all headlines that match a given set of tags.
      The command prompts for a selection criterion, which is a boolean
      logic expression with tags, like ‘+work+urgent-withboss’ or
@@ -1638,7 +1644,7 @@ with ‘C-c / m’.
      search, define a custom command for it (see *note Agenda
      Dispatcher::).
 
-‘M-x org-agenda M’
+‘M-x org-agenda M’ (‘org-tags-view’)
      Like ‘m’, but only select headlines that are also TODO items.
 
    A search string can use Boolean operators ‘&’ for AND and ‘|’ for OR.
@@ -1663,7 +1669,7 @@ tags.
      ‘night’.
 
    You may also test for properties at the same time as matching tags,
-see the manual for more information.
+see the *note manual: (org)Top. for more information.
 
 
 File: orgguide.info,  Node: Search View,  Next: Agenda Commands,  Prev: Matching Tags and Properties,  Up: Agenda Views
@@ -1700,71 +1706,70 @@ File: orgguide.info,  Node: Agenda Commands,  Next: Custom Agenda Views,  Prev: 
 Entries in the agenda buffer are linked back to the Org file or diary
 file where they originate.  You are not allowed to edit the agenda
 buffer itself, but commands are provided to show and jump to the
-original entry location, and to edit the Org files “remotely” from the
+original entry location, and to edit the Org files "remotely" from the
 agenda buffer.  This is just a selection of the many commands, explore
-the agenda menu and the manual for a complete list.
+the agenda menu and the *note manual: (org)Top. for a complete list.
 
 Motion
 ------
 
-‘n’
+‘n’ (‘org-agenda-next-line’)
      Next line (same as ‘<DOWN>’ and ‘C-n’).
 
-‘p’
+‘p’ (‘org-agenda-previous-line’)
      Previous line (same as ‘<UP>’ and ‘C-p’).
 
 View/Go to Org file
 -------------------
 
-‘<SPC>’
+‘<SPC>’ (‘org-agenda-show-and-scroll-up’)
      Display the original location of the item in another window.  With
      a prefix argument, make sure that drawers stay folded.
 
-‘<TAB>’
+‘<TAB>’ (‘org-agenda-goto’)
      Go to the original location of the item in another window.
 
-‘<RET>’
+‘<RET>’ (‘org-agenda-switch-to’)
      Go to the original location of the item and delete other windows.
 
 Change display
 --------------
 
-‘o’
+‘o’ (‘delete-other-windows’)
      Delete other windows.
 
-‘v d’ or short ‘d’
+‘v d’ or short ‘d’ (‘org-agenda-day-view’)
      Switch to day view.
 
-‘v w’ or short ‘w’
+‘v w’ or short ‘w’ (‘org-agenda-week-view’)
      Switch to week view.
 
-‘f’
+‘f’ (‘org-agenda-later’)
      Go forward in time to display the span following the current one.
      For example, if the display covers a week, switch to the following
      week.
 
-‘b’
+‘b’ (‘org-agenda-earlier’)
      Go backward in time to display earlier dates.
 
-‘.’
+‘.’ (‘org-agenda-goto-today’)
      Go to today.
 
-‘j’
+‘j’ (‘org-agenda-goto-date’)
      Prompt for a date and go there.
 
-‘v l’ or ‘v L’ or short ‘l’
+‘v l’ or ‘v L’ or short ‘l’ (‘org-agenda-log-mode’)
      Toggle Logbook mode.  In Logbook mode, entries that were marked as
      done while logging was on (see the variable ‘org-log-done’) are
      shown in the agenda, as are entries that have been clocked on that
      day.  When called with a ‘C-u’ prefix argument, show all possible
      logbook entries, including state changes.
 
-‘r’
-‘g’
+‘r’, ‘g’ (‘org-agenda-redo’)
      Recreate the agenda buffer, for example to reflect the changes
      after modification of the timestamps of items.
 
-‘s’
+‘s’ (‘org-save-all-org-buffers’)
      Save all Org buffers in the current Emacs session, and also the
      locations of IDs.
 
@@ -1774,59 +1779,59 @@ Remote editing
 ‘0--9’
      Digit argument.
 
-‘t’
+‘t’ (‘org-agenda-todo’)
      Change the TODO state of the item, both in the agenda and in the
      original Org file.
 
-‘C-k’
+‘C-k’ (‘org-agenda-kill’)
      Delete the current agenda item along with the entire subtree
      belonging to it in the original Org file.
 
-‘C-c C-w’
+‘C-c C-w’ (‘org-agenda-refile’)
      Refile the entry at point.
 
-‘a’
+‘a’ (‘org-agenda-archive-default-with-confirmation’)
      Archive the subtree corresponding to the entry at point using the
      default archiving command set in ‘org-archive-default-command’.
 
-‘$’
+‘$’ (‘org-agenda-archive’)
      Archive the subtree corresponding to the current headline.
 
-‘C-c C-s’
+‘C-c C-s’ (‘org-agenda-schedule’)
      Schedule this item.  With a prefix argument, remove the scheduling
      timestamp
 
-‘C-c C-d’
+‘C-c C-d’ (‘org-agenda-deadline’)
      Set a deadline for this item.  With a prefix argument, remove the
      deadline.
 
-‘S-<RIGHT>’
+‘S-<RIGHT>’ (‘org-agenda-do-date-later’)
      Change the timestamp associated with the current line by one day
      into the future.
 
-‘S-<LEFT>’
+‘S-<LEFT>’ (‘org-agenda-do-date-earlier’)
      Change the timestamp associated with the current line by one day
      into the past.
 
-‘I’
+‘I’ (‘org-agenda-clock-in’)
      Start the clock on the current item.
 
-‘O’
+‘O’ (‘org-agenda-clock-out’)
      Stop the previously started clock.
 
-‘X’
+‘X’ (‘org-agenda-clock-cancel’)
      Cancel the currently running clock.
 
-‘J’
+‘J’ (‘org-agenda-clock-goto’)
      Jump to the running clock in another window.
 
 Quit and exit
 -------------
 
-‘q’
+‘q’ (‘org-agenda-quit’)
      Quit agenda, remove the agenda buffer.
 
-‘x’
+‘x’ (‘org-agenda-exit’)
      Exit agenda, remove the agenda buffer and all buffers loaded by
      Emacs for the compilation of the agenda.
 
@@ -2031,14 +2036,14 @@ For example:
 
    The following commands handle footnotes:
 
-‘C-c C-x f’
+‘C-c C-x f’ (‘org-footnote-action’)
      The footnote action command.  When point is on a footnote
      reference, jump to the definition.  When it is at a definition,
      jump to the (first) reference.  Otherwise, create a new footnote.
      When this command is called with a prefix argument, a menu of
      additional options including renumbering is offered.
 
-‘C-c C-c’
+‘C-c C-c’ (‘org-ctrl-c-ctrl-c’)
      Jump between definition and reference.
 
 
@@ -2069,11 +2074,11 @@ File: orgguide.info,  Node: The Export Dispatcher,  Next: Export Settings,  Up: 
 12.1 The Export Dispatcher
 ==========================
 
-The export dispatcher is the main interface for Org’s exports.  A
+The export dispatcher is the main interface for Org's exports.  A
 hierarchical menu presents the currently configured export formats.
 Options are shown as easy toggle switches on the same screen.
 
-‘C-c C-e’
+‘C-c C-e’ (‘org-export-dispatch’)
      Invokes the export dispatcher interface.
 
    Org exports the entire buffer by default.  If the Org buffer has an
@@ -2090,7 +2095,7 @@ additional information.  These lines may be put anywhere in the file:
 
      #+TITLE: I'm in the Mood for Org
 
-   Most proeminent export options include:
+   Most prominent export options include:
 
 ‘TITLE’      the title to be shown
 ‘AUTHOR’     the author (default taken from ‘user-full-name’)
@@ -2156,7 +2161,7 @@ are not exported.
 any other keyword or priority cookie, comments out the entire subtree.
 The command below helps changing the comment status of a headline.
 
-‘C-c ;’
+‘C-c ;’ (‘org-toggle-comment’)
      Toggle the ‘COMMENT’ keyword at the beginning of an entry.
 
 
@@ -2170,8 +2175,7 @@ characters.  This is the simplest and most direct text output.  It does
 not contain any Org markup.  UTF-8 export uses additional characters and
 symbols available in this encoding standards.
 
-‘C-c C-e t a’
-‘C-c C-e t u’
+‘C-c C-e t a’, ‘C-c C-e t u’ (‘org-ascii-export-to-ascii’)
      Export as an ASCII file with a ‘.txt’ extension.  For ‘myfile.org’,
      Org exports to ‘myfile.txt’, overwriting without warning.  For
      ‘myfile.txt’, Org exports to ‘myfile.txt.txt’ in order to prevent
@@ -2186,13 +2190,13 @@ File: orgguide.info,  Node: HTML Export,  Next: LaTeX Export,  Prev: ASCII/UTF-8
 Org mode contains an HTML exporter with extensive HTML formatting
 compatible with XHTML 1.0 strict standard.
 
-‘C-c C-e h h’
+‘C-c C-e h h’ (‘org-html-export-to-html’)
      Export as HTML file with a ‘.html’ extension.  For ‘myfile.org’,
      Org exports to ‘myfile.html’, overwriting without warning.  ‘C-c
      C-e h o’ exports to HTML and opens it in a web browser.
 
-   The HTML export back-end transforms ‘<’ and ‘>’ to ‘&lt;’ and ‘&gt;’.
-To include raw HTML code in the Org file so the HTML export back-end can
+   The HTML export backend transforms ‘<’ and ‘>’ to ‘&lt;’ and ‘&gt;’.
+To include raw HTML code in the Org file so the HTML export backend can
 insert that HTML code in the output, use this inline syntax:
 ‘@@html:...@@’.  For example:
 
@@ -2212,7 +2216,7 @@ File: orgguide.info,  Node: LaTeX Export,  Next: iCalendar Export,  Prev: HTML E
 12.8 LaTeX Export
 =================
 
-The LaTeX export back-end can handle complex documents, incorporate
+The LaTeX export backend can handle complex documents, incorporate
 standard or custom LaTeX document classes, generate documents using
 alternate LaTeX engines, and produce fully linked PDF files with
 indexes, bibliographies, and tables of contents, destined for
@@ -2222,18 +2226,18 @@ interactive online viewing or high-quality print publication.
 change this by adding an option like ‘#+LATEX_CLASS: myclass’ in your
 file.  The class must be listed in ‘org-latex-classes’.
 
-‘C-c C-e l l’
+‘C-c C-e l l’ (‘org-latex-export-to-latex’)
      Export to a LaTeX file with a ‘.tex’ extension.  For ‘myfile.org’,
      Org exports to ‘myfile.tex’, overwriting without warning.
 
-‘C-c C-e l p’
+‘C-c C-e l p’ (‘org-latex-export-to-pdf’)
      Export as LaTeX file and convert it to PDF file.
 
-‘C-c C-e l o’
+‘C-c C-e l o’ (‘<no corresponding named command>’)
      Export as LaTeX file and convert it to PDF, then open the PDF using
      the default viewer.
 
-   The LaTeX export back-end can insert any arbitrary LaTeX code, see
+   The LaTeX export backend can insert any arbitrary LaTeX code, see
 *note Embedded LaTeX::.  There are three ways to embed such code in the
 Org file and they all use different quoting syntax.
 
@@ -2245,7 +2249,7 @@ Org file and they all use different quoting syntax.
 
      #+LATEX: any arbitrary LaTeX code
 
-   Inserting as an export block in the Org file, where the back-end
+   Inserting as an export block in the Org file, where the backend
 exports any code between begin and end markers:
 
      #+BEGIN_EXPORT latex
@@ -2258,16 +2262,16 @@ File: orgguide.info,  Node: iCalendar Export,  Prev: LaTeX Export,  Up: Exportin
 12.9 iCalendar Export
 =====================
 
-A large part of Org mode’s interoperability success is its ability to
+A large part of Org mode's interoperability success is its ability to
 easily export to or import from external applications.  The iCalendar
-export back-end takes calendar data from Org files and exports to the
+export backend takes calendar data from Org files and exports to the
 standard iCalendar format.
 
-‘C-c C-e c f’
+‘C-c C-e c f’ (‘org-icalendar-export-to-ics’)
      Create iCalendar entries from the current Org buffer and store them
      in the same directory, using a file extension ‘.ics’.
 
-‘C-c C-e c c’
+‘C-c C-e c c’ (‘org-icalendar-combine-agenda-files’)
      Create a combined iCalendar file from Org files in
      ‘org-agenda-files’ and write it to
      ‘org-icalendar-combined-agenda-file’ file name.
@@ -2288,8 +2292,8 @@ files, to a web server.
 and PDF conversion so that files are available in both formats on the
 server.
 
-   For detailed instructions about setup, see the manual.  Here is an
-example:
+   For detailed instructions about setup, see the *note manual:
+(org)Top.  Here is an example:
 
      (setq org-publish-project-alist
            '(("org"
@@ -2302,17 +2306,17 @@ example:
                          href=\"../other/mystyle.css\"
                          type=\"text/css\"/>")))
 
-‘C-c C-e P x’
+‘C-c C-e P x’ (‘org-publish’)
      Prompt for a specific project and publish all files that belong to
      it.
 
-‘C-c C-e P p’
+‘C-c C-e P p’ (‘org-publish-current-project’)
      Publish the project containing the current file.
 
-‘C-c C-e P f’
+‘C-c C-e P f’ (‘org-publish-current-file’)
      Publish only the current file.
 
-‘C-c C-e P a’
+‘C-c C-e P a’ (‘org-publish-all’)
      Publish every project.
 
    Org uses timestamps to track when a file has changed.  The above
@@ -2361,7 +2365,7 @@ Using header arguments
 ======================
 
 A header argument is specified with an initial colon followed by the
-argument’s name in lowercase.
+argument's name in lowercase.
 
    Header arguments can be set in several ways; Org prioritizes them in
 case of overlaps or conflicts by giving local settings a higher
@@ -2374,7 +2378,7 @@ System-wide header arguments
 
 Header arguments in properties
      You can set them using ‘header-args’ property (see *note
-     Properties::)—or ‘header-args:LANG’ for language LANG.  Header
+     Properties::)--or ‘header-args:LANG’ for language LANG.  Header
      arguments set through properties drawers apply at the sub-tree
      level on down.
 
@@ -2398,7 +2402,8 @@ Use ‘C-c C-c’ to evaluate the current code block and insert its results
 in the Org document.  By default, evaluation is only turned on for
 ‘emacs-lisp’ code blocks, however support exists for evaluating blocks
 in many languages.  For a complete list of supported languages see the
-manual.  The following shows a code block and its results.
+*note manual: (org)Top.  The following shows a code block and its
+results.
 
      #+BEGIN_SRC emacs-lisp
        (+ 1 2 3 4)
@@ -2414,8 +2419,8 @@ the ‘var’ header argument.
 
 NAME is the name of the variable bound in the code block body.  ASSIGN
 is a literal value, such as a string, a number, a reference to a table,
-a list, a literal example, another code block—with or without
-arguments—or the results of evaluating a code block.
+a list, a literal example, another code block--with or without
+arguments--or the results of evaluating a code block.
 
 Results of evaluation
 =====================
@@ -2442,10 +2447,10 @@ Handling
      How to insert the results once properly formatted.  Allowed values
      are ‘silent’, ‘replace’ (the default), ‘append’, or ‘prepend’.
 
-   Code blocks which output results to files—e.g.: graphs, diagrams and
-figures—can accept a ‘:file FILENAME’ header argument, in which case the
-results are saved to the named file, and a link to the file is inserted
-into the buffer.
+   Code blocks which output results to files--e.g.: graphs, diagrams and
+figures--can accept a ‘:file FILENAME’ header argument, in which case
+the results are saved to the named file, and a link to the file is
+inserted into the buffer.
 
 Exporting code blocks
 =====================
@@ -2464,11 +2469,11 @@ Extracting source code
 
 Use ‘C-c C-v t’ to create pure source code files by extracting code from
 source blocks in the current buffer.  This is referred to as
-“tangling”—a term adopted from the literate programming community.
+"tangling"--a term adopted from the literate programming community.
 During tangling of code blocks their bodies are expanded using
-‘org-babel-expand-src-block’, which can expand both variable and “Noweb”
+‘org-babel-expand-src-block’, which can expand both variable and "Noweb"
 style references.  In order to tangle a code block it must have a
-‘tangle’ header argument, see the manual for details.
+‘tangle’ header argument, see the *note manual: (org)Top. for details.
 
 
 File: orgguide.info,  Node: Miscellaneous,  Prev: Working with Source Code,  Up: Top
@@ -2493,14 +2498,14 @@ Structure Templates
 To quickly insert empty structural blocks, such as ‘#+BEGIN_SRC’ ...
 ‘#+END_SRC’, or to wrap existing text in such a block, use
 
-‘C-c C-,’
+‘C-c C-,’ (‘org-insert-structure-template’)
      Prompt for a type of block structure, and insert the block at
      point.  If the region is active, it is wrapped in the block.
 
 Clean view
 ==========
 
-Org’s default outline with stars and no indents can become too cluttered
+Org's default outline with stars and no indents can become too cluttered
 for short documents.  For _book-like_ long documents, the effect is not
 as noticeable.  Org provides an alternate stars and indentation scheme,
 as shown on the right in the following table.  It uses only one star and
@@ -2531,112 +2536,112 @@ file, use
 
      #+STARTUP: hidestars odd
 
-
 
 Tag Table:
-Node: Top922
-Node: Introduction5668
-Ref: Installation6354
-Ref: Activation7066
-Ref: Feedback7509
-Node: Document Structure7743
-Node: Headlines8814
-Ref: Headlines-Footnote-19696
-Node: Visibility Cycling9819
-Node: Motion11094
-Node: Structure Editing11516
-Ref: Structure Editing-Footnote-112710
-Node: Sparse Trees12814
-Ref: Sparse Trees-Footnote-113882
-Node: Plain Lists13997
-Node: Tables16503
-Ref: Creation and conversion18196
-Ref: Re-aligning and field motion18748
-Ref: Column and row editing19264
-Node: Hyperlinks20269
-Ref: Internal links21027
-Ref: External Links21480
-Ref: Handling Links23310
-Node: TODO Items24699
-Node: TODO Basics25676
-Node: Multi-state Workflow27071
-Node: Progress Logging28867
-Ref: Closing items29614
-Ref: Tracking TODO state changes30169
-Ref: Progress Logging-Footnote-131168
-Ref: Progress Logging-Footnote-231241
-Node: Priorities31319
-Node: Breaking Down Tasks32215
-Node: Checkboxes33018
-Node: Tags34078
-Ref: Tag inheritance34703
-Ref: Setting tags35441
-Ref: Tag groups37161
-Ref: Tag searches37957
-Ref: Tags-Footnote-139049
-Node: Properties39153
-Node: Dates and Times40912
-Node: Timestamps41514
-Node: Creating Timestamps43571
-Node: Deadlines and Scheduling45232
-Ref: Deadlines and Scheduling-Footnote-147256
-Ref: Deadlines and Scheduling-Footnote-247417
-Node: Clocking Work Time47580
-Node: Capture Refile Archive48893
-Node: Capture49701
-Ref: Setting up capture50003
-Ref: Using capture50274
-Ref: Capture templates50869
-Ref: Capture-Footnote-152285
-Ref: Capture-Footnote-252396
-Node: Refile and Copy52487
-Node: Archiving53685
-Node: Agenda Views54997
-Node: Agenda Files56452
-Node: Agenda Dispatcher57112
-Node: Built-in Agenda Views58042
-Node: Global TODO List59131
-Node: Matching Tags and Properties59848
-Node: Search View61817
-Node: Agenda Commands62927
-Ref: Motion (1)63513
-Ref: View/Go to Org file63654
-Ref: Change display64001
-Ref: Remote editing65089
-Ref: Quit and exit66280
-Node: Custom Agenda Views66486
-Node: Markup67962
-Node: Paragraphs68788
-Node: Emphasis and Monospace69910
-Node: Embedded LaTeX70328
-Node: Literal examples71197
-Node: Images72287
-Node: Creating Footnotes72888
-Node: Exporting73808
-Node: The Export Dispatcher74684
-Node: Export Settings75214
-Node: Table of Contents76039
-Node: Include Files76772
-Node: Comment Lines77458
-Node: ASCII/UTF-8 Export78156
-Node: HTML Export78855
-Node: LaTeX Export79863
-Node: iCalendar Export81502
-Node: Publishing82203
-Node: Working with Source Code83805
-Ref: Using header arguments85072
-Ref: Evaluating code blocks86250
-Ref: Results of evaluation87125
-Ref: Exporting code blocks88347
-Ref: Extracting source code88811
-Node: Miscellaneous89338
-Ref: Completion89461
-Ref: Structure Templates89798
-Ref: Clean view90124
+Node: Top907
+Node: Introduction5635
+Ref: Installation6322
+Ref: Activation7034
+Ref: Feedback7477
+Node: Document Structure7734
+Node: Headlines8808
+Ref: Headlines-Footnote-19706
+Node: Visibility Cycling9829
+Node: Motion11229
+Node: Structure Editing11823
+Ref: Structure Editing-Footnote-113259
+Node: Sparse Trees13363
+Ref: Sparse Trees-Footnote-114473
+Node: Plain Lists14593
+Node: Tables17385
+Ref: Creation and conversion19078
+Ref: Re-aligning and field motion19678
+Ref: Column and row editing20441
+Node: Hyperlinks21792
+Ref: Internal links22550
+Ref: External Links23003
+Ref: Handling Links24832
+Node: TODO Items26322
+Node: TODO Basics27299
+Node: Multi-state Workflow28832
+Node: Progress Logging30622
+Ref: Closing items31384
+Ref: Tracking TODO state changes31939
+Ref: Progress Logging-Footnote-132938
+Ref: Progress Logging-Footnote-233011
+Node: Priorities33089
+Node: Breaking Down Tasks34006
+Node: Checkboxes34809
+Node: Tags35946
+Ref: Tag inheritance36589
+Ref: Setting tags37327
+Ref: Tag groups39105
+Ref: Tag searches39899
+Ref: Tags-Footnote-140979
+Node: Properties41083
+Node: Dates and Times42895
+Node: Timestamps43932
+Node: Creating Timestamps46686
+Node: Deadlines and Scheduling48531
+Ref: Deadlines and Scheduling-Footnote-150595
+Ref: Deadlines and Scheduling-Footnote-250756
+Node: Clocking Work Time50919
+Node: Capture Refile Archive52355
+Node: Capture53163
+Ref: Setting up capture53465
+Ref: Using capture53736
+Ref: Capture templates54432
+Ref: Capture-Footnote-155865
+Ref: Capture-Footnote-255976
+Node: Refile and Copy56067
+Node: Archiving57377
+Node: Agenda Views58753
+Node: Agenda Files60208
+Node: Agenda Dispatcher60956
+Node: Built-in Agenda Views61878
+Node: Global TODO List62991
+Node: Matching Tags and Properties63752
+Node: Search View65782
+Node: Agenda Commands66892
+Ref: Motion (1)67491
+Ref: View/Go to Org file67694
+Ref: Change display68132
+Ref: Remote editing69503
+Ref: Quit and exit71091
+Node: Custom Agenda Views71345
+Node: Markup72821
+Node: Paragraphs73647
+Node: Emphasis and Monospace74769
+Node: Embedded LaTeX75187
+Node: Literal examples76056
+Node: Images77146
+Node: Creating Footnotes77747
+Node: Exporting78721
+Node: The Export Dispatcher79597
+Node: Export Settings80153
+Node: Table of Contents80977
+Node: Include Files81710
+Node: Comment Lines82396
+Node: ASCII/UTF-8 Export83121
+Node: HTML Export83855
+Node: LaTeX Export84893
+Node: iCalendar Export86636
+Node: Publishing87413
+Node: Working with Source Code89144
+Ref: Using header arguments90411
+Ref: Evaluating code blocks91586
+Ref: Results of evaluation92475
+Ref: Exporting code blocks93695
+Ref: Extracting source code94159
+Node: Miscellaneous94694
+Ref: Completion94817
+Ref: Structure Templates95154
+Ref: Clean view95518
 
 End Tag Table
 
 
 Local Variables:
 coding: utf-8
+Info-documentlanguage: en
 End:

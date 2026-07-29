@@ -1,10 +1,10 @@
 ;;; ol-bbdb.el --- Links to BBDB entries             -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2004-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2004-2026 Free Software Foundation, Inc.
 
 ;; Authors: Carsten Dominik <carsten.dominik@gmail.com>
 ;;       Thomas Baumann <thomas dot baumann at ch dot tum dot de>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 ;; URL: https://orgmode.org
 ;;
 ;; This file is part of GNU Emacs.
@@ -93,10 +93,15 @@
 ;;
 ;;; Code:
 
+(require 'org-macs)
+(org-assert-version)
+
 (require 'cl-lib)
 (require 'org-compat)
 (require 'org-macs)
 (require 'ol)
+
+(require 'calendar)
 
 ;;; Declare functions and variables
 
@@ -111,7 +116,6 @@
 (declare-function bbdb-records "ext:bbdb" (&optional dont-check-disk already-in-db-buffer))
 (declare-function bbdb-split "ext:bbdb" (string separators))
 (declare-function bbdb-string-trim "ext:bbdb" (string))
-(declare-function bbdb-record-get-field "ext:bbdb" (record field))
 (declare-function bbdb-search-name "ext:bbdb-com" (regexp &optional layout))
 (declare-function bbdb-search-organization "ext:bbdb-com" (regexp &optional layout))
 
@@ -119,10 +123,6 @@
 (declare-function bbdb-record-note "ext:bbdb" (record label))
 ;; `bbdb-record-xfield' replaces it in recent BBDB v3.x+
 (declare-function bbdb-record-xfield "ext:bbdb" (record label))
-
-(declare-function calendar-absolute-from-gregorian "calendar" (date))
-(declare-function calendar-gregorian-from-absolute "calendar" (date))
-(declare-function calendar-leap-year-p "calendar" (year))
 
 (declare-function diary-ordinal-suffix "diary-lib" (n))
 
@@ -132,7 +132,7 @@
 
 (defgroup org-bbdb-anniversaries nil
   "Customizations for including anniversaries from BBDB into Agenda."
-  :group 'org-bbdb)
+  :group 'org-agenda)
 
 (defcustom org-bbdb-default-anniversary-format "birthday"
   "Default anniversary class."
@@ -219,11 +219,12 @@ date year)."
 			 :follow #'org-bbdb-open
 			 :export #'org-bbdb-export
 			 :complete #'org-bbdb-complete-link
+                         :insert-description #'org-bbdb-describe-link
 			 :store #'org-bbdb-store-link)
 
 ;;; Implementation
 
-(defun org-bbdb-store-link ()
+(defun org-bbdb-store-link (&optional _interactive?)
   "Store a link to a BBDB database entry."
   (when (eq major-mode 'bbdb-mode)
     ;; This is BBDB, we make this link!
@@ -252,7 +253,7 @@ italicized, in all other cases it is left unchanged."
 
 (defun org-bbdb-open (name _)
   "Follow a BBDB link to NAME."
-  (require 'bbdb-com)
+  (org-require-package 'bbdb-com "bbdb")
   (let ((inhibit-redisplay (not debug-on-error)))
     (if (fboundp 'bbdb-name)
 	(org-bbdb-open-old name)
@@ -366,7 +367,7 @@ This is used by Org to re-create the anniversary hash table."
   "Extract anniversaries from BBDB for display in the agenda.
 When called programmatically, this function expects the `date'
 variable to be globally bound."
-  (require 'bbdb)
+  (org-require-package 'bbdb)
   (require 'diary-lib)
   (unless (hash-table-p org-bbdb-anniv-hash)
     (setq org-bbdb-anniv-hash
@@ -376,9 +377,9 @@ variable to be globally bound."
             (= 0 (hash-table-count org-bbdb-anniv-hash)))
     (org-bbdb-make-anniv-hash))
 
-  (let* ((m (car date))    ; month
-         (d (nth 1 date))  ; day
-         (y (nth 2 date))  ; year
+  (let* ((m (calendar-extract-month date))
+         (d (calendar-extract-day date))
+         (y (calendar-extract-year date))
          (annivs (gethash (list m d) org-bbdb-anniv-hash))
          (text ())
          rec recs)
@@ -496,17 +497,23 @@ must be positive"))
 	      dates)))))
 
 (defun org-bbdb-complete-link ()
-  "Read a bbdb link with name completion."
-  (require 'bbdb-com)
+  "Read a BBDB link with name completion."
+  (org-require-package 'bbdb-com "bbdb")
   (let ((rec (bbdb-completing-read-record "Name: ")))
     (concat "bbdb:"
 	    (bbdb-record-name (if (listp rec)
 				  (car rec)
 				rec)))))
 
+(defun org-bbdb-describe-link (link desc)
+  "Return a description for a BBDB link."
+  (or (org-string-nw-p desc)
+      (if (string-prefix-p "bbdb:" link)
+          (string-remove-prefix "bbdb:" link))))
+
 (defun org-bbdb-anniv-export-ical ()
   "Extract anniversaries from BBDB and convert them to icalendar format."
-  (require 'bbdb)
+  (org-require-package 'bbdb)
   (require 'diary-lib)
   (unless (hash-table-p org-bbdb-anniv-hash)
     (setq org-bbdb-anniv-hash

@@ -1,9 +1,9 @@
 ;;; ol-docview.el --- Links to Docview mode buffers  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2009-2026 Free Software Foundation, Inc.
 
 ;; Author: Jan Böcker <jan.boecker at jboecker dot de>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 ;; URL: https://orgmode.org
 ;;
 ;; This file is part of GNU Emacs.
@@ -42,11 +42,12 @@
 
 ;;; Code:
 
+(require 'org-macs)
+(org-assert-version)
 
 (require 'doc-view)
 (require 'ol)
 
-(declare-function doc-view-goto-page "doc-view" (page))
 (declare-function image-mode-window-get "image-mode" (prop &optional winprops))
 (declare-function org-open-file "org" (path &optional in-emacs line search))
 
@@ -55,20 +56,21 @@
 			 :export #'org-docview-export
 			 :store #'org-docview-store-link)
 
-(defun org-docview-export (link description format)
-  "Export a docview link from Org files."
+(defun org-docview-export (link description backend _info)
+  "Export a docview LINK with DESCRIPTION for BACKEND."
   (let ((path (if (string-match "\\(.+\\)::.+" link) (match-string 1 link)
 		link))
         (desc (or description link)))
     (when (stringp path)
       (setq path (expand-file-name path))
       (cond
-       ((eq format 'html) (format "<a href=\"%s\">%s</a>" path desc))
-       ((eq format 'latex) (format "\\href{%s}{%s}" path desc))
-       ((eq format 'ascii) (format "%s (%s)" desc path))
+       ((eq backend 'html) (format "<a href=\"%s\">%s</a>" path desc))
+       ((eq backend 'latex) (format "\\href{%s}{%s}" path desc))
+       ((eq backend 'ascii) (format "[%s] (<%s>)" desc path))
        (t path)))))
 
 (defun org-docview-open (link _)
+  "Open docview: LINK."
   (string-match "\\(.*?\\)\\(?:::\\([0-9]+\\)\\)?$" link)
   (let ((path (match-string 1 link))
 	(page (and (match-beginning 2)
@@ -80,7 +82,7 @@
       (error "No such file: %s" path))
     (when page (doc-view-goto-page page))))
 
-(defun org-docview-store-link ()
+(defun org-docview-store-link (&optional _interactive?)
   "Store a link to a docview buffer."
   (when (eq major-mode 'doc-view-mode)
     ;; This buffer is in doc-view-mode
@@ -93,9 +95,10 @@
        :description path))))
 
 (defun org-docview-complete-link ()
-  "Use the existing file name completion for file.
-Links to get the file name, then ask the user for the page number
-and append it."
+  "Complete link from filename, asking for page number.
+
+Use the existing file name completion for file links to get the file name,
+then ask the user for the page number and append it."
   (concat (replace-regexp-in-string "^file:" "docview:" (org-link-complete-file))
 	  "::"
 	  (read-from-minibuffer "Page:" "1")))

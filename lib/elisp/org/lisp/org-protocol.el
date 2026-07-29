@@ -1,13 +1,13 @@
 ;;; org-protocol.el --- Intercept Calls from Emacsclient to Trigger Custom Actions -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2008-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2008-2026 Free Software Foundation, Inc.
 ;;
 ;; Authors: Bastien Guerry <bzg@gnu.org>
 ;;       Daniel M German <dmg AT uvic DOT org>
 ;;       Sebastian Rose <sebastian_rose AT gmx DOT de>
 ;;       Ross Patterson <me AT rpatterson DOT net>
 ;; Maintainer: Sebastian Rose <sebastian_rose AT gmx DOT de>
-;; Keywords: org, emacsclient, wp
+;; Keywords: org, emacsclient, text
 
 ;; This file is part of GNU Emacs.
 ;;
@@ -34,7 +34,10 @@
 ;; `org-protocol-protocol-alist' and `org-protocol-protocol-alist-default'.
 ;;
 ;; Any application that supports calling external programs with an URL
-;; as argument may be used with this functionality.
+;; as argument could use this functionality.  For example, you can
+;; configure bookmarks in your web browser to send a link to the
+;; current page to Org and create a note from it using `org-capture'.
+;; See Info node `(org) Protocols' for more information.
 ;;
 ;;
 ;; Usage:
@@ -42,16 +45,15 @@
 ;;
 ;;   1.) Add this to your init file (.emacs probably):
 ;;
-;;       (add-to-list 'load-path "/path/to/org-protocol/")
 ;;       (require 'org-protocol)
 ;;
-;;   3.) Ensure emacs-server is up and running.
-;;   4.) Try this from the command line (adjust the URL as needed):
+;;   2.) Ensure emacs-server is up and running.
+;;   3.) Try this from the command line (adjust the URL as needed):
 ;;
 ;;       $ emacsclient \
 ;;         "org-protocol://store-link?url=http:%2F%2Flocalhost%2Findex.html&title=The%20title"
 ;;
-;;   5.) Optionally add custom sub-protocols and handlers:
+;;   4.) Optionally, add custom sub-protocols and handlers:
 ;;
 ;;       (setq org-protocol-protocol-alist
 ;;             '(("my-protocol"
@@ -65,10 +67,11 @@
 ;; If it works, you can now setup other applications for using this feature.
 ;;
 ;;
-;; As of March 2009 Firefox users follow the steps documented on
-;; http://kb.mozillazine.org/Register_protocol, Opera setup is described here:
-;; http://www.opera.com/support/kb/view/535/
+;; Firefox users follow the steps documented on
+;; https://kb.mozillazine.org/Register_protocol, Opera setup is
+;; described here: http://www.opera.com/support/kb/view/535/
 ;;
+;; See also: https://orgmode.org/worg/org-contrib/org-protocol.html
 ;;
 ;; Documentation
 ;; -------------
@@ -98,15 +101,15 @@
 ;;           new URLSearchParams({
 ;;                 url: location.href,
 ;;                 title: document.title,
-;;                 body: window.getSelection()})
+;;                 body: window.getSelection()});void(0)
 ;;
 ;; Alternatively use the following expression that encodes space as \"%20\"
 ;; instead of \"+\", so it is compatible with Org versions from 9.0 to 9.4:
 ;;
-;;     location.href='org-protocol://sub-protocol?url='+
+;;     javascript:location.href='org-protocol://sub-protocol?url='+
 ;;           encodeURIComponent(location.href)+'&title='+
 ;;           encodeURIComponent(document.title)+'&body='+
-;;           encodeURIComponent(window.getSelection())
+;;           encodeURIComponent(window.getSelection());void(0)
 ;;
 ;; The handler for the sub-protocol \"capture\" detects an optional template
 ;; char that, if present, triggers the use of a special template.
@@ -124,17 +127,16 @@
 ;; Note that using double slashes is optional from org-protocol.el's point of
 ;; view because emacsclient squashes the slashes to one.
 ;;
-;;
-;; provides: 'org-protocol
-;;
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
 
 (require 'org)
 (require 'ol)
 
 (declare-function org-publish-get-project-from-filename "ox-publish"
 		  (filename &optional up))
-(declare-function server-edit "server" (&optional arg))
 
 (defvar org-capture-link-is-already-stored)
 (defvar org-capture-templates)
@@ -327,7 +329,7 @@ results of that splitting are returned as a list."
 Greedy handlers might receive a list like this from emacsclient:
 \((\"/dir/org-protocol:/greedy:/~/path1\" (23 . 12)) (\"/dir/param\"))
 where \"/dir/\" is the absolute path to emacsclient's working directory.  This
-function transforms it into a flat list using `org-protocol-flatten' and
+function transforms it into a flat list using `flatten-tree' and
 transforms the elements of that list as follows:
 
 If STRIP-PATH is non-nil, remove the \"/dir/\" prefix from all members of
@@ -342,9 +344,9 @@ Note, that this function will always behave as if
 `org-protocol-reverse-list-of-files' was set to t and the returned list will
 reflect that.  emacsclient's first parameter will be the first one in the
 returned list."
-  (let* ((l (org-protocol-flatten (if org-protocol-reverse-list-of-files
-				      param-list
-				    (reverse param-list))))
+  (let* ((l (org--flatten-tree (if org-protocol-reverse-list-of-files
+                              param-list
+                            (reverse param-list))))
 	 (trigger (car l))
 	 (len 0)
 	 dir
@@ -367,21 +369,15 @@ returned list."
 	  ret)
       l)))
 
-;; `flatten-tree' was added in Emacs 27.1.
-(defalias 'org-protocol-flatten
-  (if (fboundp 'flatten-tree) 'flatten-tree
-    (lambda (list)
-      "Transform LIST into a flat list.
+(define-obsolete-function-alias 'org-protocol-flatten
+  (if (fboundp 'flatten-tree) 'flatten-tree 'org--flatten-tree)
+  "9.7"
+  "Transform LIST into a flat list.
 
 Greedy handlers might receive a list like this from emacsclient:
 \((\"/dir/org-protocol:/greedy:/~/path1\" (23 . 12)) (\"/dir/param\"))
 where \"/dir/\" is the absolute path to emacsclients working directory.
-This function transforms it into a flat list."
-      (if list
-	  (if (consp list)
-	      (append (org-protocol-flatten (car list))
-		      (org-protocol-flatten (cdr list)))
-	    (list list))))))
+This function transforms it into a flat list.")
 
 (defun org-protocol-parse-parameters (info &optional new-style default-order)
   "Return a property list of parameters from INFO.
@@ -441,14 +437,14 @@ also recognized.
 The location for a browser's bookmark may look like this:
 
   javascript:location.href = \\='org-protocol://store-link?\\=' +
-       new URLSearchParams({url:location.href, title:document.title});
+       new URLSearchParams({url:location.href, title:document.title});void(0);
 
 or to keep compatibility with Org versions from 9.0 to 9.4 it may be:
 
   javascript:location.href = \\
       \\='org-protocol://store-link?url=\\=' + \\
       encodeURIComponent(location.href) + \\='&title=\\=' + \\
-      encodeURIComponent(document.title);
+      encodeURIComponent(document.title);void(0);
 
 Don't use `escape()'!  Use `encodeURIComponent()' instead.  The
 title of the page could contain slashes and the location
@@ -486,20 +482,21 @@ by `/'.  The location for a browser's bookmark looks like this:
         new URLSearchParams({
               url: location.href,
               title: document.title,
-              body: window.getSelection()})
+              body: window.getSelection()});void(0)
 
 or to keep compatibility with Org versions from 9.0 to 9.4:
 
   javascript:location.href = \\='org-protocol://capture?url=\\='+ \\
         encodeURIComponent(location.href) + \\='&title=\\=' + \\
         encodeURIComponent(document.title) + \\='&body=\\=' + \\
-        encodeURIComponent(window.getSelection())
+        encodeURIComponent(window.getSelection());void(0)
 
 By default, it uses the character `org-protocol-default-template-key',
 which should be associated with a template in `org-capture-templates'.
 You may specify the template with a template= query parameter, like this:
 
-  javascript:location.href = \\='org-protocol://capture?template=b\\='+ ...
+  javascript:location.href
+        = \\='org-protocol://capture?template=b\\='+ ...;void(0)
 
 Now template ?b will be used."
   (let* ((parts
@@ -560,13 +557,13 @@ in `org-protocol-project-alist'.
 The location for a browser's bookmark should look like this:
 
   javascript:location.href = \\='org-protocol://open-source?\\=' +
-        new URLSearchParams({url: location.href})
+        new URLSearchParams({url: location.href});void(0)
 
 or if you prefer to keep compatibility with older Org versions (9.0 to 9.4),
 consider the following expression:
 
   javascript:location.href = \\='org-protocol://open-source?url=\\=' + \\
-        encodeURIComponent(location.href)"
+        encodeURIComponent(location.href);void(0)"
   ;; As we enter this function for a match on our protocol, the return value
   ;; defaults to nil.
   (let (;; (result nil)
@@ -668,7 +665,8 @@ CLIENT is ignored."
 		       (new-style (not (= ?: (aref (match-string 1 fname) 0)))))
                   (when (plist-get (cdr prolist) :kill-client)
 		    (message "Greedy org-protocol handler.  Killing client.")
-		    (server-edit))
+		    ;; If not fboundp, there's no client to kill.
+		    (if (fboundp 'server-edit) (server-edit)))
                   (when (fboundp func)
                     (unless greedy
                       (throw 'fname
@@ -686,7 +684,8 @@ to deal with new-style links.")
 
 (advice-add 'server-visit-files :around #'org--protocol-detect-protocol-server)
 (defun org--protocol-detect-protocol-server (orig-fun files client &rest args)
-  "Advice server-visit-flist to call `org-protocol-modify-filename-for-protocol'."
+  "Advice `server-visit-files' to call `org-protocol-check-filename-for-protocol'.
+This function is intended to be used as :around advice for `server-visit-files'."
   (let ((flist (if org-protocol-reverse-list-of-files
                    (reverse files)
                  files)))

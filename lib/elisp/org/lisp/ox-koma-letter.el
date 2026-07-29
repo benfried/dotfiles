@@ -1,13 +1,12 @@
-;;; ox-koma-letter.el --- KOMA Scrlttr2 Back-End for Org Export Engine  -*- lexical-binding: t; -*-
+;;; ox-koma-letter.el --- KOMA Scrlttr2 Backend for Org Export Engine  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2007-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2007-2026 Free Software Foundation, Inc.
 
 ;; Author: Nicolas Goaziou <n.goaziou AT gmail DOT com>
 ;;         Alan Schmitt <alan.schmitt AT polytechnique DOT org>
 ;;         Viktor Rosenfeld <listuser36 AT gmail DOT com>
 ;;         Rasmus Pank Roulund <emacs AT pank DOT eu>
-;; Maintainer: Marco Wahl <marcowahlsoft@gmail.com>
-;; Keywords: org, wp, tex
+;; Keywords: org, text, tex
 
 ;; This file is part of GNU Emacs.
 
@@ -26,7 +25,7 @@
 
 ;;; Commentary:
 ;;
-;; This library implements a KOMA Scrlttr2 back-end, derived from the
+;; This library implements a KOMA Scrlttr2 backend, derived from the
 ;; LaTeX one.
 ;;
 ;; Depending on the desired output format, three commands are provided
@@ -34,8 +33,8 @@
 ;; `org-koma-letter-export-to-latex' ("tex" file) and
 ;; `org-koma-letter-export-to-pdf' ("pdf" file).
 ;;
-;; On top of buffer keywords supported by `latex' back-end (see
-;; `org-latex-options-alist'), this back-end introduces the following
+;; On top of buffer keywords supported by `latex' backend (see
+;; `org-latex-packages-alist'), this backend introduces the following
 ;; keywords:
 ;;   - CLOSING: see `org-koma-letter-closing',
 ;;   - FROM_ADDRESS: see `org-koma-letter-from-address',
@@ -66,7 +65,7 @@
 ;;   - from-logo (see `org-koma-letter-use-from-logo')
 ;;   - email (see `org-koma-letter-use-email')
 ;;   - place (see `org-koma-letter-use-place')
-;;   - location (see `org-koma-letter-use-location')
+;;   - location (see `org-koma-letter-location')
 ;;   - subject, a list of format options
 ;;     (see `org-koma-letter-subject-format')
 ;;   - after-closing-order, a list of the ordering of headings with
@@ -164,6 +163,9 @@
 ;;    (add-to-list 'org-latex-packages-alist '("AUTO" "babel" nil))
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
 
 (require 'cl-lib)
 (require 'ox-latex)
@@ -371,7 +373,7 @@ following ones:
   `p'  Deactivate punch or center mark on left paper edge
 
   `T'  Activate lower horizontal mark on left paper edge
-  `t'  Deactivate lower horizontal mark on left paper edge
+   t   Deactivate lower horizontal mark on left paper edge
 
   `V'  Activate all vertical marks on upper paper edge
   `v'  Deactivate all vertical marks on upper paper edge
@@ -463,7 +465,7 @@ e.g. \"title-subject:t\"."
   "Holds special content temporarily.")
 
 
-;;; Define Back-End
+;;; Define Backend
 
 (org-export-define-derived-backend 'koma-letter 'latex
   :options-alist
@@ -568,6 +570,9 @@ return a string or nil."
 KEYWORDS is a list of symbols.  Return them as a string to be
 formatted.
 
+INFO is the information plist possibly holding :special-tags-as-macro
+property.  See `org-koma-letter-special-tags-as-macro'.
+
 The function is used for inserting content of special headings
 such as the one tagged with PS."
   (mapconcat
@@ -583,7 +588,8 @@ such as the one tagged with PS."
 
 
 (defun org-koma-letter--add-latex-newlines (string)
-  "Replace regular newlines with LaTeX newlines (i.e. `\\\\')."
+  "Replace regular newlines with LaTeX newlines (i.e. `\\\\') in STRING.
+Return a new string."
   (let ((str (org-trim string)))
     (when (org-string-nw-p str)
       (replace-regexp-in-string "\n" "\\\\\\\\\n" str))))
@@ -620,7 +626,7 @@ channel."
   (let ((key (org-element-property :key keyword))
         (value (org-element-property :value keyword)))
     ;; Handle specifically KOMA-LETTER keywords.  Otherwise, fallback
-    ;; to `latex' back-end.
+    ;; to `latex' backend.
     (if (equal key "KOMA-LETTER") value
       (org-export-with-backend 'latex keyword contents info))))
 
@@ -679,7 +685,7 @@ PLIST-KEY."
 CONTENTS is the transcoded contents string.  INFO is a plist
 holding export options."
   (concat
-   ;; Time-stamp.
+   ;; Timestamp.
    (and (plist-get info :time-stamp-file)
         (format-time-string "%% Created %Y-%m-%d %a %H:%M\n"))
    ;; LaTeX compiler
@@ -904,11 +910,13 @@ file-local settings.
 Export is done in a buffer named \"*Org KOMA-LETTER Export*\".  It
 will be displayed if `org-export-show-temporary-export-buffer' is
 non-nil."
-  (interactive)
+  (interactive nil org-mode)
   (let (org-koma-letter-special-contents)
     (org-export-to-buffer 'koma-letter "*Org KOMA-LETTER Export*"
       async subtreep visible-only body-only ext-plist
-      (lambda () (LaTeX-mode)))))
+      (if (fboundp 'major-mode-remap)
+          (major-mode-remap 'latex-mode)
+        #'LaTeX-mode))))
 
 ;;;###autoload
 (defun org-koma-letter-export-to-latex
@@ -942,7 +950,7 @@ When optional argument PUB-DIR is set, use it as the publishing
 directory.
 
 Return output file's name."
-  (interactive)
+  (interactive nil org-mode)
   (let ((outfile (org-export-output-file-name ".tex" subtreep))
         (org-koma-letter-special-contents))
     (org-export-to-file 'koma-letter outfile
@@ -977,7 +985,7 @@ parameters overriding Org default settings, but still inferior to
 file-local settings.
 
 Return PDF file's name."
-  (interactive)
+  (interactive nil org-mode)
   (let ((file (org-export-output-file-name ".tex" subtreep))
         (org-koma-letter-special-contents))
     (org-export-to-file 'koma-letter file

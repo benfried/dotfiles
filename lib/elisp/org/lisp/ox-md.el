@@ -1,10 +1,9 @@
-;;; ox-md.el --- Markdown Back-End for Org Export Engine -*- lexical-binding: t; -*-
+;;; ox-md.el --- Markdown Backend for Org Export Engine -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2012-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2012-2026 Free Software Foundation, Inc.
 
 ;; Author: Nicolas Goaziou <n.goaziou@gmail.com>
-;; Maintainer: Nicolas Goaziou <mail@nicolasgoaziou.fr>
-;; Keywords: org, wp, markdown
+;; Keywords: org, text, markdown
 
 ;; This file is part of GNU Emacs.
 
@@ -23,11 +22,14 @@
 
 ;;; Commentary:
 
-;; This library implements a Markdown back-end (vanilla flavor) for
-;; Org exporter, based on `html' back-end.  See Org manual for more
+;; This library implements a Markdown backend (vanilla flavor) for
+;; Org exporter, based on `html' backend.  See Org manual for more
 ;; information.
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
 
 (require 'cl-lib)
 (require 'ox-html)
@@ -37,7 +39,7 @@
 ;;; User-Configurable Variables
 
 (defgroup org-export-md nil
-  "Options specific to Markdown export back-end."
+  "Options specific to Markdown export backend."
   :tag "Org Markdown"
   :group 'org-export
   :version "24.4"
@@ -45,11 +47,15 @@
 
 (defcustom org-md-headline-style 'atx
   "Style used to format headlines.
-This variable can be set to either `atx' or `setext'."
+This variable can be set to either `atx', `setext', or `mixed'.
+
+Mixed style uses Setext style markup for the first two headline levels
+and uses ATX style markup for the remaining four levels."
   :group 'org-export-md
   :type '(choice
 	  (const :tag "Use \"atx\" style" atx)
-	  (const :tag "Use \"Setext\" style" setext)))
+	  (const :tag "Use \"Setext\" style" setext)
+          (const :tag "Use \"mixed\" style" mixed)))
 
 
 ;;;; Footnotes
@@ -71,8 +77,41 @@ The %s will be replaced by the footnote reference itself."
   :version "26.1"
   :package-version '(Org . "9.0"))
 
+(defcustom org-md-toplevel-hlevel 1
+  "Heading level to use for level 1 Org headings in markdown export.
+
+If this is 1, headline levels will be preserved on export.  If this is
+2, top level Org headings will be exported to level 2 markdown
+headings, level 2 Org headings will be exported to level 3 markdown
+headings, and so on.
+
+Incrementing this value may be helpful when creating markdown to be
+included into another document or application that reserves top-level
+headings for its own use."
+  :group 'org-export-md
+  :package-version '(Org . "9.6")
+  ;; Avoid `natnum' because that's not available until Emacs 28.1.
+  :type 'integer)
+
+(defcustom org-md-link-org-files-as-md t
+  "Non-nil means make file links to \"file.org\" point to \"file.md\".
+
+When Org mode is exporting an Org file to markdown, links to
+non-markdown files are directly put into a \"href\" tag in
+markdown.  However, links to other Org files \(recognized by the
+extension \".org\") should become links to the corresponding
+markdown file, assuming that the linked Org file will also be
+converted to markdown.
+
+When nil, the links still point to the plain \".org\" file."
+  :group 'org-export-md
+  :package-version '(Org . "9.8")
+  :type 'boolean
+  :safe #'booleanp)
+
+
 
-;;; Define Back-End
+;;; Define Backend
 
 (org-export-define-derived-backend 'md 'html
   :filters-alist '((:filter-parse-tree . org-md-separate-elements))
@@ -120,7 +159,9 @@ The %s will be replaced by the footnote reference itself."
   :options-alist
   '((:md-footnote-format nil nil org-md-footnote-format)
     (:md-footnotes-section nil nil org-md-footnotes-section)
-    (:md-headline-style nil nil org-md-headline-style)))
+    (:md-headline-style nil nil org-md-headline-style)
+    (:md-toplevel-hlevel nil nil org-md-toplevel-hlevel)
+    (:md-link-org-files-as-md nil nil org-md-link-org-files-as-md)))
 
 
 ;;; Filters
@@ -129,10 +170,10 @@ The %s will be replaced by the footnote reference itself."
   "Fix blank lines between elements.
 
 TREE is the parse tree being exported.  BACKEND is the export
-back-end used.  INFO is a plist used as a communication channel.
+backend used.  INFO is a plist used as a communication channel.
 
-Enforce a blank line between elements.  There are two exceptions
-to this rule:
+Enforce a blank line between elements.  There are exceptions to this
+rule:
 
   1. Preserve blank lines between sibling items in a plain list,
 
@@ -140,16 +181,20 @@ to this rule:
      paragraph and the next sub-list when the latter ends the
      current item.
 
+  3. Do not add blank lines after table rows.  (This is irrelevant for
+     md exporter, but may surprise derived backends).
+
 Assume BACKEND is `md'."
-  (org-element-map tree (remq 'item org-element-all-elements)
+  (org-element-map tree
+      (remq 'table-row (remq 'item org-element-all-elements))
     (lambda (e)
       (org-element-put-property
        e :post-blank
-       (if (and (eq (org-element-type e) 'paragraph)
-		(eq (org-element-type (org-element-property :parent e)) 'item)
+       (if (and (org-element-type-p e 'paragraph)
+		(org-element-type-p (org-element-parent e) 'item)
 		(org-export-first-sibling-p e info)
 		(let ((next (org-export-get-next-element e info)))
-		  (and (eq (org-element-type next) 'plain-list)
+		  (and (org-element-type-p next 'plain-list)
 		       (not (org-export-get-next-element next info)))))
 	   0
 	 1))))
@@ -174,7 +219,7 @@ of contents can refer to headlines."
       (lambda (h)
 	(let ((section (car (org-element-contents h))))
 	  (and
-	   (eq 'section (org-element-type section))
+	   (org-element-type-p section 'section)
 	   (org-element-map section 'keyword
 	     (lambda (keyword)
 	       (when (equal "TOC" (org-element-property :key keyword))
@@ -208,7 +253,7 @@ anchor tag for the section as a string.  TAGS are the tags set on
 the section."
   (let ((anchor-lines (and anchor (concat anchor "\n\n"))))
     ;; Use "Setext" style
-    (if (and (eq style 'setext) (< level 3))
+    (if (and (memq style '(setext mixed)) (< level 3))
         (let* ((underline-char (if (= level 1) ?= ?-))
                (underline (concat (make-string (length title) underline-char)
 				  "\n")))
@@ -229,9 +274,10 @@ When optional argument SCOPE is non-nil, build a table of
 contents according to the specified element."
   (concat
    (unless scope
-     (let ((style (plist-get info :md-headline-style))
+     (let ((level (plist-get info :md-toplevel-hlevel))
+           (style (plist-get info :md-headline-style))
 	   (title (org-html--translate "Table of Contents" info)))
-       (org-md--headline-title style 1 title nil)))
+       (org-md--headline-title style level title nil)))
    (mapconcat
     (lambda (headline)
       (let* ((indentation
@@ -283,13 +329,14 @@ INFO is a plist used as a communication channel."
          (section-title (org-html--translate "Footnotes" info)))
     (when fn-alist
       (format (plist-get info :md-footnotes-section)
-              (org-md--headline-title headline-style 1 section-title)
+              (org-md--headline-title headline-style (plist-get info :md-toplevel-hlevel) section-title)
               (mapconcat (lambda (fn) (org-md--footnote-formatted fn info))
                          fn-alist
                          "\n")))))
 
 (defun org-md--convert-to-html (datum _contents info)
-  "Convert DATUM into raw HTML, including contents."
+  "Convert DATUM into raw HTML.
+CONTENTS is ignored.  INFO is the info plist."
   (org-export-data-with-backend datum 'html info))
 
 (defun org-md--identity (_datum contents _info)
@@ -350,7 +397,8 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
 CONTENTS is the headline contents.  INFO is a plist used as
 a communication channel."
   (unless (org-element-property :footnote-section-p headline)
-    (let* ((level (org-export-get-relative-level headline info))
+    (let* ((level (+ (org-export-get-relative-level headline info)
+                     (1- (plist-get info :md-toplevel-hlevel))))
 	   (title (org-export-data (org-element-property :title headline) info))
 	   (todo (and (plist-get info :with-todo-keywords)
 		      (let ((todo (org-element-property :todo-keyword
@@ -362,17 +410,18 @@ a communication channel."
 			     (concat "     " (org-make-tag-string tag-list))))))
 	   (priority
 	    (and (plist-get info :with-priority)
-		 (let ((char (org-element-property :priority headline)))
-		   (and char (format "[#%c] " char)))))
+		 (let ((priority-value (org-element-property :priority headline)))
+		   (and priority-value (format "[#%s] " (org-priority-to-string priority-value))))))
 	   ;; Headline text without tags.
 	   (heading (concat todo priority title))
 	   (style (plist-get info :md-headline-style)))
       (cond
        ;; Cannot create a headline.  Fall-back to a list.
        ((or (org-export-low-level-p headline info)
-	    (not (memq style '(atx setext)))
+	    (not (memq style '(atx mixed setext)))
 	    (and (eq style 'atx) (> level 6))
-	    (and (eq style 'setext) (> level 2)))
+	    (and (eq style 'setext) (> level 2))
+	    (and (eq style 'mixed) (> level 6)))
 	(let ((bullet
 	       (if (not (org-export-numbered-headline-p headline info)) "-"
 		 (concat (number-to-string
@@ -414,7 +463,7 @@ as a communication channel."
   "Transcode ITEM element into Markdown format.
 CONTENTS is the item contents.  INFO is a plist used as
 a communication channel."
-  (let* ((type (org-element-property :type (org-export-get-parent item)))
+  (let* ((type (org-element-property :type (org-element-parent item)))
 	 (struct (org-element-property :structure item))
 	 (bullet (if (not (eq type 'ordered)) "-"
 		   (concat (number-to-string
@@ -425,7 +474,7 @@ a communication channel."
 					(org-list-parents-alist struct)))))
 			   "."))))
     (concat bullet
-	    (make-string (- 4 (length bullet)) ? )
+	    (make-string (max 1 (- 4 (length bullet))) ? )
 	    (pcase (org-element-property :checkbox item)
 	      (`on "[X] ")
 	      (`trans "[-] ")
@@ -463,7 +512,7 @@ channel."
     (_ (org-export-with-backend 'html keyword contents info))))
 
 
-;;;; Latex Environment
+;;;; LaTeX Environment
 
 (defun org-md-latex-environment (latex-environment _contents info)
   "Transcode a LATEX-ENVIRONMENT object from Org to Markdown.
@@ -478,7 +527,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
                                     latex-frag)
         latex-frag))))
 
-;;;; Latex Fragment
+;;;; LaTeX Fragment
 
 (defun org-md-latex-fragment (latex-fragment _contents info)
   "Transcode a LATEX-FRAGMENT object from Org to Markdown.
@@ -508,20 +557,20 @@ channel."
 DESC is the description part of the link, or the empty string.
 INFO is a plist holding contextual information.  See
 `org-export-data'."
-  (let* ((link-org-files-as-md
+  (let* ((link-org-files-as-md-maybe
 	  (lambda (raw-path)
 	    ;; Treat links to `file.org' as links to `file.md'.
-	    (if (string= ".org" (downcase (file-name-extension raw-path ".")))
+	    (if (and
+		 (plist-get info :md-link-org-files-as-md)
+		 (string= ".org" (downcase (file-name-extension raw-path "."))))
 		(concat (file-name-sans-extension raw-path) ".md")
 	      raw-path)))
 	 (type (org-element-property :type link))
 	 (raw-path (org-element-property :path link))
 	 (path (cond
-		((member type '("http" "https" "ftp" "mailto"))
-		 (concat type ":" raw-path))
 		((string-equal  type "file")
-		 (org-export-file-uri (funcall link-org-files-as-md raw-path)))
-		(t raw-path))))
+		 (org-export-file-uri (funcall link-org-files-as-md-maybe raw-path)))
+		(t (concat type ":" raw-path)))))
     (cond
      ;; Link type is handled by a special function.
      ((org-export-custom-protocol-maybe link desc 'md info))
@@ -531,7 +580,7 @@ INFO is a plist holding contextual information.  See
 			   (org-export-resolve-id-link link info))))
 	(pcase (org-element-type destination)
 	  (`plain-text			; External file.
-	   (let ((path (funcall link-org-files-as-md destination)))
+	   (let ((path (funcall link-org-files-as-md-maybe destination)))
 	     (if (not desc) (format "<%s>" path)
 	       (format "[%s](%s)" desc path))))
 	  (`headline
@@ -567,7 +616,7 @@ INFO is a plist holding contextual information.  See
 			(t (expand-file-name raw-path))))
 	    (caption (org-export-data
 		      (org-export-get-caption
-		       (org-export-get-parent-element link))
+		       (org-element-parent-element link))
 		      info)))
 	(format "![img](%s)"
 		(if (not (org-string-nw-p caption)) path
@@ -603,6 +652,12 @@ information."
   "Transcode PARAGRAPH element into Markdown format.
 CONTENTS is the paragraph contents.  INFO is a plist used as
 a communication channel."
+  ;; Ensure that we do not create multiple paragraphs, when a single
+  ;; paragraph is expected.
+  ;; Multiple newlines may appear in CONTENTS, for example, when
+  ;; certain objects are stripped from export, leaving single newlines
+  ;; before and after.
+  (setq contents (org-remove-blank-lines contents))
   (let ((first-object (car (org-element-contents paragraph))))
     ;; If paragraph starts with a #, protect it.
     (if (and (stringp first-object) (string-prefix-p "#" first-object))
@@ -728,7 +783,7 @@ contents of hidden elements.
 Export is done in a buffer named \"*Org MD Export*\", which will
 be displayed when `org-export-show-temporary-export-buffer' is
 non-nil."
-  (interactive)
+  (interactive nil org-mode)
   (org-export-to-buffer 'md "*Org MD Export*"
     async subtreep visible-only nil nil (lambda () (text-mode))))
 
@@ -741,6 +796,7 @@ this command to convert it."
   (interactive)
   (org-export-replace-region-by 'md))
 
+(defalias 'org-export-region-to-md #'org-md-convert-region-to-md)
 
 ;;;###autoload
 (defun org-md-export-to-markdown (&optional async subtreep visible-only)
@@ -763,7 +819,7 @@ When optional argument VISIBLE-ONLY is non-nil, don't export
 contents of hidden elements.
 
 Return output file's name."
-  (interactive)
+  (interactive nil org-mode)
   (let ((outfile (org-export-output-file-name ".md" subtreep)))
     (org-export-to-file 'md outfile async subtreep visible-only)))
 

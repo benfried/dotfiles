@@ -1,6 +1,6 @@
 ;;; ob-plantuml.el --- Babel Functions for Plantuml  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2010-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2010-2026 Free Software Foundation, Inc.
 
 ;; Author: Zhang Weize
 ;; Keywords: literate programming, reproducible research
@@ -30,10 +30,14 @@
 
 ;;; Requirements:
 
-;; plantuml     | http://plantuml.sourceforge.net/
+;; plantuml     | https://plantuml.com/
 ;; plantuml.jar | `org-plantuml-jar-path' should point to the jar file (when exec mode is `jar')
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 
 (defvar org-babel-default-header-args:plantuml
@@ -53,7 +57,7 @@ The JAR can be configured via `org-plantuml-jar-path'.
 
 `plantuml' means to use the PlantUML executable.
 The executable can be configured via `org-plantuml-executable-path'.
-You can also configure extra arguments via `org-plantuml-executable-args'."
+You can also configure extra arguments via `org-plantuml-args'."
   :group 'org-babel
   :package-version '(Org . "9.4")
   :type 'symbol
@@ -98,19 +102,58 @@ of source block parameters.  This function relies on the
 from PARAMS and on the `org-babel-variable-assignments:plantuml'
 function to convert variables to PlantUML assignments.
 
-If BODY does not contain @startXXX ... @endXXX clauses, @startuml
-... @enduml will be added."
-  (let ((full-body
-	 (org-babel-expand-body:generic
-	  body params (org-babel-variable-assignments:plantuml params))))
-    (if (string-prefix-p "@start" body t) full-body
-      (format "@startuml\n%s\n@enduml" full-body))))
+The function parses BODY to find matching @startXXX ... @endXXX
+keyword pairs:
+- If a matching pair is found (e.g., @startuml/@enduml or
+  @startsalt/@endsalt), variable expansion is applied only to the
+  content between the keywords, preserving any content outside the
+  keywords.
+- If @startXXX is found but no matching @endXXX, or if no @startXXX is
+  found, the entire BODY is treated as diagram content and wrapped
+  with @startuml ... @enduml keywords after variable expansion."
+  (let* ((regex (rx
+                 (group (zero-or-more anything))
+                 line-start
+                 (zero-or-more blank)
+                 "@start"
+                 (group (one-or-more (not whitespace)))
+                 (zero-or-more blank)
+                 line-end
+                 (zero-or-one whitespace)
+                 (group (zero-or-more anychar))
+                 line-start
+                 (zero-or-more blank)
+                 "@end"
+                 (backref 2)
+                 (zero-or-more blank)
+                 line-end
+                 (group (zero-or-more anything))))
+         (_ (string-match regex body))
+         (pre-body (string-trim (or (match-string 1 body) "")))
+         (keyword-type (or (match-string 2 body) "uml"))
+         (inner-body (string-trim (or (match-string 3 body) body)))
+         (post-body (string-trim (or (match-string 4 body) ""))))
+
+    (string-join
+     (remove ""
+             (list pre-body
+                   (string-join (list "@start" keyword-type))
+                   (org-babel-expand-body:generic
+                    inner-body
+                    params
+                    (org-babel-variable-assignments:plantuml params))
+                   (string-join (list "@end" keyword-type))
+                   post-body))
+     "\n")))
 
 (defun org-babel-execute:plantuml (body params)
   "Execute a block of plantuml code with org-babel.
 This function is called by `org-babel-execute-src-block'."
-  (let* ((out-file (or (cdr (assq :file params))
-		       (error "PlantUML requires a \":file\" header argument")))
+  (let* ((do-export (member "file" (cdr (assq :result-params params))))
+         (out-file (if do-export
+                       (or (cdr (assq :file params))
+                           (error "No :file provided but :results set to file.  For plain text output, set :results to verbatim"))
+		     (org-babel-temp-file "plantuml-" ".txt")))
 	 (cmdline (cdr (assq :cmdline params)))
 	 (in-file (org-babel-temp-file "plantuml-"))
 	 (java (or (cdr (assq :java params)) ""))
@@ -136,6 +179,7 @@ This function is called by `org-babel-execute-src-block'."
 			    ("eps" '("-teps"))
 			    ("pdf" '("-tpdf"))
 			    ("tex" '("-tlatex"))
+                            ("tikz" '("-tlatex:nopreamble"))
 			    ("vdx" '("-tvdx"))
 			    ("xmi" '("-txmi"))
 			    ("scxml" '("-tscxml"))
@@ -154,8 +198,14 @@ This function is called by `org-babel-execute-src-block'."
     (message "%s" cmd) (org-babel-eval cmd "")
     (if (and (string= (file-name-extension out-file) "svg")
              org-babel-plantuml-svg-text-to-path)
-        (org-babel-eval (format "inkscape %s -T -l %s" out-file out-file) ""))
-    nil)) ;; signal that output has already been written to file
+        (org-babel-eval (format "inkscape %s -T -l %s"
+                                (org-babel-process-file-name out-file)
+                                (org-babel-process-file-name out-file))
+                        ""))
+    (unless do-export (with-temp-buffer
+                        (insert-file-contents out-file)
+                        (buffer-substring-no-properties
+                         (point-min) (point-max))))))
 
 (defun org-babel-prep-session:plantuml (_session _params)
   "Return an error because plantuml does not support sessions."

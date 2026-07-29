@@ -1,6 +1,6 @@
 ;;; ob-lob.el --- Functions Supporting the Library of Babel -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2009-2026 Free Software Foundation, Inc.
 
 ;; Authors: Eric Schulte
 ;;	 Dan Davison
@@ -22,7 +22,13 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Commentary:
+
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'cl-lib)
 (require 'ob-core)
 (require 'ob-table)
@@ -30,8 +36,8 @@
 (declare-function org-babel-ref-split-args "ob-ref" (arg-string))
 (declare-function org-element-at-point "org-element" (&optional pom cached-only))
 (declare-function org-element-context "org-element" (&optional element))
-(declare-function org-element-property "org-element" (property element))
-(declare-function org-element-type "org-element" (element))
+(declare-function org-element-property "org-element-ast" (property node))
+(declare-function org-element-type "org-element-ast" (node &optional anonymous))
 
 (defvar org-babel-library-of-babel nil
   "Library of source-code blocks.
@@ -50,13 +56,9 @@ should not be inherited from a source block.")
   (interactive "fFile: ")
   (let ((lob-ingest-count 0))
     (org-babel-map-src-blocks file
-      (let* ((info (org-babel-get-src-block-info 'light))
+      (let* ((info (org-babel-get-src-block-info 'no-eval))
 	     (source-name (nth 4 info)))
 	(when source-name
-	  (setf (nth 1 info)
-		(if (org-babel-noweb-p (nth 2 info) :eval)
-		    (org-babel-expand-noweb-references info)
-		  (nth 1 info)))
 	  (let ((source (intern source-name)))
 	    (setq org-babel-library-of-babel
 		  (cons (cons source info)
@@ -73,17 +75,20 @@ should not be inherited from a source block.")
   "Execute a Library of Babel source block, if appropriate.
 Detect if this is context for a Library Of Babel source block and
 if so then run the appropriate source block from the Library."
-  (interactive)
-  (let ((info (org-babel-lob-get-info)))
+  (interactive nil org-mode)
+  (let* ((datum (org-element-context))
+         (info (org-babel-lob-get-info datum)))
     (when info
-      (org-babel-execute-src-block nil info)
+      (org-babel-execute-src-block nil info nil (org-element-type datum))
       t)))
 
-(defun org-babel-lob--src-info (ref)
+(defun org-babel-lob--src-info (ref &optional eval)
   "Return internal representation for Babel data referenced as REF.
 REF is a string.  This function looks into the current document
 for a Babel call or source block.  If none is found, it looks
-after REF in the Library of Babel."
+after REF in the Library of Babel.
+When EVAL is non-nil, evaluate src block parameters.
+"
   (let ((name ref)
 	(file nil))
     ;; Extract the remote file, if specified in the reference.
@@ -105,7 +110,7 @@ after REF in the Library of Babel."
 		(when (equal name (org-element-property :name element))
 		  (throw :found
 			 (pcase (org-element-type element)
-			   (`src-block (org-babel-get-src-block-info t element))
+			   (`src-block (org-babel-get-src-block-info (not eval) element))
 			   (`babel-call (org-babel-lob-get-info element))
 			   ;; Non-executable data found.  Since names
 			   ;; are supposed to be unique throughout
@@ -114,10 +119,21 @@ after REF in the Library of Babel."
 	    (cdr (assoc-string ref org-babel-library-of-babel))))))))
 
 ;;;###autoload
-(defun org-babel-lob-get-info (&optional datum)
+(defun org-babel-lob-get-info (&optional datum no-eval)
   "Return internal representation for Library of Babel function call.
 
 Consider DATUM, when provided, or element at point otherwise.
+
+When optional argument NO-EVAL is non-nil, Babel does not resolve
+remote variable references; a process which could likely result
+in the execution of other code blocks, and do not evaluate Lisp
+values in parameters.
+
+The evaluation happens in the context of DATUM (babel call or inline
+babel call) for its local arguments, while evaluation of the references
+code block happens in the context (with point at) of that block.
+`org-babel-current-src-block-location' is bound to DATUM position
+during evaluation.
 
 Return nil when not on an appropriate location.  Otherwise return
 a list compatible with `org-babel-get-src-block-info', which
@@ -126,34 +142,36 @@ see."
 	 (type (org-element-type context))
 	 (reference (org-element-property :call context)))
     (when (memq type '(babel-call inline-babel-call))
-      (pcase (org-babel-lob--src-info reference)
-	(`(,language ,body ,header ,_ ,_ ,_ ,coderef)
-	 (let ((begin (org-element-property (if (eq type 'inline-babel-call)
-						:begin
-					      :post-affiliated)
-					    context)))
+      (let* ((begin (org-element-property (if (eq type 'inline-babel-call)
+					      :begin
+					    :post-affiliated)
+					  context))
+             ;; Signal downstream to lisp parameter values about current location.
+             (org-babel-current-src-block-location begin))
+        (pcase (org-babel-lob--src-info reference (if no-eval nil 'eval))
+	  (`(,language ,body ,header ,_ ,_ ,_ ,coderef)
 	   (list language
-		 body
-		 (apply #'org-babel-merge-params
-			header
-			org-babel-default-lob-header-args
-			(append
-			 (org-with-point-at begin
-			   (org-babel-params-from-properties language))
-			 (list
+	         body
+	         (apply #'org-babel-merge-params
+		        header
+		        org-babel-default-lob-header-args
+		        (append
+		         (org-with-point-at begin
+			   (org-babel-params-from-properties language no-eval))
+		         (list
 			  (org-babel-parse-header-arguments
-			   (org-element-property :inside-header context))
+			   (org-element-property :inside-header context) no-eval)
 			  (let ((args (org-element-property :arguments context)))
 			    (and args
-				 (mapcar (lambda (ref) (cons :var ref))
-					 (org-babel-ref-split-args args))))
+			         (mapcar (lambda (ref) (cons :var ref))
+				         (org-babel-ref-split-args args))))
 			  (org-babel-parse-header-arguments
-			   (org-element-property :end-header context)))))
-		 nil
-		 (org-element-property :name context)
-		 begin
-		 coderef)))
-	(_ nil)))))
+			   (org-element-property :end-header context) no-eval))))
+	         nil
+	         (org-element-property :name context)
+	         begin
+	         coderef))
+          (_ nil))))))
 
 (provide 'ob-lob)
 

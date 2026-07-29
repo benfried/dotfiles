@@ -1,9 +1,9 @@
 ;;; ol-w3m.el --- Copy and Paste From W3M            -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2008-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2008-2026 Free Software Foundation, Inc.
 
 ;; Author: Andy Stewart <lazycat dot manatee at gmail dot com>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 ;; URL: https://orgmode.org
 ;;
 ;; This file is part of GNU Emacs.
@@ -41,6 +41,9 @@
 
 ;;; Code:
 
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ol)
 
 (defvar w3m-current-url)
@@ -59,7 +62,7 @@
 (defun org-w3m-copy-for-org-mode ()
   "Copy current buffer content or active region with Org style links.
 This will encode `link-title' and `link-location' with
-`org-link-make-string', and insert the transformed test into the kill ring,
+`org-link-make-string', and insert the transformed text into the kill ring,
 so that it can be yanked into an Org  buffer with links working correctly."
   (interactive)
   (let* ((regionp (org-region-active-p))

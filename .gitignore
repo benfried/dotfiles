@@ -33,6 +33,11 @@ Ports.bak
 \#*\#
 .\#*
 
+# Emacs numbered backups (foo.el.~1~). .dotfiles/.gitignore already catches the
+# dotfile form via `.*~`, but that file only governs its own directory, so
+# nothing covered lib/. Repo-wide: a numbered backup is never worth tracking.
+*.~[0-9]*~
+
 # Secrets — SSH keys, certs, tokens. NEVER commit these.
 #
 # Deny-by-default: ~/.ssh is a symlink to this directory, so anything that lands

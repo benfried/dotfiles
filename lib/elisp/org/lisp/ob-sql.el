@@ -1,8 +1,9 @@
 ;;; ob-sql.el --- Babel Functions for SQL            -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2009-2026 Free Software Foundation, Inc.
 
 ;; Author: Eric Schulte
+;; Maintainer: Daniel Kraus <daniel@kraus.my>
 ;; Keywords: literate programming, reproducible research
 ;; URL: https://orgmode.org
 
@@ -69,6 +70,10 @@
 ;;
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 
 (declare-function org-table-import "org-table" (file arg))
@@ -96,11 +101,10 @@
   (let ((prologue (cdr (assq :prologue params)))
 	(epilogue (cdr (assq :epilogue params))))
     (mapconcat 'identity
-               (list
-                prologue
-                (org-babel-sql-expand-vars
-                 body (org-babel--get-vars params))
-                epilogue)
+               (delq nil (list prologue
+                               (org-babel-sql-expand-vars
+                                body (org-babel--get-vars params))
+                               epilogue))
                "\n")))
 
 (defun org-babel-edit-prep:sql (info)
@@ -108,29 +112,31 @@
 Set `sql-product' in Org edit buffer according to the
 corresponding :engine source block header argument."
   (let ((product (cdr (assq :engine (nth 2 info)))))
-    (condition-case nil
-        (sql-set-product product)
-      (user-error "Cannot set `sql-product' in Org Src edit buffer"))))
+    (sql-set-product product)))
 
 (defun org-babel-sql-dbstring-mysql (host port user password database)
   "Make MySQL cmd line args for database connection.  Pass nil to omit that arg."
-  (combine-and-quote-strings
+  (mapconcat
+   #'identity
    (delq nil
-	 (list (when host     (concat "-h" host))
+	 (list (when host     (concat "-h" (shell-quote-argument host)))
 	       (when port     (format "-P%d" port))
-	       (when user     (concat "-u" user))
-	       (when password (concat "-p" password))
-	       (when database (concat "-D" database))))))
+	       (when user     (concat "-u" (shell-quote-argument user)))
+	       (when password (concat "-p" (shell-quote-argument password)))
+	       (when database (concat "-D" (shell-quote-argument database)))))
+   " "))
 
 (defun org-babel-sql-dbstring-postgresql (host port user database)
   "Make PostgreSQL command line args for database connection.
 Pass nil to omit that arg."
-  (combine-and-quote-strings
+  (mapconcat
+   #'identity
    (delq nil
-	 (list (when host (concat "-h" host))
+	 (list (when host (concat "-h" (shell-quote-argument host)))
 	       (when port (format "-p%d" port))
-	       (when user (concat "-U" user))
-	       (when database (concat "-d" database))))))
+	       (when user (concat "-U" (shell-quote-argument user)))
+	       (when database (concat "-d" (shell-quote-argument database)))))
+   " "))
 
 (defun org-babel-sql-dbstring-oracle (host port user password database)
   "Make Oracle command line arguments for database connection.
@@ -146,8 +152,12 @@ or
   <user>/<password>@<database>
 
 using its alias."
+  (when user (setq user (shell-quote-argument user)))
+  (when password (setq password (shell-quote-argument password)))
+  (when database (setq database (shell-quote-argument database)))
+  (when host (setq host (shell-quote-argument host)))
   (cond ((and user password database host port)
-	 (format "%s/%s@%s:%s/%s" user password host port database))
+	 (format "%s/%s@%s:%d/%s" user password host port database))
 	((and user password database)
 	 (format "%s/%s@%s" user password database))
 	(t (user-error "Missing information to connect to database"))))
@@ -158,10 +168,10 @@ using its alias."
 SQL Server on Windows and Linux platform."
   (mapconcat #'identity
 	     (delq nil
-		   (list (when host (format "-S \"%s\"" host))
-			 (when user (format "-U \"%s\"" user))
-			 (when password (format "-P \"%s\"" password))
-			 (when database (format "-d \"%s\"" database))))
+		   (list (when host (format "-S \"%s\"" (shell-quote-argument host)))
+			 (when user (format "-U \"%s\"" (shell-quote-argument user)))
+			 (when password (format "-P \"%s\"" (shell-quote-argument password)))
+			 (when database (format "-d \"%s\"" (shell-quote-argument database)))))
 	     " "))
 
 (defun org-babel-sql-dbstring-sqsh (host user password database)
@@ -169,10 +179,10 @@ SQL Server on Windows and Linux platform."
 \"sqsh\" is one method to access Sybase or MS SQL via Linux platform"
   (mapconcat #'identity
              (delq nil
-                   (list  (when host     (format "-S \"%s\"" host))
-                          (when user     (format "-U \"%s\"" user))
-                          (when password (format "-P \"%s\"" password))
-                          (when database (format "-D \"%s\"" database))))
+                   (list  (when host     (format "-S \"%s\"" (shell-quote-argument host)))
+                          (when user     (format "-U \"%s\"" (shell-quote-argument user)))
+                          (when password (format "-P \"%s\"" (shell-quote-argument password)))
+                          (when database (format "-D \"%s\"" (shell-quote-argument database)))))
              " "))
 
 (defun org-babel-sql-dbstring-vertica (host port user password database)
@@ -180,11 +190,11 @@ SQL Server on Windows and Linux platform."
 Pass nil to omit that arg."
   (mapconcat #'identity
 	     (delq nil
-		   (list (when host     (format "-h %s" host))
+		   (list (when host     (format "-h %s" (shell-quote-argument host)))
 			 (when port     (format "-p %d" port))
-			 (when user     (format "-U %s" user))
+			 (when user     (format "-U %s" (shell-quote-argument user)))
 			 (when password (format "-w %s" (shell-quote-argument password) ))
-			 (when database (format "-d %s" database))))
+			 (when database (format "-d %s" (shell-quote-argument database)))))
 	     " "))
 
 (defun org-babel-sql-dbstring-saphana (host port instance user password database)
@@ -192,20 +202,22 @@ Pass nil to omit that arg."
 Pass nil to omit that arg."
   (mapconcat #'identity
              (delq nil
-                   (list (and host port (format "-n %s:%s" host port))
-                         (and host (not port) (format "-n %s" host))
+                   (list (and host port (format "-n %s:%s"
+                                                (shell-quote-argument host)
+                                                port))
+                         (and host (not port) (format "-n %s" (shell-quote-argument host)))
                          (and instance (format "-i %d" instance))
-                         (and user (format "-u %s" user))
+                         (and user (format "-u %s" (shell-quote-argument user)))
                          (and password (format "-p %s"
                                                (shell-quote-argument password)))
-                         (and database (format "-d %s" database))))
+                         (and database (format "-d %s" (shell-quote-argument database)))))
              " "))
 
 (defun org-babel-sql-convert-standard-filename (file)
   "Convert FILE to OS standard file name.
 If in Cygwin environment, uses Cygwin specific function to
 convert the file name.  In a Windows-NT environment, do nothing.
-Otherwise, use Emacs' standard conversion function."
+Otherwise, use Emacs's standard conversion function."
   (cond ((fboundp 'cygwin-convert-file-name-to-windows)
 	 (format "%S" (cygwin-convert-file-name-to-windows file)))
 	((string= "windows-nt" system-type) file)
@@ -218,18 +230,18 @@ then look for the parameter into the corresponding connection
 defined in `sql-connection-alist', otherwise look into PARAMS.
 See `sql-connection-alist' (part of SQL mode) for how to define
 database connections."
-  (if (assq :dbconnection params)
-      (let* ((dbconnection (cdr (assq :dbconnection params)))
-             (name-mapping '((:dbhost . sql-server)
-                             (:dbport . sql-port)
-                             (:dbuser . sql-user)
-                             (:dbpassword . sql-password)
-                             (:dbinstance . sql-dbinstance)
-                             (:database . sql-database)))
-             (mapped-name (cdr (assq name name-mapping))))
-        (cadr (assq mapped-name
-                    (cdr (assoc dbconnection sql-connection-alist)))))
-    (cdr (assq name params))))
+  (or (cdr (assq name params))
+      (and (assq :dbconnection params)
+           (let* ((dbconnection (cdr (assq :dbconnection params)))
+                  (name-mapping '((:dbhost . sql-server)
+                                  (:dbport . sql-port)
+                                  (:dbuser . sql-user)
+                                  (:dbpassword . sql-password)
+                                  (:dbinstance . sql-dbinstance)
+                                  (:database . sql-database)))
+                  (mapped-name (cdr (assq name name-mapping))))
+             (cadr (assq mapped-name
+                         (cdr (assoc-string dbconnection sql-connection-alist t))))))))
 
 (defun org-babel-execute:sql (body params)
   "Execute a block of Sql code with Babel.
@@ -273,21 +285,23 @@ This function is called by `org-babel-execute-src-block'."
 				   (or cmdline "")
 				   (org-babel-process-file-name in-file)
 				   (org-babel-process-file-name out-file)))
-		    ((postgresql postgres) (format
-					    "%s%s --set=\"ON_ERROR_STOP=1\" %s -A -P \
+		    ((postgresql postgres)
+                     (format
+		      "%s%s --set=\"ON_ERROR_STOP=1\" %s -A -P \
 footer=off -F \"\t\"  %s -f %s -o %s %s"
-					    (if dbpassword
-						(format "PGPASSWORD=%s " dbpassword)
-					      "")
-                                            (or (bound-and-true-p
-                                                 sql-postgres-program)
-                                                "psql")
-					    (if colnames-p "" "-t")
-					    (org-babel-sql-dbstring-postgresql
-					     dbhost dbport dbuser database)
-					    (org-babel-process-file-name in-file)
-					    (org-babel-process-file-name out-file)
-					    (or cmdline "")))
+		      (if dbpassword
+			  (format "PGPASSWORD=%s "
+                                  (shell-quote-argument dbpassword))
+			"")
+                      (or (bound-and-true-p
+                           sql-postgres-program)
+                          "psql")
+		      (if colnames-p "" "-t")
+		      (org-babel-sql-dbstring-postgresql
+		       dbhost dbport dbuser database)
+		      (org-babel-process-file-name in-file)
+		      (org-babel-process-file-name out-file)
+		      (or cmdline "")))
 		    (sqsh (format "sqsh %s %s -i %s -o %s -m csv"
 				  (or cmdline "")
 				  (org-babel-sql-dbstring-sqsh
@@ -372,7 +386,7 @@ SET COLSEP '|'
 	      (goto-char (point-max))
 	      (forward-char -1))
 	    (write-file out-file))))
-	(org-table-import out-file (if (string= engine "sqsh") '(4) '(16)))
+	(org-table-import out-file (if (memq (intern engine) '(saphana sqsh)) '(4) '(16)))
 	(org-babel-reassemble-table
 	 (mapcar (lambda (x)
 		   (if (string= (car x) header-delim)
@@ -403,12 +417,14 @@ argument mechanism."
                       (insert (orgtbl-to-csv
                                val (if sqlite
                                        nil
-                                     '(:fmt (lambda (el) (if (stringp el)
-                                                             el
-                                                           (format "%S" el))))))))
+                                     '( :fmt (lambda (el)
+                                               (if (stringp el)
+                                                   el
+                                                 (format "%S" el)))
+                                        :with-special-rows nil)))))
                     data-file)
                 (if (stringp val) val (format "%S" val))))
-	    body)))
+	    body t t)))
    vars)
   body)
 

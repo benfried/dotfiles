@@ -1,6 +1,6 @@
 ;;; ob-java.el --- org-babel functions for java evaluation -*- lexical-binding: t -*-
 
-;; Copyright (C) 2011-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2011-2026 Free Software Foundation, Inc.
 
 ;; Authors: Eric Schulte
 ;;          Dan Davison
@@ -28,6 +28,10 @@
 ;; Org-Babel support for evaluating java source code.
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 
 (defvar org-babel-tangle-lang-exts)
@@ -49,7 +53,13 @@ directory, so we keep that as the default behavior.
 
 [1] https://orgmode.org/manual/Results-of-Evaluation.html")
 
-(defconst org-babel-header-args:java '((imports . :any))
+(defconst org-babel-header-args:java
+  '((dir       . :any)
+    (classname . :any)
+    (imports   . :any)
+    (cmpflag   . :any)
+    (cmdline   . :any)
+    (cmdarg    . :any))
   "Java-specific header arguments.")
 
 (defcustom org-babel-java-command "java"
@@ -184,13 +194,10 @@ replaced in this string.")
          (packagename (if (string-match-p "\\." fullclassname)
                           (file-name-base fullclassname)))
          ;; the base dir that contains the top level package dir
-         (basedir (file-name-as-directory (if run-from-temp
-                                              (if (file-remote-p default-directory)
-                                                  (concat
-                                                   (file-remote-p default-directory)
-                                                   org-babel-remote-temporary-directory)
-                                                org-babel-temporary-directory)
-                                            default-directory)))
+         (basedir (file-name-as-directory
+                   (if run-from-temp
+                       (org-babel-temp-directory)
+                     default-directory)))
          ;; the dir to write the source file
          (packagedir (if (and (not run-from-temp) packagename)
                          (file-name-as-directory
@@ -334,9 +341,13 @@ is simplest to expand the code block from the inside out."
          (imports-val (assq :imports params))
          (imports (if imports-val
                       (split-string (org-babel-read (cdr imports-val) nil) " ")
-                    nil)))
+                    nil))
+         (prologue (cdr (assq :prologue params)))
+         (epilogue (cdr (assq :epilogue params))))
     (with-temp-buffer
+      (when prologue (insert prologue "\n"))
       (insert body)
+      (when epilogue (insert "\n" epilogue))
 
       ;; wrap main.  If there are methods defined, but no main method
       ;; and no class, wrap everything in a generic main method.
@@ -356,7 +367,8 @@ is simplest to expand the code block from the inside out."
       (when (not (re-search-forward org-babel-java--class-re nil t))
         (org-babel-java--move-past org-babel-java--package-re) ; if package is defined, move past it
         (org-babel-java--move-past org-babel-java--imports-re) ; if imports are defined, move past them
-        (insert (concat "\npublic class " (file-name-base classname) " {\n"))
+        (insert (concat (when (or packagename imports) "\n")
+                        "public class " (file-name-base classname) " {\n"))
         (indent-code-rigidly (point) (point-max) 4)
         (goto-char (point-max))
         (insert "\n}"))
@@ -379,6 +391,13 @@ is simplest to expand the code block from the inside out."
       (goto-char (point-min))
       (when (and packagename (not (re-search-forward org-babel-java--package-re nil t)))
         (insert (concat "package " packagename ";\n")))
+
+      ;; Remove leading empty lines, which may have been introduced
+      ;; by the class/main wrapping when there is no package or
+      ;; imports.
+      (goto-char (point-min))
+      (skip-chars-forward "\n")
+      (delete-region (point-min) (point))
 
       ;; return expanded body
       (buffer-string))))

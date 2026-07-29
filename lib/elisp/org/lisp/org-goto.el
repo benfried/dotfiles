@@ -1,9 +1,9 @@
 ;;; org-goto.el --- Fast navigation in an Org buffer  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2012-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2012-2026 Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten.dominik@gmail.com>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Keywords: outlines, hypermedia, calendar, text
 
 ;; This file is part of GNU Emacs.
 
@@ -20,7 +20,12 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Commentary:
+
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
 
 (require 'org)
 (require 'org-refile)
@@ -99,7 +104,11 @@ When nil, you can use these keybindings to navigate the buffer:
 					mouse-drag-region universal-argument org-occur)))
 	    (dolist (cmd cmds)
 	      (substitute-key-definition cmd cmd map global-map)))
-	  (suppress-keymap map)
+	  (if org-goto-auto-isearch
+              ;; Suppress 0-9 interpreted as digital arguments.
+              ;; Make them initiate isearch instead.
+              (suppress-keymap map t)
+            (suppress-keymap map))
 	  (org-defkey map "\C-m"     'org-goto-ret)
 	  (org-defkey map [(return)] 'org-goto-ret)
 	  (org-defkey map [(left)]   'org-goto-left)
@@ -125,14 +134,9 @@ When nil, you can use these keybindings to navigate the buffer:
 	  (org-defkey map "\C-c\C-u" 'outline-up-heading)
 	  map)))
 
-;; `isearch-other-control-char' was removed in Emacs 24.4.
-(if (fboundp 'isearch-other-control-char)
-    (progn
-      (define-key org-goto-local-auto-isearch-map "\C-i" 'isearch-other-control-char)
-      (define-key org-goto-local-auto-isearch-map "\C-m" 'isearch-other-control-char))
-  (define-key org-goto-local-auto-isearch-map "\C-i" nil)
-  (define-key org-goto-local-auto-isearch-map "\C-m" nil)
-  (define-key org-goto-local-auto-isearch-map [return] nil))
+(define-key org-goto-local-auto-isearch-map "\C-i" nil)
+(define-key org-goto-local-auto-isearch-map "\C-m" nil)
+(define-key org-goto-local-auto-isearch-map [return] nil)
 
 (defun org-goto--local-search-headings (string bound noerror)
   "Search and make sure that any matches are in headlines."
@@ -142,7 +146,7 @@ When nil, you can use these keybindings to navigate the buffer:
              (search-backward string bound noerror))
       (when (save-match-data
 	      (and (save-excursion
-		     (beginning-of-line)
+		     (forward-line 0)
 		     (looking-at org-complex-heading-regexp))
 		   (or (not (match-beginning 5))
 		       (< (point) (match-beginning 5)))))
@@ -150,7 +154,7 @@ When nil, you can use these keybindings to navigate the buffer:
 
 (defun org-goto-local-auto-isearch ()
   "Start isearch."
-  (interactive)
+  (interactive nil org-mode)
   (let ((keys (this-command-keys)))
     (when (eq (lookup-key isearch-mode-map keys) 'isearch-printing-char)
       (isearch-mode t)
@@ -159,17 +163,17 @@ When nil, you can use these keybindings to navigate the buffer:
 
 (defun org-goto-ret (&optional _arg)
   "Finish `org-goto' by going to the new location."
-  (interactive "P")
+  (interactive "P" org-mode)
   (setq org-goto-selected-point (point))
   (setq org-goto-exit-command 'return)
   (throw 'exit nil))
 
 (defun org-goto-left ()
   "Finish `org-goto' by going to the new location."
-  (interactive)
+  (interactive nil org-mode)
   (if (org-at-heading-p)
       (progn
-	(beginning-of-line 1)
+	(forward-line 0)
 	(setq org-goto-selected-point (point)
 	      org-goto-exit-command 'left)
 	(throw 'exit nil))
@@ -177,7 +181,7 @@ When nil, you can use these keybindings to navigate the buffer:
 
 (defun org-goto-right ()
   "Finish `org-goto' by going to the new location."
-  (interactive)
+  (interactive nil org-mode)
   (if (org-at-heading-p)
       (progn
 	(setq org-goto-selected-point (point)
@@ -187,7 +191,7 @@ When nil, you can use these keybindings to navigate the buffer:
 
 (defun org-goto-quit ()
   "Finish `org-goto' without cursor motion."
-  (interactive)
+  (interactive nil org-mode)
   (setq org-goto-selected-point nil)
   (setq org-goto-exit-command 'quit)
   (throw 'exit nil))
@@ -208,12 +212,12 @@ position or nil."
 	(help (or help org-goto-help)))
     (save-excursion
       (save-window-excursion
-	(delete-other-windows)
 	(and (get-buffer "*org-goto*") (kill-buffer "*org-goto*"))
-	(pop-to-buffer-same-window
-	 (condition-case nil
+        (pop-to-buffer
+         (condition-case nil
 	     (make-indirect-buffer (current-buffer) "*org-goto*" t)
-	   (error (make-indirect-buffer (current-buffer) "*org-goto*" t))))
+	   (error (make-indirect-buffer (current-buffer) "*org-goto*" t)))
+         '(org-display-buffer-full-frame))
 	(let (temp-buffer-show-function temp-buffer-show-hook)
 	  (with-output-to-temp-buffer "*Org Help*"
 	    (princ (format help (if org-goto-auto-isearch
@@ -231,8 +235,10 @@ position or nil."
 	(let (org-special-ctrl-a/e) (org-beginning-of-line))
 	(message "Select location and press RET")
 	(use-local-map org-goto-map)
-	(recursive-edit)))
-    (kill-buffer "*org-goto*")
+	(unwind-protect (recursive-edit)
+          (when-let* ((window (get-buffer-window "*Org Help*" t)))
+            (quit-window 'kill window)))))
+    (when (get-buffer "*org-goto*") (kill-buffer "*org-goto*"))
     (cons org-goto-selected-point org-goto-exit-command)))
 
 ;;;###autoload
@@ -255,7 +261,7 @@ in the indirect buffer and expose the headline hierarchy above.
 
 With a prefix argument, use the alternative interface: e.g., if
 `org-goto-interface' is `outline' use `outline-path-completion'."
-  (interactive "P")
+  (interactive "P" org-mode)
   (org-goto--set-map)
   (let* ((org-refile-targets `((nil . (:maxlevel . ,org-goto-max-level))))
 	 (org-refile-use-outline-path t)

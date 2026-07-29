@@ -1,11 +1,11 @@
-;;; ox-icalendar.el --- iCalendar Back-End for Org Export Engine -*- lexical-binding: t; -*-
+;;; ox-icalendar.el --- iCalendar Backend for Org Export Engine -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2004-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2004-2026 Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten.dominik@gmail.com>
 ;;      Nicolas Goaziou <mail@nicolasgoaziou.fr>
-;; Maintainer: Nicolas Goaziou <mail@nicolasgoaziou.fr>
-;; Keywords: outlines, hypermedia, calendar, wp
+;; Maintainer: Jack Kamm <jackkamm@gmail.com>
+;; Keywords: outlines, hypermedia, calendar, text
 ;; URL: https://orgmode.org
 
 ;; This file is part of GNU Emacs.
@@ -25,27 +25,27 @@
 
 ;;; Commentary:
 ;;
-;; This library implements an iCalendar back-end for Org generic
+;; This library implements an iCalendar backend for Org generic
 ;; exporter.  See Org manual for more information.
 ;;
 ;; It is expected to conform to RFC 5545.
 
 ;;; Code:
 
+(require 'org-macs)
+(org-assert-version)
+
 (require 'cl-lib)
 (require 'org-agenda)
 (require 'ox-ascii)
 (declare-function org-bbdb-anniv-export-ical "ol-bbdb" nil)
-(declare-function org-at-heading-p "org" (&optional _))
-(declare-function org-back-to-heading "org" (&optional invisible-ok))
-(declare-function org-next-visible-heading "org" (arg))
 
 
 
 ;;; User-Configurable Variables
 
 (defgroup org-export-icalendar nil
-  "Options specific for iCalendar export back-end."
+  "Options specific for iCalendar export backend."
   :tag "Org Export iCalendar"
   :group 'org-export)
 
@@ -72,7 +72,7 @@ for timed events.  If non-zero, alarms are created.
 (defcustom org-icalendar-force-alarm nil
   "Non-nil means alarm will be created even if is set to zero.
 
-This overrides default behaviour where zero means no alarm.  With
+This overrides default behavior where zero means no alarm.  With
 this set to non-nil and alarm set to zero, alarm will be created
 and will fire at the event start."
   :group 'org-export-icalendar
@@ -93,10 +93,25 @@ and will fire at the event start."
 (defcustom org-icalendar-exclude-tags nil
   "Tags that exclude a tree from export.
 This variable allows specifying different exclude tags from other
-back-ends.  It can also be set with the ICALENDAR_EXCLUDE_TAGS
+backends.  It can also be set with the ICALENDAR_EXCLUDE_TAGS
 keyword."
   :group 'org-export-icalendar
   :type '(repeat (string :tag "Tag")))
+
+(defcustom org-icalendar-scheduled-summary-prefix "S: "
+  "String prepended to exported scheduled headlines."
+  :group 'org-export-icalendar
+  :type 'string
+  :package-version '(Org . "9.6")
+  :safe #'stringp)
+
+
+(defcustom org-icalendar-deadline-summary-prefix "DL: "
+  "String prepended to exported headlines with a deadline."
+  :group 'org-export-icalendar
+  :type 'string
+  :package-version '(Org . "9.6")
+  :safe #'stringp)
 
 (defcustom org-icalendar-use-deadline '(event-if-not-todo todo-due)
   "Contexts where iCalendar export should use a deadline time stamp.
@@ -150,8 +165,9 @@ This is a list with possibly several symbols in it.  Valid symbols are:
 
 `todo-start'
 
-  Scheduling time stamps in TODO entries become start date.  Some
-  calendar applications show TODO entries only after that date."
+  Scheduling time stamps in TODO entries become start date.  (See
+  also `org-icalendar-todo-unscheduled-start', which controls the
+  start date for TODO entries without a scheduling time stamp)"
   :group 'org-export-icalendar
   :type
   '(set :greedy t
@@ -183,18 +199,28 @@ This is a list of symbols, the following are valid:
 (defcustom org-icalendar-with-timestamps 'active
   "Non-nil means make an event from plain time stamps.
 
-It can be set to `active', `inactive', t or nil, in order to make
-an event from, respectively, only active timestamps, only
-inactive ones, all of them or none.
+It can be set to `active', `active-exclude-diary', `inactive', t
+or nil, in order to make an event from, respectively, only active
+timestamps (with/without diary timestamps), only inactive ones,
+all of them or none.
 
-This variable has precedence over `org-export-with-timestamps'.
+This variable has the same options as
+`org-export-with-timestamps', and takes precedence over it.
+However, note that this variable applies to all timestamps within
+an entry, whereas `org-export-with-timestamps' only applies to
+timestamps isolated in a paragraph containing only timestamps.
+
 It can also be set with the #+OPTIONS line, e.g. \"<:t\"."
   :group 'org-export-icalendar
+  :package-version '(Org . "9.8")
   :type '(choice
 	  (const :tag "All timestamps" t)
-	  (const :tag "Only active timestamps" active)
+	  (const :tag "Active timestamps, including diary timestamps" active)
+	  (const :tag "Active timestamps, excluding diary timestamps"
+                 active-exclude-diary)
 	  (const :tag "Only inactive timestamps" inactive)
-	  (const :tag "No timestamp" nil)))
+	  (const :tag "No timestamp" nil))
+  :safe (lambda (x) (memq x '(t nil active active-exclude-diary inactive))))
 
 (defcustom org-icalendar-include-todo nil
   "Non-nil means create VTODO components from TODO items.
@@ -203,7 +229,8 @@ Valid values are:
 nil                  don't include any task.
 t                    include tasks that are not in DONE state.
 `unblocked'          include all TODO items that are not blocked.
-`all'                include both done and not done items."
+`all'                include both done and not done items.
+\\(\"TODO\" ...)       include specific TODO keywords."
   :group 'org-export-icalendar
   :type '(choice
 	  (const :tag "None" nil)
@@ -212,6 +239,38 @@ t                    include tasks that are not in DONE state.
 	  (const :tag "All" all)
 	  (repeat :tag "Specific TODO keywords"
 		  (string :tag "Keyword"))))
+
+(defcustom org-icalendar-todo-unscheduled-start 'recurring-deadline-warning
+  "Exported start date of unscheduled TODOs.
+
+If `org-icalendar-use-scheduled' contains `todo-start' and a task
+has a \"SCHEDULED\" timestamp, that is always used as the start
+date.  Otherwise, this variable controls whether a start date is
+exported and what its value is.
+
+Note that the iCalendar spec RFC 5545 does not generally require
+tasks to have a start date, except for repeating tasks which do
+require a start date.  However some iCalendar programs ignore the
+requirement for repeating tasks, and allow repeating deadlines
+without a matching start date.
+
+This variable has no effect when `org-icalendar-include-todo' is nil.
+
+Valid values are:
+`recurring-deadline-warning'  If deadline repeater present,
+                              use `org-deadline-warning-days' as start.
+`deadline-warning'            If deadline present,
+                              use `org-deadline-warning-days' as start.
+`current-datetime'            Use the current date-time as start.
+nil                           Never add a start time for unscheduled tasks."
+  :group 'org-export-icalendar
+  :type '(choice
+	  (const :tag "Warning days if deadline recurring" recurring-deadline-warning)
+	  (const :tag "Warning days if deadline present" deadline-warning)
+	  (const :tag "Now" current-datetime)
+	  (const :tag "No start date" nil))
+  :package-version '(Org . "9.7")
+  :safe #'symbolp)
 
 (defcustom org-icalendar-include-bbdb-anniversaries nil
   "Non-nil means a combined iCalendar file should include anniversaries.
@@ -279,6 +338,32 @@ Interesting value are:
 	  (const :tag "Universal time" ":%Y%m%dT%H%M%SZ")
 	  (string :tag "Explicit format")))
 
+(defcustom org-icalendar-ttl nil
+  "Time to live for the exported calendar.
+
+Subscribing clients to the exported ics file can derive the time
+interval to read the file again from the server.  One example of such
+client is Nextcloud calendar, which respects the setting of
+X-PUBLISHED-TTL in ICS files.  Setting `org-icalendar-ttl' to \"PT1H\"
+would advise a server to reload the file every hour.
+
+See https://icalendar.org/iCalendar-RFC-5545/3-8-2-5-duration.html
+for a complete description of possible specifications of this
+option.  For example, \"PT1H\" stands for 1 hour and
+\"PT0H27M34S\" stands for 0 hours, 27 minutes and 34 seconds.
+
+The default value is nil, which means no such option is set in
+the ICS file. This option can also be set on a per-document basis
+with the ICAL-TTL export keyword."
+  :group 'org-export-icalendar
+  :type '(choice
+          (const :tag "No refresh period" nil)
+          (const :tag "One hour" "PT1H")
+          (const :tag "One day" "PT1D")
+          (const :tag "One week" "PT7D")
+          (string :tag "Other"))
+  :package-version '(Org . "9.7"))
+
 (defvar org-icalendar-after-save-hook nil
   "Hook run after an iCalendar file has been saved.
 This hook is run with the name of the file as argument.  A good
@@ -287,17 +372,19 @@ re-read the iCalendar file.")
 
 
 
-;;; Define Back-End
+;;; Define Backend
 
 (org-export-define-derived-backend 'icalendar 'ascii
-  :translate-alist '((clock . ignore)
-		     (footnote-definition . ignore)
-		     (footnote-reference . ignore)
+  :translate-alist '((clock . nil)
+                     (export-block . org-icalendar--export-block)
+		     (footnote-definition . nil)
+		     (footnote-reference . nil)
+		     (keyword . org-icalendar--keyword)
 		     (headline . org-icalendar-entry)
                      (inner-template . org-icalendar-inner-template)
-		     (inlinetask . ignore)
-		     (planning . ignore)
-		     (section . ignore)
+		     (inlinetask . nil)
+		     (planning . nil)
+		     (section . nil)
 		     (template . org-icalendar-template))
   :options-alist
   '((:exclude-tags
@@ -314,7 +401,10 @@ re-read the iCalendar file.")
     (:icalendar-store-UID nil nil org-icalendar-store-UID)
     (:icalendar-timezone nil nil org-icalendar-timezone)
     (:icalendar-use-deadline nil nil org-icalendar-use-deadline)
-    (:icalendar-use-scheduled nil nil org-icalendar-use-scheduled))
+    (:icalendar-use-scheduled nil nil org-icalendar-use-scheduled)
+    (:icalendar-scheduled-summary-prefix nil nil org-icalendar-scheduled-summary-prefix)
+    (:icalendar-deadline-summary-prefix nil nil org-icalendar-deadline-summary-prefix)
+    (:icalendar-ttl "ICAL-TTL" nil org-icalendar-ttl))
   :filters-alist
   '((:filter-headline . org-icalendar-clear-blank-lines))
   :menu-entry
@@ -480,6 +570,8 @@ used as a communication channel."
 			 categories)))))))
    ","))
 
+;; TODO: this should also support other fields such as DESCRIPTION,
+;; CATEGORIES, LOCATION, LITERAL-ICAL, etc
 (defun org-icalendar-transcode-diary-sexp (sexp uid summary)
   "Transcode a diary sexp into iCalendar format.
 SEXP is the diary sexp being transcoded, as a string.  UID is the
@@ -520,20 +612,31 @@ or subject for the event."
 	    ;; line, real contents must be split at 74 chars.
 	    (while (< (setq chunk-end (+ chunk-start 74)) len)
 	      (setq folded-line
-		    (concat folded-line "\r\n "
+		    (concat folded-line "\n "
 			    (substring line chunk-start chunk-end))
 		    chunk-start chunk-end))
-	    (concat folded-line "\r\n " (substring line chunk-start))))))
-    (org-split-string s "\n") "\r\n")))
+	    (concat folded-line "\n " (substring line chunk-start))))))
+    (org-split-string s "\n") "\n")))
 
+(defun org-icalendar--post-process-file (file)
+  "Post-process the exported iCalendar FILE.
+Converts line endings to dos-style CRLF as per RFC 5545, then
+runs `org-icalendar-after-save-hook'."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (let ((coding-system-for-write (coding-system-change-eol-conversion
+                                    last-coding-system-used 'dos)))
+      (write-region nil nil file)))
+  (run-hook-with-args 'org-icalendar-after-save-hook file)
+  nil)
 
 
 ;;; Filters
 
-(defun org-icalendar-clear-blank-lines (headline _back-end _info)
+(defun org-icalendar-clear-blank-lines (headline _backend _info)
   "Remove blank lines in HEADLINE export.
 HEADLINE is a string representing a transcoded headline.
-BACK-END and INFO are ignored."
+BACKEND and INFO are ignored."
   (replace-regexp-in-string "^\\(?:[ \t]*\n\\)+" "" headline))
 
 
@@ -571,20 +674,22 @@ inlinetask within the section."
 	    (if (eq type 'inlinetask)
 		(cons 'org-data (cons nil (org-element-contents entry)))
 	      (let ((first (car (org-element-contents entry))))
-		(and (eq (org-element-type first) 'section)
+		(and (org-element-type-p first 'section)
 		     (cons 'org-data
 			   (cons nil (org-element-contents first))))))))
       (concat
        (let ((todo-type (org-element-property :todo-type entry))
 	     (uid (or (org-element-property :ID entry) (org-id-new)))
 	     (summary (org-icalendar-cleanup-string
-		       (or (org-element-property :SUMMARY entry)
-			   (org-export-data
-			    (org-element-property :title entry) info))))
-	     (loc (org-icalendar-cleanup-string
-		   (org-export-get-node-property
-		    :LOCATION entry
-		    (org-property-inherit-p "LOCATION"))))
+		       (or
+                        (let ((org-property-separators '(("SUMMARY" . "\n"))))
+                          (org-entry-get entry "SUMMARY" 'selective))
+			(org-export-data
+			 (org-element-property :title entry) info))))
+	     (loc
+              (let ((org-property-separators '(("LOCATION" . "\n"))))
+                (org-icalendar-cleanup-string
+                 (org-entry-get entry "LOCATION" 'selective))))
 	     (class (org-icalendar-cleanup-string
 		     (org-export-get-node-property
 		      :CLASS entry
@@ -593,8 +698,15 @@ inlinetask within the section."
 	     ;; (headline) or contents (inlinetask).
 	     (desc
 	      (org-icalendar-cleanup-string
-	       (or (org-element-property :DESCRIPTION entry)
-		   (let ((contents (org-export-data inside info)))
+	       (or (let ((org-property-separators '(("DESCRIPTION" . "\n"))))
+                     (org-entry-get entry "DESCRIPTION" 'selective))
+		   (let ((contents (mapconcat
+                                    (lambda (elem)
+                                      (unless (memq (org-element-type elem)
+                                                    '(export-block keyword))
+                                        (org-export-data elem info)))
+                                    (org-element-contents inside)
+                                    "")))
 		     (cond
 		      ((not (org-string-nw-p contents)) nil)
 		      ((wholenump org-icalendar-include-body)
@@ -606,13 +718,21 @@ inlinetask within the section."
 	     (cat (org-icalendar-get-categories entry info))
 	     (tz (org-export-get-node-property
 		  :TIMEZONE entry
-		  (org-property-inherit-p "TIMEZONE"))))
+		  (org-property-inherit-p "TIMEZONE")))
+             (literal-ical (string-join (org-element-map
+                                            (org-element-contents inside)
+                                            '(export-block keyword)
+                                          (lambda (pg) (org-export-data pg info))
+                                          info nil 'inlinetask)
+                                        "\n")))
 	 (concat
 	  ;; Events: Delegate to `org-icalendar--vevent' to generate
 	  ;; "VEVENT" component from scheduled, deadline, or any
 	  ;; timestamp in the entry.
 	  (let ((deadline (org-element-property :deadline entry))
-		(use-deadline (plist-get info :icalendar-use-deadline)))
+		(use-deadline (plist-get info :icalendar-use-deadline))
+                (deadline-summary-prefix (org-icalendar-cleanup-string
+                                          (plist-get info :icalendar-deadline-summary-prefix))))
 	    (and deadline
 		 (pcase todo-type
 		   (`todo (or (memq 'event-if-todo-not-done use-deadline)
@@ -621,9 +741,12 @@ inlinetask within the section."
 		   (_ (memq 'event-if-not-todo use-deadline)))
 		 (org-icalendar--vevent
 		  entry deadline (concat "DL-" uid)
-		  (concat "DL: " summary) loc desc cat tz class)))
+		  (concat deadline-summary-prefix summary)
+                  loc desc cat tz class literal-ical)))
 	  (let ((scheduled (org-element-property :scheduled entry))
-		(use-scheduled (plist-get info :icalendar-use-scheduled)))
+		(use-scheduled (plist-get info :icalendar-use-scheduled))
+                (scheduled-summary-prefix (org-icalendar-cleanup-string
+                                           (plist-get info :icalendar-scheduled-summary-prefix))))
 	    (and scheduled
 		 (pcase todo-type
 		   (`todo (or (memq 'event-if-todo-not-done use-scheduled)
@@ -632,7 +755,8 @@ inlinetask within the section."
 		   (_ (memq 'event-if-not-todo use-scheduled)))
 		 (org-icalendar--vevent
 		  entry scheduled (concat "SC-" uid)
-		  (concat "S: " summary) loc desc cat tz class)))
+		  (concat scheduled-summary-prefix summary)
+                  loc desc cat tz class literal-ical)))
 	  ;; When collecting plain timestamps from a headline and its
 	  ;; title, skip inlinetasks since collection will happen once
 	  ;; ENTRY is one of them.
@@ -643,28 +767,29 @@ inlinetask within the section."
 				    (org-element-contents inside))
 		 'timestamp
 	       (lambda (ts)
-		 (when (let ((type (org-element-property :type ts)))
-			 (cl-case (plist-get info :with-timestamps)
-			   (active (memq type '(active active-range)))
-			   (inactive (memq type '(inactive inactive-range)))
-			   ((t) t)))
+		 (unless (org-export--skip-timestamp-p
+                          (plist-get info :with-timestamps)
+                          (org-element-property :type ts))
 		   (let ((uid (format "TS%d-%s" (cl-incf counter) uid)))
 		     (org-icalendar--vevent
-		      entry ts uid summary loc desc cat tz class))))
+		      entry ts uid summary loc desc cat tz class literal-ical))))
 	       info nil (and (eq type 'headline) 'inlinetask))
 	     ""))
 	  ;; Task: First check if it is appropriate to export it.  If
 	  ;; so, call `org-icalendar--vtodo' to transcode it into
 	  ;; a "VTODO" component.
 	  (when (and todo-type
-		     (cl-case (plist-get info :icalendar-include-todo)
-		       (all t)
-		       (unblocked
+		     (pcase (plist-get info :icalendar-include-todo)
+		       (`all t)
+		       (`unblocked
 			(and (eq type 'headline)
 			     (not (org-icalendar-blocked-headline-p
-				   entry info))))
-		       ((t) (eq todo-type 'todo))))
-	    (org-icalendar--vtodo entry uid summary loc desc cat tz class))
+				 entry info))))
+                       ;; unfinished
+		       (`t (eq todo-type 'todo))
+                       ((and (pred listp) kwd-list)
+                        (member (org-element-property :todo-keyword entry) kwd-list))))
+	    (org-icalendar--vtodo entry uid summary loc desc cat tz class literal-ical))
 	  ;; Diary-sexp: Collect every diary-sexp element within ENTRY
 	  ;; and its title, and transcode them.  If ENTRY is
 	  ;; a headline, skip inlinetasks: they will be handled
@@ -694,8 +819,30 @@ inlinetask within the section."
        ;; Don't forget components from inner entries.
        contents))))
 
+(defun org-icalendar--export-block (export-block _contents _info)
+  "Transcode a EXPORT-BLOCK element from Org to iCalendar.
+CONTENTS is ignored.  INFO is a plist used as a communication channel."
+  (when (equal (org-element-property :type export-block) "ICALENDAR")
+    (org-remove-indentation (org-element-property :value export-block))))
+
+(defun org-icalendar--keyword (keyword _contents _info)
+  "Transcode a KEYWORD element into iCalendar text.
+CONTENTS is ignored.  INFO is a plist used as a communication channel."
+  (let ((key (org-element-property :key keyword))
+	(value (org-element-property :value keyword)))
+    (when (equal key "ICALENDAR") value)))
+
+(defun org-icalendar--rrule (unit value)
+  "Format RRULE icalendar entry for UNIT frequency and VALUE interval.
+UNIT is a symbol `hour', `day', `week', `month', or `year'."
+  (format "RRULE:FREQ=%s;INTERVAL=%d"
+	  (cl-case unit
+	    (hour "HOURLY") (day "DAILY") (week "WEEKLY")
+	    (month "MONTHLY") (year "YEARLY"))
+	  value))
+
 (defun org-icalendar--vevent
-    (entry timestamp uid summary location description categories timezone class)
+    (entry timestamp uid summary location description categories timezone class literal-ical)
   "Create a VEVENT component.
 
 ENTRY is either a headline or an inlinetask element.  TIMESTAMP
@@ -706,88 +853,184 @@ venue for the event.  DESCRIPTION provides the complete
 description of the event.  CATEGORIES defines the categories the
 event belongs to.  TIMEZONE specifies a time zone for this event
 only.  CLASS contains the visibility attribute.  Three of them
-(\"PUBLIC\", \"CONFIDENTIAL\", and \"PRIVATE\") are predefined, others
+\\(\"PUBLIC\", \"CONFIDENTIAL\", and \"PRIVATE\") are predefined, others
 should be treated as \"PRIVATE\" if they are unknown to the iCalendar server.
+LITERAL-ICAL is additional iCalendar text to be added to the entry.
 
 Return VEVENT component as a string."
-  (org-icalendar-fold-string
-   (if (eq (org-element-property :type timestamp) 'diary)
-       (org-icalendar-transcode-diary-sexp
-	(org-element-property :raw-value timestamp) uid summary)
-     (concat "BEGIN:VEVENT\n"
-	     (org-icalendar-dtstamp) "\n"
-	     "UID:" uid "\n"
-	     (org-icalendar-convert-timestamp timestamp "DTSTART" nil timezone) "\n"
-	     (org-icalendar-convert-timestamp timestamp "DTEND" t timezone) "\n"
-	     ;; RRULE.
-	     (when (org-element-property :repeater-type timestamp)
-	       (format "RRULE:FREQ=%s;INTERVAL=%d\n"
-		       (cl-case (org-element-property :repeater-unit timestamp)
-			 (hour "HOURLY") (day "DAILY") (week "WEEKLY")
-			 (month "MONTHLY") (year "YEARLY"))
-		       (org-element-property :repeater-value timestamp)))
-	     "SUMMARY:" summary "\n"
-	     (and (org-string-nw-p location) (format "LOCATION:%s\n" location))
-	     (and (org-string-nw-p class) (format "CLASS:%s\n" class))
-	     (and (org-string-nw-p description)
-		  (format "DESCRIPTION:%s\n" description))
-	     "CATEGORIES:" categories "\n"
-	     ;; VALARM.
-	     (org-icalendar--valarm entry timestamp summary)
-	     "END:VEVENT"))))
+  (if (eq (org-element-property :type timestamp) 'diary)
+      (org-icalendar-transcode-diary-sexp
+       (org-element-property :raw-value timestamp) uid summary)
+    (concat "BEGIN:VEVENT\n"
+	    (org-icalendar-dtstamp) "\n"
+	    "UID:" uid "\n"
+	    (org-icalendar-convert-timestamp timestamp "DTSTART" nil timezone) "\n"
+	    (org-icalendar-convert-timestamp timestamp "DTEND" t timezone) "\n"
+	    ;; RRULE.
+            (when (org-element-property :repeater-type timestamp)
+              (concat (org-icalendar--rrule
+                       (org-element-property :repeater-unit timestamp)
+                       (org-element-property :repeater-value timestamp))
+                      "\n"))
+	    "SUMMARY:" summary "\n"
+	    (and (org-string-nw-p location) (format "LOCATION:%s\n" location))
+	    (and (org-string-nw-p class) (format "CLASS:%s\n" class))
+	    (and (org-string-nw-p description)
+		 (format "DESCRIPTION:%s\n" description))
+	    "CATEGORIES:" categories "\n"
+	    ;; VALARM.
+	    (org-icalendar--valarm entry timestamp summary)
+            ;; additional literal iCalendar text
+            literal-ical (unless (equal literal-ical "") "\n")
+	    "END:VEVENT\n")))
+
+(defun org-icalendar--repeater-type (elem)
+  "Return ELEM's repeater-type if supported, else warn and return nil."
+  (let ((repeater-value (org-element-property :repeater-value elem))
+        (repeater-type (org-element-property :repeater-type elem)))
+    (cond
+     ((not (and repeater-type
+                repeater-value
+                (> repeater-value 0)))
+      nil)
+     ;; TODO Add catch-up to supported repeaters (use EXDATE to implement)
+     ((not (memq repeater-type '(cumulate)))
+      (org-display-warning
+       (format "Repeater-type %s not currently supported by iCalendar export"
+               (symbol-name repeater-type)))
+      nil)
+     (repeater-type))))
 
 (defun org-icalendar--vtodo
-    (entry uid summary location description categories timezone class)
+    (entry uid summary location description categories timezone class literal-ical)
   "Create a VTODO component.
 
-ENTRY is either a headline or an inlinetask element.  UID is the
-unique identifier for the task.  SUMMARY defines a short summary
-or subject for the task.  LOCATION defines the intended venue for
-the task.  DESCRIPTION provides the complete description of the
-task.  CATEGORIES defines the categories the task belongs to.
-TIMEZONE specifies a time zone for this TODO only.
+ENTRY is either a headline or an inlinetask element.  UID is the unique
+identifier for the task.  SUMMARY defines a short summary or subject for
+the task.  LOCATION defines the intended venue for the task.  CLASS sets
+the task class (e.g. confidential).  DESCRIPTION provides the complete
+description of the task.  CATEGORIES defines the categories the task
+belongs to.  TIMEZONE specifies a time zone for this TODO only.
+LITERAL-ICAL is additional iCalendar text to be added to the entry.
 
 Return VTODO component as a string."
-  (let ((start (or (and (memq 'todo-start org-icalendar-use-scheduled)
-			(org-element-property :scheduled entry))
-		   ;; If we can't use a scheduled time for some
-		   ;; reason, start task now.
-		   (let ((now (decode-time)))
-		     (list 'timestamp
-			   (list :type 'active
-				 :minute-start (nth 1 now)
-				 :hour-start (nth 2 now)
-				 :day-start (nth 3 now)
-				 :month-start (nth 4 now)
-				 :year-start (nth 5 now)))))))
-    (org-icalendar-fold-string
-     (concat "BEGIN:VTODO\n"
-	     "UID:TODO-" uid "\n"
-	     (org-icalendar-dtstamp) "\n"
-	     (org-icalendar-convert-timestamp start "DTSTART" nil timezone) "\n"
-	     (and (memq 'todo-due org-icalendar-use-deadline)
-		  (org-element-property :deadline entry)
-		  (concat (org-icalendar-convert-timestamp
-			   (org-element-property :deadline entry) "DUE" nil timezone)
-			  "\n"))
-	     "SUMMARY:" summary "\n"
-	     (and (org-string-nw-p location) (format "LOCATION:%s\n" location))
-	     (and (org-string-nw-p class) (format "CLASS:%s\n" class))
-	     (and (org-string-nw-p description)
-		  (format "DESCRIPTION:%s\n" description))
-	     "CATEGORIES:" categories "\n"
-	     "SEQUENCE:1\n"
-	     (format "PRIORITY:%d\n"
-		     (let ((pri (or (org-element-property :priority entry)
-				    org-priority-default)))
-		       (floor (- 9 (* 8. (/ (float (- org-priority-lowest pri))
-					    (- org-priority-lowest
-					       org-priority-highest)))))))
-	     (format "STATUS:%s\n"
-		     (if (eq (org-element-property :todo-type entry) 'todo)
-			 "NEEDS-ACTION"
-		       "COMPLETED"))
-	     "END:VTODO"))))
+  (let* ((sc (and (memq 'todo-start org-icalendar-use-scheduled)
+		  (org-element-property :scheduled entry)))
+         (dl (and (memq 'todo-due org-icalendar-use-deadline)
+                  (org-element-property :deadline entry)))
+         (sc-repeat-p (org-icalendar--repeater-type sc))
+         (dl-repeat-p (org-icalendar--repeater-type dl))
+         (repeat-value (or (org-element-property :repeater-value sc)
+                           (org-element-property :repeater-value dl)))
+         (repeat-unit (or (org-element-property :repeater-unit sc)
+                          (org-element-property :repeater-unit dl)))
+         (repeat-until (and sc-repeat-p (not dl-repeat-p) dl))
+         (start
+          (cond
+           (sc)
+           ((eq org-icalendar-todo-unscheduled-start 'current-datetime)
+            (let ((now (decode-time)))
+	      (list 'timestamp
+		    (list :type 'active
+			  :minute-start (decoded-time-minute now)
+			  :hour-start (decoded-time-hour now)
+			  :day-start (decoded-time-day now)
+			  :month-start (decoded-time-month now)
+			  :year-start (decoded-time-year now)))))
+           ((or (and (eq org-icalendar-todo-unscheduled-start
+                         'deadline-warning)
+                     dl)
+                (and (eq org-icalendar-todo-unscheduled-start
+                         'recurring-deadline-warning)
+                     dl-repeat-p))
+            (let ((dl-raw (org-element-property :raw-value dl)))
+              (with-temp-buffer
+	        (insert dl-raw)
+                (goto-char (point-min))
+	        (org-timestamp-down-day (org-get-wdays dl-raw))
+	        (org-element-timestamp-parser)))))))
+    (concat "BEGIN:VTODO\n"
+	    "UID:TODO-" uid "\n"
+	    (org-icalendar-dtstamp) "\n"
+            (when start (concat (org-icalendar-convert-timestamp
+                                 start "DTSTART" nil timezone)
+                                "\n"))
+	    (when (and dl (not repeat-until))
+	      (concat (org-icalendar-convert-timestamp
+		       dl "DUE" nil timezone)
+		      "\n"))
+            ;; RRULE
+            (cond
+             ;; SCHEDULED, DEADLINE have different repeaters
+             ((and dl-repeat-p
+                   (not (and (eq repeat-value (org-element-property
+                                               :repeater-value dl))
+                             (eq repeat-unit (org-element-property
+                                              :repeater-unit dl)))))
+              ;; TODO Implement via RDATE with changing DURATION
+              (org-display-warning "Not yet implemented: \
+different repeaters on SCHEDULED and DEADLINE.  Skipping.")
+              nil)
+             ;; DEADLINE has repeater but SCHEDULED doesn't
+             ((and dl-repeat-p (and sc (not sc-repeat-p)))
+              ;; TODO SCHEDULED should only apply to first instance;
+              ;; use RDATE with custom DURATION to implement that
+              (org-display-warning "Not yet implemented: \
+repeater on DEADLINE but not SCHEDULED.  Skipping.")
+              nil)
+             ((or sc-repeat-p dl-repeat-p)
+              (concat
+               (org-icalendar--rrule repeat-unit repeat-value)
+               ;; add UNTIL part to RRULE
+               (when repeat-until
+                 (let* ((start-time
+                         (org-element-property :minute-start start))
+                        ;; RFC5545 requires UTC iff DTSTART is not local time
+                        (local-time-p
+                         (and (not timezone)
+                              (equal org-icalendar-date-time-format
+                                     ":%Y%m%dT%H%M%S")))
+                        (encoded
+                         (org-encode-time
+                          0
+                          (or (org-element-property :minute-start repeat-until)
+                              0)
+                          (or (org-element-property :hour-start repeat-until)
+                              0)
+                          (org-element-property :day-start repeat-until)
+                          (org-element-property :month-start repeat-until)
+                          (org-element-property :year-start repeat-until))))
+                   (concat ";UNTIL="
+                           (cond
+                            ((not start-time)
+                             (format-time-string "%Y%m%d" encoded))
+                            (local-time-p
+                             (format-time-string "%Y%m%dT%H%M%S" encoded))
+                            ((format-time-string "%Y%m%dT%H%M%SZ"
+                                                 encoded t))))))
+               "\n")))
+	    "SUMMARY:" summary "\n"
+	    (and (org-string-nw-p location) (format "LOCATION:%s\n" location))
+	    (and (org-string-nw-p class) (format "CLASS:%s\n" class))
+	    (and (org-string-nw-p description)
+		 (format "DESCRIPTION:%s\n" description))
+	    "CATEGORIES:" categories "\n"
+	    "SEQUENCE:1\n"
+	    (format "PRIORITY:%d\n"
+		    (let ((pri (or (org-element-property :priority entry)
+				   org-priority-default)))
+		      (if (= org-priority-lowest org-priority-highest)
+			  1
+			(floor (- 9 (* 8. (/ (float (- org-priority-lowest pri))
+					     (- org-priority-lowest
+						org-priority-highest))))))))
+	    (format "STATUS:%s\n"
+		    (if (eq (org-element-property :todo-type entry) 'todo)
+			"NEEDS-ACTION"
+		      "COMPLETED"))
+            ;; additional literal iCalendar text
+            literal-ical (unless (equal literal-ical "") "\n")
+	    "END:VTODO\n")))
 
 (defun org-icalendar--valarm (entry timestamp summary)
   "Create a VALARM component.
@@ -843,30 +1086,35 @@ as a communication channel."
    (if (not (plist-get info :with-author)) ""
      (org-export-data (plist-get info :author) info))
    ;; Timezone.
-   (if (org-string-nw-p org-icalendar-timezone) org-icalendar-timezone
-     (cadr (current-time-zone)))
+   (or (org-string-nw-p org-icalendar-timezone) (format-time-string "%Z"))
    ;; Description.
    (org-export-data (plist-get info :title) info)
+   ;; TTL
+   (plist-get info :icalendar-ttl)
    contents))
 
-(defun org-icalendar--vcalendar (name owner tz description contents)
+(defun org-icalendar--vcalendar (name owner tz description ttl contents)
   "Create a VCALENDAR component.
-NAME, OWNER, TZ, DESCRIPTION and CONTENTS are all strings giving,
+NAME, OWNER, TZ, DESCRIPTION, TTL and CONTENTS are all strings giving,
 respectively, the name of the calendar, its owner, the timezone
-used, a short description and the other components included."
-  (concat (format "BEGIN:VCALENDAR
+used, a short description, time to live (refresh period) and
+the other components included."
+  (org-icalendar-fold-string
+   (concat (format "BEGIN:VCALENDAR
 VERSION:2.0
 X-WR-CALNAME:%s
 PRODID:-//%s//Emacs with Org mode//EN
 X-WR-TIMEZONE:%s
-X-WR-CALDESC:%s
-CALSCALE:GREGORIAN\n"
-		  (org-icalendar-cleanup-string name)
-		  (org-icalendar-cleanup-string owner)
-		  (org-icalendar-cleanup-string tz)
-		  (org-icalendar-cleanup-string description))
-	  contents
-	  "END:VCALENDAR\n"))
+X-WR-CALDESC:%s\n"
+		   (org-icalendar-cleanup-string name)
+		   (org-icalendar-cleanup-string owner)
+		   (org-icalendar-cleanup-string tz)
+		   (org-icalendar-cleanup-string description))
+           (when ttl (format "X-PUBLISHED-TTL:%s\n"
+                             (org-icalendar-cleanup-string ttl)))
+           "CALSCALE:GREGORIAN\n"
+	   contents
+	   "END:VCALENDAR\n")))
 
 
 
@@ -897,18 +1145,17 @@ When optional argument BODY-ONLY is non-nil, only write code
 between \"BEGIN:VCALENDAR\" and \"END:VCALENDAR\".
 
 Return ICS file name."
-  (interactive)
+  (interactive nil org-mode)
   (let ((file (buffer-file-name (buffer-base-buffer))))
     (when (and file org-icalendar-store-UID)
       (org-icalendar-create-uid file 'warn-user)))
-  ;; Export part.  Since this back-end is backed up by `ascii', ensure
+  ;; Export part.  Since this backend is backed up by `ascii', ensure
   ;; links will not be collected at the end of sections.
   (let ((outfile (org-export-output-file-name ".ics" subtreep)))
     (org-export-to-file 'icalendar outfile
       async subtreep visible-only body-only
       '(:ascii-charset utf-8 :ascii-links-to-notes nil)
-      '(lambda (file)
-	 (run-hook-with-args 'org-icalendar-after-save-hook file) nil))))
+      #'org-icalendar--post-process-file)))
 
 ;;;###autoload
 (defun org-icalendar-export-agenda-files (&optional async)
@@ -936,7 +1183,13 @@ external process."
 	    (catch 'nextfile
 	      (org-check-agenda-file file)
 	      (with-current-buffer (org-get-agenda-file-buffer file)
-		(org-icalendar-export-to-ics))))
+		(condition-case err
+                    (org-icalendar-export-to-ics)
+                  (error
+                   (warn "Exporting %s to icalendar failed: %s"
+                         file
+                         (error-message-string err))
+                   (signal (car err) (cdr err)))))))
 	(org-release-buffers org-agenda-new-buffers)))))
 
 ;;;###autoload
@@ -991,10 +1244,11 @@ This function assumes major mode for current buffer is
        (org-icalendar--vcalendar
 	org-icalendar-combined-name
 	user-full-name
-	(or (org-string-nw-p org-icalendar-timezone) (cadr (current-time-zone)))
+	(or (org-string-nw-p org-icalendar-timezone) (format-time-string "%Z"))
 	org-icalendar-combined-description
+	org-icalendar-ttl
 	contents)))
-    (run-hook-with-args 'org-icalendar-after-save-hook file)))
+    (org-icalendar--post-process-file file)))
 
 (defun org-icalendar--combine-files (&rest files)
   "Combine entries from multiple files into an iCalendar file.
@@ -1014,9 +1268,11 @@ FILES is a list of files to build the calendar from."
 	      user-full-name
 	      ;; Timezone.
 	      (or (org-string-nw-p org-icalendar-timezone)
-		  (cadr (current-time-zone)))
+		  (format-time-string "%Z"))
 	      ;; Description.
 	      org-icalendar-combined-description
+	      ;; TTL (Refresh period)
+	      org-icalendar-ttl
 	      ;; Contents.
 	      (concat
 	       ;; Agenda contents.
@@ -1036,8 +1292,7 @@ FILES is a list of files to build the calendar from."
 	       (when (and org-icalendar-include-bbdb-anniversaries
 			  (require 'ol-bbdb nil t))
 		 (with-output-to-string (org-bbdb-anniv-export-ical)))))))
-	  (run-hook-with-args 'org-icalendar-after-save-hook
-			      org-icalendar-combined-agenda-file))
+	  (org-icalendar--post-process-file org-icalendar-combined-agenda-file))
       (org-release-buffers org-agenda-new-buffers))))
 
 

@@ -1,6 +1,6 @@
 ;;; ob-calc.el --- Babel Functions for Calc          -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2010-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2010-2026 Free Software Foundation, Inc.
 
 ;; Author: Eric Schulte
 ;; Maintainer: Tom Gillespie <tgbugs@gmail.com>
@@ -27,26 +27,34 @@
 ;; Org-Babel support for evaluating calc code
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 (require 'org-macs)
 (require 'calc)
 (require 'calc-trail)
 (require 'calc-store)
 
-(declare-function calc-store-into    "calc-store" (&optional var))
-(declare-function calc-recall        "calc-store" (&optional var))
 (declare-function math-evaluate-expr "calc-ext"   (x))
 
 (defvar org-babel-default-header-args:calc nil
   "Default arguments for evaluating a calc source block.")
 
-(defun org-babel-expand-body:calc (body _params)
-  "Expand BODY according to PARAMS, return the expanded body." body)
+(defun org-babel-expand-body:calc (body params)
+  "Expand BODY according to PARAMS, return the expanded body."
+  (let ((prologue (cdr (assq :prologue params)))
+        (epilogue (cdr (assq :epilogue params))))
+    (concat
+     (and prologue (concat prologue "\n"))
+     body
+     (and epilogue (concat "\n" epilogue "\n")))))
 
 (defvar org--var-syms) ; Dynamically scoped from org-babel-execute:calc
 
 (defun org-babel-execute:calc (body params)
-  "Execute a block of calc code with Babel."
+  "Execute BODY of calc code with Babel using PARAMS."
   (unless (get-buffer "*Calculator*")
     (save-window-excursion (calc) (calc-quit)))
   (let* ((vars (org-babel--get-vars params))
@@ -54,7 +62,23 @@
 	 (var-names (mapcar #'symbol-name org--var-syms)))
     (mapc
      (lambda (pair)
-       (calc-push-list (list (cdr pair)))
+       (let ((val (cdr pair)))
+         (calc-push-list
+          (list
+           (cond
+            ;; For a vector, Calc follows the format (vec 1 2 3 ...)  so
+            ;; a matrix becomes (vec (vec 1 2 3) (vec 4 5 6) ...).  See
+            ;; the comments in "Arithmetic routines." section of
+            ;; calc.el.
+            ((listp val)
+             (cons 'vec
+                   (if (null (cdr val))
+                       (car val)
+                     (mapcar (lambda (x) (if (listp x) (cons 'vec x) x))
+                             val))))
+            ((numberp val)
+             (math-read-number (number-to-string val)))
+            (t val)))))
        (calc-store-into (car pair)))
      vars)
     (mapc
@@ -88,13 +112,34 @@
                   ))))))
      (mapcar #'org-trim
 	     (split-string (org-babel-expand-body:calc body params) "[\n\r]"))))
-  (save-excursion
-    (with-current-buffer (get-buffer "*Calculator*")
-      (prog1
-          (calc-eval (calc-top 1))
-        (calc-pop 1)))))
+  (let ((result (prog1
+                    ;; Cannot use 'top' as SEPARATOR reliably when the
+                    ;; top of the stack has a vector.
+                    (calc-eval (calc-top 1) 'raw)
+                  (calc-eval 1 'pop)))
+        (calc-line-numbering)
+        lisp-table)
+    (org-babel-reassemble-table
+     (org-babel-result-cond (cdr (assq :result-params params))
+       (calc-eval result)
+       (if (Math-vectorp result)
+           (progn
+             (dolist (r (if (math-matrixp result)
+                            (cdr result) ; Ignore the 'vec item.
+                          (list result)))
+               (setq r (cdr r))         ; Ignore the 'vec item.
+               (push (mapcar (lambda (x) (math-format-stack-value (list x 1 nil))) r)
+                     lisp-table))
+             (setq lisp-table (nreverse lisp-table)))
+         (calc-eval result)))
+     (org-babel-pick-name
+      (cdr (assq :colname-names params)) (cdr (assq :colnames params)))
+     (org-babel-pick-name
+      (cdr (assq :rowname-names params)) (cdr (assq :rownames params))))))
 
 (defun org-babel-calc-maybe-resolve-var (el)
+"Resolve user variables in EL.
+EL is taken from the output of `math-read-exprs'."
   (if (consp el)
       (if (and (eq 'var (car el)) (member (cadr el) org--var-syms))
 	  (progn

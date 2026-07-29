@@ -1,6 +1,6 @@
 ;;; org-attach-git.el --- Automatic git commit extension to org-attach -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2019-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2019-2026 Free Software Foundation, Inc.
 
 ;; Original Author: John Wiegley <johnw@newartisans.com>
 ;; Restructurer: Gustav Wikström <gustav@whil.se>
@@ -28,6 +28,9 @@
 ;; changes when it sees them.  Requires git-annex.
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
 
 (require 'org-attach)
 (require 'vc-git)

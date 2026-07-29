@@ -1,6 +1,6 @@
-;;; ob-js.el --- Babel Functions for Javascript      -*- lexical-binding: t; -*-
+;;; ob-js.el --- Babel Functions for JavaScript      -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2010-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2010-2026 Free Software Foundation, Inc.
 
 ;; Author: Eric Schulte
 ;; Keywords: literate programming, reproducible research, js
@@ -38,6 +38,10 @@
 ;;   configuration instructions
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 
 (declare-function run-mozilla "ext:moz" (arg))
@@ -65,11 +69,14 @@
   :safe #'stringp)
 
 (defvar org-babel-js-function-wrapper
-  "require('process').stdout.write(require('util').inspect(function(){%s}()));"
-  "Javascript code to print value of body.")
+  ;; Note that newline after %s - it makes sure that closing
+  ;; parenthesis are not shadowed if the last line of the body is a
+  ;; line comment.
+  "require('process').stdout.write(require('util').inspect(function(){%s\n}()));"
+  "JavaScript code to print value of body.")
 
 (defun org-babel-execute:js (body params)
-  "Execute a block of Javascript code with org-babel.
+  "Execute JavaScript BODY according to PARAMS.
 This function is called by `org-babel-execute-src-block'."
   (let* ((org-babel-js-cmd (or (cdr (assq :cmd params)) org-babel-js-cmd))
 	 (session (cdr (assq :session params)))
@@ -92,7 +99,7 @@ This function is called by `org-babel-execute-src-block'."
 		  ;; Indium Node REPL.  Separate case because Indium
 		  ;; REPL is not inherited from Comint mode.
 		  ((string= session "*JS REPL*")
-		   (require 'indium-repl)
+                   (org-require-package 'indium-repl "indium")
 		   (unless (get-buffer session)
 		     (indium-run-node org-babel-js-cmd))
 		   (indium-eval full-body))
@@ -151,7 +158,8 @@ specifying a variable of the same value."
     session))
 
 (defun org-babel-variable-assignments:js (params)
-  "Return list of Javascript statements assigning the block's variables."
+  "Return list of JavaScript statements assigning the block's variables.
+The variables are defined in PARAMS."
   (mapcar
    (lambda (pair) (format "var %s=%s;"
 			  (car pair) (org-babel-js-var-to-js (cdr pair))))
@@ -164,7 +172,7 @@ Return the initialized session."
    ((string= session "none")
     (warn "Session evaluation of ob-js is not supported"))
    ((string= "*skewer-repl*" session)
-    (require 'skewer-repl)
+    (org-require-package 'skewer-repl "skewer-mode")
     (let ((session-buffer (get-buffer "*skewer-repl*")))
       (if (and session-buffer
 	       (org-babel-comint-buffer-livep (get-buffer session-buffer))
@@ -175,8 +183,9 @@ Return the initialized session."
 	(run-skewer)
 	(skewer-repl)
 	session-buffer)))
+   ;; SIC, JavaScript miscapitalized in `js-comint.el'.
    ((string= "*Javascript REPL*" session)
-    (require 'js-comint)
+    (org-require-package 'js-comint)
     (let ((session-buffer "*Javascript REPL*"))
       (if (and (org-babel-comint-buffer-livep (get-buffer session-buffer))
 	       (comint-check-proc session-buffer))
@@ -185,7 +194,9 @@ Return the initialized session."
 	(sit-for .5)
 	session-buffer)))
    ((string= "mozrepl" org-babel-js-cmd)
-    (require 'moz)
+    ;; FIXME: According to https://github.com/bard/mozrepl, this REPL
+    ;; is outdated and does not work for Firefox >54.
+    (org-require-package 'moz "mozrepl")
     (let ((session-buffer (save-window-excursion
 			    (run-mozilla nil)
 			    (rename-buffer session)

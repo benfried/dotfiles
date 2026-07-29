@@ -1,9 +1,9 @@
 ;;; ob-clojure.el --- Babel Functions for Clojure    -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2009-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2009-2026 Free Software Foundation, Inc.
 
 ;; Author: Joel Boehland, Eric Schulte, Oleh Krehel, Frederick Giasson
-;; Maintainer: Bastien Guerry <bzg@gnu.org>
+;; Maintainer: Daniel Kraus <daniel@kraus.my>
 ;;
 ;; Keywords: literate programming, reproducible research
 ;; URL: https://orgmode.org
@@ -25,27 +25,34 @@
 
 ;;; Commentary:
 
-;; Support for evaluating clojure code
+;; Support for evaluating Clojure / ClojureScript code.
 
 ;; Requirements:
 
-;; - clojure (at least 1.2.0)
+;; - Clojure (at least 1.2.0)
 ;; - clojure-mode
-;; - inf-clojure, cider or SLIME
+;; - babashka, nbb, Clojure CLI tools, Cider, inf-clojure or SLIME
 
 ;; For clojure-mode, see https://github.com/clojure-emacs/clojure-mode
-;; For cider, see https://github.com/clojure-emacs/cider
-;; For inf-clojure, see https://github.com/clojure-emacs/cider
+;; For babashka, see https://github.com/babashka/babashka
+;; For nbb, see https://github.com/babashka/nbb
+;; For Clojure CLI tools, see https://clojure.org/guides/deps_and_cli
+;; For Cider, see https://github.com/clojure-emacs/cider
+;; For inf-clojure, see https://github.com/clojure-emacs/inf-clojure
+;; For SLIME, see https://slime.common-lisp.dev
 
-;; For SLIME, the best way to install these components is by following
+;; For SLIME, the best way to install its components is by following
 ;; the directions as set out by Phil Hagelberg (Technomancy) on the
 ;; web page: https://technomancy.us/126
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'ob)
 
 (declare-function cider-current-connection "ext:cider-client" (&optional type))
-(declare-function cider-current-ns "ext:cider-client" ())
 (declare-function inf-clojure "ext:inf-clojure" (cmd))
 (declare-function inf-clojure-cmd "ext:inf-clojure" (project-type))
 (declare-function inf-clojure-eval-string "ext:inf-clojure" (code))
@@ -62,17 +69,42 @@
 (add-to-list 'org-babel-tangle-lang-exts '("clojurescript" . "cljs"))
 
 (defvar org-babel-default-header-args:clojure '())
-(defvar org-babel-header-args:clojure '((ns . :any) (package . :any)))
+(defvar org-babel-header-args:clojure
+  '((ns . :any)
+    (package . :any)
+    (backend . ((inf-clojure cider slime babashka nbb)))))
 (defvar org-babel-default-header-args:clojurescript '())
 (defvar org-babel-header-args:clojurescript '((package . :any)))
 
-(defcustom org-babel-clojure-backend nil
+(defcustom org-babel-clojure-backend (cond
+                                      ((executable-find "bb") 'babashka)
+                                      ((executable-find "clojure") 'clojure-cli)
+                                      ((featurep 'cider) 'cider)
+                                      ((featurep 'inf-clojure) 'inf-clojure)
+                                      ((featurep 'slime) 'slime)
+				      (t nil))
   "Backend used to evaluate Clojure code blocks."
   :group 'org-babel
+  :package-version '(Org . "9.7")
   :type '(choice
-	  (const :tag "inf-clojure" inf-clojure)
+	  (const :tag "babashka" babashka)
+          (const :tag "clojure-cli" clojure-cli)
 	  (const :tag "cider" cider)
+	  (const :tag "inf-clojure" inf-clojure)
 	  (const :tag "slime" slime)
+	  (const :tag "Not configured yet" nil)))
+
+(defcustom org-babel-clojurescript-backend
+  (cond
+   ((or (executable-find "nbb") (executable-find "npx")) 'nbb)
+   ((featurep 'cider) 'cider)
+   (t nil))
+  "Backend used to evaluate ClojureScript code blocks."
+  :group 'org-babel
+  :package-version '(Org . "9.7")
+  :type '(choice
+	  (const :tag "nbb" nbb)
+	  (const :tag "cider" cider)
 	  (const :tag "Not configured yet" nil)))
 
 (defcustom org-babel-clojure-default-ns "user"
@@ -80,38 +112,61 @@
   :type 'string
   :group 'org-babel)
 
-(defun org-babel-expand-body:clojure (body params)
+(defcustom ob-clojure-babashka-command (executable-find "bb")
+  "Babashka command used by the Clojure `babashka' backend."
+  :type '(choice file (const nil))
+  :group 'org-babel
+  :package-version '(Org . "9.6"))
+
+(defcustom ob-clojure-nbb-command (or (executable-find "nbb")
+                                      (when-let* ((npx (executable-find "npx")))
+                                        (concat npx " nbb")))
+  "Nbb command used by the ClojureScript `nbb' backend."
+  :type '(choice string (const nil))
+  :group 'org-babel
+  :package-version '(Org . "9.7"))
+
+(defcustom ob-clojure-cli-command (when-let* ((cmd (executable-find "clojure")))
+                                    (concat cmd " -M"))
+  "Clojure CLI command used by the Clojure `clojure-cli' backend."
+  :type '(choice string (const nil))
+  :group 'org-babel
+  :package-version '(Org . "9.7"))
+
+(defun org-babel-expand-body:clojure (body params &optional _cljs-p)
   "Expand BODY according to PARAMS, return the expanded body."
   (let* ((vars (org-babel--get-vars params))
-	 (ns (or (cdr (assq :ns params))
-		 (if (eq org-babel-clojure-backend 'cider)
-		     (or cider-buffer-ns
-			 (let ((repl-buf (cider-current-connection)))
-			   (and repl-buf (buffer-local-value
-					  'cider-buffer-ns repl-buf))))
-		   org-babel-clojure-default-ns)))
-	 (result-params (cdr (assq :result-params params)))
-	 (print-level nil)
-	 (print-length nil)
-	 ;; Remove comments, they break (let [...] ...) bindings
-	 (body (replace-regexp-in-string "^[ 	]*;+.*$" "" body))
-	 (body (org-trim
-		(concat
-		 ;; Source block specified namespace :ns.
-		 (and (cdr (assq :ns params)) (format "(ns %s)\n" ns))
-		 ;; Variables binding.
-		 (if (null vars) (org-trim body)
-		   (format "(let [%s]\n%s)"
-			   (mapconcat
-			    (lambda (var)
-			      (format "%S %S" (car var) (cdr var)))
-			    vars
-			    "\n      ")
-			   body))))))
-    (if (or (member "code" result-params)
-	    (member "pp" result-params))
-	(format "(clojure.pprint/pprint (do %s))" body)
-      body)))
+         (backend-override (cdr (assq :backend params)))
+         (org-babel-clojure-backend
+          (cond
+           (backend-override (intern backend-override))
+           (org-babel-clojure-backend org-babel-clojure-backend)
+           (t (user-error "You need to customize `org-babel-clojure-backend'
+or set the `:backend' header argument"))))
+         (ns (or (cdr (assq :ns params))
+                 (if (eq org-babel-clojure-backend 'cider)
+                     (or cider-buffer-ns
+                         (let ((repl-buf (cider-current-connection)))
+                           (and repl-buf (buffer-local-value
+                                          'cider-buffer-ns repl-buf))))
+                   org-babel-clojure-default-ns)))
+         (print-level nil)
+         (print-length nil))
+    (org-trim
+     (concat
+      ;; Source block specified namespace :ns.
+      (and (cdr (assq :ns params)) (format "(ns %s)\n" ns))
+      ;; Variables binding.
+      (if (null vars) (org-trim body)
+        ;; Remove comments, they break (let [...] ...) bindings
+        (let ((body (replace-regexp-in-string "^[    ]*;+.*$" "" body)))
+          (format "(let [%s]\n%s)"
+                  (mapconcat
+                   (lambda (var)
+                     (format "%S '%S" (car var) (cdr var)))
+                   vars
+                   "\n      ")
+                  body)))))))
 
 (defvar ob-clojure-inf-clojure-filter-out)
 (defvar ob-clojure-inf-clojure-tmp-output)
@@ -148,8 +203,7 @@
 (defvar inf-clojure-comint-prompt-regexp)
 (defun ob-clojure-eval-with-inf-clojure (expanded params)
   "Evaluate EXPANDED code block with PARAMS using inf-clojure."
-  (condition-case nil (require 'inf-clojure)
-    (user-error "inf-clojure not available"))
+  (org-require-package 'inf-clojure)
   ;; Maybe initiate the inf-clojure session
   (unless (and inf-clojure-buffer
 	       (buffer-live-p (get-buffer inf-clojure-buffer)))
@@ -160,7 +214,9 @@
 			     "clojure" (format "clojure -A%s" alias)
 			     cmd0)
 		    cmd0)))
-	(setq comint-prompt-regexp inf-clojure-comint-prompt-regexp)
+	(setq-local
+         org-babel-comint-prompt-regexp-fallback comint-prompt-regexp
+         comint-prompt-regexp inf-clojure-comint-prompt-regexp)
 	(funcall-interactively #'inf-clojure cmd)
 	(goto-char (point-max))))
     (sit-for 1))
@@ -188,36 +244,24 @@
 		s))
 	    (reverse ob-clojure-inf-clojure-tmp-output)))))
 
-(defun ob-clojure-eval-with-cider (expanded params)
-  "Evaluate EXPANDED code block with PARAMS using cider."
-  (condition-case nil (require 'cider)
-    (user-error "cider not available"))
-  (let ((connection (cider-current-connection (cdr (assq :target params))))
-	(result-params (cdr (assq :result-params params)))
-	result0)
+(defun ob-clojure-eval-with-cider (expanded _params &optional cljs-p)
+  "Evaluate EXPANDED code block using cider.
+When CLJS-P is non-nil, use a cljs connection instead of clj.
+The PARAMS from Babel are not used in this function."
+  (org-require-package 'cider "Cider")
+  (let ((connection (cider-current-connection (if cljs-p "cljs" "clj"))))
     (unless connection (sesman-start-session 'CIDER))
     (if (not connection)
 	;; Display in the result instead of using `user-error'
-	(setq result0 "Please reevaluate when nREPL is connected")
-      (ob-clojure-with-temp-expanded expanded params
-	(let ((response (nrepl-sync-request:eval exp connection)))
-	  (push (or (nrepl-dict-get response "root-ex")
-		    (nrepl-dict-get response "ex")
-		    (nrepl-dict-get
-		     response (if (or (member "output" result-params)
-				      (member "pp" result-params))
-				  "out"
-				"value")))
-		result0)))
-      (ob-clojure-string-or-list
-       (reverse (delete "" (mapcar (lambda (r)
-				     (replace-regexp-in-string "nil" "" r))
-				   result0)))))))
+        "Please reevaluate when nREPL is connected"
+      (let ((response (nrepl-sync-request:eval expanded connection)))
+        (or (nrepl-dict-get response "root-ex")
+	    (nrepl-dict-get response "ex")
+	    (nrepl-dict-get response "out"))))))
 
 (defun ob-clojure-eval-with-slime (expanded params)
   "Evaluate EXPANDED code block with PARAMS using slime."
-  (condition-case nil (require 'slime)
-    (user-error "slime not available"))
+  (org-require-package 'slime "SLIME")
   (with-temp-buffer
     (insert expanded)
     (slime-eval
@@ -225,29 +269,87 @@
        ,(buffer-substring-no-properties (point-min) (point-max)))
      (cdr (assq :package params)))))
 
-(defun org-babel-execute:clojure (body params)
-  "Execute a block of Clojure code with Babel."
-  (unless org-babel-clojure-backend
-    (user-error "You need to customize org-babel-clojure-backend"))
-  (let* ((expanded (org-babel-expand-body:clojure body params))
-	 (result-params (cdr (assq :result-params params)))
-	 result)
-    (setq result
-	  (cond
-	   ((eq org-babel-clojure-backend 'inf-clojure)
-	    (ob-clojure-eval-with-inf-clojure expanded params))
-	   ((eq org-babel-clojure-backend 'cider)
-	    (ob-clojure-eval-with-cider expanded params))
-	   ((eq org-babel-clojure-backend 'slime)
-	    (ob-clojure-eval-with-slime expanded params))))
-    (org-babel-result-cond result-params
-      result
-      (condition-case nil (org-babel-script-escape result)
-	(error result)))))
+(defun ob-clojure-eval-with-cmd (cmd expanded)
+  "Evaluate EXPANDED code block using CMD (babashka, clojure or nbb)."
+  (let ((script-file (org-babel-temp-file "clojure-cmd-script-" ".clj")))
+    (with-temp-file script-file
+      (insert expanded))
+    (org-babel-eval
+     (format "%s %s" cmd (org-babel-process-file-name script-file))
+     "")))
+
+(defun ob-clojure--prepare-for-evaluation (expanded-body params cljs-p)
+  "Wrap EXPANDED-BODY in a print expression, depending on PARAMS and CLJS-P."
+  (let* ((result-params (cdr (assq :result-params params)))
+         ;; If the result param is set to "output", we don't have to do
+         ;; anything special and just let the backend handle everything.
+         (output (if (member "output" result-params)
+                     expanded-body
+                   ;; If the result param is not "output" (i.e. it's set to "value"),
+                   ;; disable stdout output and print the last returned value.
+                   ;; Use pprint instead of prn when result param is "pp" or "code".
+                   (concat
+                    (if (or (member "code" result-params)
+                            (member "pp" result-params))
+                        (concat (if cljs-p
+                                    "(require '[cljs.pprint :refer [pprint]])"
+                                  "(require '[clojure.pprint :refer [pprint]])")
+                                " (pprint")
+                      "(prn ")
+                    (if cljs-p
+                        "(binding [cljs.core/*print-fn* (constantly nil)]"
+                      "(binding [*out* (java.io.StringWriter.)]")
+                    expanded-body "))"))))
+    output))
+
+(defun org-babel-execute:clojure (body params &optional cljs-p)
+  "Execute the BODY block of Clojure code with PARAMS using Babel.
+When CLJS-P is non-nil, execute with a ClojureScript backend
+instead of Clojure."
+  (let* ((backend-override (cdr (assq :backend params)))
+         (org-babel-clojure-backend
+          (cond
+           (backend-override (intern backend-override))
+           (org-babel-clojure-backend (if cljs-p
+                                          org-babel-clojurescript-backend
+                                        org-babel-clojure-backend))
+           (t (user-error "You need to customize `%S'
+or set the `:backend' header argument"
+                          (if cljs-p
+                              org-babel-clojurescript-backend
+                            org-babel-clojure-backend)))))
+         ;; We allow a Clojure source block to be evaluated with the
+         ;; nbb backend and therefore have to expand the body with
+         ;; ClojureScript syntax when we either evaluate a
+         ;; ClojureScript source block or use the nbb backend.
+         (cljs-p (or cljs-p (eq org-babel-clojure-backend 'nbb))))
+    (let* ((expanded (org-babel-expand-body:clojure body params))
+           (prepared (ob-clojure--prepare-for-evaluation expanded params cljs-p))
+	   (result-params (cdr (assq :result-params params)))
+	   result)
+      (setq result
+	    (cond
+	     ((eq org-babel-clojure-backend 'inf-clojure)
+	      (ob-clojure-eval-with-inf-clojure prepared params))
+             ((eq org-babel-clojure-backend 'clojure-cli)
+              (ob-clojure-eval-with-cmd ob-clojure-cli-command prepared))
+             ((eq org-babel-clojure-backend 'babashka)
+	      (ob-clojure-eval-with-cmd ob-clojure-babashka-command prepared))
+             ((eq org-babel-clojure-backend 'nbb)
+	      (ob-clojure-eval-with-cmd ob-clojure-nbb-command prepared))
+	     ((eq org-babel-clojure-backend 'cider)
+	      (ob-clojure-eval-with-cider prepared params cljs-p))
+	     ((eq org-babel-clojure-backend 'slime)
+	      (ob-clojure-eval-with-slime prepared params))
+             (t (user-error "Invalid backend"))))
+      (org-babel-result-cond result-params
+        result
+        (condition-case nil (org-babel-script-escape result)
+	  (error result))))))
 
 (defun org-babel-execute:clojurescript (body params)
   "Evaluate BODY with PARAMS as ClojureScript code."
-  (org-babel-execute:clojure body (cons '(:target . "cljs") params)))
+  (org-babel-execute:clojure body params t))
 
 (provide 'ob-clojure)
 

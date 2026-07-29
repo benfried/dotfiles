@@ -1,6 +1,6 @@
 ;;; oc-natbib.el --- Citation processor using natbib LaTeX package  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2021-2022 Free Software Foundation, Inc.
+;; Copyright (C) 2021-2026 Free Software Foundation, Inc.
 
 ;; Author: Nicolas Goaziou <mail@nicolasgoaziou.fr>
 
@@ -42,11 +42,13 @@
 ;; Bibliography accepts any style supported by "natbib" package.
 
 ;;; Code:
+
+(require 'org-macs)
+(org-assert-version)
+
 (require 'oc)
 
-(declare-function org-element-property "org-element" (property element))
-
-(declare-function org-export-data "org-export" (data info))
+(declare-function org-export-data "ox" (data info))
 
 
 ;;; Customization
@@ -72,6 +74,15 @@ If \"natbib\" package is already required in the document, e.g., through
     (const :tag "display full author list on first citation, abbreviate the others" longnamesfirst)
     (const :tag "redefine \\thebibliography to issue \\section* instead of \\chapter*" sectionbib)
     (const :tag "keep all the authors' names in a citation on one line" nonamebreak)))
+
+(defcustom org-cite-natbib-bibliography-style 'unsrtnat
+  "Default bibliography style."
+  :group 'org-cite
+  :package-version '(Org . "9.7")
+  :type
+  '(choice
+    (const unsrtnat)
+    (symbol :tag "Other")))
 
 
 ;;; Internal functions
@@ -139,11 +150,13 @@ CITATION is the citation object.  INFO is the export state, as a property list."
   "Print references from bibliography FILES.
 FILES is a list of absolute file names.  STYLE is the bibliography style, as
 a string or nil."
-  (concat (and style (format "\\bibliographystyle{%s}\n" style))
-          (format "\\bibliography{%s}"
-                  (mapconcat #'file-name-sans-extension
-                             files
-                             ","))))
+  (concat
+   (format "\\bibliographystyle{%s}\n"
+           (or style org-cite-natbib-bibliography-style))
+   (format "\\bibliography{%s}"
+           (mapconcat #'file-name-sans-extension
+                      files
+                      ","))))
 
 (defun org-cite-natbib-export-citation (citation style _ info)
   "Export CITATION object.

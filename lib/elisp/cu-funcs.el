@@ -196,33 +196,33 @@ point is left between them, for human generated comments."
     (setq n (1- n))))
 
 					; count words in different ways
-(defun count-words-page ()
+(defun cu-count-words-page ()
    "Report number of words on page, and how many are before or after dot."
    (interactive)
    (setq current (point))
    (save-excursion
      (princ "Page has ")
      (mark-page 0)
-     (count-words-area (point) current (mark))))
+     (cu-count-words-area (point) current (mark))))
 
-(defun count-words ()
+(defun cu-count-words ()
    "Report number of words in buffer, and how many are before or after dot."
    (interactive)
    (setq current (point))
    (save-excursion
      (princ "Buffer has ")
      (mark-whole-buffer)
-     (count-words-area (point) current (mark))))
+     (cu-count-words-area (point) current (mark))))
 
-(defun count-words-region ()
+(defun cu-count-words-region ()
   "Report number of words in region, and how many are before or after dot."
   (interactive)
   (save-excursion
     (princ "Region has ")
-    (count-words-area (point) (point) (mark))))
+    (cu-count-words-area (point) (point) (mark))))
 
 
-(defun count-words-area (top middle bottom)
+(defun cu-count-words-area (top middle bottom)
   (cond ((< bottom top)			;make sure top < bottom
 	 (setq temp top)
 	 (setq top bottom)
