@@ -580,46 +580,17 @@ cask "stack"
 cask "wireshark-chmodbpf"
 # OpenJDK distribution from Azul
 cask "zulu"
-vscode "dart-code.dart-code"
-vscode "dart-code.flutter"
-vscode "dbaeumer.vscode-eslint"
-vscode "deerawan.vscode-dash"
-vscode "docker.docker"
-vscode "eamodio.gitlens"
-vscode "esbenp.prettier-vscode"
-vscode "github.copilot-chat"
-vscode "github.vscode-pull-request-github"
-vscode "golang.go"
-vscode "kiteco.kite"
-vscode "lfs.vscode-emacs-friendly"
-vscode "modular-mojotools.vscode-mojo"
-vscode "ms-azuretools.vscode-containers"
-vscode "ms-azuretools.vscode-docker"
-vscode "ms-python.debugpy"
-vscode "ms-python.gather"
-vscode "ms-python.isort"
-vscode "ms-python.python"
-vscode "ms-python.vscode-pylance"
-vscode "ms-python.vscode-python-envs"
-vscode "ms-toolsai.jupyter"
-vscode "ms-toolsai.jupyter-keymap"
-vscode "ms-toolsai.jupyter-renderers"
-vscode "ms-toolsai.vscode-jupyter-cell-tags"
-vscode "ms-toolsai.vscode-jupyter-slideshow"
-vscode "ms-vscode-remote.remote-containers"
-vscode "ms-vscode.cpptools"
-vscode "pkief.material-icon-theme"
-vscode "quarto.quarto"
-vscode "redhat.java"
-vscode "rust-lang.rust-analyzer"
-vscode "tuttieee.emacs-mcx"
-vscode "vscjava.vscode-gradle"
-vscode "vscjava.vscode-java-debug"
-vscode "vscjava.vscode-java-dependency"
-vscode "vscjava.vscode-java-pack"
-vscode "vscjava.vscode-java-test"
-vscode "vscjava.vscode-maven"
-vscode "vscode-icons-team.vscode-icons"
+# No vscode entries: brew bundle no longer manages VS Code extensions here.
+#
+# The 40 that used to be listed were whatever happened to be installed when this
+# file was dumped, not a set anyone chose -- kiteco.kite was still among them,
+# for a product that shut down in 2022. Two others,
+# ms-azuretools.vscode-containers and ms-python.vscode-python-envs, failed every
+# run by requiring a newer VS Code than the 1.93.0 installed, and since bundle
+# treats any failure as a failed run, they kept the whole thing red.
+#
+# Extensions already installed are untouched; this only stops declaring them, so
+# a fresh machine gets none of them.
 go "github.com/koron/c3tr-client"
 go "golang.org/x/tools/cmd/callgraph"
 go "golang.org/x/tools/cmd/digraph"
