@@ -1,5 +1,17 @@
-tap "homebrew/cask-fonts"
-tap "modularml/packages"
+# No taps needed.
+#
+# homebrew/cask-fonts was archived upstream in 2024 and its casks were folded
+# into homebrew/cask under the same names, so the font-* entries below still
+# resolve with no tap at all. Leaving the line in only made `brew bundle` fail
+# on a tap that can no longer be tapped.
+#
+# modularml/packages went the same way in practice: it pins modular 0.9.3, whose
+# tarball 404s at dl.modular.com. That mattered more than a dead formula usually
+# does -- brew bundle fetches every bottle before installing any of them, so the
+# one bad download aborted the whole run and nothing got installed. mojo is
+# already on PATH from ~/.modular, put there by Modular's standalone installer
+# and wired up in .zshrc:199-203, so nothing was relying on the brew copy. The
+# vscode mojo extension below is independent of the tap and stays.
 # C++ Common Libraries
 brew "abseil"
 # C/C++ resolver library and DNS resolver utilities
@@ -544,8 +556,6 @@ brew "zsh"
 brew "zsh-completions"
 # Vertical Blanking Interval (VBI) decoding library
 brew "zvbi"
-# Modular developer CLI tool
-brew "modularml/packages/modular", trusted: true
 # Desktop client for the chat platform Cabal
 cask "cabal"
 # E-books management software
@@ -622,4 +632,8 @@ go "golang.org/x/tools/cmd/stringer"
 npm "@google/gemini-cli"
 npm "chrome-devtools-mcp"
 npm "typescript-language-server"
-npm "typescript"
+# typescript is declared as a formula above and must not be repeated here: npm's
+# global prefix is /opt/homebrew, so both want to own /opt/homebrew/bin/tsc. The
+# formula gets there first and npm then fails with EEXIST rather than overwrite
+# it, which failed every `brew bundle` run. Project-local toolchains come from
+# node_modules regardless, so nothing needs the global npm copy.
