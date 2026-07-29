@@ -1,0 +1,2 @@
+keysym Escape = grave asciitilde grave asciitilde
+keysym grave = Escape asciitilde Escape asciitilde
