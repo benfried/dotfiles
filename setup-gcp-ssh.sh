@@ -19,7 +19,7 @@ set -euo pipefail
 
 # name:zone — add a line per VM.
 INSTANCES=(
-    "carbonsteel:us-central1-f"
+    "carbonsteel:us-central1-c"
 )
 
 PROJECT=${GCP_PROJECT:-deal-tools}
