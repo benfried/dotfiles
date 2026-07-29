@@ -108,6 +108,14 @@ else
     chmod 700 ~/.ssh
     ln -sfn "${PWD}/.ssh/config" ~/.ssh/config
     ln -sfn "${PWD}/.ssh/known_hosts" ~/.ssh/known_hosts
+    # The public half of the GCP key is committed, so link it alongside the
+    # private half that lives on the machine. Without this, setup-gcp-ssh.sh
+    # finds a key with no .pub and refuses to proceed. Guarded rather than
+    # unconditional: ln -sfn to a missing source yields a dangling link, and
+    # -f on a dangling link is false, which reads as "no .pub" anyway.
+    if [ -f "${PWD}/.ssh/google_compute_engine.pub" ]; then
+        ln -sfn "${PWD}/.ssh/google_compute_engine.pub" ~/.ssh/google_compute_engine.pub
+    fi
 fi
 
 # git records no directory modes and only the executable bit on files, so a
