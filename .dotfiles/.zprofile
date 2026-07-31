@@ -76,7 +76,7 @@ test -n "${MANPATH}" && export MANPATH="${MANPATH}:"
 ech "leaving .zprofile"
 
 # Added by OrbStack: command-line tools and integration
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+test -f ~/.orbstack/shell/init.zsh && source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
 # Added by Antigravity CLI installer
 export PATH="$HOME/.local/bin:$PATH"
