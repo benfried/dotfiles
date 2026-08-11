@@ -1366,3 +1366,92 @@ Add this to .emacs to run gofmt on the current buffer when saving:
 (use-package reader
   :vc (:url "https://codeberg.org/MonadicSheep/emacs-reader"
   	    :make "all"))
+
+;;; macOS sound notifications
+
+(when (and (eq system-type 'darwin)
+           (fboundp 'play-sound-internal))
+
+  (defvar my-sound-directory "/System/Library/Sounds/")
+
+  (defvar my-sound-events
+    '((bell      "Morse.aiff"      0.12)
+      (success   "Glass.aiff"     0.25)
+      (failure   "Basso.aiff"     0.35)
+      (timer     "Submarine.aiff" 0.45)
+      (sent      "Pop.aiff"       0.15)
+      (attention "Hero.aiff"      0.35)))
+
+  ;; Prevent repeated errors or bells from producing a sound storm.
+  (defvar my-sound-minimum-interval 0.5)
+  (defvar my-sound-last-played
+    (make-hash-table :test #'eq))
+
+  (defun my-play-sound (event)
+    "Play the configured sound for EVENT."
+    (let* ((spec (assq event my-sound-events))
+           (file (and spec
+                      (expand-file-name
+                       (nth 1 spec)
+                       my-sound-directory)))
+           (volume (nth 2 spec))
+           (now (float-time))
+           (last (gethash event my-sound-last-played 0.0)))
+      (when (and spec
+                 ;; The macOS backend requires a Cocoa frame.
+                 (display-graphic-p)
+                 (file-readable-p file)
+                 (> (- now last) my-sound-minimum-interval))
+        (puthash event now my-sound-last-played)
+        (condition-case err
+            (play-sound-file file volume)
+          (error
+           (message "Could not play %s sound: %s"
+                    event
+                    (error-message-string err)))))))
+
+  ;; Ordinary Emacs bells.
+  (defun my-ring-bell ()
+    (my-play-sound 'bell))
+
+  (setq visible-bell nil
+        ring-bell-function #'my-ring-bell)
+
+  ;; Compilation completion.
+  (defun my-compilation-finished-sound (_buffer status)
+    (my-play-sound
+     (if (string-match-p "\\`finished\\b" status)
+         'success
+       'failure)))
+
+  (add-hook 'compilation-finish-functions
+            #'my-compilation-finished-sound)
+
+  ;; Org countdown timers.
+  (defun my-org-timer-finished-sound ()
+    (my-play-sound 'timer))
+
+  (with-eval-after-load 'org-timer
+    ;; Prevent Org from also playing an unadjusted sound.
+    (setq org-clock-sound nil)
+    (add-hook 'org-timer-done-hook
+              #'my-org-timer-finished-sound))
+
+  ;; Successful sending from Message mode or Gnus.
+  (defun my-message-sent-sound ()
+    (my-play-sound 'sent))
+
+  (with-eval-after-load 'message
+    (add-hook 'message-sent-hook
+              #'my-message-sent-sound))
+
+  ;; Optional: Emacs diary appointment alerts.
+  (defun my-appt-display-with-sound (minutes time message)
+    (my-play-sound 'attention)
+    (appt-disp-window minutes time message))
+
+  (with-eval-after-load 'appt
+    (setq appt-audible nil
+          appt-disp-window-function
+          #'my-appt-display-with-sound)))
+
