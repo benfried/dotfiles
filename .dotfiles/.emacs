@@ -222,6 +222,7 @@
  '(tool-bar-mode nil)
  '(treesit-auto-install-grammar t)
  '(treesit-enabled-modes t)
+ '(eldoc-help-at-pt t)
  '(warning-suppress-types '((emacs) (comp))))
 
 (custom-set-faces
